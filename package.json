@@ -1,9 +1,11 @@
 {
-  "name": "opendota-web",
-  "description": "Dota 2 Data Web UI",
+  "name": "footballx-web",
+  "description": "FootballX Web UI",
   "version": "1.0.1",
   "license": "MIT",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "npm install && npm run lintnofix && npm run rsbuild",
     "rsbuild": "react-scripts build",
@@ -18,12 +20,13 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
+  "homepage": "https://lucilucency.github.io/opendota/",
   "greenkeeper": {
     "label": "type: greenkeeper"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/odota/web"
+    "url": "http://ci.ttab.me/web"
   },
   "dependencies": {
     "abcolor": "^0.5.5",
