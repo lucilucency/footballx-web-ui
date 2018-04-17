@@ -93,19 +93,16 @@ storiesOf('Color Palette').add('../constantns.js', () => (
       <StyledPanel color={constants.textColorPrimary} textColor="black">
         textColorPrimary
       </StyledPanel>
-      <StyledPanel color={constants.primaryTextColor} textColor="black">
+      <StyledPanel color={constants.textColorPrimary} textColor="black">
         primaryTextColor
       </StyledPanel>
       <StyledPanel color={constants.textColorSecondary} textColor="white">
-        textColorSecondary
-      </StyledPanel>
-      <StyledPanel color={constants.secondaryTextColor} textColor="white">
         secondaryTextColor
       </StyledPanel>
       <StyledPanel color={constants.primarySurfaceColor} textColor="white">
         primarySurfaceColor
       </StyledPanel>
-      <StyledPanel color={constants.secondarySurfaceColor} textColor="white">
+      <StyledPanel color={constants.surfaceColorSecondary} textColor="white">
         secondarySurfaceColor
       </StyledPanel>
       <StyledPanel color={constants.tableHeaderSurfaceColor} textColor="white">

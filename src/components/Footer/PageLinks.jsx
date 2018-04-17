@@ -3,22 +3,19 @@ import strings from '../../lang';
 
 const links = [{
   name: strings.app_about,
-  path: '//blog.opendota.com/2014/08/01/faq/',
+  path: '//about',
 }, {
   name: strings.app_privacy_terms,
-  path: '//blog.opendota.com/2014/08/01/faq/#what-is-your-privacy-policy',
+  path: '//privacy',
 }, {
   name: strings.app_api_docs,
-  path: '//docs.opendota.com',
+  path: '//docs',
 }, {
   name: strings.app_blog,
-  path: '//odota.github.io/blog',
+  path: '//blog',
 }, {
   name: strings.app_translate,
-  path: '//translate.opendota.com/',
-}, {
-  name: strings.app_donate,
-  path: '//carry.opendota.com/',
+  path: '//translate',
 }, {
   name: strings.app_gravitech,
   path: '//www.gravitech.io',

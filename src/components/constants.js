@@ -1,4 +1,7 @@
-export default {
+import * as materialColor from 'material-ui/styles/colors';
+
+const Constants = {
+  ...materialColor,
   defaultPrimaryColor: 'rgba(0, 0, 0, 0.4)',
   darkPrimaryColor: 'rgba(0, 0, 0, 0.6)',
   almostBlack: 'rgba(0, 0, 0, 0.9)',
@@ -22,11 +25,9 @@ export default {
   colorMutedLight: 'rgb(179, 179, 179)',
   primaryLinkColor: '#6BF',
   textColorPrimary: '#F5F5F5',
-  primaryTextColor: '#F5F5F5',
   textColorSecondary: '#212020',
-  secondaryTextColor: '#212020',
   primarySurfaceColor: 'rgb(46, 47, 64)',
-  secondarySurfaceColor: 'rgb(39, 39, 58)',
+  surfaceColorSecondary: 'rgb(39, 39, 58)',
   tableHeaderSurfaceColor: 'rgba(0, 0, 0, .3)',
   tableRowOddSurfaceColor: 'rgba(255, 255, 255, .019)',
   tableRowEvenSurfaceColor: 'rgba(0, 0, 0, .019)',
@@ -64,4 +65,69 @@ export default {
   navDrawerWidth: '256px',
   normalTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
   linearTransition: 'all 300ms linear',
+  theme: () => {
+    const themeName = localStorage.getItem('theme') || 'white';
+    let theme = {};
+    switch (themeName) {
+      case 'black':
+        theme = {
+          color: materialColor.black,
+          lightColor: materialColor.lightBlack,
+          darkColor: materialColor.darkBlack,
+          almostColor: 'rgba(0, 0, 0, 0.9)',
+          fullColor: materialColor.fullBlack,
+          backgroundColor: 'linear-gradient(135deg, #2e2d45, #1c2127)',
+
+          colorPrimary: 'rgba(0, 0, 0, 0.6)',
+          colorSecondary: '#fff',
+          textColorPrimary: '#F5F5F5',
+          textColorSecondary: '#212020',
+          surfaceColorPrimary: 'rgb(46, 47, 64)',
+          surfaceColorSecondary: 'rgb(39, 39, 58)',
+        };
+        break;
+      case 'white':
+        theme = {
+          color: materialColor.white,
+          lightColor: materialColor.lightWhite,
+          darkColor: materialColor.darkWhite,
+          fullColor: materialColor.fullWhite,
+          backgroundColor: '#fafafa',
+
+          colorPrimary: '#fff',
+          colorSecondary: 'rgba(0, 0, 0, 0.6)',
+          textColorPrimary: '#1f2629',
+          textColorSecondary: '#F5F5F5',
+          primarySurfaceColor: 'rgb(46, 47, 64)',
+          surfaceColorSecondary: 'rgb(39, 39, 58)',
+
+          fontFamily: `Noto Sans KR,Noto Sans,
+          Helvetica,
+          Arial,
+          Malgun Gothic,
+          sans-serif`,
+        };
+        break;
+      default:
+        theme = {
+          color: materialColor.white,
+          lightColor: materialColor.lightWhite,
+          darkColor: materialColor.darkWhite,
+          fullColor: materialColor.fullWhite,
+          backgroundColor: materialColor.white,
+
+          colorPrimary: '#fff',
+          colorSecondary: 'rgba(0, 0, 0, 0.6)',
+          textColorPrimary: '#1f2629',
+          textColorSecondary: '#F5F5F5',
+          primarySurfaceColor: 'rgb(46, 47, 64)',
+          surfaceColorSecondary: 'rgb(39, 39, 58)',
+        };
+    }
+
+    return theme;
+  },
 };
+
+export default Constants;
+

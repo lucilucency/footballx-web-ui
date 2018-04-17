@@ -20,7 +20,7 @@ const StyledSection = styled.section`
     text-align: center;
     font-weight: ${constants.fontWeightLight};
     font-size: 14px;
-    color: ${constants.primaryTextColor};
+    color: ${constants.textColorPrimary};
     padding: 10px 12px 16px;
     border-bottom: 2px solid transparent;
     flex-grow: 1;

@@ -15,7 +15,7 @@ export const StyledDiv = styled.div`
   }
 
   & a {
-    color: ${constants.primaryTextColor};
+    color: ${constants.textColorPrimary};
     text-decoration: none;
 
     &:hover {

@@ -2,7 +2,6 @@
 const request = require('request');
 const fs = require('fs');
 const vdf = require('simple-vdf');
-// For updating the opendota-ui lang files with data from the vpk
 
 const dontReplace = [
   'npc_dota_brewmaster_earth_#',

@@ -25,7 +25,7 @@ body {
   height: initial;
   width: initial;
   margin: 0;
-  font-family: ${constants.fontFamily};
+  font-family: ${constants.theme().fontFamily || constants.fontFamily};
 }
 
 a {
@@ -46,10 +46,9 @@ li {
   height: 100%;
   overflow-x: hidden;
   min-height: 100vh;
-  background-color: #192023;
-  background-image: -webkit-linear-gradient(315deg, #2e2d45, #1c2127);
-  background-image: linear-gradient(135deg, #2e2d45, #1c2127);
-  color: ${constants.primaryTextColor};
+  background-color: ${constants.theme().backgroundColor};
+  // background-image: ${constants.theme().backgroundImage};
+  color: ${constants.theme().textColorPrimary};
 }
 
 [data-tip="true"] {

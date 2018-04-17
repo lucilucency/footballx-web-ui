@@ -9,7 +9,8 @@ import styled from 'styled-components';
 import constants from '../../constants';
 
 const StyledDrawer = styled(Drawer)`
-  background-color: ${constants.defaultPrimaryColor} !important;
+  //background-color: ${constants.theme().colorPrimary} !important;
+  background-color: white !important;
 `;
 
 const StyledMenuItem = styled(MenuItem)`

@@ -61,7 +61,7 @@ export default () => (
             {strings.home_become_sponsor}
           </span>
         }
-        href="//carry.opendota.com"
+        href="//facebook.com"
       />
     </ButtonsDiv>
   </StyledDiv>

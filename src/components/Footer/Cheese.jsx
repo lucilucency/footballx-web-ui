@@ -10,7 +10,7 @@ export default () => (
         {strings.app_donation_goal}
       </big>
       <p style={{ marginTop: 5 }}>
-        <a href="//carry.opendota.com">
+        <a href="//facebook.com">
           {strings.app_sponsorship}
         </a>
       </p>

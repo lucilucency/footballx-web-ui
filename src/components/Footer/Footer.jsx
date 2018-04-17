@@ -12,7 +12,7 @@ const StyledFooter = styled.footer`
   & main {
     padding: 0px 50px 15px;
     background-color: ${constants.defaultPrimaryColor};
-    color: ${constants.primaryTextColor};
+    color: ${constants.textColorPrimary};
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -89,7 +89,7 @@ const StyledFooter = styled.footer`
             content: "•";
             margin: 0 8px;
             opacity: 0.6;
-            color: ${constants.primaryTextColor};
+            color: ${constants.textColorPrimary};
           }
 
           &:last-child {
@@ -145,22 +145,11 @@ const StyledHr = styled.hr`
   height: 1px;
   opacity: 0.1;
   margin: 10px 0;
-  background: linear-gradient(to right, ${constants.primaryTextColor}, rgba(0, 0, 0, 0));
+  background: linear-gradient(to right, ${constants.textColorPrimary}, rgba(0, 0, 0, 0));
 `;
 
 export default () => (
   <StyledFooter>
-    {
-      /*
-      location.pathname !== '/' &&
-      <section style={{ height: '250px' }}>
-        <iframe
-          style={{ border: 'none', margin: 0, width: '100%', height: 250 }}
-          src="https://www.stanza.co/@dota2?embed=true&banner=true&site=opendota"
-        />
-      </section>
-      */
-    }
     <main>
       <div className="links">
         <div className="logoNsocial">
@@ -168,13 +157,13 @@ export default () => (
           <SocialLinks />
           <div className="mobile">
             <a
-              href="https://play.google.com/store/apps/details?id=com.opendota.mobile&hl=en"
+              href=""
               style={{ position: 'relative', left: '13px', top: '12px' }}
             >
               <img src="/assets/images/google_play_store.png" alt="" height="46px" />
             </a>
             <a
-              href="https://itunes.apple.com/us/app/opendota/id1354762555?ls=1&mt=8"
+              href=""
               style={{ position: 'relative', left: '20px', top: '5px' }}
             >
               <img src="/assets/images/apple_app_store.png" alt="" height="31px" />

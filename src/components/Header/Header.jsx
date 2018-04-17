@@ -23,14 +23,7 @@ const REPORT_BUG_PATH = '//github.com/odota/web/issues';
 
 const navbarPages = [
   <Link key={strings.header_explorer} to="/explorer">{strings.header_explorer}</Link>,
-  <Link key={strings.header_meta} to="/meta">{strings.header_meta}</Link>,
   <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
-  <Link key={strings.header_teams} to="/teams">{strings.header_teams}</Link>,
-  <Link key={strings.header_heroes} to="/heroes">{strings.header_heroes}</Link>,
-  <Link key={strings.header_distributions} to="/distributions">{strings.header_distributions}</Link>,
-  <Link key={strings.header_records} to="/records">{strings.header_records}</Link>,
-  // <Link key="Predictions" to="/predictions">Predictions</Link>,
-  // <Link key="Assistant" to="/assistant">Assistant</Link>,
 ];
 
 const burgerItems = [
@@ -65,6 +58,38 @@ const TabContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+`;
+
+const ToolbarHeader = styled(Toolbar)`
+  background-color: ${constants.theme().colorPrimary} !important;
+  padding: 8px !important;
+  & a {
+    color: ${constants.theme().textColorPrimary};
+
+    &:hover {
+      color: ${constants.theme().textColorPrimary};
+      opacity: 0.6;
+    }
+  }
+`;
+
+const BugLink = styled.a`
+  font-size: ${constants.fontSizeMedium};
+  font-weight: ${constants.fontWeightLight};
+  color: ${constants.colorMutedLight} !important;
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+  margin-right: 15px;
+
+  & svg {
+    margin-right: 5px;
+
+    /* Override material-ui */
+    color: currentColor !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
 `;
 
 const LogoGroup = ({ small }) => (
@@ -103,40 +128,6 @@ const AccountGroup = () => (
   </VerticalAlignToolbar>
 );
 
-const SettingsGroup = ({ user }) => (
-  <VerticalAlignDropdown
-    Button={IconButton}
-    buttonProps={buttonProps}
-  >
-    <LocalizationMenu />
-    <ReportBug />
-    {user ? <LogOut /> : null}
-  </VerticalAlignDropdown>
-);
-
-SettingsGroup.propTypes = {
-  user: PropTypes.shape({}),
-};
-
-const BugLink = styled.a`
-  font-size: ${constants.fontSizeMedium};
-  font-weight: ${constants.fontWeightLight};
-  color: ${constants.colorMutedLight} !important;
-  display: flex;
-  align-items: center;
-  margin-top: 2px;
-  margin-right: 15px;
-
-  & svg {
-    margin-right: 5px;
-
-    /* Override material-ui */
-    color: currentColor !important;
-    width: 18px !important;
-    height: 18px !important;
-  }
-`;
-
 const ReportBug = () => (
   <BugLink
     href={REPORT_BUG_PATH}
@@ -162,18 +153,20 @@ const LogOut = () => (
   </BugLink>
 );
 
-const ToolbarHeader = styled(Toolbar)`
-  background-color: ${constants.defaultPrimaryColor} !important;
-  padding: 8px !important;
-  & a {
-    color: ${constants.primaryTextColor};
+const SettingsGroup = ({ user }) => (
+  <VerticalAlignDropdown
+    Button={IconButton}
+    buttonProps={buttonProps}
+  >
+    <LocalizationMenu />
+    <ReportBug />
+    {user ? <LogOut /> : null}
+  </VerticalAlignDropdown>
+);
 
-    &:hover {
-      color: ${constants.primaryTextColor};
-      opacity: 0.6;
-    }
-  }
-`;
+SettingsGroup.propTypes = {
+  user: PropTypes.shape({}),
+};
 
 const Header = ({ location, small, user }) => (
   <div>

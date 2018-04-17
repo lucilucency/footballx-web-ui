@@ -14,10 +14,10 @@ export const HeadContainerDiv = styled.div`
 `;
 export const HeadlineDiv = styled.div`
   text-transform: uppercase;
-  font-size: 90px;
+  font-size: 80px;
   font-weight: ${constants.fontWeightMedium};
   line-height: 1.2;
-  text-shadow: #000 0 0 3px;
+  color: ${constants.theme().textColorSecondary};
 
   @media only screen and (max-width: 425px) {
     font-size: 60px;
@@ -31,7 +31,8 @@ export const DescriptionDiv = styled.div`
   font-size: 32px;
   font-weight: ${constants.fontWeightLight};
   margin-bottom: 20px;
-  text-shadow: #000 0 0 3px;
+  color: ${constants.theme().textColorSecondary};
+  //text-shadow: #000 0 0 3px;
 
   @media only screen and (max-width: 768px) {
     font-size: 25px;
