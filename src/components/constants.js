@@ -55,7 +55,7 @@ const Constants = {
       Ubuntu, Cantarell,
       "Fira Sans",
       Helvetica, Arial, sans-serif`,
-  fontWeightLight: '300',
+  fontWeightLight: '200',
   fontWeightNormal: '400',
   fontWeightMedium: '500',
   fontSizeCommon: '16px',
