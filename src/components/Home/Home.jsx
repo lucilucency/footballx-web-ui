@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import strings from '../../lang';
-// import Buttons from './Buttons';
+import Buttons from './Buttons';
 // import Why from './Why';
 // import Sponsors from './Sponsors';
 import { HeadContainerDiv, HeadlineDiv, DescriptionDiv } from './Styled';
@@ -15,7 +15,7 @@ const Home = () => (
       <DescriptionDiv>
         {strings.app_description}
       </DescriptionDiv>
-      {/* <Buttons /> */}
+      <Buttons />
     </HeadContainerDiv>
     {/* <Why /> */}
     {/* <Sponsors /> */}

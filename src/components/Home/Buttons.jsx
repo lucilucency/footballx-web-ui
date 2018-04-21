@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
-import strings from '../../lang';
+import strings from 'lang';
+import FBLoginButton from './FacebookLoginButton';
 import { IconSteam } from '../Icons';
 import { ButtonsDiv } from './Styled';
 
@@ -25,6 +26,7 @@ const Buttons = ({ user }) => (
           label={<span className="label"><b>{strings.home_parse}</b> {strings.home_parse_desc}</span>}
           containerElement={<Link to="/request">{strings.home_parse}</Link>}
         />
+        <FBLoginButton />
       </div>
     </div>
   </ButtonsDiv>
