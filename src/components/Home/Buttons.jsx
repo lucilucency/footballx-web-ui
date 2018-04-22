@@ -3,32 +3,26 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
-import strings from 'lang';
+import strings from '../../lang';
 import FBLoginButton from './FacebookLoginButton';
-import { IconSteam } from '../Icons';
 import { ButtonsDiv } from './Styled';
 
 const Buttons = ({ user }) => (
   <ButtonsDiv>
+    <div className="bottomButtons">
+      <FBLoginButton />
+    </div>
     {
       !user &&
       <div>
         <FlatButton
-          label={<span className="label"><b>{strings.home_login}</b> {strings.home_login_desc}</span>}
-          icon={<IconSteam />}
-          href={`${process.env.REACT_APP_API_HOST}/login`}
+          label={<span className="label">{strings.home_sign_up_with_email}</span>}
+          // icon={<IconSteam />}
+          href="/users/sign_up/email"
+          containerElement={<Link to="/users/sign_up/email">{strings.home_sign_up_with_email}</Link>}
         />
       </div>
     }
-    <div className="bottomButtons">
-      <div>
-        <FlatButton
-          label={<span className="label"><b>{strings.home_parse}</b> {strings.home_parse_desc}</span>}
-          containerElement={<Link to="/request">{strings.home_parse}</Link>}
-        />
-        <FBLoginButton />
-      </div>
-    </div>
   </ButtonsDiv>
 );
 

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import strings from '../../lang';
-import { getGithubPulls } from '../../actions';
+import { getAnnouncement } from '../../actions';
 import constants from '../constants';
 
 const StyledDiv = styled.div`
@@ -174,7 +174,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getPulls: repo => dispatch(getGithubPulls(repo)),
+  getPulls: repo => dispatch(getAnnouncement(repo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestLayer);
