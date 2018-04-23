@@ -12,6 +12,7 @@ import Home from '../Home';
 import Header from '../Header';
 // import Footer from '../Footer';
 import constants from '../constants';
+import Login from '../Login';
 
 const muiTheme = {
   fontFamily: constants.fontFamily,
@@ -84,6 +85,7 @@ class App extends React.Component {
           <Header params={params} location={location} />
           <StyledBodyDiv {...this.props}>
             <Route exact path="/" component={Home} />
+            <Route exact path="/sign_in" component={Login} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}
         </StyledDiv>
