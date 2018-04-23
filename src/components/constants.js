@@ -91,6 +91,7 @@ const Constants = {
           color: materialColor.white,
           lightColor: materialColor.lightWhite,
           darkColor: materialColor.darkWhite,
+          almostColor: 'rgba(0, 0, 0, 0.9)',
           fullColor: materialColor.fullWhite,
           backgroundColor: '#fafafa',
 
@@ -113,6 +114,7 @@ const Constants = {
           color: materialColor.white,
           lightColor: materialColor.lightWhite,
           darkColor: materialColor.darkWhite,
+          almostColor: 'rgba(0, 0, 0, 0.9)',
           fullColor: materialColor.fullWhite,
           backgroundColor: materialColor.white,
 

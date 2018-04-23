@@ -59,7 +59,7 @@ const TooltipStylesDiv = styled.div`
   .hero {
     height: 50px;
     width: 88.88px; /* ratio */
-    background-color: ${constants.almostBlack};
+    background-color: ${constants.theme().almostColor};
   }
 
   .heroImg {

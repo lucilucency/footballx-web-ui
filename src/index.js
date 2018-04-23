@@ -58,7 +58,7 @@ li {
 [data-id="tooltip"] {
   padding: 8px 12px !important;
   border-radius: 2px !important;
-  background-color: ${constants.almostBlack} !important;
+  background-color: ${constants.theme().almostColor} !important;
   color: ${constants.textColorPrimary} !important;
   white-space: pre-wrap;
   line-height: 1.5 !important;
@@ -98,7 +98,7 @@ li {
 
   &::after {
     content: attr(data-hint);
-    background-color: ${constants.almostBlack};
+    background-color: ${constants.theme().almostColor};
     color: ${constants.textColorPrimary};
     border-radius: 2px;
     padding: 5px 8px;
@@ -133,7 +133,7 @@ li {
   &::before {
     border-style: solid;
     border-width: 3px 6px 0 6px;
-    border-color: ${constants.almostBlack} transparent transparent transparent;
+    border-color: ${constants.theme().almostColor} transparent transparent transparent;
     top: -3px;
   }
 }
@@ -148,7 +148,7 @@ li {
   &::before {
     border-style: solid;
     border-width: 0 6px 3px 6px;
-    border-color: transparent transparent ${constants.almostBlack} transparent;
+    border-color: transparent transparent ${constants.theme().almostColor} transparent;
     bottom: -3px;
   }
 }
