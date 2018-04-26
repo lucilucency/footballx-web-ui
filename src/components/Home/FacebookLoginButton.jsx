@@ -6,8 +6,6 @@ import strings from '../../lang';
 class ButtonGardenWrapper extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log('constructor');
   }
 
   render() {

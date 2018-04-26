@@ -1,18 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import strings from 'lang';
-/* components */
 import Container from 'components/Container';
-import { List, ListItem } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import IconPlace from 'material-ui/svg-icons/maps/place';
-import IconPhone from 'material-ui/svg-icons/communication/phone';
-import IconWifi from 'material-ui/svg-icons/notification/wifi';
-
-/* css */
-import styled, { css } from 'styled-components';
-import constants from 'components/constants';
+import styled from 'styled-components';
 
 const OverviewContainer = styled.div`
     display: flex;
@@ -42,9 +32,6 @@ const HotspotContainer = styled.div`
 
 class Overview extends React.Component {
   static propTypes = {
-    event: PropTypes.shape({}),
-    eventXUsers: PropTypes.array,
-    user: PropTypes.shape({}),
   };
 
   componentDidMount() {
@@ -52,70 +39,35 @@ class Overview extends React.Component {
   }
 
   render() {
-    const { event, eventXUsers, user } = this.props;
-    const eventData = event.data;
-    const eventId = eventData.event_id;
-    let xusers = eventXUsers;
-
-    xusers = xusers.sort((a, b) => {
-      const aDate = new Date(a.event_updated_at);
-      const bDate = new Date(b.event_updated_at);
-
-      if (b.event_status === 'checkin') {
-        if (a.event_status === 'checkin') {
-          return (aDate - bDate);
-        }
-        return 1;
-      }
-      return -1;
-    });
-
-    return (<div>
-      <div><i>*{strings.event_notes}: {eventData.notes}</i></div>
-      <OverviewContainer>
-        <XUsersContainer>
-          <Container
-            title={`${strings.heading_xmember} (${eventXUsers.filter(o => o.event_status === 'checkin').length} | ${eventXUsers.length})`}
-            titleTo={`/events/${eventId}/xusers`}
-            loading={event.loading}
-            error={false}
-          >
-            <h1>HEHEHEHEHE</h1>
-          </Container>
-        </XUsersContainer>
-        <HotspotContainer>
-          <Container
-            title={strings.th_hotspot}
-            titleTo={`/hotspot/${eventData.hotspot_id}`}
-            loading={false}
-            error={false}
-          >
-            <div>
-              <List>
-                <ListItem
-                  leftIcon={<IconPlace />}
-                  primaryText={eventData.hotspot_name}
-                  secondaryText={eventData.hotspot_address}
-                />
-                {eventData.hotspot_phone && <ListItem
-                  insetChildren
-                  leftIcon={<IconPhone />}
-                  primaryText={eventData.hotspot_phone}
-                />}
-              </List>
-              {eventData.hotspot_wifi && <Divider inset />}
-              {eventData.hotspot_wifi && <List>
-                <ListItem
-                  leftIcon={<IconWifi />}
-                  primaryText={eventData.hotspot_wifi}
-                  secondaryText={eventData.hotspot_wifi_password}
-                />
-              </List>}
-            </div>
-          </Container>
-        </HotspotContainer>
-      </OverviewContainer>
-    </div>);
+    return (
+      <div>
+        <div><i>*{strings.event_notes}</i></div>
+        <OverviewContainer>
+          <XUsersContainer>
+            <Container
+              title={`${strings.heading_xmember}`}
+              titleTo="/events"
+              loading={false}
+              error={false}
+            >
+              <h1>HEHEHEHEHE</h1>
+            </Container>
+          </XUsersContainer>
+          <HotspotContainer>
+            <Container
+              title={strings.th_hotspot}
+              titleTo="/hotspot"
+              loading={false}
+              error={false}
+            >
+              <div>
+                <h1>13232</h1>
+              </div>
+            </Container>
+          </HotspotContainer>
+        </OverviewContainer>
+      </div>
+    );
   }
 }
 

@@ -1,32 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import strings from '../../lang';
-import {
-  transformations,
-  fromNow,
-} from '../../utils';
+import { fromNow } from '../../utils';
 import Table, { TableLink } from '../Table';
 import Container from '../Container';
-// import { List } from 'material-ui/List';
+import { TableHeroImage } from '../Visualizations';
 
 const searchColumns = [{
   displayName: strings.th_name,
   field: 'personaname',
-  displayFn: (row, col, field) => {
+  displayFn: (row) => {
     const subtitle = row.last_match_time ? fromNow(new Date(row.last_match_time) / 1000) : '';
-    return transformations.player({
-      ...row,
-      subtitle,
-    }, col, field);
+    return (<TableHeroImage
+      image={row.avatar || row.avatarfull}
+      title={row.name || row.personaname}
+      subtitle={subtitle}
+      registered={row.last_login}
+      accountId={row.account_id}
+    />);
   },
 }];
 
 const proColumns = [{
   displayName: strings.th_name,
   field: 'name',
-  displayFn: (row, col, field) => transformations.player({
-    ...row,
-  }, col, field),
 }, {
   displayName: strings.th_team_name,
   field: 'team_name',

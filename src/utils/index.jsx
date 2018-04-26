@@ -1,15 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 /* data */
 import strings from 'lang';
-import Clubs from 'fxconstants/build/clubsObj.json';
-// import ClubsShortname from 'fxconstants/build/clubsObjShortName.json';
-/* components */
 import { Dialog } from 'material-ui';
-import { TableLink } from 'components/Table';
-
-import * as timeHelper from './time';
-import * as styleHelper from './style';
 
 export * from './time';
 export * from './style';
@@ -111,19 +103,21 @@ export const percentile = (pct) => {
 };
 
 export function renderDialog(dialogConstruct = {}, triggerOpen, triggerClose) {
-  const __blankFn = () => {
-    console.log('Do close dialog');
+  const blankFn = () => {
+    console.warn('Request close dialog');
   };
 
   const defaultDialogCons = {
     title: null,
     actions: [],
     view: <h1>Welcome!</h1>,
-    onRequestClose: triggerClose || __blankFn,
+    onRequestClose: triggerClose || blankFn,
     contentStyle: {},
     modal: false,
   };
-  const { title, actions, view, onRequestClose, modal, contentStyle } = Object.assign(defaultDialogCons, dialogConstruct);
+  const {
+    title, actions, view, onRequestClose, modal, contentStyle,
+  } = Object.assign(defaultDialogCons, dialogConstruct);
   // const { title, actions, view, onRequestClose, modal, contentStyle } = dialogConstruct;
 
   return (

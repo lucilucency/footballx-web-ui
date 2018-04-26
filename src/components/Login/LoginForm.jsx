@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -10,7 +11,6 @@ class LoginForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      loginError: false,
       message: '',
     };
     this.doLogin = this.doLogin.bind(this);

@@ -13,18 +13,19 @@ class RequestLayer extends React.Component {
   }
 
   render() {
-    return (<div>
-      <Helmet title={'title'}/>
-
-      <h1>IT'S SOMETHING HOT</h1>
-    </div>);
+    return (
+      <div>
+        <Helmet title="title" />
+        <h1>ITS SOMETHING HOT</h1>
+      </div>
+    );
   }
 }
 
-const mapStateToProps = state => ({
-});
+// const mapStateToProps = state => ({
+// });
+//
+// const mapDispatchToProps = dispatch => ({
+// });
 
-const mapDispatchToProps = dispatch => ({
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(RequestLayer);
+export default connect(null, null)(RequestLayer);

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import strings from 'lang';
 import util from 'util';
 
