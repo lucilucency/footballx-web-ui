@@ -9,3 +9,8 @@ export const toggleShowForm = (formName, state) => ({
   formName,
   state,
 });
+
+export const toggleTray = state => ({
+  type: 'TRAY',
+  state,
+});

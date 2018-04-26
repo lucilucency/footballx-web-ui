@@ -54,7 +54,7 @@ export const ButtonsDiv = styled.div`
   }
 
   & a {
-    background-color: ${constants.theme().colorPrimary} !important;
+    background-color: ${constants.theme().colorSecondary} !important;
     border: 2px solid ${constants.theme().textColorPrimary} !important;
     padding: 3px 6px !important;
     height: auto !important;

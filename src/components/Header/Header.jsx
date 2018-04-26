@@ -7,17 +7,16 @@ import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import Bug from 'material-ui/svg-icons/action/bug-report';
-import LogOutButton from 'material-ui/svg-icons/action/power-settings-new';
 import styled from 'styled-components';
 import strings from '../../lang';
 import { LocalizationMenu } from '../Localization';
 import Dropdown from '../Header/Dropdown';
-import Announce from '../Announce';
 import constants from '../constants';
 import AccountWidget from '../AccountWidget';
 import SearchForm from '../Search/SearchForm';
 import AppLogo from '../App/AppLogo';
 import BurgerMenu from './BurgerMenu';
+import Logout from './Logout';
 
 const headerLinks = [
   <Link key={strings.header_home} to="/home">{strings.header_home}</Link>,
@@ -59,6 +58,9 @@ const TabContainer = styled.div`
 `;
 
 const ToolbarHeader = styled(Toolbar)`
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
   background-color: ${constants.theme().colorPrimary} !important;
   padding: 8px !important;
   & a {
@@ -90,15 +92,18 @@ const LinkStyled = styled.a`
   }
 `;
 
-const LogoGroup = ({ greaterThanSmall }) => (
+const LogoGroup = ({ greaterThanSmall, location }) => (
   <VerticalAlignToolbar>
-    <BurgerMenu menuItems={burgerLinks} greaterThanSmall={greaterThanSmall} />
+    <BurgerMenu menuItems={burgerLinks} greaterThanSmall={greaterThanSmall} location={location} />
     <AppLogo style={{ marginRight: 18 }} />
   </VerticalAlignToolbar>
 );
 
 LogoGroup.propTypes = {
   greaterThanSmall: PropTypes.bool,
+  location: PropTypes.shape({
+    key: PropTypes.string,
+  }),
 };
 
 const LinkGroup = () => (
@@ -139,18 +144,6 @@ const LinkContributor = () => (
   </LinkStyled>
 );
 
-const LogOut = () => (
-  <LinkStyled
-    href={`${process.env.REACT_APP_API_HOST}/logout`}
-    rel="noopener noreferrer"
-  >
-    <LogOutButton />
-    <span>
-      {strings.app_logout}
-    </span>
-  </LinkStyled>
-);
-
 const SettingsGroup = ({ user }) => (
   <VerticalAlignDropdown
     Button={IconButton}
@@ -158,7 +151,7 @@ const SettingsGroup = ({ user }) => (
   >
     <LocalizationMenu />
     <LinkContributor />
-    {user ? <LogOut /> : null}
+    {user ? <Logout /> : null}
   </VerticalAlignDropdown>
 );
 
@@ -170,7 +163,7 @@ const Header = ({ location, greaterThanSmall, user }) => (
   <div>
     <ToolbarHeader>
       <VerticalAlignDiv>
-        <LogoGroup greaterThanSmall={greaterThanSmall} />
+        <LogoGroup greaterThanSmall={greaterThanSmall} location={location} />
         {greaterThanSmall && <LinkGroup />}
         {greaterThanSmall && <SearchGroup />}
       </VerticalAlignDiv>
@@ -179,7 +172,6 @@ const Header = ({ location, greaterThanSmall, user }) => (
         {<SettingsGroup user={user} />}
       </VerticalAlignDiv>
     </ToolbarHeader>
-    { location.pathname !== '/' && <Announce /> }
   </div>
 );
 

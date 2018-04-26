@@ -6,7 +6,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "sh -ac '. ./.env.${REACT_APP_ENV}; PORT=3000 HTTPS=true react-scripts start'",
+    "start": "sh -ac '. ./.env.${REACT_APP_ENV}; PORT=3000 react-scripts start'",
     "build": "npm install && npm run lintnofix && npm run rsbuild",
     "rsbuild": "sh -ac '. ./.env.${REACT_APP_ENV}; react-scripts build'",
     "snapshot": "react-snap",
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@code.ttab.me:web/fx-web-ui.git"
   },
   "dependencies": {
     "abcolor": "^0.5.5",
@@ -81,6 +81,7 @@
     "eslint-plugin-react": "^7.4.0",
     "gh-pages": "^1.1.0",
     "react-snap": "^1.11.5",
+    "redux-logger": "^3.0.6",
     "simple-vdf": "^1.1.0"
   }
 }

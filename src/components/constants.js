@@ -71,8 +71,8 @@ const Constants = {
           fullColor: materialColor.fullWhite,
 
 
-          colorPrimary: '#fff',
-          colorSecondary: '#fff',
+          colorPrimary: 'rgba(255, 255, 255, 1)',
+          colorSecondary: 'rgba(255, 255, 255, 0.5)',
           textColorPrimary: 'rgb(28, 28, 28)',
           textColorSecondary: '#F5F5F5',
 
@@ -98,7 +98,7 @@ const Constants = {
           fullColor: materialColor.fullWhite,
 
 
-          colorPrimary: '#fff',
+          colorPrimary: 'rgba(0, 0, 0, 0.3)',
           colorSecondary: '#fff',
           textColorPrimary: 'rgb(28, 28, 28)',
           textColorSecondary: '#F5F5F5',

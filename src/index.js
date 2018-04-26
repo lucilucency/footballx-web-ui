@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 import store from './store';
-import { getMetadata } from './actions';
+import { refresh } from './actions';
 import App from './components/App';
 import constants from './components/constants';
 // import registerServiceWorker from './registerServiceWorker';
@@ -155,7 +155,8 @@ li {
 `]);
 
 // Fetch metadata (used on all pages)
-store.dispatch(getMetadata());
+const userID = localStorage.getItem('user_id');
+if (userID) store.dispatch(refresh(userID))
 
 ReactGA.initialize('UA-117980702-1');
 ReactGA.pageview(window.location.pathname + window.location.search);

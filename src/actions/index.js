@@ -1,4 +1,4 @@
-import { dispatchPost, dispatchGet, dispatchAuth } from './dispatchAction';
+import { dispatchPost, dispatchGet } from './dispatchAction';
 
 export const getMetadata = (params = {}) => (dispatch) => {
   const getDataStart = payload => ({
@@ -7,17 +7,20 @@ export const getMetadata = (params = {}) => (dispatch) => {
   });
 
   const accessToken = params.access_token || localStorage.getItem('access_token');
-  const accountUser = params.account_user || JSON.parse(localStorage.getItem('account_user'));
-  const accountHotspot = params.account_hotspot || JSON.parse(localStorage.getItem('account_hotspot'));
+  const userID = params.user_id || JSON.parse(localStorage.getItem('user_id'));
   let payload = {};
-  if (accessToken && accountUser) {
-    payload = { user: accountUser, access_token: accessToken, hotspot: accountHotspot };
+  if (accessToken && userID) {
+    payload = { user: userID, access_token: accessToken };
   }
   dispatch(getDataStart(payload));
 };
 
 // auth
-export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
+// export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
+export const loginFb = access_token => dispatchPost('metadata', 'xuser/auth', { access_token });
+export const refresh = userID => dispatchGet('metadata', `xuser/${userID}/refesh`, { xuser_id: userID });
+
+export const getPosts = sortby => dispatchGet('posts', 'posts', { sortby });
 
 export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',

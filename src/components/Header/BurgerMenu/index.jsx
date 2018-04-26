@@ -16,6 +16,7 @@ import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import styled from 'styled-components';
 import Avatar from 'material-ui/Avatar';
 import { greenA200, redA200, grey50 } from 'material-ui/styles/colors';
+import { toggleTray } from '../../../actions';
 import constants from '../../constants';
 
 const StyledDrawer = styled(Drawer)`
@@ -27,9 +28,19 @@ class BurgerMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = { open: Boolean(props.greaterThanSmall) };
-    this.handleToggle = () => this.setState({ open: !this.state.open });
+    this.handleToggle = this.handleToggle.bind(this);
+  }
 
-    // this.callbackClickItem = this.callbackClickItem.bind(this);
+  componentDidMount() {
+    if (this.props.location.pathname === '/sign_in') {
+      this.props.toggleTray();
+    }
+  }
+
+  handleToggle() {
+    this.setState({ open: !this.state.open }, () => {
+      this.props.toggleTray();
+    });
   }
 
   render() {
@@ -47,7 +58,15 @@ class BurgerMenu extends React.Component {
     const rightIconStyle = {
       height: '2em',
       width: '2em',
-      bottom: '0.8em',
+    };
+
+    const { tray } = this.props;
+    const labelStyle = {
+      maxWidth: tray.width - 80,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      textTransform: 'none !important',
+      whiteSpace: 'nowrap',
     };
 
     return (
@@ -57,8 +76,8 @@ class BurgerMenu extends React.Component {
         </IconButton>
         <StyledDrawer
           // docked={false}
-          width={260}
-          open={this.state.open}
+          width={tray.width}
+          open={tray.show}
           // onRequestChange={open => this.setState({ open })}
           containerStyle={{
             height: 'calc(100% - 56px)',
@@ -85,17 +104,27 @@ class BurgerMenu extends React.Component {
           <List>
             <Subheader>FAVORITES</Subheader>
             <ListItem
-              primaryText="r/Bitcoin"
+              primaryText={<div style={labelStyle}>r/Bitcon</div>}
               leftAvatar={<Avatar color={constants.white} backgroundColor={constants.orangeA200} style={avatarStyle}>฿</Avatar>}
               innerDivStyle={innerDivStyle}
             />
             <ListItem
-              primaryText="r/IdleHeroes"
+              primaryText={<div style={labelStyle}>r/IdleHeroes</div>}
               leftAvatar={<Avatar color={greenA200} backgroundColor={grey50} style={avatarStyle}>I</Avatar>}
               innerDivStyle={innerDivStyle}
             />
             <ListItem
-              primaryText="r/ManchesterUnited"
+              primaryText={
+                <div style={{
+                  maxWidth: this.props.tray.width - 100,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  textTransform: 'none !important',
+                  whiteSpace: 'nowrap',
+                }}
+                >
+                  r/ManchesterUnitedFanClubVietNamMUSVN
+                </div>}
               leftAvatar={<Avatar color={redA200} backgroundColor={grey50} style={avatarStyle} src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/220px-Manchester_United_FC_crest.svg.png" />}
               innerDivStyle={innerDivStyle}
             />
@@ -103,28 +132,37 @@ class BurgerMenu extends React.Component {
           <List>
             <Subheader>SUBSCRIPTIONS</Subheader>
             <ListItem
-              primaryText="r/Bitcoin"
+              primaryText={<div style={labelStyle}>r/Bitcon</div>}
               rightIcon={<Checkbox
                 checkedIcon={<ActionFavorite style={rightIconStyle} />}
                 uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
+                style={{
+                  marginTop: 4,
+                }}
               />}
               leftAvatar={<Avatar color={constants.white} backgroundColor={constants.orangeA200} style={avatarStyle}>฿</Avatar>}
               innerDivStyle={innerDivStyle}
             />
             <ListItem
-              primaryText="r/IdleHeroes"
+              primaryText={<div style={labelStyle}>r/IdleHeroes</div>}
               rightIcon={<Checkbox
                 checkedIcon={<ActionFavorite style={rightIconStyle} />}
                 uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
+                style={{
+                  marginTop: 4,
+                }}
               />}
               leftAvatar={<Avatar color={greenA200} backgroundColor={grey50} style={avatarStyle}>I</Avatar>}
               innerDivStyle={innerDivStyle}
             />
             <ListItem
-              primaryText="r/ManchesterUnited"
+              primaryText={<div style={labelStyle}>r/ManchesterUnited</div>}
               rightIcon={<Checkbox
                 checkedIcon={<ActionFavorite style={rightIconStyle} />}
                 uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
+                style={{
+                  marginTop: 4,
+                }}
               />}
               leftAvatar={<Avatar color={redA200} backgroundColor={grey50} style={avatarStyle} src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/220px-Manchester_United_FC_crest.svg.png" />}
               innerDivStyle={innerDivStyle}
@@ -151,6 +189,21 @@ class BurgerMenu extends React.Component {
 
 BurgerMenu.propTypes = {
   greaterThanSmall: PropTypes.bool,
+  toggleTray: PropTypes.func,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  tray: PropTypes.shape({
+    width: PropTypes.number,
+  }),
 };
 
-export default connect(null, null)(BurgerMenu);
+const mapStateToProps = state => ({
+  tray: state.app.tray,
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleTray: () => dispatch(toggleTray()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BurgerMenu);

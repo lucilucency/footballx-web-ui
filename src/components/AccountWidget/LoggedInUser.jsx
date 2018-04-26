@@ -11,7 +11,7 @@ const StyledFlatButton = styled(FlatButton)`
  min-width: 30px !important;
  & > div > span {
    display: inline-block;
-   max-width: 90px;
+   max-width: 200px;
    overflow: hidden;
    text-overflow: ellipsis;
    text-transform: none !important;
@@ -22,23 +22,20 @@ const StyledFlatButton = styled(FlatButton)`
  }
 `;
 
-const LoggedIn = ({ playerId, style }) => {
-  if (!playerId) {
-    return <Spinner color="#fff" size={0.5} />;
-  }
+const LoggedInUser = ({ user, style }) => {
   return (
-    <Link style={style} to={`/players/${playerId}`}>
+    <Link style={style} to={`/user/${user.id}`}>
       <StyledFlatButton
-        label={strings.app_my_profile}
+        label={user.fullname || user.nickname || strings.app_my_profile}
         hoverColor="transparent"
       />
     </Link>
   );
 };
 
-LoggedIn.propTypes = {
-  playerId: PropTypes.number,
+LoggedInUser.propTypes = {
   style: PropTypes.shape({}),
+  user: PropTypes.shape({}),
 };
 
-export default connect()(LoggedIn);
+export default connect()(LoggedInUser);

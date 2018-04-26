@@ -143,9 +143,11 @@ class RequestLayer extends React.Component {
           html_url: link,
         } = data.items[0];
 
-        if (localStorage && !this.state.dismissed && Number(localStorage.getItem('dismiss')) < number) {
-          return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />;
-        }
+        // if (localStorage && !this.state.dismissed && Number(localStorage.getItem('dismiss')) < number) {
+        //   return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />;
+        // }
+
+        return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />
       }
     }
 
@@ -164,12 +166,19 @@ RequestLayer.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { error, loading, data } = state.app.ghPulls;
+  const { error, loading, data } = state.app.announcement;
 
   return {
-    error,
-    loading,
-    data,
+    error: false,
+    loading: false,
+    data: {
+      items: [{
+        title: 'New version available',
+        body: 'Body',
+        number: 2,
+        html_url: 'google.com',
+      }]
+    },
   };
 };
 

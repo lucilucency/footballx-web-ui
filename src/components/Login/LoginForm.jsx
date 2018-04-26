@@ -4,8 +4,45 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import { login, getMetadata } from '../../actions';
+import FacebookLogin from 'react-facebook-login';
+import styled from 'styled-components';
+import { loginFb } from '../../actions';
 import strings from '../../lang';
+
+const OrLine = styled.div`
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #869197;
+  text-align: center;
+  font-size: 14px;
+  margin: 35px 0;
+  height: 24px;
+  
+  :before {
+    right: 0;
+    content: "";
+    position: absolute;
+    top: 12px;
+    width: 40%;
+    border-top: 1px solid #ccd5d9;
+  }
+  :after {
+    left: 0;
+    content: "";
+    position: absolute;
+    top: 12px;
+    width: 40%;
+    border-top: 1px solid #ccd5d9;
+  }
+`;
 
 class LoginForm extends React.Component {
   constructor() {
@@ -13,7 +50,7 @@ class LoginForm extends React.Component {
     this.state = {
       message: '',
     };
-    this.doLogin = this.doLogin.bind(this);
+    this.doLoginFb = this.doLoginFb.bind(this);
     this.handleTextFieldKeyDown = this.handleTextFieldKeyDown.bind(this);
   }
 
@@ -23,78 +60,58 @@ class LoginForm extends React.Component {
 
   handleClick(event) {
     event.preventDefault();
-    this.doLogin();
+    this.doLoginFb();
   }
 
-  doLogin() {
+  doLoginFb(userFbData) {
     const that = this;
-    that.props.huserLogin(this.state.username, this.state.password).then((o, e) => {
+    const token = userFbData.accessToken;
+    that.props.loginFbFn(token).then((o, e) => {
       if (!e) {
-        if (o.payload.data) {
-          const data = o.payload.data;
-          data.user_type = data.type;
-          delete data.type;
-          if (false && data.user_type === 1) {
-            that.setState({
-              loginError: true,
-              message: 'Permission denied!',
-            });
-          } else {
-            if (data.user_type === 1) {
-              data.user = data.cuser;
-            } else if (data.user_type === 2) {
-              data.user = data.huser;
-            } else if (data.user_type === 3) {
-              data.user = data.guser;
-            }
-
-            delete data.huser;
-            delete data.guser;
-            delete data.cuser;
-
-            data.user.user_type = data.user_type;
-
-            localStorage.setItem('access_token', data.access_token);
-            localStorage.setItem('account_user', JSON.stringify(data.user));
-
-            // if (data.user_type === 2) {
-            //   that.props.getHUserHotspot(data.user.id).then((h) => {
-            //     localStorage.setItem('account_hotspot', JSON.stringify(h.payload));
-            //     that.props.dispatchUserMetadata({ access_token: data.access_token, account_hotspot: h.payload, account_user: data.user });
-            //     that.props.history.push('');
-            //   });
-            // } else if (data.user_type === 3 || data.user_type === 1) {
-            //   that.props.dispatchUserMetadata({ access_token: data.access_token, account_user: data.user });
-            //   that.props.history.push('');
-            // } else {
-            //   that.props.history.push('');
-            // }
-          }
+        if (o.payload) {
+          const data = o.payload;
+          localStorage.setItem('access_token', data.access_token);
+          localStorage.setItem('user_id', data.user.id);
+          that.props.history.push('/home');
         } else {
           that.setState({
             loginError: true,
-            message: o.payload.message,
+            message: e,
           });
         }
       }
     });
   }
 
-    handleTextFieldKeyDown = (event) => {
-      const that = this;
-      switch (event.key) {
-        case 'Enter':
-          that.doLogin();
-          break;
-        case 'Escape':
-          // etc...
-          break;
-        default: break;
-      }
-    };
+  handleTextFieldKeyDown = (event) => {
+    const that = this;
+    switch (event.key) {
+      case 'Enter':
+        that.doLogin();
+        break;
+      case 'Escape':
+        // etc...
+        break;
+      default: break;
+    }
+  };
 
-    render() {
-      return (
+  render() {
+    return (
+      <div>
+        <FacebookLogin
+          appId={process.env.REACT_APP_FACEBOOK_ID}
+          autoLoad
+          fields="name,email,picture"
+          size="small"
+          callback={(data) => {
+            this.doLoginFb(data);
+          }}
+          style={{
+            width: 100,
+          }}
+        />
+        <OrLine>or</OrLine>
         <form>
           <TextField
             hintText="Enter your Username"
@@ -114,13 +131,13 @@ class LoginForm extends React.Component {
           <br />
           <FlatButton label={strings.home_login} primary onClick={event => this.handleClick(event)} />
         </form>
-      );
-    }
+      </div>
+    );
+  }
 }
 
 const mapDispatchToProps = dispatch => ({
-  huserLogin: (username, password) => dispatch(login(username, password)),
-  dispatchUserMetadata: params => dispatch(getMetadata(params)),
+  loginFbFn: accessToken => dispatch(loginFb(accessToken)),
 });
 
 export default withRouter(connect(null, mapDispatchToProps)(LoginForm));

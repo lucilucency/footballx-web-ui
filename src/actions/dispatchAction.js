@@ -147,7 +147,15 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
         })
         .catch((err) => {
           console.error(`Error in ${type}`);
-          return dispatchAction(dispatchFail(err.response.body.message));
+          console.error(err);
+          if (err.message === 'Unauthorized') {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_id');
+            window.location.href = '/login';
+            return null;
+          }
+
+          return dispatchAction(dispatchFail(err.response ? err.response.body.message : err));
         });
     };
 
@@ -210,7 +218,7 @@ export function dispatchGet(type, path, params = {}, transform) {
           console.error(`Error in ${type}`);
           if (err.message === 'Unauthorized') {
             localStorage.removeItem('access_token');
-            localStorage.removeItem('account_user');
+            localStorage.removeItem('user_id');
             localStorage.removeItem('account_hotspot');
             window.location.href = '/login';
             return null;

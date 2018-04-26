@@ -6,13 +6,13 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Helmet from 'react-helmet';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Route } from 'react-router-dom';
 import strings from '../../lang';
+import Announce from '../Announce';
 import Home from '../Home';
 import Hot from '../Hot';
 import Header from '../Header';
-
 // import Footer from '../Footer';
 import constants from '../constants';
 import Login from '../Login';
@@ -39,15 +39,6 @@ const muiTheme = {
     selectedTextColor: constants.theme().textColorPrimary,
   },
   button: { height: 38 },
-  // ripple: {
-  //   color: 'red',
-  // },
-  listItem: {
-    nestedLevelDepth: 18,
-    // secondaryTextColor: palette.secondaryTextColor,
-    // leftIconColor: _colors.grey600,
-    // rightIconColor: _colors.grey600
-  },
 };
 
 const StyledDiv = styled.div`
@@ -67,10 +58,23 @@ const StyledDiv = styled.div`
 const StyledBodyDiv = styled.div`
   padding: 25px;
   flex-grow: 1;
-
+  margin-top: 56px;
+  ${props => props.isTrayOpen && css`
+    padding-left: ${props.trayWidth + 25}px;
+  `}
   @media only screen and (min-width: 1200px) {
     width: 1200px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+`;
+
+const AdBannerDiv = styled.div`
+  text-align: center;
+
+  & img {
+    margin-top: 10px;
+    max-width: 100%;
   }
 `;
 
@@ -97,7 +101,17 @@ class App extends React.Component {
             titleTemplate={strings.title_template}
           />
           <Header params={params} location={location} />
-          <StyledBodyDiv {...this.props}>
+          {false &&
+          <AdBannerDiv>
+            { location.pathname !== '/' &&
+            <a href="http://www.vpgame.com/?lang=en_us">
+              <img src="/assets/images/vp-banner.jpg" alt="" />
+            </a>
+            }
+          </AdBannerDiv>
+          }
+          <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
+            { location.pathname !== '/' && <Announce /> }
             <Route exact path="/" component={Home} />
             <Route exact path="/hot" component={Hot} />
             <Route exact path="/sign_in" component={Login} />
@@ -115,6 +129,14 @@ App.propTypes = {
   location: PropTypes.shape({
     key: PropTypes.string,
   }),
+  tray: PropTypes.shape({
+    width: PropTypes.number,
+    show: PropTypes.bool,
+  }),
 };
 
-export default connect()(App);
+const mapStateToProps = state => ({
+  tray: state.app.tray,
+});
+
+export default connect(mapStateToProps)(App);

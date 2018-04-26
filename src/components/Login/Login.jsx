@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import strings from 'lang';
 import styled from 'styled-components';
+import strings from '../../lang';
 import LoginForm from './LoginForm';
 
 const Wrapper = styled.div`
@@ -39,24 +39,6 @@ const AppDesc = styled.div`
   }
 `;
 
-const OrLine = styled.div`
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: #869197;
-  text-align: center;
-  font-size: 14px;
-  margin: 35px 0;
-  height: 24px;
-`;
-
 const Login = (props) => {
   if (props.user) {
     props.history.push('/');
@@ -67,7 +49,6 @@ const Login = (props) => {
       <Wrapper>
         <AppName>{strings.app_name}</AppName>
         <AppDesc>{strings.app_description}</AppDesc>
-        <OrLine />
         <LoginForm />
       </Wrapper>
     </div>
