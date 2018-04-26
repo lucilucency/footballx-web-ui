@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem } from 'material-ui/List';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
-import ContentSend from 'material-ui/svg-icons/content/send';
+import Home from 'material-ui/svg-icons/action/gavel';
+import TrendingUp from 'material-ui/svg-icons/action/trending-up';
+import ActionFavorite from 'material-ui/svg-icons/toggle/star';
+
 import Toggle from 'material-ui/Toggle';
 import Checkbox from 'material-ui/Checkbox';
 import Subheader from 'material-ui/Subheader';
@@ -13,7 +15,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import styled from 'styled-components';
 import Avatar from 'material-ui/Avatar';
-import { pinkA200, greenA200, redA200, grey50 } from 'material-ui/styles/colors';
+import { greenA200, redA200, grey50 } from 'material-ui/styles/colors';
 import constants from '../../constants';
 
 const StyledDrawer = styled(Drawer)`
@@ -31,6 +33,23 @@ class BurgerMenu extends React.Component {
   }
 
   render() {
+    const innerDivStyle = {
+      marginLeft: 3,
+      padding: '1em 1em 1em 3em',
+      fontSize: constants.fontSizeMedium,
+    };
+    const avatarStyle = {
+      left: 8,
+      height: '2em',
+      width: '2em',
+      fontSize: '1em',
+    };
+    const rightIconStyle = {
+      height: '2em',
+      width: '2em',
+      bottom: '0.8em',
+    };
+
     return (
       <div>
         <IconButton onClick={this.handleToggle}>
@@ -50,47 +69,79 @@ class BurgerMenu extends React.Component {
         >
           <List>
             <Subheader>FEEDS</Subheader>
-            <ListItem primaryText="Home" leftIcon={<ContentSend />} containerElement={<Link to="/home" />} />
-            <ListItem primaryText="Popular" leftIcon={<ContentDrafts />} containerElement={<Link to="/popular" />} />
-            <ListItem primaryText="All" leftIcon={<ContentDrafts />} containerElement={<Link to="/all" />} />
+            <ListItem
+              primaryText="Popular"
+              leftAvatar={<Home style={avatarStyle} color={constants.blueA200} />}
+              containerElement={<Link to="/trending" />}
+              innerDivStyle={innerDivStyle}
+            />
+            <ListItem
+              primaryText="Trending"
+              leftAvatar={<TrendingUp style={avatarStyle} color={constants.greenA200} />}
+              containerElement={<Link to="/hot" />}
+              innerDivStyle={innerDivStyle}
+            />
           </List>
           <List>
             <Subheader>FAVORITES</Subheader>
             <ListItem
               primaryText="r/Bitcoin"
-              leftAvatar={<Avatar color={pinkA200} backgroundColor={grey50} style={{ left: 8 }}>B</Avatar>}
+              leftAvatar={<Avatar color={constants.white} backgroundColor={constants.orangeA200} style={avatarStyle}>฿</Avatar>}
+              innerDivStyle={innerDivStyle}
             />
             <ListItem
               primaryText="r/IdleHeroes"
-              leftAvatar={<Avatar color={greenA200} backgroundColor={grey50} style={{ left: 8 }}>I</Avatar>}
+              leftAvatar={<Avatar color={greenA200} backgroundColor={grey50} style={avatarStyle}>I</Avatar>}
+              innerDivStyle={innerDivStyle}
             />
             <ListItem
               primaryText="r/ManchesterUnited"
-              leftAvatar={<Avatar color={redA200} backgroundColor={grey50} style={{ left: 8 }}>MU</Avatar>}
+              leftAvatar={<Avatar color={redA200} backgroundColor={grey50} style={avatarStyle} src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/220px-Manchester_United_FC_crest.svg.png" />}
+              innerDivStyle={innerDivStyle}
             />
           </List>
           <List>
             <Subheader>SUBSCRIPTIONS</Subheader>
             <ListItem
               primaryText="r/Bitcoin"
-              rightIcon={<Checkbox />}
-              leftAvatar={<Avatar color={pinkA200} backgroundColor={grey50} style={{ left: 8 }}>B</Avatar>}
+              rightIcon={<Checkbox
+                checkedIcon={<ActionFavorite style={rightIconStyle} />}
+                uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
+              />}
+              leftAvatar={<Avatar color={constants.white} backgroundColor={constants.orangeA200} style={avatarStyle}>฿</Avatar>}
+              innerDivStyle={innerDivStyle}
             />
             <ListItem
               primaryText="r/IdleHeroes"
-              rightIcon={<Checkbox />}
-              leftAvatar={<Avatar color={greenA200} backgroundColor={grey50} style={{ left: 8 }}>I</Avatar>}
+              rightIcon={<Checkbox
+                checkedIcon={<ActionFavorite style={rightIconStyle} />}
+                uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
+              />}
+              leftAvatar={<Avatar color={greenA200} backgroundColor={grey50} style={avatarStyle}>I</Avatar>}
+              innerDivStyle={innerDivStyle}
             />
             <ListItem
               primaryText="r/ManchesterUnited"
-              rightIcon={<Checkbox />}
-              leftAvatar={<Avatar color={redA200} backgroundColor={grey50} style={{ left: 8 }}>MU</Avatar>}
+              rightIcon={<Checkbox
+                checkedIcon={<ActionFavorite style={rightIconStyle} />}
+                uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
+              />}
+              leftAvatar={<Avatar color={redA200} backgroundColor={grey50} style={avatarStyle} src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/220px-Manchester_United_FC_crest.svg.png" />}
+              innerDivStyle={innerDivStyle}
             />
           </List>
           <List>
             <Subheader>NOTIFICATIONS</Subheader>
-            <ListItem primaryText="Events and match" rightToggle={<Toggle />} />
-            <ListItem primaryText="Messages" rightToggle={<Toggle />} />
+            <ListItem
+              primaryText="Events and match"
+              rightToggle={<Toggle />}
+              innerDivStyle={innerDivStyle}
+            />
+            <ListItem
+              primaryText="Messages"
+              rightToggle={<Toggle />}
+              innerDivStyle={innerDivStyle}
+            />
           </List>
         </StyledDrawer>
       </div>
