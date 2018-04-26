@@ -1,4 +1,3 @@
-import './ColorPalette';
 import './Alerts';
 import './Error';
 import './Spinner';

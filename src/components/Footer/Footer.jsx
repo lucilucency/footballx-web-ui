@@ -11,8 +11,8 @@ import constants from '../constants';
 const StyledFooter = styled.footer`
   & main {
     padding: 0px 50px 15px;
-    background-color: ${constants.defaultPrimaryColor};
-    color: ${constants.textColorPrimary};
+    background-color: ${constants.theme().colorPrimary};
+    color: ${constants.theme().textColorPrimary};
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -58,7 +58,7 @@ const StyledFooter = styled.footer`
         height: 18px;
         margin-left: 15px;
         vertical-align: text-top;
-        fill: ${constants.textColorPrimary};
+        fill: ${constants.theme().textColorPrimary};
         transition: ${constants.normalTransition};
 
         &:hover {
@@ -89,7 +89,7 @@ const StyledFooter = styled.footer`
             content: "•";
             margin: 0 8px;
             opacity: 0.6;
-            color: ${constants.textColorPrimary};
+            color: ${constants.theme().textColorPrimary};
           }
 
           &:last-child {
@@ -145,7 +145,7 @@ const StyledHr = styled.hr`
   height: 1px;
   opacity: 0.1;
   margin: 10px 0;
-  background: linear-gradient(to right, ${constants.textColorPrimary}, rgba(0, 0, 0, 0));
+  background: linear-gradient(to right, ${constants.theme().textColorPrimary}, rgba(0, 0, 0, 0));
 `;
 
 export default () => (

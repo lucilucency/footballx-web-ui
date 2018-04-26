@@ -11,7 +11,7 @@ import {
   Cell,
   ResponsiveContainer,
 } from 'recharts';
-import { hsvToRgb } from '../../../utility';
+import { hsvToRgb } from '../../../utils';
 import strings from '../../../lang';
 import { StyledTooltip } from './Styled';
 

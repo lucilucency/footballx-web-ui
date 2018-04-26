@@ -6,7 +6,7 @@ export const StyledTooltip = styled.div`
   width:auto;
   display: block;
   padding: 0.5em;
-  background-color: ${constants.darkPrimaryColor};
+  background-color: ${constants.theme().colorPrimary};
 `;
 
 export const StyledTooltipTeam = styled.span`

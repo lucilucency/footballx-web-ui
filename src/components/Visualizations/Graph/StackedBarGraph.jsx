@@ -46,7 +46,7 @@ const StackedBarGraph = ({
           />
           <Tooltip
             cursor={{ opacity: '0.06' }}
-            wrapperStyle={{ backgroundColor: constants.darkPrimaryColor, border: 'none' }}
+            wrapperStyle={{ backgroundColor: constants.theme().colorPrimary, border: 'none' }}
           />
           {Object.keys(strings).filter(str => str.indexOf(`${type}_`) === 0).map((gr, i) => (
             <Bar

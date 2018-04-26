@@ -4,7 +4,7 @@ import strings from '../../lang';
 import {
   transformations,
   fromNow,
-} from '../../utility';
+} from '../../utils';
 import Table, { TableLink } from '../Table';
 import Container from '../Container';
 // import { List } from 'material-ui/List';

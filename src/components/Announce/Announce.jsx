@@ -33,7 +33,7 @@ const StyledDiv = styled.div`
     }
 
     & a {
-      color: ${constants.textColorPrimary};
+      color: ${constants.theme().textColorPrimary};
 
       &:hover {
         text-decoration: underline;
@@ -48,7 +48,7 @@ const StyledDiv = styled.div`
 
       & svg {
         height: 16px;
-        fill: ${constants.textColorPrimary};
+        fill: ${constants.theme().textColorPrimary};
         vertical-align: sub;
       }
     }

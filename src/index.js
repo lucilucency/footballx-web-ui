@@ -25,16 +25,16 @@ body {
   height: initial;
   width: initial;
   margin: 0;
-  font-family: ${constants.theme().fontFamily || constants.fontFamily};
+  font-family: ${constants.theme().fontFamily};
 }
 
 a {
-  color: ${constants.primaryLinkColor};
+  color: ${constants.theme().linkColorPrimary};
   text-decoration: none;
   transition: ${constants.normalTransition};
 
   &:hover {
-    color: color(${constants.primaryLinkColor} lightness(-33%));
+    color: color(${constants.theme().linkColorPrimary} lightness(-33%));
   }
 }
 
@@ -59,7 +59,7 @@ li {
   padding: 8px 12px !important;
   border-radius: 2px !important;
   background-color: ${constants.theme().almostColor} !important;
-  color: ${constants.textColorPrimary} !important;
+  color: ${constants.theme().textColorPrimary} !important;
   white-space: pre-wrap;
   line-height: 1.5 !important;
   text-align: left;
@@ -99,12 +99,12 @@ li {
   &::after {
     content: attr(data-hint);
     background-color: ${constants.theme().almostColor};
-    color: ${constants.textColorPrimary};
+    color: ${constants.theme().textColorPrimary};
     border-radius: 2px;
     padding: 5px 8px;
     font-weight: ${constants.fontWeightLight};
     text-transform: none;
-    font-size: 13px;
+    font-size: ${constants.fontSizeMedium};
     line-height: 1.3;
     white-space: nowrap;
   }

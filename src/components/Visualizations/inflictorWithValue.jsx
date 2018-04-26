@@ -33,7 +33,7 @@ const StyledDiv = styled.div`
   }
 
   & .overlay {
-    background-color: ${constants.darkPrimaryColor};
+    background-color: ${constants.theme().colorPrimary};
     font-size: 10px;
     position: absolute;
     left: 0;
@@ -154,14 +154,14 @@ const StyledDiv = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  box-shadow: 0 0 5px ${constants.defaultPrimaryColor};
+  box-shadow: 0 0 5px ${constants.theme().colorPrimary};
 }
 
 .buffOverlay {
   position: absolute;
   bottom: 0;
   right: 2px;
-  color: ${constants.textColorPrimary};
+  color: ${constants.theme().textColorPrimary};
   font-weight: ${constants.fontWeightMedium};
   text-shadow: 1px 1px 2px black, -1px -1px 2px black;
 }

@@ -181,7 +181,7 @@ class PlayersGraph extends React.Component {
 
               <Tooltip
                 itemSorter={(a, b) => a.value < b.value}
-                wrapperStyle={{ backgroundColor: constants.darkPrimaryColor, border: 'none' }}
+                wrapperStyle={{ backgroundColor: constants.theme().colorPrimary, border: 'none' }}
               />
               {match.players.map((player) => {
                 const hero = heroes[player.hero_id] || {};

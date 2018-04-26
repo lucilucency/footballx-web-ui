@@ -7,11 +7,11 @@ import strings from '../../lang';
 
 const StyledLink = styled(Link)`
   font-weight: ${constants.fontWeightMedium};
-  color: ${constants.textColorPrimary};
+  color: ${constants.theme().textColorPrimary};
   text-transform: uppercase;
 
   &:hover {
-    color: ${constants.textColorPrimary};
+    color: ${constants.theme().textColorPrimary};
     opacity: 0.6;
   }
 `;

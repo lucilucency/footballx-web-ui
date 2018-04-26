@@ -7,7 +7,7 @@ import {
   getObsWardsPlaced,
   isRoshHero,
   isActiveItem,
-} from '../utility';
+} from '../utils';
 
 export default function analyzeMatch(match, _pm) {
   // define condition check for each advice point

@@ -19,17 +19,15 @@ import SearchForm from '../Search/SearchForm';
 import AppLogo from '../App/AppLogo';
 import BurgerMenu from './BurgerMenu';
 
-const REPORT_BUG_PATH = '//github.com/odota/web/issues';
-
-const navbarPages = [
+const headerLinks = [
+  <Link key={strings.header_home} to="/home">{strings.header_home}</Link>,
+  <Link key={strings.header_popular} to="/popular">{strings.header_popular}</Link>,
+  <Link key={strings.header_all} to="/all">{strings.header_all}</Link>,
   <Link key={strings.header_explorer} to="/explorer">{strings.header_explorer}</Link>,
   <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
 ];
 
-const burgerItems = [
-  <AccountWidget key={0} />,
-  ...navbarPages,
-];
+const burgerLinks = [];
 
 const buttonProps = {
   children: <ActionSettings />,
@@ -73,7 +71,7 @@ const ToolbarHeader = styled(Toolbar)`
   }
 `;
 
-const BugLink = styled.a`
+const LinkStyled = styled.a`
   font-size: ${constants.fontSizeMedium};
   font-weight: ${constants.fontWeightLight};
   color: ${constants.colorMutedLight} !important;
@@ -92,20 +90,20 @@ const BugLink = styled.a`
   }
 `;
 
-const LogoGroup = ({ small }) => (
+const LogoGroup = ({ greaterThanSmall }) => (
   <VerticalAlignToolbar>
-    {!small && <BurgerMenu menuItems={burgerItems} />}
+    <BurgerMenu menuItems={burgerLinks} greaterThanSmall={greaterThanSmall} />
     <AppLogo style={{ marginRight: 18 }} />
   </VerticalAlignToolbar>
 );
 
 LogoGroup.propTypes = {
-  small: PropTypes.bool,
+  greaterThanSmall: PropTypes.bool,
 };
 
 const LinkGroup = () => (
   <VerticalAlignToolbar>
-    {navbarPages.map(Page => (
+    {headerLinks.map(Page => (
       <TabContainer key={Page.key}>
         <div style={{ margin: '0 10px', textAlign: 'center', fontWeight: `${constants.fontWeightNormal} !important` }}>
           {Page}
@@ -128,21 +126,21 @@ const AccountGroup = () => (
   </VerticalAlignToolbar>
 );
 
-const ReportBug = () => (
-  <BugLink
-    href={REPORT_BUG_PATH}
+const LinkContributor = () => (
+  <LinkStyled
+    href="//facebook.com/groups/626461337693569"
     target="_blank"
     rel="noopener noreferrer"
   >
     <Bug />
     <span>
-      {strings.app_report_bug}
+      {strings.app_contribute}
     </span>
-  </BugLink>
+  </LinkStyled>
 );
 
 const LogOut = () => (
-  <BugLink
+  <LinkStyled
     href={`${process.env.REACT_APP_API_HOST}/logout`}
     rel="noopener noreferrer"
   >
@@ -150,7 +148,7 @@ const LogOut = () => (
     <span>
       {strings.app_logout}
     </span>
-  </BugLink>
+  </LinkStyled>
 );
 
 const SettingsGroup = ({ user }) => (
@@ -159,7 +157,7 @@ const SettingsGroup = ({ user }) => (
     buttonProps={buttonProps}
   >
     <LocalizationMenu />
-    <ReportBug />
+    <LinkContributor />
     {user ? <LogOut /> : null}
   </VerticalAlignDropdown>
 );
@@ -168,16 +166,16 @@ SettingsGroup.propTypes = {
   user: PropTypes.shape({}),
 };
 
-const Header = ({ location, small, user }) => (
+const Header = ({ location, greaterThanSmall, user }) => (
   <div>
     <ToolbarHeader>
       <VerticalAlignDiv>
-        <LogoGroup small={small} />
-        {small && <LinkGroup />}
-        <SearchGroup />
+        <LogoGroup greaterThanSmall={greaterThanSmall} />
+        {greaterThanSmall && <LinkGroup />}
+        {greaterThanSmall && <SearchGroup />}
       </VerticalAlignDiv>
-      <VerticalAlignDiv style={{ marginLeft: 'auto' }}>
-        {small && <AccountGroup />}
+      <VerticalAlignDiv >
+        {greaterThanSmall && <AccountGroup />}
         {<SettingsGroup user={user} />}
       </VerticalAlignDiv>
     </ToolbarHeader>
@@ -187,12 +185,12 @@ const Header = ({ location, small, user }) => (
 
 Header.propTypes = {
   location: PropTypes.shape({}),
-  small: PropTypes.bool,
+  greaterThanSmall: PropTypes.bool,
   user: PropTypes.shape({}),
 };
 
 const mapStateToProps = state => ({
-  small: state.browser.greaterThan.small,
+  greaterThanSmall: state.browser.greaterThan.small,
   user: state.app.metadata.data.user,
 });
 export default connect(mapStateToProps, null)(Header);

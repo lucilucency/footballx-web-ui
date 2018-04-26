@@ -3,19 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Helmet from 'react-helmet';
 import styled from 'styled-components';
 import { Route } from 'react-router-dom';
 import strings from '../../lang';
 import Home from '../Home';
+import Hot from '../Hot';
 import Header from '../Header';
+
 // import Footer from '../Footer';
 import constants from '../constants';
 import Login from '../Login';
 
 const muiTheme = {
-  fontFamily: constants.fontFamily,
+  fontFamily: constants.theme().fontFamily,
   card: { fontWeight: constants.fontWeightNormal },
   badge: { fontWeight: constants.fontWeightNormal },
   subheader: { fontWeight: constants.fontWeightNormal },
@@ -25,17 +28,26 @@ const muiTheme = {
     backgroundColor: constants.colorBlue,
   },
   palette: {
-    textColor: constants.textColorPrimary,
+    textColor: constants.theme().textColorPrimary,
     primary1Color: constants.colorBlue,
-    canvasColor: constants.primarySurfaceColor,
-    borderColor: constants.dividerColor,
+    canvasColor: constants.theme().surfaceColorPrimary,
+    borderColor: constants.theme().dividerColor,
   },
   tabs: {
-    backgroundColor: constants.primarySurfaceColor,
-    textColor: constants.textColorPrimary,
-    selectedTextColor: constants.textColorPrimary,
+    backgroundColor: constants.theme().surfaceColorPrimary,
+    textColor: constants.theme().textColorPrimary,
+    selectedTextColor: constants.theme().textColorPrimary,
   },
   button: { height: 38 },
+  // ripple: {
+  //   color: 'red',
+  // },
+  listItem: {
+    nestedLevelDepth: 18,
+    // secondaryTextColor: palette.secondaryTextColor,
+    // leftIconColor: _colors.grey600,
+    // rightIconColor: _colors.grey600
+  },
 };
 
 const StyledDiv = styled.div`
@@ -75,8 +87,10 @@ class App extends React.Component {
       // width,
       location,
     } = this.props;
+    const themeName = localStorage.getItem('theme') || 'light';
+    const theme = themeName === 'light' ? lightBaseTheme : darkBaseTheme;
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme, muiTheme)}>
+      <MuiThemeProvider muiTheme={getMuiTheme(theme, muiTheme)}>
         <StyledDiv {...this.props}>
           <Helmet
             defaultTitle={strings.title_default}
@@ -85,6 +99,7 @@ class App extends React.Component {
           <Header params={params} location={location} />
           <StyledBodyDiv {...this.props}>
             <Route exact path="/" component={Home} />
+            <Route exact path="/hot" component={Hot} />
             <Route exact path="/sign_in" component={Login} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}

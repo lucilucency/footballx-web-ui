@@ -59,12 +59,13 @@ class SearchForm extends React.Component {
           onChange={this.handleChange}
           fullWidth
           underlineFocusStyle={{
-            borderColor: constants.primaryLinkColor,
+            borderColor: constants.theme().linkColorPrimary,
             bottom: '-4px',
             left: '-40px',
             width: 'calc(100% + 40px)',
           }}
           underlineStyle={{ borderColor: 'transparent' }}
+          hintStyle={{ fontSize: constants.fontSizeSmall }}
         />
       </form>
     );

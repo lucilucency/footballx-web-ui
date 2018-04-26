@@ -6,7 +6,7 @@ import playerColors from 'dotaconstants/build/player_colors.json';
 import SocialPerson from 'material-ui/svg-icons/social/person';
 import NotificationSync from 'material-ui/svg-icons/notification/sync';
 import styled from 'styled-components';
-import { subTextStyle } from '../../../utility';
+import { subTextStyle } from '../../../utils';
 import { TableLink } from '../../Table';
 import { IconDice, IconCrystalBall, IconCheckCircle } from '../../Icons';
 import constants from '../../constants';
@@ -57,7 +57,7 @@ const Styled = styled.div`
   margin-right: 7px;
   position: relative;
   height: 29px;
-  box-shadow: 0 0 5px ${constants.defaultPrimaryColor};
+  box-shadow: 0 0 5px ${constants.theme().colorPrimary};
 }
 
 .abandoned {
@@ -83,13 +83,13 @@ const Styled = styled.div`
   left: -14px;
   width: 2px;
   height: 29px;
-  background-color: ${constants.primaryLinkColor};
+  background-color: ${constants.theme().linkColorPrimary};
 
   /* Material-ui icon */
   & svg {
     position: relative !important;
     left: -10px !important;
-    fill: ${constants.primaryLinkColor} !important;
+    fill: ${constants.theme().linkColorPrimary} !important;
   }
 }
 

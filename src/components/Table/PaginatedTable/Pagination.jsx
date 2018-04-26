@@ -40,7 +40,7 @@ const StyledPagination = styled.div`
   `}
 `;
 const pageStyle = `
-  color: ${constants.primaryLinkColor}!important;
+  color: ${constants.theme().linkColorPrimary}!important;
   min-width: 20px !important;
   padding: 0 10px !important;
   margin: 0 2px !important;

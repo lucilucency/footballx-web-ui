@@ -53,7 +53,7 @@ const MMRGraph = ({ columns }) => (
         />
 
         <Tooltip
-          wrapperStyle={{ backgroundColor: constants.darkPrimaryColor, border: 'none' }}
+          wrapperStyle={{ backgroundColor: constants.theme().colorPrimary, border: 'none' }}
           labelFormatter={formatXTickDetailed}
         />
         <Line
@@ -71,7 +71,7 @@ const MMRGraph = ({ columns }) => (
           name={strings.th_party_mmr}
         />
         <Legend verticalAlign="top" />
-        <Brush dataKey="time" height={40} stroke={constants.primaryLinkColor} fill={constants.darkPrimaryColor} tickFormatter={formatXTick} />
+        <Brush dataKey="time" height={40} stroke={constants.theme().linkColorPrimary} fill={constants.theme().colorPrimary} tickFormatter={formatXTick} />
       </LineChart>
     </ResponsiveContainer>
   </StyledGraphArea>

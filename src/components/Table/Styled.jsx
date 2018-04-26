@@ -103,6 +103,6 @@ export const StyledHeaderCell = styled.div`
   justify-content: space-between;
   text-align: center;
   text-transform: uppercase;
-  color: ${constants.textColorPrimary} !important;
+  color: ${constants.theme().textColorPrimary} !important;
   font-weight: 500;
 `;

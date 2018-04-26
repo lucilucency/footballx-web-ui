@@ -20,7 +20,7 @@ const StyledSection = styled.section`
     text-align: center;
     font-weight: ${constants.fontWeightLight};
     font-size: 14px;
-    color: ${constants.textColorPrimary};
+    color: ${constants.theme().textColorPrimary};
     padding: 10px 12px 16px;
     border-bottom: 2px solid transparent;
     flex-grow: 1;
@@ -46,7 +46,7 @@ const StyledSection = styled.section`
 
   & .chosen {
     display: inline-block;
-    border-color: ${constants.primaryLinkColor};
+    border-color: ${constants.theme().linkColorPrimary};
     color: color(${constants.colorMuted} lightness(85%));
   }
 `;

@@ -54,8 +54,8 @@ export const ButtonsDiv = styled.div`
   }
 
   & a {
-    background-color: ${constants.defaultPrimaryColor} !important;
-    border: 2px solid ${constants.textColorPrimary} !important;
+    background-color: ${constants.theme().colorPrimary} !important;
+    border: 2px solid ${constants.theme().textColorPrimary} !important;
     padding: 3px 6px !important;
     height: auto !important;
     margin: 10px 5px !important;
@@ -86,7 +86,7 @@ export const ButtonsDiv = styled.div`
   & svg {
     width: 20px;
     height: 20px;
-    fill: ${constants.textColorPrimary};
+    fill: ${constants.theme().textColorPrimary};
     vertical-align: sub !important;
   }
 `;

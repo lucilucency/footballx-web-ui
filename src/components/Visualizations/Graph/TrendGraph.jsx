@@ -13,14 +13,14 @@ import {
 } from 'recharts';
 import heroes from 'dotaconstants/build/heroes.json';
 import styled from 'styled-components';
-import { formatSeconds, fromNow } from '../../../utility';
+import { formatSeconds, fromNow } from '../../../utils';
 import strings from '../../../lang';
 import constants from '../../constants';
 
 const TooltipStylesDiv = styled.div`
   .tooltipWrapper {
-    background-color: ${constants.defaultPrimaryColor};
-    color: ${constants.textColorPrimary} !important;
+    background-color: ${constants.theme().colorPrimary};
+    color: ${constants.theme().textColorPrimary} !important;
     font-size: ${constants.fontSizeMedium};
     min-width: 250px;
   }

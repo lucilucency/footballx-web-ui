@@ -8,7 +8,7 @@ import './styles.css';
 import constants from '../src/components/constants';
 
 const muiTheme = {
-  fontFamily: constants.fontFamily,
+  fontFamily: constants.theme().fontFamily,
   card: { fontWeight: constants.fontWeightNormal },
   badge: { fontWeight: constants.fontWeightNormal },
   subheader: { fontWeight: constants.fontWeightNormal },
@@ -18,15 +18,15 @@ const muiTheme = {
     backgroundColor: constants.colorBlue,
   },
   palette: {
-    textColor: constants.textColorPrimary,
+    textColor: constants.theme().textColorPrimary,
     primary1Color: constants.colorBlue,
-    canvasColor: constants.primarySurfaceColor,
-    borderColor: constants.dividerColor,
+    canvasColor: constants.theme().surfaceColorPrimary,
+    borderColor: constants.theme().dividerColor,
   },
   tabs: {
-    backgroundColor: constants.primarySurfaceColor,
-    textColor: constants.textColorPrimary,
-    selectedTextColor: constants.textColorPrimary,
+    backgroundColor: constants.theme().surfaceColorPrimary,
+    textColor: constants.theme().textColorPrimary,
+    selectedTextColor: constants.theme().textColorPrimary,
   },
   button: { height: 38 },
 };

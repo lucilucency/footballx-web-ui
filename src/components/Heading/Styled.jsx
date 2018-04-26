@@ -11,15 +11,15 @@ export const StyledDiv = styled.div`
     width: 26px !important;
     margin-right: 6px;
     opacity: 0.8;
-    fill: ${constants.textColorPrimary};
+    fill: ${constants.theme().textColorPrimary};
   }
 
   & a {
-    color: ${constants.textColorPrimary};
+    color: ${constants.theme().textColorPrimary};
     text-decoration: none;
 
     &:hover {
-      color: ${constants.primaryLinkColor};
+      color: ${constants.theme().linkColorPrimary};
     }
   }
 
