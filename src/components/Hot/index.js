@@ -1,3 +1,3 @@
-import FxEvent from './Event';
+import FxEvent from './Hot';
 
 export default FxEvent;

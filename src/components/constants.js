@@ -24,6 +24,8 @@ const Constants = {
   fontWeightLight: '200',
   fontWeightNormal: '400',
   fontWeightMedium: '500',
+  fontWeightHeavy: '600',
+  fontSizeBig: '18px',
   fontSizeCommon: '16px',
   fontSizeMedium: '14px',
   fontSizeSmall: '12px',
@@ -73,8 +75,8 @@ const Constants = {
 
           colorPrimary: 'rgba(255, 255, 255, 1)',
           colorSecondary: 'rgba(255, 255, 255, 0.5)',
-          textColorPrimary: 'rgb(28, 28, 28)',
-          textColorSecondary: '#F5F5F5',
+          textColorPrimary: 'rgb(34, 34, 34)',
+          textColorSecondary: 'rgb(70, 68, 68)',
 
           backgroundColor: '#eef2f5',
           surfaceColorPrimary: '#fff',
@@ -82,11 +84,8 @@ const Constants = {
           dividerColor: 'rgb(52, 50, 50)',
           linkColorPrimary: '#6BF',
 
-          fontFamily: `Noto Sans KR,Noto Sans,
-          Helvetica,
-          Arial,
-          Malgun Gothic,
-          sans-serif`,
+          fontFamily: `Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif`,
+          // fontFamily: 'font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;'
         };
         break;
       default:

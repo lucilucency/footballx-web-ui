@@ -17,7 +17,7 @@ export const HeadlineDiv = styled.div`
   font-size: 80px;
   font-weight: ${constants.fontWeightMedium};
   line-height: 1.2;
-  color: ${constants.theme().textColorSecondary};
+  color: ${constants.theme().textColorPrimary};
 
   @media only screen and (max-width: 425px) {
     font-size: 60px;

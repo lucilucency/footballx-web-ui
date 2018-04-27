@@ -128,7 +128,7 @@ class RequestLayer extends React.Component {
   }
 
   UNSAFE_componentWillMount() {
-    this.props.getPulls(this.getDate(5));
+    // this.props.getPulls(this.getDate(5));
   }
 
   render() {
@@ -143,9 +143,9 @@ class RequestLayer extends React.Component {
           html_url: link,
         } = data.items[0];
 
-        // if (localStorage && !this.state.dismissed && Number(localStorage.getItem('dismiss')) < number) {
-        //   return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />;
-        // }
+        if (localStorage && !this.state.dismissed && Number(localStorage.getItem('dismiss')) < number) {
+          return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />;
+        }
 
         return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />
       }
@@ -166,24 +166,24 @@ RequestLayer.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { error, loading, data } = state.app.announcement;
+  // const { error, loading, data } = state.app.announcement;
 
   return {
     error: false,
     loading: false,
     data: {
-      items: [{
-        title: 'New version available',
-        body: 'Body',
-        number: 2,
-        html_url: 'google.com',
-      }]
+      // items: [{
+      //   title: 'New version available',
+      //   body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.',
+      //   number: 2,
+      //   html_url: '//google.com',
+      // }]
     },
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  getPulls: repo => dispatch(getAnnouncement(repo)),
+  // getPulls: repo => dispatch(getAnnouncement(repo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestLayer);
