@@ -47,7 +47,7 @@ class BurgerMenu extends React.Component {
     const innerDivStyle = {
       marginLeft: 3,
       padding: '1em 1em 1em 3em',
-      fontSize: constants.fontSizeMedium,
+      fontSize: constants.fontSizeSmall,
     };
     const avatarStyle = {
       left: 8,
@@ -101,6 +101,7 @@ class BurgerMenu extends React.Component {
               innerDivStyle={innerDivStyle}
             />
           </List>
+          {false &&
           <List>
             <Subheader>FAVORITES</Subheader>
             <ListItem
@@ -128,7 +129,7 @@ class BurgerMenu extends React.Component {
               leftAvatar={<Avatar color={redA200} backgroundColor={grey50} style={avatarStyle} src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/220px-Manchester_United_FC_crest.svg.png" />}
               innerDivStyle={innerDivStyle}
             />
-          </List>
+          </List>}
           <List>
             <Subheader>SUBSCRIPTIONS</Subheader>
             <ListItem

@@ -9,7 +9,7 @@ self.addEventListener('activate', function(event) {
     return self.clients.claim();
 })
 
-// Fetch Hot (For future caching purpose)
+// Fetch Posts (For future caching purpose)
 self.addEventListener('fetch', function(event){
     event.respondWith(fetch(event.request));
 })

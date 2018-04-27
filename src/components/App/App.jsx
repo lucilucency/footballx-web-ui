@@ -11,7 +11,7 @@ import { Route } from 'react-router-dom';
 import strings from '../../lang';
 import Announce from '../Announce';
 import Home from '../Home';
-import Hot from '../Hot';
+import Hot from '../Posts';
 import Header from '../Header';
 // import Footer from '../Footer';
 import constants from '../constants';
@@ -61,7 +61,8 @@ const StyledBodyDiv = styled.div`
   margin-top: 56px;
   ${props => props.isTrayOpen && css`
     padding-left: ${props.trayWidth + 25}px;
-  `}
+  `};
+  
   @media only screen and (min-width: 1200px) {
     width: 1200px;
     margin-left: auto;
