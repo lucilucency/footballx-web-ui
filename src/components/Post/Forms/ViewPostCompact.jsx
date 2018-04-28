@@ -2,17 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
-// import { IconShare } from '../Icons';
 import strings from '../../../lang';
 import { toDateTimeString, bindAll, renderDialog } from '../../../utils';
 import constants from '../../constants';
-import ViewPostFull from './ViewPostFull';
+import ViewPostFull from './CreateEditPost';
 
 const ActiveLink = styled(Link)`
   :hover {

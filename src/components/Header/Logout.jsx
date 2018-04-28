@@ -1,28 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { FlatButton } from 'material-ui';
 import styled from 'styled-components';
 import LogOutButton from 'material-ui/svg-icons/action/power-settings-new';
 import strings from '../../lang';
 import constants from '../constants';
-
-const LogoutButton = styled(FlatButton)`
-  font-size: ${constants.fontSizeMedium} !important;
-  font-weight: ${constants.fontWeightLight} !important;
-  color: ${constants.colorMutedLight} !important;
-  display: flex;
-  align-items: center;
-  margin-top: 2px;
-  margin-right: 15px;
-
-  & svg {
-    margin-right: 5px;
-
-    color: currentColor !important;
-    width: 18px !important;
-    height: 18px !important;
-  }
-`;
 
 const LinkStyled = styled.a`
   font-size: ${constants.fontSizeMedium};

@@ -116,7 +116,7 @@ class LoginForm extends React.Component {
           <TextField
             hintText="Enter your Username"
             floatingLabelText="Username"
-            onChange={(event, newValue) => this.setState({ username: newValue, message: '' })}
+            // onChange={(event, newValue) => this.setState({ username: newValue, message: '' })}
             onKeyDown={this.handleTextFieldKeyDown}
           />
           <br />
@@ -124,9 +124,9 @@ class LoginForm extends React.Component {
             type="password"
             hintText="Enter your Password"
             floatingLabelText="Password"
-            onChange={(event, newValue) => this.setState({ password: newValue })}
-            errorText={this.state.message}
+            // onChange={(event, newValue) => this.setState({ password: newValue })}
             onKeyDown={this.handleTextFieldKeyDown}
+            errorText={this.state.message}
           />
           <br />
           <FlatButton label={strings.home_login} primary onClick={event => this.handleClick(event)} />

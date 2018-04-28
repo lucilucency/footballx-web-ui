@@ -156,7 +156,7 @@ li {
 
 // Fetch metadata (used on all pages)
 const userID = localStorage.getItem('user_id');
-if (userID) store.dispatch(refresh(userID))
+if (userID) store.dispatch(refresh(userID));
 
 ReactGA.initialize('UA-117980702-1');
 ReactGA.pageview(window.location.pathname + window.location.search);

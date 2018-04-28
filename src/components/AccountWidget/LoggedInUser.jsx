@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import FlatButton from 'material-ui/FlatButton';
 import strings from '../../lang';
-import Spinner from '../Spinner';
 
 const StyledFlatButton = styled(FlatButton)`
  min-width: 30px !important;
@@ -22,16 +21,14 @@ const StyledFlatButton = styled(FlatButton)`
  }
 `;
 
-const LoggedInUser = ({ user, style }) => {
-  return (
-    <Link style={style} to={`/user/${user.id}`}>
-      <StyledFlatButton
-        label={user.fullname || user.nickname || strings.app_my_profile}
-        hoverColor="transparent"
-      />
-    </Link>
-  );
-};
+const LoggedInUser = ({ user, style }) => (
+  <Link style={style} to={`/user/${user.id}`}>
+    <StyledFlatButton
+      label={user.fullname || user.nickname || strings.app_my_profile}
+      hoverColor="transparent"
+    />
+  </Link>
+);
 
 LoggedInUser.propTypes = {
   style: PropTypes.shape({}),

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-// import { ValidatorForm } from 'react-form-validator-core';
+import { ValidatorForm } from './FormValidator';
 import constants from '../components/constants';
 
 export const Row = styled.div`
@@ -32,26 +32,26 @@ export const Ul = styled.ul`
   }
 `;
 
-// export const FormWrapper = styled(ValidatorForm)`
-//   margin-top: 20px;
-//   transition: max-height 1s;
-//   box-sizing: border-box;
-//   ${props => ((props['data-display']) ? css`
-//       max-height: 10000px;
-//   ` : css`
-//       max-height: 0;
-//   `)}
-//
-//   ${props => (props['data-toggle'] && css`
-//     overflow: hidden;
-//     padding: 0 15px;
-//  `)}
-//
-//   .actions {
-//     text-align: right;
-//     ${props => (props['data-popup'] && css`
-//       margin: 24px -24px -24px -24px;
-//       padding: 8px;
-//    `)}
-//   }
-// `;
+export const FormWrapper = styled(ValidatorForm)`
+  margin-top: 20px;
+  transition: max-height 1s;
+  box-sizing: border-box;
+  ${props => ((props['data-display']) ? css`
+      max-height: 10000px;
+  ` : css`
+      max-height: 0;
+  `)}
+
+  ${props => (props['data-toggle'] && css`
+    overflow: hidden;
+    padding: 0 15px;
+ `)}
+
+  .actions {
+    text-align: right;
+    ${props => (props['data-popup'] && css`
+      margin: 24px -24px -24px -24px;
+      padding: 8px;
+   `)}
+  }
+`;

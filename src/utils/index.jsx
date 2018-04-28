@@ -8,6 +8,7 @@ export * from './style';
 export * from './sort';
 export * from './styledComponent';
 export * from './misc';
+export * from './FormValidator';
 
 export function toNumber(input) {
   return Number(input);

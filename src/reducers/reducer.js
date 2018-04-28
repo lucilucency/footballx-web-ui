@@ -11,14 +11,14 @@ export default (type, initialData) => (state = {
       return {
         ...state,
         loading: true,
-        error: false,
+        error: null,
       };
     case `OK/${type}`:
       return {
         ...state,
         loading: false,
         data: action.payload,
-        error: false,
+        error: null,
       };
     case `FAIL/${type}`:
       return {
@@ -32,7 +32,7 @@ export default (type, initialData) => (state = {
       return {
         ...state,
         loading: true,
-        error: false,
+        error: null,
       };
     case `OK/ADD/${type}`:
       return {
@@ -41,7 +41,7 @@ export default (type, initialData) => (state = {
         data: update(state.data, {
           $push: Array.isArray(action.payload) ? action.payload : [action.payload],
         }),
-        error: false,
+        error: null,
       };
     case `FAIL/ADD/${type}`:
       return {
@@ -55,7 +55,7 @@ export default (type, initialData) => (state = {
       return {
         ...state,
         loading: true,
-        error: false,
+        error: null,
       };
     case `OK/EDIT/${type}`:
       if (action.payload) {
@@ -63,14 +63,14 @@ export default (type, initialData) => (state = {
           ...state,
           loading: false,
           data: update(state.data, { $merge: action.payload }),
-          error: false,
+          error: null,
         };
       } else {
         return {
           ...state,
           loading: false,
           data: state.data,
-          error: false,
+          error: null,
         };
       }
     case `FAIL/EDIT/${type}`:
@@ -84,7 +84,7 @@ export default (type, initialData) => (state = {
       return {
         ...state,
         loading: true,
-        error: false,
+        error: null,
       };
     case `OK/EDIT_ARR/${type}`:
       if (action.payload.id) {
@@ -97,24 +97,15 @@ export default (type, initialData) => (state = {
           ...state,
           loading: false,
           data: newData,
-          error: false,
+          error: null,
         };
       }
-      console.error('error in merge payload');
+      console.error(`error in merge payload OK/EDIT_ARR/${type}`);
       return {
         ...state,
         loading: false,
         error: true,
       };
-    // console.log('reducer type', type);
-    // console.log('state.data', state.data);
-    // console.log('action', action);
-    // return {
-    //   ...state,
-    //   loading: false,
-    //   data: update(state.data, { $merge: [action.payload] }),
-    //   error: false,
-    // };
     case `FAIL/EDIT_ARR/${type}`:
       return {
         ...state,

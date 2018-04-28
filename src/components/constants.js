@@ -81,10 +81,10 @@ const Constants = {
           backgroundColor: '#eef2f5',
           surfaceColorPrimary: '#fff',
           surfaceColorSecondary: '#fff',
-          dividerColor: 'rgb(52, 50, 50)',
+          dividerColor: 'rgb(224, 224, 224)',
           linkColorPrimary: '#6BF',
 
-          fontFamily: `Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif`,
+          fontFamily: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
           // fontFamily: 'font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;'
         };
         break;

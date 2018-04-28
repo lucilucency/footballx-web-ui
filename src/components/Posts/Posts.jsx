@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import Paper from 'material-ui/Paper';
 
-import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
+import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import NearbyIcon from 'material-ui/svg-icons/communication/location-on';
 import RecentsIcon from 'material-ui/svg-icons/action/restore';
 import FavoritesIcon from 'material-ui/svg-icons/action/favorite';
@@ -66,7 +66,7 @@ class HotPage extends React.Component {
         <Helmet title="footballx - Posts" />
         <Container>
           <PostsGrid columns={this.columnCount}>
-            {this.props.posts.map(item => <ViewPostCompact data={item} />)}
+            {this.props.posts.map(item => <ViewPostCompact data={item} key={item.id} />)}
           </PostsGrid>
           <RightTray>
             <div>
@@ -104,7 +104,7 @@ class HotPage extends React.Component {
 }
 
 HotPage.propTypes = {
-  browser: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  // browser: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   posts: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   dispatchPosts: PropTypes.func,
 };

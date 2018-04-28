@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import update from 'react-addons-update';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, TextField, FlatButton, IconButton } from 'material-ui';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
@@ -55,7 +55,7 @@ class ViewPostFull extends React.Component {
 
   doComment(e) {
     e.preventDefault();
-    console.log('do comment', this.state.formData);
+    console.warn('do comment', this.state.formData);
   }
 
   render() {
@@ -168,7 +168,8 @@ const mapStateToProps = state => ({
   browser: state.browser,
 });
 
-const mapDispatchToProps = dispatch => ({
-});
+// const mapDispatchToProps = dispatch => ({
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewPostFull);
+export default connect(mapStateToProps, null)(ViewPostFull);
+

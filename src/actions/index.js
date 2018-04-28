@@ -1,4 +1,4 @@
-import { dispatchPost, dispatchGet } from './dispatchAction';
+import { dispatchPost, dispatchGet, dispatchPut, dispatchDelete } from './dispatchAction';
 
 export const getMetadata = (params = {}) => (dispatch) => {
   const getDataStart = payload => ({
@@ -17,10 +17,15 @@ export const getMetadata = (params = {}) => (dispatch) => {
 
 // auth
 // export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
-export const loginFb = access_token => dispatchPost('metadata', 'xuser/auth', { access_token });
+export const loginFb = accessToken => dispatchPost('metadata', 'xuser/auth', { access_token: accessToken });
 export const refresh = userID => dispatchGet('metadata', `xuser/${userID}/refesh`, { xuser_id: userID });
 
+// post
 export const getPosts = sortby => dispatchGet('posts', 'posts', { sortby });
+export const getPostsFollowing = sortby => dispatchGet('posts', 'posts/following', { sortby });
+export const createPost = params => dispatchPost('ADD/posts', 'posts', params);
+export const editPost = (id, params) => dispatchPut('EDIT/post', `post/${id}`, params);
+export const deletePost = id => dispatchDelete('DELETE/post', `post/${id}`);
 
 export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',

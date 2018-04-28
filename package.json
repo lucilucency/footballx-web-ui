@@ -52,6 +52,7 @@
     "react-facebook-login": "^4.0.1",
     "react-ga": "^2.4.1",
     "react-helmet": "^5.2.0",
+    "react-lifecycles-compat": "^3.0.2",
     "react-markdown": "^3.0.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
@@ -60,6 +61,7 @@
     "react-tooltip": "^3.4.0",
     "recharts": "^1.0.0-beta.2",
     "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
     "redux-responsive": "^4.3.5",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
@@ -81,7 +83,6 @@
     "eslint-plugin-react": "^7.4.0",
     "gh-pages": "^1.1.0",
     "react-snap": "^1.11.5",
-    "redux-logger": "^3.0.6",
     "simple-vdf": "^1.1.0"
   }
 }

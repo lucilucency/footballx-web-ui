@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import strings from '../../lang';
-import { getAnnouncement } from '../../actions';
+// import { getAnnouncement } from '../../actions';
 import constants from '../constants';
 
 const StyledDiv = styled.div`
@@ -104,7 +104,7 @@ Announce.propTypes = {
   link: PropTypes.string,
 };
 
-class RequestLayer extends React.Component {
+class AnnounceComponent extends React.Component {
   constructor() {
     super();
 
@@ -127,9 +127,9 @@ class RequestLayer extends React.Component {
     };
   }
 
-  UNSAFE_componentWillMount() {
-    // this.props.getPulls(this.getDate(5));
-  }
+  // UNSAFE_componentWillMount() {
+  //   this.props.getPulls(this.getDate(5));
+  // }
 
   render() {
     const { error, loading, data } = this.props;
@@ -147,7 +147,7 @@ class RequestLayer extends React.Component {
           return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />;
         }
 
-        return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />
+        return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />;
       }
     }
 
@@ -155,8 +155,8 @@ class RequestLayer extends React.Component {
   }
 }
 
-RequestLayer.propTypes = {
-  getPulls: PropTypes.func,
+AnnounceComponent.propTypes = {
+  // getPulls: PropTypes.func,
   error: PropTypes.string,
   loading: PropTypes.bool,
   data: PropTypes.oneOfType([
@@ -165,25 +165,23 @@ RequestLayer.propTypes = {
   ]),
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = () =>
   // const { error, loading, data } = state.app.announcement;
-
-  return {
+  ({
     error: false,
     loading: false,
     data: {
       // items: [{
       //   title: 'New version available',
-      //   body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque. Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.',
+      //   body: 'Lorem ipsum dolor sit amet',
       //   number: 2,
       //   html_url: '//google.com',
       // }]
     },
-  };
-};
+  });
 
-const mapDispatchToProps = dispatch => ({
+// const mapDispatchToProps = dispatch => ({
   // getPulls: repo => dispatch(getAnnouncement(repo)),
-});
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RequestLayer);
+export default connect(mapStateToProps, null)(AnnounceComponent);
