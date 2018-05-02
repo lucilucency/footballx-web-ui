@@ -10,7 +10,7 @@ import styled, { css } from 'styled-components';
 import { Route } from 'react-router-dom';
 import strings from '../../lang';
 import Announce from '../Announce';
-import Home from '../Home';
+// import Home from '../Home';
 import Posts from '../Posts';
 import Header from '../Header';
 // import Footer from '../Footer';
@@ -113,7 +113,7 @@ class App extends React.Component {
           }
           <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             { location.pathname !== '/' && <Announce /> }
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Posts} />
             <Route exact path="/home" component={Posts} />
             <Route exact path="/hot" component={Posts} />
             <Route exact path="/sign_in" component={Login} />
