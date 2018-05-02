@@ -1,6 +1,6 @@
 const initialFormState = {
   show: true,
-  width: 260,
+  width: 210,
 };
 
 export default (state = initialFormState, action) => {
@@ -8,7 +8,8 @@ export default (state = initialFormState, action) => {
     case 'TRAY':
       return {
         ...state,
-        show: !state.show,
+        show: action.state || !state.show,
+        width: action.width || initialFormState.width,
       };
     default:
       return state;

@@ -21,9 +21,9 @@ export const loginFb = accessToken => dispatchPost('metadata', 'xuser/auth', { a
 export const refresh = userID => dispatchGet('metadata', `xuser/${userID}/refesh`, { xuser_id: userID });
 
 // post
-export const getPosts = sortby => dispatchGet('posts', 'posts', { sortby });
+export const getPosts = sortby => dispatchGet('posts', 'posts', { sortby }, resp => resp.posts);
 export const getPostsFollowing = sortby => dispatchGet('posts', 'posts/following', { sortby });
-export const createPost = params => dispatchPost('ADD/posts', 'posts', params);
+export const createPost = params => dispatchPost('ADD/posts', 'post', params);
 export const editPost = (id, params) => dispatchPut('EDIT/post', `post/${id}`, params);
 export const deletePost = id => dispatchDelete('DELETE/post', `post/${id}`);
 

@@ -38,7 +38,9 @@ class CreateEditPostButton extends React.Component {
     this.setState({
       dialogConstruct: {
         // title: strings.heading_edit_team,
-        view: <CreateEditPost />,
+        view: <CreateEditPost
+          callback={this.handleCloseDialog}
+        />,
       },
     }, () => {
       this.handleOpenDialog();

@@ -10,7 +10,11 @@ export const toggleShowForm = (formName, state) => ({
   state,
 });
 
-export const toggleTray = state => ({
-  type: 'TRAY',
-  state,
-});
+export const toggleTray = (props = {}) => {
+  const { state, width } = props;
+  return ({
+    type: 'TRAY',
+    state,
+    width,
+  });
+};

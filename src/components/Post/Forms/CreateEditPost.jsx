@@ -311,7 +311,7 @@ class CreateEditPost extends React.Component {
         label={strings.form_general_close}
         key="cancel"
         primary
-        onClick={() => this.props.callback ? this.props.callback() : props.history.push('/hotspots')}
+        onClick={() => this.props.callback ? this.props.callback() : props.history.push('/home')}
       />,
       <FlatButton
         key="submit"

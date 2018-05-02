@@ -204,18 +204,19 @@ export function dispatchGet(type, path, params = {}, transform) {
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .set('Authorization', `Bearer ${accessToken}`)
         .query({}) // query string
-        .then((res, err) => {
-          if (!err) {
-            let dispatchData = res.body.data;
+        .then((res) => {
+          console.log(res);
+          if (res.statusCode === 200) {
+            let dispatchData = JSON.parse(res.text);
             if (transform) {
-              dispatchData = transform(res.body.data);
+              dispatchData = transform(dispatchData);
             }
             return dispatchAction(dispatchOK(dispatchData));
           }
           return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.body.message), delay);
         })
         .catch((err) => {
-          console.error(`Error in ${type}`);
+          console.error(`Error in dispatchGet/${type}`);
           if (err.message === 'Unauthorized') {
             localStorage.removeItem('access_token');
             localStorage.removeItem('user_id');

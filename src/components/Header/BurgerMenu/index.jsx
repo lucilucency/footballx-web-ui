@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-constructor */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -27,20 +28,20 @@ const StyledDrawer = styled(Drawer)`
 class BurgerMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { open: Boolean(props.greaterThanSmall) };
+
     this.handleToggle = this.handleToggle.bind(this);
   }
 
   componentDidMount() {
-    if (this.props.location.pathname === '/sign_in') {
-      this.props.toggleTray();
+    if (this.props.location.pathname === '/sign_in' || !this.props.greaterThanSmall) {
+      this.props.toggleTray({ state: false });
+    } else {
+      this.props.toggleTray({ state: true });
     }
   }
 
   handleToggle() {
-    this.setState({ open: !this.state.open }, () => {
-      this.props.toggleTray();
-    });
+    this.props.toggleTray();
   }
 
   render() {
@@ -204,7 +205,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleTray: () => dispatch(toggleTray()),
+  toggleTray: props => dispatch(toggleTray(props)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BurgerMenu);
