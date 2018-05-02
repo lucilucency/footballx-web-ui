@@ -11,7 +11,7 @@ import { Route } from 'react-router-dom';
 import strings from '../../lang';
 import Announce from '../Announce';
 import Home from '../Home';
-import Hot from '../Posts';
+import Posts from '../Posts';
 import Header from '../Header';
 // import Footer from '../Footer';
 import constants from '../constants';
@@ -114,7 +114,8 @@ class App extends React.Component {
           <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             { location.pathname !== '/' && <Announce /> }
             <Route exact path="/" component={Home} />
-            <Route exact path="/hot" component={Hot} />
+            <Route exact path="/home" component={Posts} />
+            <Route exact path="/hot" component={Posts} />
             <Route exact path="/sign_in" component={Login} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}

@@ -217,9 +217,9 @@ export function dispatchGet(type, path, params = {}, transform) {
         .catch((err) => {
           console.error(`Error in ${type}`);
           if (err.message === 'Unauthorized') {
-            // localStorage.removeItem('access_token');
-            // localStorage.removeItem('user_id');
-            // window.location.href = '/login';
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_id');
+            window.location.href = '/';
             return null;
           }
 

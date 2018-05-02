@@ -5,19 +5,20 @@ import { withRouter } from 'react-router-dom';
 import update from 'react-addons-update';
 import PropTypes from 'prop-types';
 import {
-  AutoComplete,
   Dialog,
   FlatButton,
   List,
   ListItem,
   TextField,
+  SelectField,
+  MenuItem,
 } from 'material-ui';
 import IconFail from 'material-ui/svg-icons/content/clear';
 import IconSuccess from 'material-ui/svg-icons/navigation/check';
 import CircularProgress from 'material-ui/CircularProgress';
 
 import strings from '../../../lang';
-import { bindAll, FormWrapper, Row, Col } from '../../../utils';
+import { bindAll, mergeObject, FormWrapper, Row, Col } from '../../../utils';
 import constants from '../../constants';
 import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn } from '../../../actions';
 import Error from '../../Error/index';
@@ -33,7 +34,7 @@ class CreateEditPost extends React.Component {
     callback: PropTypes.func,
 
     /* data source */
-    dsHotspotType: PropTypes.array,
+    dsPostType: PropTypes.array,
     /* function */
     defaultDeleteFunction: PropTypes.func,
   };
@@ -46,11 +47,18 @@ class CreateEditPost extends React.Component {
     loading: false,
   };
 
+  static defaulFormData = {
+    title: '',
+    content: '',
+    content_type: {
+      text: strings.enum_post_type_1,
+      value: 1,
+    },
+  };
+
   static initialState = ({
     formData: {
-      name: {},
-      short_name: {},
-      type: {},
+      ...CreateEditPost.defaulFormData,
     },
     payload: {},
     submitResults: {
@@ -78,21 +86,20 @@ class CreateEditPost extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.mode === 'edit') {
-      const type = () => {
-        const find = newProps.dsHotspotType.find(o => o.value === Number(newProps.hotspot.type));
-        return find && find.text;
+    if (newProps.mode === 'edit' && newProps.post && newProps.id) {
+      const getType = () => {
+        const find = newProps.dsPostType.find(o => o.value === Number(newProps.hotspot.type));
+        return find ? find.text : '';
       };
 
-      const data = newProps.post;
-
+      const { post } = newProps;
       this.setState({
-        formData: {
-          post_id: { value: data.id },
-          name: { value: data.name, text: data.name && data.name.toString() },
-          short_name: { value: data.short_name, text: data.short_name && data.short_name.toString() },
-          type: { value: data.type, text: type() },
-        },
+        formData: mergeObject(CreateEditPost.defaulFormData, {
+          post_id: { value: post.id },
+          title: post.title,
+          content: post.content,
+          content_type: { value: post.type, text: getType() },
+        }),
       });
     }
   }
@@ -101,17 +108,19 @@ class CreateEditPost extends React.Component {
     const { formData } = this.state;
 
     return {
-      name: formData.name.value,
-      short_name: formData.short_name.value,
-      type: formData.type.value || 1,
+      title: formData.title,
+      content: formData.content,
+      content_type: formData.content_type.value || 1,
     };
   }
 
-  clearState() {
+  clearFormData() {
     this.setState(CreateEditPost.initialState);
   }
 
-  submit() {
+  submit(e) {
+    e.preventDefault();
+
     const that = this;
 
     this.setState({
@@ -135,38 +144,22 @@ class CreateEditPost extends React.Component {
         });
         const submitData = this.getFormData();
         if (that.props.mode === 'edit') {
-          resolve(editFn(that.props.hotspot.id, submitData));
+          resolve(editFn(that.props.post.id, submitData));
         } else {
           resolve(createFn(submitData, this.state.payload));
         }
       });
 
-      // var p1 = Promise.resolve(3);
-      // var p2 = 1337;
-      // const p3 = new Promise((resolve, reject) => {
-      //   setTimeout(resolve, 10000, 'foo');
-      // });
-
       Promise.all([doSubmit]).then((results) => {
         const resultsReport = [];
         if (results[0].type.indexOf('OK') === 0) {
           resultsReport.push({
-            submitAction: that.props.mode === 'edit' ? 'Update hotspot successfully' : 'Create hotspot successfully',
+            submitAction: that.props.mode === 'edit' ? 'Update post successfully' : 'Create post successfully',
             submitting: false,
-          });
-
-          that.setState({
-            formData: update(that.state.formData, {
-              post_id: {
-                $set: {
-                  value: results[0].payload.id,
-                },
-              },
-            }),
           });
         } else {
           resultsReport.push({
-            submitAction: that.props.mode === 'edit' ? 'Update hotspot failed' : 'Create hotspot failed',
+            submitAction: that.props.mode === 'edit' ? 'Update post failed' : 'Create post failed',
             submitting: false,
             error: results[0].error,
           });
@@ -182,7 +175,7 @@ class CreateEditPost extends React.Component {
   }
 
   deleteHotspot() {
-    if (confirm('Are you sure you want to delete this hotspot?')) {
+    if (confirm('Are you sure you want to delete this post?')) {
       this.setState({
         submitResults: update(this.state.submitResults, {
           show: { $set: true },
@@ -206,12 +199,12 @@ class CreateEditPost extends React.Component {
           const resultsReport = [];
           if (results[0].type.indexOf('OK') === 0) {
             resultsReport.push({
-              submitAction: 'Delete hotspot successfully',
+              submitAction: 'Delete post successfully',
               submitting: false,
             });
           } else {
             resultsReport.push({
-              submitAction: 'Delete hotspot failed',
+              submitAction: 'Delete post failed',
               submitting: false,
               error: results[0].error,
             });
@@ -246,59 +239,53 @@ class CreateEditPost extends React.Component {
       loading,
     } = this.props;
 
-    const renderHotspotName = () => (<TextField
+    const renderTitleInput = () => (<TextField
+      key="title"
       type="text"
-      hintText={strings.tooltip_hotspot_name}
-      floatingLabelText={strings.tooltip_hotspot_name}
-      onChange={(e, value) => this.setState({
+      hintText={strings.hint_post_title}
+      floatingLabelText={strings.label_post_title}
+      onChange={e => this.setState({
         formData: update(this.state.formData, {
-          name: { $set: { value } },
+          title: { $set: e.target.value },
         }),
       })}
       fullWidth
-      value={this.state.formData.name && this.state.formData.name.value}
+      value={this.state.formData.title}
     />);
 
-    const renderHotspotShortName = () => (<TextField
+    const renderContentInput = () => (<TextField
+      key="content"
       type="text"
-      hintText={strings.tooltip_hotspot_short_name}
-      floatingLabelText={strings.tooltip_hotspot_short_name}
-      onChange={(e, value) => this.setState({
+      hintText={strings.hint_post_content}
+      // floatingLabelText={strings.label_post_content}
+      onChange={e => this.setState({
         formData: update(this.state.formData, {
-          short_name: { $set: { value } },
+          content: { $set: e.target.value },
         }),
       })}
+      multiLine
+      rows={4}
+      rowsMax={10}
       fullWidth
-      value={this.state.formData.short_name && this.state.formData.short_name.value}
+      value={this.state.formData.content && this.state.formData.content}
+      hintStyle={{ top: 12 }}
     />);
 
-    const renderHotspotType = () => (<AutoComplete
-      name="type"
-      hintText={strings.filter_hotspot_type}
-      floatingLabelText={strings.filter_hotspot_type}
-      searchText={this.state.formData.type.text}
-      value={this.state.formData.type.value}
-      dataSource={this.props.dsHotspotType}
-      onNewRequest={(o) => {
-        this.setState({
+    const renderContentTypeSelector = (
+      <SelectField
+        floatingLabelText={strings.filter_type}
+        value={this.state.formData.content_type.value}
+        onChange={(event, index, value) => this.setState({
           formData: update(this.state.formData, {
-            type: { $set: o },
+            content_type: { value: { $set: value } },
           }),
-        });
-      }}
-      onUpdateInput={(searchText) => {
-        this.setState({
-          formData: update(this.state.formData, {
-            type: { $set: { value: searchText } },
-          }),
-        });
-      }}
-      filter={AutoComplete.caseInsensitiveFilter}
-      openOnFocus
-      maxSearchResults={100}
-      fullWidth
-      listStyle={{ maxHeight: 300, overflow: 'auto' }}
-    />);
+        })}
+      >
+        {this.props.dsPostType.map((o, index) => (
+          <MenuItem key={index} value={o.value} primaryText={o.text} />
+        ))}
+      </SelectField>
+    );
 
     const actions = [
       null && (
@@ -307,7 +294,7 @@ class CreateEditPost extends React.Component {
           key="reset"
           label="Reset"
           secondary
-          onClick={this.clearState}
+          onClick={this.clearFormData}
           style={{ float: 'left' }}
         />
       ),
@@ -347,13 +334,13 @@ class CreateEditPost extends React.Component {
 
         <div>
           <Row>
-            {renderHotspotName()}
+            {renderTitleInput()}
           </Row>
           <Row>
-            <Col flex={6}>{renderHotspotShortName()}</Col>
+            <Col flex={6}>{renderContentInput()}</Col>
           </Row>
           <Row>
-            <Col flex={6}>{renderHotspotType()}</Col>
+            <Col flex={6}>{renderContentTypeSelector}</Col>
           </Row>
         </div>
 
@@ -369,7 +356,8 @@ class CreateEditPost extends React.Component {
             keyboardFocused
             onClick={() => {
               this.closeDialog();
-              return this.props.callback ? this.props.callback() : props.history.push(`/hotspot/${this.state.formData.post_id.value}`);
+              return this.props.callback && this.props.callback();
+                // props.history.push(`/hotspot/${this.state.formData.post_id.value}`);
             }}
           />}
           modal={false}
@@ -380,14 +368,11 @@ class CreateEditPost extends React.Component {
             {this.state.submitResults.data.map(r => (<ListItem
               key={r.submitAction}
               primaryText={r.submitAction}
-              leftIcon={() => {
-                if (r.submitting) {
-                  return (<CircularProgress size={24} />);
-                } else if (r.error) {
-                  return (<IconFail color={constants.colorRed} title={strings.form_general_fail} />);
-                }
-                return (<IconSuccess color={constants.colorSuccess} title={strings.form_general_success} />);
-              }}
+              // eslint-disable-next-line no-nested-ternary
+              leftIcon={r.submitting ? <CircularProgress size={24} /> :
+                r.error ? <IconFail color={constants.colorRed} title={strings.form_general_fail} /> :
+                <IconSuccess color={constants.colorSuccess} title={strings.form_general_success} />
+              }
               secondaryText={r.error && r.error}
               secondaryTextLines={1}
             />))}
@@ -400,14 +385,14 @@ class CreateEditPost extends React.Component {
 
 const mapStateToProps = () => ({
   currentQueryString: window.location.search,
-  dsHotspotType: [{
-    text: strings.enum_hotspot_type_1,
+  dsPostType: [{
+    text: strings.enum_post_type_1,
     value: 1,
   }, {
-    text: strings.enum_hotspot_type_2,
+    text: strings.enum_post_type_2,
     value: 2,
   }, {
-    text: strings.enum_hotspot_type_3,
+    text: strings.enum_post_type_3,
     value: 3,
   }],
 });

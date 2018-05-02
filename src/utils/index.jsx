@@ -65,6 +65,31 @@ export const jsonFn = json =>
 
 export const getPercentWin = (wins, games) => (games ? Number(((wins * 100) / games).toFixed(2)) : 0);
 
+export function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
+}
+
+/**
+ * Deep merge two objects.
+ * @param target
+ * @param source
+ */
+export function mergeObject(target, source) {
+  if (isObject(target) && isObject(source)) {
+    Object.keys(source).forEach(key => {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeObject(target[key], source[key]);
+      } else {
+        if (source[key]) {
+          Object.assign(target, { [key]: source[key] });
+        }
+      }
+    });
+  }
+  return target;
+}
+
 export const camelToSnake = str =>
   str.replace(/\.?([A-Z]+)/g, (match, group) => `_${group.toLowerCase()}`).replace(/^_/, '');
 

@@ -11,7 +11,7 @@ import IconDown from 'material-ui/svg-icons/action/thumb-down';
 import strings from '../../../lang';
 import { toDateTimeString, bindAll, renderDialog } from '../../../utils';
 import constants from '../../constants';
-import ViewPostFull from './CreateEditPost';
+import ViewPostFull from './ViewPostFull';
 
 const ActiveLink = styled(Link)`
   :hover {

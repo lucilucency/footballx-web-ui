@@ -139,19 +139,19 @@ class ViewPostFull extends React.Component {
         <form onSubmit={this.doComment}>
           <TextField
             type="text"
-            hintText={strings.tooltip_team_name}
-            floatingLabelText={strings.tooltip_team_name}
+            hintText={strings.hint_comment}
             onChange={(e, value) => this.setState({
               formData: update(this.state.formData, {
                 comment: { $set: value },
               }),
             })}
             value={this.state.formData.comment}
+            fullWidth
           />
           <FlatButton
             key="submit"
             type="submit"
-            label={strings.form_general_submit}
+            label={strings.label_send}
             primary
           />
         </form>

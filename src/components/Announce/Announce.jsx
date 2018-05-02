@@ -168,7 +168,7 @@ AnnounceComponent.propTypes = {
 const mapStateToProps = () =>
   // const { error, loading, data } = state.app.announcement;
   ({
-    error: false,
+    error: null,
     loading: false,
     data: {
       // items: [{

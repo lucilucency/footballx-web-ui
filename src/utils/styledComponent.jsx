@@ -55,3 +55,27 @@ export const FormWrapper = styled(ValidatorForm)`
    `)}
   }
 `;
+
+export const FormDivWrapper = styled.div`
+  margin-top: 20px;
+  transition: max-height 1s;
+  box-sizing: border-box;
+  ${props => ((props['data-display']) ? css`
+      max-height: 10000px;
+  ` : css`
+      max-height: 0;
+  `)}
+
+  ${props => (props['data-toggle'] && css`
+    overflow: hidden;
+    padding: 0 15px;
+ `)}
+
+  .actions {
+    text-align: right;
+    ${props => (props['data-popup'] && css`
+      margin: 24px -24px -24px -24px;
+      padding: 8px;
+   `)}
+  }
+`;

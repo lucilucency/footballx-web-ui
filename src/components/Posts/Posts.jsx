@@ -5,13 +5,14 @@ import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import Paper from 'material-ui/Paper';
 
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
-import NearbyIcon from 'material-ui/svg-icons/communication/location-on';
-import RecentsIcon from 'material-ui/svg-icons/action/restore';
-import FavoritesIcon from 'material-ui/svg-icons/action/favorite';
+// import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
+// import NearbyIcon from 'material-ui/svg-icons/communication/location-on';
+// import RecentsIcon from 'material-ui/svg-icons/action/restore';
+// import FavoritesIcon from 'material-ui/svg-icons/action/favorite';
+
 import { getPosts } from '../../actions';
 // import constants from '../constants';
-import ViewPostCompact from '../Post/Forms/ViewPostCompact';
+import { ViewPostCompact, CreatePostButton } from '../Post/Forms';
 
 const Container = styled.div`
   display: grid;
@@ -37,24 +38,33 @@ const PostsGrid = styled.div`
 `;
 
 const RightTray = styled.div`
-  display: grid;
-  grid-gap: 1em;
-  grid-template-rows: 100px 100px 100px;
+  //display: grid;
+  //grid-gap: 1em;
+  //grid-template-rows: 200px 200px 200px;
+  
+  
   
   > div {
-     text-align: center;
+    margin-bottom: 1em;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    padding-top: 75%;
+  }
+  
+  > div > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    font-size: 20px;
+    color: white;
   }
 `;
 
 class HotPage extends React.Component {
-  state = {
-    selectedIndex: 0,
-  };
-
-  select(index) {
-    this.setState({ selectedIndex: index });
-  }
-
   componentDidMount() {
     this.props.dispatchPosts('hot');
     this.columnCount = 1;
@@ -70,31 +80,16 @@ class HotPage extends React.Component {
           </PostsGrid>
           <RightTray>
             <div>
-              <Paper zDepth={1}>
-                <BottomNavigation selectedIndex={this.state.selectedIndex}>
-                  <BottomNavigationItem
-                    label="Recents"
-                    icon={<RecentsIcon />}
-                    onClick={() => this.select(0)}
-                  />
-                  <BottomNavigationItem
-                    label="Favorites"
-                    icon={<FavoritesIcon />}
-                    onClick={() => this.select(1)}
-                  />
-                  <BottomNavigationItem
-                    label="Nearby"
-                    icon={<NearbyIcon />}
-                    onClick={() => this.select(2)}
-                  />
-                </BottomNavigation>
+              <Paper>
+                Recommends
+                <CreatePostButton />
               </Paper>
             </div>
             <div>
-              Ads
+              <Paper>Ads</Paper>
             </div>
             <div>
-              Trending communities
+              <Paper>Trending communities</Paper>
             </div>
           </RightTray>
         </Container>

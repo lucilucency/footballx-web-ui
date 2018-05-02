@@ -157,13 +157,13 @@ export default () => (
           <SocialLinks />
           <div className="mobile">
             <a
-              href=""
+              href="//ttab.me"
               style={{ position: 'relative', left: '13px', top: '12px' }}
             >
               <img src="/assets/images/google_play_store.png" alt="" height="46px" />
             </a>
             <a
-              href=""
+              href="//ttab.me"
               style={{ position: 'relative', left: '20px', top: '5px' }}
             >
               <img src="/assets/images/apple_app_store.png" alt="" height="31px" />
