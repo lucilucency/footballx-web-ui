@@ -15,7 +15,7 @@ const Home = () => (
       <DescriptionDiv>
         {strings.app_description}
       </DescriptionDiv>
-      {/*<Buttons />*/}
+      {/* <Buttons /> */}
     </HeadContainerDiv>
     {/* <Why /> */}
     {/* <Sponsors /> */}

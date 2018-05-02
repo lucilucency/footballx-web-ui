@@ -205,7 +205,6 @@ export function dispatchGet(type, path, params = {}, transform) {
         .set('Authorization', `Bearer ${accessToken}`)
         .query({}) // query string
         .then((res) => {
-          console.log(res);
           if (res.statusCode === 200) {
             let dispatchData = JSON.parse(res.text);
             if (transform) {
