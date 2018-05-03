@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import strings from '../../lang';
 import Spinner from '../Spinner';
 import Error from '../Error';
 import LoggedInUser from './LoggedInUser';
 
-const IconButtonLink = styled.a`
+const IconButtonLink = styled(Link)`
   padding: 0 !important;
   height: auto !important;
   width: auto !important;
@@ -44,7 +45,7 @@ const AccountWidget = ({
     {!error && !loading && user
       ? <LoggedInUser style={style} user={user} />
       :
-      <IconButtonLink href="/sign_in">
+      <IconButtonLink to="/sign_in">
         {strings.app_login}
       </IconButtonLink>
     }
