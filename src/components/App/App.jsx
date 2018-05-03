@@ -63,8 +63,8 @@ const StyledBodyDiv = styled.div`
     padding-left: ${props.trayWidth + 25}px;
   `};
   
-  @media only screen and (min-width: 1200px) {
-    width: 1200px;
+  @media only screen and (min-width: 900px) {
+    width: 900px;
     margin-left: auto;
     margin-right: auto;
   }

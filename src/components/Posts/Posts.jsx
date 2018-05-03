@@ -11,7 +11,7 @@ import Paper from 'material-ui/Paper';
 // import FavoritesIcon from 'material-ui/svg-icons/action/favorite';
 
 import { getPosts } from '../../actions';
-// import constants from '../constants';
+import constants from '../constants';
 import { ViewPostCompact, CreatePostButton } from '../Post/Forms';
 
 const Container = styled.div`
@@ -53,6 +53,7 @@ const RightTray = styled.div`
 
 const Paper2 = styled(Paper)`
   display: grid;
+  font-size: ${constants.fontSizeSmall};
   
   position: absolute;
   top: 0;

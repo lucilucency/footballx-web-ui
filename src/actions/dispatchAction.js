@@ -1,94 +1,12 @@
 /* eslint-disable no-restricted-syntax,guard-for-in */
-import fetch from 'isomorphic-fetch';
 import queryString from 'querystring';
 import update from 'react-addons-update';
 
 const request = require('superagent');
-const FormData = require('form-data');
 const FormUrlEncoded = require('form-urlencoded');
 
 const FX_API = process.env.REACT_APP_API_HOST;
 const FX_VERSION = process.env.REACT_APP_VERSION;
-
-export function action(type, host, path, params = {}, transform) {
-  return (dispatchAction) => {
-    const url = `${host}/${path}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
-    const dispatchStart = () => ({
-      type: `REQUEST/${type}`,
-    });
-    const dispatchOK = payload => ({
-      type: `OK/${type}`,
-      payload,
-    });
-    const dispatchFail = error => ({
-      type: `FAIL/${type}`,
-      error,
-    });
-
-    const fetchDataWithRetry = (delay, tries, error) => {
-      if (tries < 1) {
-        return dispatchAction(dispatchFail(error));
-      }
-      return fetch(url, path === 'api/metadata' ? { credentials: 'include' } : {})
-        .then(response => response.json())
-        .then(transform || (json => json))
-        .then(json => dispatchAction(dispatchOK(json)))
-        .catch((err) => {
-          console.error(err);
-          setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
-        });
-    };
-
-    dispatchAction(dispatchStart());
-    return fetchDataWithRetry(1000, 1);
-  };
-}
-
-export function dispatchAuth(type = 'auth', path, params = {}, transform) {
-  const host = FX_API;
-  const v = FX_VERSION;
-
-  return (dispatchAction) => {
-    const url = `${host}/${v}/${path}?${typeof params === 'string' ? params.substring(1) : ''}`;
-
-    const dispatchStart = () => ({
-      type: `REQUEST/${type}`,
-    });
-    const dispatchOK = payload => ({
-      type: `OK/${type}`,
-      payload,
-    });
-    const dispatchFail = error => ({
-      type: `FAIL/${type}`,
-      error,
-    });
-
-    const options = { method: 'POST' };
-
-    const form = new FormData();
-
-    for (const key in params) {
-      form.append(key, params[key]);
-    }
-    options.body = form;
-
-    const fetchDataWithRetry = (delay, tries, error) => {
-      if (tries < 1) {
-        return dispatchAction(dispatchFail(error));
-      }
-      return fetch(url, options)
-        .then(response => response.json())
-        .then(transform || (json => json))
-        .then(json => dispatchAction(dispatchOK(json)))
-        .catch((err) => {
-          setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
-        });
-    };
-
-    dispatchAction(dispatchStart());
-    return fetchDataWithRetry(1000, 1);
-  };
-}
 
 export function dispatchPost(type, path, params = {}, transform, payload) {
   const host = FX_API;
@@ -127,10 +45,12 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
         .set('Content-Type', options.contentType)
         .set('Authorization', `Bearer ${accessToken}`)
         .query({}) // query string
-        .then((res, err) => {
-          if (!err) {
-            let dispatchData = res.body.data;
-            dispatchData = transform ? transform(res.body.data) : dispatchData;
+        .then((res) => {
+          if (res.statusCode === 200) {
+            let dispatchData = JSON.parse(res.text);
+            if (transform) {
+              dispatchData = transform(dispatchData);
+            }
             if (payload) {
               if (Array.isArray(payload)) {
                 dispatchData = payload;
@@ -143,11 +63,10 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
 
             return dispatchAction(dispatchOK(dispatchData));
           }
-          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
+          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.error), delay);
         })
         .catch((err) => {
-          console.error(`Error in ${type}`);
-          console.error(err);
+          console.error(`Error in dispatchPost/${type}`);
           if (err.message === 'Unauthorized') {
             localStorage.removeItem('access_token');
             localStorage.removeItem('user_id');
@@ -155,7 +74,7 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
             return null;
           }
 
-          return dispatchAction(dispatchFail(err.response ? err.response.body.message : err));
+          return dispatchAction(dispatchFail(err.message));
         });
     };
 
@@ -269,20 +188,20 @@ export function dispatchPut(type, path, params = {}, transform) {
         .send(options.body)
         .set('Content-Type', options.contentType)
         .set('Authorization', `Bearer ${accessToken}`)
-        .then((res, err) => {
-          if (!err) {
-            let dispatchData = res.body.data;
+        .then((res) => {
+          if (res.statusCode === 200) {
+            let dispatchData = JSON.parse(res.text);
             if (transform) {
-              dispatchData = transform(res.body.data);
+              dispatchData = transform(dispatchData);
             }
+
             return dispatchAction(dispatchOK(dispatchData));
           }
-          // return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.body.message), delay);
-          return dispatchAction(dispatchFail(res.body.message));
+          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.error), delay);
         })
         .catch((err) => {
-          console.error(`Error in ${type}`);
-          return dispatchAction(dispatchFail(err.response.body.message));
+          console.error(`Error in dispatchPut/${type}`);
+          return dispatchAction(dispatchFail(err.message));
         });
     };
 
