@@ -49,7 +49,12 @@ export function pad(n, width, z = '0') {
 }
 
 export function fromNow(time) {
-  const diff = (new Date() - new Date(time * 1000)) / 1000;
+  let diff;
+  if (isNaN(time)) {
+    diff = (new Date() - new Date(time)) / 1000;
+  } else {
+    diff = (new Date() - new Date(time * 1000)) / 1000;
+  }
 
   if (diff > 0) {
     if (diff < 5) {

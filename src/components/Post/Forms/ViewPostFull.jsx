@@ -7,10 +7,11 @@ import update from 'react-addons-update';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, TextField, FlatButton, IconButton } from 'material-ui';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
-// import { IconShare } from '../Icons';
+import { getPostComments } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString } from '../../../utils';
 import constants from '../../constants';
+import ViewPostComments from './ViewPostComments';
 
 const ActiveLink = styled(Link)`
   :hover {
@@ -50,12 +51,12 @@ class ViewPostFull extends React.Component {
   }
 
   componentDidMount() {
-
+    this.props.getPostComments(this.props.data.id, 'hot');
   }
 
   doComment(e) {
     e.preventDefault();
-    console.warn('do comment', this.state.formData);
+    console.log('do comment', this.state.formData);
   }
 
   render() {
@@ -136,6 +137,7 @@ class ViewPostFull extends React.Component {
             </div>
           </CardActions>
         </Card>
+        <ViewPostComments comments={this.props.comments} />
         <form onSubmit={this.doComment}>
           <TextField
             type="text"
@@ -162,14 +164,17 @@ class ViewPostFull extends React.Component {
 
 ViewPostFull.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  getPostComments: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   browser: state.browser,
+  comments: state.app.comments.data,
 });
 
-// const mapDispatchToProps = dispatch => ({
-// });
+const mapDispatchToProps = dispatch => ({
+  getPostComments: (postID, sortby) => dispatch(getPostComments(postID, sortby)),
+});
 
-export default connect(mapStateToProps, null)(ViewPostFull);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewPostFull);
 

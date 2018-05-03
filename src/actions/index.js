@@ -1,4 +1,7 @@
 import { dispatchPost, dispatchGet, dispatchPut, dispatchDelete } from './dispatchAction';
+import {
+  parseCommentsInPost,
+} from './parser';
 
 export const getMetadata = (params = {}) => (dispatch) => {
   const getDataStart = payload => ({
@@ -26,6 +29,7 @@ export const getPostsFollowing = sortby => dispatchGet('posts', 'posts/following
 export const createPost = params => dispatchPost('ADD/posts', 'post', params);
 export const editPost = (id, params) => dispatchPut('EDIT/post', `post/${id}`, params);
 export const deletePost = id => dispatchDelete('DELETE/post', `post/${id}`);
+export const getPostComments = (postID, sortby) => dispatchGet('comments', `post/${postID}/comments`, { sortby }, parseCommentsInPost);
 
 export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',

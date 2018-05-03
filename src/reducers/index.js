@@ -10,6 +10,7 @@ export default combineReducers({
   announcement: reducer('announcement'),
 
   posts: reducer('posts'),
+  comments: reducer('comments'),
 
   form,
   tray,

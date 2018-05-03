@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { ValidatorForm } from './FormValidator';
 import constants from '../components/constants';
@@ -77,5 +78,19 @@ export const FormDivWrapper = styled.div`
       margin: 24px -24px -24px -24px;
       padding: 8px;
    `)}
+  }
+`;
+
+export const ActiveLink = styled(Link)`
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+export const MutedLink = styled(Link)`
+  color: ${constants.colorMutedLight};
+  
+  :hover {
+    text-decoration: underline;
   }
 `;

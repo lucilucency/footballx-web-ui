@@ -9,23 +9,9 @@ import IconButton from 'material-ui/IconButton';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
 import strings from '../../../lang';
-import { toDateTimeString, bindAll, renderDialog } from '../../../utils';
+import { toDateTimeString, bindAll, renderDialog, ActiveLink, MutedLink } from '../../../utils';
 import constants from '../../constants';
 import ViewPostFull from './ViewPostFull';
-
-const ActiveLink = styled(Link)`
-  :hover {
-    text-decoration: underline;
-  }
-`;
-
-const MutedLink = styled(Link)`
-  color: ${constants.colorMutedLight};
-  
-  :hover {
-    text-decoration: underline;
-  }
-`;
 
 const LinkCoverStyled = styled.span`
   color: ${constants.colorMutedLight};

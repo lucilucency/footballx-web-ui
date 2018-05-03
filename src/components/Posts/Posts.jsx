@@ -17,7 +17,7 @@ import { ViewPostCompact, CreatePostButton } from '../Post/Forms';
 const Container = styled.div`
   display: grid;
   grid-gap: 2em;
-  ${props => (props.browser.greaterThan.medium ? css`
+  ${props => (props.browser.greaterThan.small ? css`
     grid-template-columns: 2fr 1fr;  
   ` : css`
     grid-template-columns: 1fr;
