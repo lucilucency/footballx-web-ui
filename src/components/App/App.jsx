@@ -38,7 +38,10 @@ const muiTheme = {
     textColor: constants.theme().textColorPrimary,
     selectedTextColor: constants.theme().textColorPrimary,
   },
-  button: { height: 38 },
+  button: {
+    height: 38,
+    textTransform: 'capitalize',
+  },
 };
 
 const StyledDiv = styled.div`

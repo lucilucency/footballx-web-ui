@@ -122,7 +122,7 @@ class ViewPostCompact extends React.Component {
           <div style={{ display: 'flex', flexDirection: 'row', marginRight: 5 }}>
             <FlatButton
               target="_blank"
-              label="Comment"
+              label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
               // icon={<IconShare color={constants.grey300} hoverColor={constants.blueA100} style={{}} />}
               style={{
                 marginTop: 6,

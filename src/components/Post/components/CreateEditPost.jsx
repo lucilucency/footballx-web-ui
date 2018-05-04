@@ -14,9 +14,8 @@ import {
   BottomNavigation,
   BottomNavigationItem,
 } from 'material-ui';
-import IconFail from 'material-ui/svg-icons/content/clear';
-import IconSuccess from 'material-ui/svg-icons/navigation/check';
-import CircularProgress from 'material-ui/CircularProgress';
+
+import { IconFail, IconSuccess, IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 
 import strings from '../../../lang';
 import { bindAll, mergeObject, FormWrapper, Row, TextValidator } from '../../../utils';
@@ -243,8 +242,12 @@ class CreateEditPost extends React.Component {
     });
   }
 
-  select(type) {
-    this.setState({ type });
+  updateFormDataContentType(type) {
+    this.setState({
+      formData: update(this.state.formData, {
+        content_type: { value: { $set: type } },
+      }),
+    });
   }
 
   renderTitleInput = () => (<TextValidator
@@ -279,8 +282,8 @@ class CreateEditPost extends React.Component {
     fullWidth
     value={this.state.formData.content && this.state.formData.content}
     hintStyle={{ top: 12 }}
-    validators={['required']}
-    errorMessages={[strings.validate_is_required]}
+    // validators={['required']}
+    // errorMessages={[strings.validate_is_required]}
   />);
 
   render() {
@@ -293,22 +296,22 @@ class CreateEditPost extends React.Component {
       loading,
     } = this.props;
 
-    const renderContentTypeSelector = (
-      <SelectField
-        floatingLabelText={strings.filter_type}
-        value={this.state.formData.content_type.value}
-        onChange={(event, index, value) => this.setState({
-          formData: update(this.state.formData, {
-            content_type: { value: { $set: value } },
-          }),
-        })}
-        fullwidth
-      >
-        {this.props.dsPostType.map((o, index) => (
-          <MenuItem key={index} value={o.value} primaryText={o.text} />
-        ))}
-      </SelectField>
-    );
+    // const renderContentTypeSelector = (
+    //   <SelectField
+    //     floatingLabelText={strings.filter_type}
+    //     value={this.state.formData.content_type.value}
+    //     onChange={(event, index, value) => this.setState({
+    //       formData: update(this.state.formData, {
+    //         content_type: { value: { $set: value } },
+    //       }),
+    //     })}
+    //     fullwidth
+    //   >
+    //     {this.props.dsPostType.map((o, index) => (
+    //       <MenuItem key={index} value={o.value} primaryText={o.text} />
+    //     ))}
+    //   </SelectField>
+    // );
 
     const actions = [
       mode === 'edit' && (
@@ -323,7 +326,7 @@ class CreateEditPost extends React.Component {
       <FlatButton
         label={strings.form_general_close}
         key="cancel"
-        primary
+        secondary
         onClick={() => this.props.callback ? this.props.callback() : props.history.push('/home')}
       />,
       <FlatButton
@@ -345,34 +348,25 @@ class CreateEditPost extends React.Component {
         {loading && <Spinner />}
         {this.state.error && <Error text={this.state.error} />}
 
-        <BottomNavigation selectedIndex={this.state.formData.content_type}>
+        <BottomNavigation selectedIndex={this.state.formData.content_type.value - 1}>
           <BottomNavigationItem
             label="Text"
-            icon={<IconFail />}
-            onClick={() => this.select(1)}
+            icon={<IconText />}
+            onClick={() => this.updateFormDataContentType(1)}
           />
           <BottomNavigationItem
             label="Image"
-            icon={<IconSuccess />}
-            onClick={() => this.select(2)}
+            icon={<IconImage />}
+            onClick={() => this.updateFormDataContentType(2)}
           />
           <BottomNavigationItem
             label="Link"
-            icon={<CircularProgress />}
-            onClick={() => this.select(3)}
+            icon={<IconLink />}
+            onClick={() => this.updateFormDataContentType(3)}
           />
         </BottomNavigation>
 
         <div>
-          <Row>
-            {this.renderTitleInput()}
-          </Row>
-          <Row>
-            {this.renderContentInput()}
-          </Row>
-          <Row>
-            {renderContentTypeSelector}
-          </Row>
           <CommunitySelector
             errorText={this.state.formData.communities.error}
             onSelect={(values) => {
@@ -385,6 +379,12 @@ class CreateEditPost extends React.Component {
               });
             }}
           />
+          <Row>
+            {this.renderTitleInput()}
+          </Row>
+          <Row>
+            {this.state.formData.content_type.value === 1 && this.renderContentInput()}
+          </Row>
         </div>
 
         <div className="actions">
@@ -412,7 +412,7 @@ class CreateEditPost extends React.Component {
               key={r.submitAction}
               primaryText={r.submitAction}
               // eslint-disable-next-line no-nested-ternary
-              leftIcon={r.submitting ? <CircularProgress size={24} /> :
+              leftIcon={r.submitting ? <IconProgress size={24} /> :
                 r.error ? <IconFail color={constants.colorRed} title={strings.form_general_fail} /> :
                 <IconSuccess color={constants.colorSuccess} title={strings.form_general_success} />
               }
