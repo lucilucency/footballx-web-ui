@@ -1,6 +1,7 @@
 import { dispatchPost, dispatchGet, dispatchPut, dispatchDelete } from './dispatchAction';
 import {
   parseCommentsInPost,
+  parseCommentAfterReply,
 } from './parser';
 
 export const getMetadata = (params = {}) => (dispatch) => {
@@ -23,6 +24,9 @@ export const getMetadata = (params = {}) => (dispatch) => {
 export const loginFb = accessToken => dispatchPost('metadata', 'xuser/auth', { access_token: accessToken });
 export const refresh = userID => dispatchGet('metadata', `xuser/${userID}/refesh`, { xuser_id: userID });
 
+// communities
+export const getSuggestedCommunities = () => dispatchGet('communities/suggestion', 'communities/suggestion');
+
 // post
 export const getPosts = sortby => dispatchGet('posts', 'posts', { sortby }, resp => resp.posts);
 export const getPostsFollowing = sortby => dispatchGet('posts', 'posts/following', { sortby });
@@ -30,6 +34,7 @@ export const createPost = params => dispatchPost('ADD/posts', 'post', params);
 export const editPost = (id, params) => dispatchPut('EDIT/post', `post/${id}`, params);
 export const deletePost = id => dispatchDelete('DELETE/post', `post/${id}`);
 export const getPostComments = (postID, sortby) => dispatchGet('comments', `post/${postID}/comments`, { sortby }, parseCommentsInPost);
+export const createComment = ({ post_id, submit_data, payload }) => dispatchPost('ADD/comments', `post/${post_id}/comment`, submit_data, parseCommentAfterReply, payload);
 
 export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',

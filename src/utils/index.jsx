@@ -9,6 +9,7 @@ export * from './sort';
 export * from './styledComponent';
 export * from './misc';
 export * from './FormValidator';
+export * from './BigSelector';
 
 export function toNumber(input) {
   return Number(input);

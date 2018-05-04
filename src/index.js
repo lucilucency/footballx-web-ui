@@ -158,7 +158,7 @@ li {
 const userID = localStorage.getItem('user_id');
 if (userID) store.dispatch(refresh(userID));
 
-ReactGA.initialize('UA-117980702-1');
+ReactGA.initialize('UA-108354448-2');
 ReactGA.pageview(window.location.pathname + window.location.search);
 const history = createHistory();
 history.listen((location) => {

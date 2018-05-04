@@ -2,3 +2,4 @@ node_modules
 build
 src/utils/FormValidator
 src/utils/ValidatorCore
+src/utils/BigSelector

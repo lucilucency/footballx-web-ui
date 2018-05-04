@@ -34,7 +34,7 @@ export const Ul = styled.ul`
 `;
 
 export const FormWrapper = styled(ValidatorForm)`
-  margin-top: 20px;
+  //margin-top: 20px;
   transition: max-height 1s;
   box-sizing: border-box;
   ${props => ((props['data-display']) ? css`

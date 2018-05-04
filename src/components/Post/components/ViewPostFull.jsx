@@ -1,10 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import update from 'react-addons-update';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, TextField, FlatButton, IconButton } from 'material-ui';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, FlatButton, IconButton } from 'material-ui';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
 import { getPostComments } from '../../../actions';
@@ -12,6 +12,7 @@ import strings from '../../../lang';
 import { toDateTimeString } from '../../../utils';
 import constants from '../../constants';
 import ViewPostComments from './ViewPostComments';
+import CreateComment from './CreateEditComment';
 
 const ActiveLink = styled(Link)`
   :hover {
@@ -46,17 +47,12 @@ class ViewPostFull extends React.Component {
     this.state = {
       ...ViewPostFull.initialState,
     };
-
-    this.doComment = this.doComment.bind(this);
   }
 
   componentDidMount() {
-    this.props.getPostComments(this.props.data.id, 'hot');
-  }
-
-  doComment(e) {
-    e.preventDefault();
-    console.log('do comment', this.state.formData);
+    this.props.getPostComments(this.props.data.id, 'hot').then(() => {
+      setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
+    });
   }
 
   render() {
@@ -137,33 +133,19 @@ class ViewPostFull extends React.Component {
             </div>
           </CardActions>
         </Card>
+        <CreateComment postID={this.props.data.id} />
         <ViewPostComments comments={this.props.comments} />
-        <form onSubmit={this.doComment}>
-          <TextField
-            type="text"
-            hintText={strings.hint_comment}
-            onChange={(e, value) => this.setState({
-              formData: update(this.state.formData, {
-                comment: { $set: value },
-              }),
-            })}
-            value={this.state.formData.comment}
-            fullWidth
-          />
-          <FlatButton
-            key="submit"
-            type="submit"
-            label={strings.label_send}
-            primary
-          />
-        </form>
       </div>
     );
   }
 }
 
 ViewPostFull.propTypes = {
-  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  /* data */
+  data: PropTypes.object.isRequired,
+  comments: PropTypes.array,
+
+  /* function */
   getPostComments: PropTypes.func,
 };
 

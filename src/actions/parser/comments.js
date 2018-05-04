@@ -12,3 +12,6 @@ export const parseCommentsInPost = (data) => {
   });
 };
 
+export const parseCommentAfterReply = (data) => {
+  return data.post;
+};

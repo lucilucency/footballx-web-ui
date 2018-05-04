@@ -9,20 +9,22 @@ import {
   FlatButton,
   List,
   ListItem,
-  TextField,
   SelectField,
   MenuItem,
+  BottomNavigation,
+  BottomNavigationItem,
 } from 'material-ui';
 import IconFail from 'material-ui/svg-icons/content/clear';
 import IconSuccess from 'material-ui/svg-icons/navigation/check';
 import CircularProgress from 'material-ui/CircularProgress';
 
 import strings from '../../../lang';
-import { bindAll, mergeObject, FormWrapper, Row, Col } from '../../../utils';
+import { bindAll, mergeObject, FormWrapper, Row, TextValidator } from '../../../utils';
 import constants from '../../constants';
 import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
+import CommunitySelector from './CommunitySelector';
 
 class CreateEditPost extends React.Component {
   static propTypes = {
@@ -47,18 +49,20 @@ class CreateEditPost extends React.Component {
     loading: false,
   };
 
-  static defaulFormData = {
+  static defaultFormData = {
     title: '',
     content: '',
     content_type: {
       text: strings.enum_post_type_1,
       value: 1,
     },
+    communities: {},
   };
 
   static initialState = ({
+    type: 'text',
     formData: {
-      ...CreateEditPost.defaulFormData,
+      ...CreateEditPost.defaultFormData,
     },
     payload: {},
     submitResults: {
@@ -76,7 +80,7 @@ class CreateEditPost extends React.Component {
     bindAll([
       'getFormData',
       'submit',
-      'deleteHotspot',
+      'deletePost',
       'closeDialog',
     ], this);
   }
@@ -94,7 +98,7 @@ class CreateEditPost extends React.Component {
 
       const { post } = newProps;
       this.setState({
-        formData: mergeObject(CreateEditPost.defaulFormData, {
+        formData: mergeObject(CreateEditPost.defaultFormData, {
           post_id: { value: post.id },
           title: post.title,
           content: post.content,
@@ -107,74 +111,84 @@ class CreateEditPost extends React.Component {
   getFormData() {
     const { formData } = this.state;
 
+    if (!formData.communities.value || !formData.communities.value[0]) {
+      this.setState({
+        formData: update(this.state.formData, {
+          communities: {
+            error: { $set: strings.validate_is_required },
+          },
+        }),
+      });
+      return null;
+    }
+
     return {
       title: formData.title,
       content: formData.content,
       content_type: formData.content_type.value || 1,
+      community_id: formData.communities.value[0].community_id,
     };
-  }
-
-  clearFormData() {
-    this.setState(CreateEditPost.initialState);
   }
 
   submit(e) {
     e.preventDefault();
-
     const that = this;
+    const { mode } = this.props;
+    const submitData = this.getFormData();
+    if (submitData) {
+      this.setState({
+        submitResults: update(that.state.submitResults, {
+          show: { $set: true },
+        }),
+      }, () => {
+        const createFn = that.props.dispatch ? that.props.dispatch : that.props.defaultCreateFunction;
+        const editFn = that.props.dispatch ? that.props.dispatch : that.props.defaultEditFunction;
 
-    this.setState({
-      submitResults: update(that.state.submitResults, {
-        show: { $set: true },
-      }),
-    }, () => {
-      const createFn = that.props.dispatch ? that.props.dispatch : that.props.defaultCreateFunction;
-      const editFn = that.props.dispatch ? that.props.dispatch : that.props.defaultEditFunction;
-
-      const doSubmit = new Promise((resolve) => {
-        that.setState({
-          submitResults: update(that.state.submitResults, {
-            data: {
-              $push: [{
-                submitAction: that.props.mode === 'edit' ? 'Updating hotspot' : 'Creating hotspot',
-                submitting: true,
-              }],
-            },
-          }),
-        });
-        const submitData = this.getFormData();
-        if (that.props.mode === 'edit') {
-          resolve(editFn(that.props.post.id, submitData));
-        } else {
-          resolve(createFn(submitData, this.state.payload));
-        }
-      });
-
-      Promise.all([doSubmit]).then((results) => {
-        const resultsReport = [];
-        if (results[0].type.indexOf('OK') === 0) {
-          resultsReport.push({
-            submitAction: that.props.mode === 'edit' ? 'Update post successfully' : 'Create post successfully',
-            submitting: false,
+        const doSubmit = new Promise((resolve) => {
+          that.setState({
+            submitResults: update(that.state.submitResults, {
+              data: {
+                $push: [{
+                  submitAction: mode === 'edit' ? 'Updating post' : 'Creating post',
+                  submitting: true,
+                }],
+              },
+            }),
           });
-        } else {
-          resultsReport.push({
-            submitAction: that.props.mode === 'edit' ? 'Update post failed' : 'Create post failed',
-            submitting: false,
-            error: results[0].error,
-          });
-        }
 
-        that.setState({
-          submitResults: update(that.state.submitResults, {
-            data: { $set: resultsReport },
-          }),
+          if (mode === 'edit') {
+            resolve(editFn(that.props.post.id, submitData));
+          } else {
+            resolve(createFn(submitData, this.state.payload));
+          }
+        });
+
+        Promise.all([doSubmit]).then((results) => {
+          const resultsReport = [];
+          if (results[0].type.indexOf('OK') === 0) {
+            resultsReport.push({
+              submitAction: mode === 'edit' ? 'Update post successfully' : 'Create post successfully',
+              submitting: false,
+            });
+          } else {
+            resultsReport.push({
+              submitAction: mode === 'edit' ? 'Update post failed' : 'Create post failed',
+              submitting: false,
+              error: results[0].error,
+            });
+          }
+
+          that.setState({
+            submitResults: update(that.state.submitResults, {
+              data: { $set: resultsReport },
+            }),
+          });
         });
       });
-    });
+    }
   }
 
-  deleteHotspot() {
+  deletePost() {
     if (confirm('Are you sure you want to delete this post?')) {
       this.setState({
         submitResults: update(this.state.submitResults, {
@@ -229,6 +243,46 @@ class CreateEditPost extends React.Component {
     });
   }
 
+  select(type) {
+    this.setState({ type });
+  }
+
+  renderTitleInput = () => (<TextValidator
+    name="title"
+    type="text"
+    hintText={strings.hint_post_title}
+    floatingLabelText={strings.label_post_title}
+    onChange={e => this.setState({
+      formData: update(this.state.formData, {
+        title: { $set: e.target.value },
+      }),
+    })}
+    fullWidth
+    value={this.state.formData.title}
+    validators={['required']}
+    errorMessages={[strings.validate_is_required]}
+  />);
+
+  renderContentInput = () => (<TextValidator
+    name="content"
+    type="text"
+    hintText={strings.hint_post_content}
+    // floatingLabelText={strings.label_post_content}
+    onChange={e => this.setState({
+      formData: update(this.state.formData, {
+        content: { $set: e.target.value },
+      }),
+    })}
+    multiLine
+    rows={4}
+    rowsMax={10}
+    fullWidth
+    value={this.state.formData.content && this.state.formData.content}
+    hintStyle={{ top: 12 }}
+    validators={['required']}
+    errorMessages={[strings.validate_is_required]}
+  />);
+
   render() {
     const { props } = this;
     const {
@@ -239,38 +293,6 @@ class CreateEditPost extends React.Component {
       loading,
     } = this.props;
 
-    const renderTitleInput = () => (<TextField
-      key="title"
-      type="text"
-      hintText={strings.hint_post_title}
-      floatingLabelText={strings.label_post_title}
-      onChange={e => this.setState({
-        formData: update(this.state.formData, {
-          title: { $set: e.target.value },
-        }),
-      })}
-      fullWidth
-      value={this.state.formData.title}
-    />);
-
-    const renderContentInput = () => (<TextField
-      key="content"
-      type="text"
-      hintText={strings.hint_post_content}
-      // floatingLabelText={strings.label_post_content}
-      onChange={e => this.setState({
-        formData: update(this.state.formData, {
-          content: { $set: e.target.value },
-        }),
-      })}
-      multiLine
-      rows={4}
-      rowsMax={10}
-      fullWidth
-      value={this.state.formData.content && this.state.formData.content}
-      hintStyle={{ top: 12 }}
-    />);
-
     const renderContentTypeSelector = (
       <SelectField
         floatingLabelText={strings.filter_type}
@@ -280,6 +302,7 @@ class CreateEditPost extends React.Component {
             content_type: { value: { $set: value } },
           }),
         })}
+        fullwidth
       >
         {this.props.dsPostType.map((o, index) => (
           <MenuItem key={index} value={o.value} primaryText={o.text} />
@@ -288,22 +311,12 @@ class CreateEditPost extends React.Component {
     );
 
     const actions = [
-      null && (
-        <FlatButton
-          type="reset"
-          key="reset"
-          label="Reset"
-          secondary
-          onClick={this.clearFormData}
-          style={{ float: 'left' }}
-        />
-      ),
       mode === 'edit' && (
         <FlatButton
           key="delete"
           label={strings.form_general_delete}
           secondary
-          onClick={this.deleteHotspot}
+          onClick={this.deletePost}
           style={{ float: 'left' }}
         />
       ),
@@ -332,16 +345,46 @@ class CreateEditPost extends React.Component {
         {loading && <Spinner />}
         {this.state.error && <Error text={this.state.error} />}
 
+        <BottomNavigation selectedIndex={this.state.formData.content_type}>
+          <BottomNavigationItem
+            label="Text"
+            icon={<IconFail />}
+            onClick={() => this.select(1)}
+          />
+          <BottomNavigationItem
+            label="Image"
+            icon={<IconSuccess />}
+            onClick={() => this.select(2)}
+          />
+          <BottomNavigationItem
+            label="Link"
+            icon={<CircularProgress />}
+            onClick={() => this.select(3)}
+          />
+        </BottomNavigation>
+
         <div>
           <Row>
-            {renderTitleInput()}
+            {this.renderTitleInput()}
           </Row>
           <Row>
-            <Col flex={6}>{renderContentInput()}</Col>
+            {this.renderContentInput()}
           </Row>
           <Row>
-            <Col flex={6}>{renderContentTypeSelector}</Col>
+            {renderContentTypeSelector}
           </Row>
+          <CommunitySelector
+            errorText={this.state.formData.communities.error}
+            onSelect={(values) => {
+              this.setState({
+                formData: update(this.state.formData, {
+                  communities: {
+                    value: { $set: values },
+                  },
+                }),
+              });
+            }}
+          />
         </div>
 
         <div className="actions">

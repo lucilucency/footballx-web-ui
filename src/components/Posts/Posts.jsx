@@ -12,7 +12,9 @@ import Paper from 'material-ui/Paper';
 
 import { getPosts } from '../../actions';
 import constants from '../constants';
-import { ViewPostCompact, CreatePostButton } from '../Post/Forms';
+import { CreatePostButton } from '../Post/components';
+import { PostGrid } from './components';
+import { SuggestedCommunities } from '../User/components';
 
 const Container = styled.div`
   display: grid;
@@ -22,23 +24,6 @@ const Container = styled.div`
   ` : css`
     grid-template-columns: 1fr;
   `)}
-`;
-
-const PostsGrid = styled.div`
-  ${props => props.columns && css`
-    -moz-column-count: ${props.columns}; 
-    -webkit-column-count: ${props.columns}; 
-    column-count: ${props.columns};
-    -moz-column-gap: 1em;
-    -webkit-column-gap: 1em; 
-    column-gap: 1em;
-  `}
-  
-  > div {
-     display: inline-block;
-     margin-bottom: 1em;
-     width: 100%; 
-  }
 `;
 
 const RightTray = styled.div`
@@ -75,9 +60,7 @@ class HotPage extends React.Component {
       <div>
         <Helmet title="footballx - Posts" />
         <Container browser={this.props.browser}>
-          <PostsGrid columns={this.columnCount}>
-            {this.props.posts.map(item => <ViewPostCompact data={item} key={item.id} />)}
-          </PostsGrid>
+          <PostGrid />
           <RightTray>
             <div>
               <Paper2>
@@ -93,7 +76,8 @@ class HotPage extends React.Component {
             </div>
             <div>
               <Paper2>
-                <p>Trending communities</p>
+                <p>Suggested communities</p>
+                <SuggestedCommunities />
               </Paper2>
             </div>
           </RightTray>

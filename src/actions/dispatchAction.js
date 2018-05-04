@@ -52,6 +52,8 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
               dispatchData = transform(dispatchData);
             }
             if (payload) {
+              console.log('payload', payload);
+
               if (Array.isArray(payload)) {
                 dispatchData = payload;
               } else {
