@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, ListItem, Avatar } from 'material-ui';
-import styled, { css } from 'styled-components';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 
 import { getSuggestedCommunities } from '../../../actions';

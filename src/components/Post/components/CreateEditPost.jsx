@@ -9,8 +9,6 @@ import {
   FlatButton,
   List,
   ListItem,
-  SelectField,
-  MenuItem,
   BottomNavigation,
   BottomNavigationItem,
 } from 'material-ui';
@@ -34,8 +32,6 @@ class CreateEditPost extends React.Component {
     loading: PropTypes.bool,
     callback: PropTypes.func,
 
-    /* data source */
-    dsPostType: PropTypes.array,
     /* function */
     defaultDeleteFunction: PropTypes.func,
   };
@@ -428,16 +424,6 @@ class CreateEditPost extends React.Component {
 
 const mapStateToProps = () => ({
   currentQueryString: window.location.search,
-  dsPostType: [{
-    text: strings.enum_post_type_1,
-    value: 1,
-  }, {
-    text: strings.enum_post_type_2,
-    value: 2,
-  }, {
-    text: strings.enum_post_type_3,
-    value: 3,
-  }],
 });
 
 const mapDispatchToProps = dispatch => ({
