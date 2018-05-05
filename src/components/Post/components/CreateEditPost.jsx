@@ -121,7 +121,7 @@ class CreateEditPost extends React.Component {
       title: formData.title,
       content: formData.content,
       content_type: formData.content_type.value || 1,
-      community_id: formData.communities.value[0].community_id,
+      community_id: formData.communities.value[0].value.id,
     };
   }
 
@@ -262,7 +262,7 @@ class CreateEditPost extends React.Component {
     errorMessages={[strings.validate_is_required]}
   />);
 
-  renderContentInput = () => (<TextValidator
+  renderContentTextInput = () => (<TextValidator
     name="content"
     type="text"
     hintText={strings.hint_post_content}
@@ -275,6 +275,40 @@ class CreateEditPost extends React.Component {
     multiLine
     rows={4}
     rowsMax={10}
+    fullWidth
+    value={this.state.formData.content && this.state.formData.content}
+    hintStyle={{ top: 12 }}
+    // validators={['required']}
+    // errorMessages={[strings.validate_is_required]}
+  />);
+
+  renderContentImageInput = () => (<TextValidator
+    name="content"
+    type="text"
+    hintText={strings.hint_post_content_image}
+    // floatingLabelText={strings.label_post_content}
+    onChange={e => this.setState({
+      formData: update(this.state.formData, {
+        content: { $set: e.target.value },
+      }),
+    })}
+    fullWidth
+    value={this.state.formData.content && this.state.formData.content}
+    hintStyle={{ top: 12 }}
+    // validators={['required']}
+    // errorMessages={[strings.validate_is_required]}
+  />);
+
+  renderContentLinkInput = () => (<TextValidator
+    name="content"
+    type="text"
+    hintText={strings.hint_post_content_link}
+    // floatingLabelText={strings.label_post_content}
+    onChange={e => this.setState({
+      formData: update(this.state.formData, {
+        content: { $set: e.target.value },
+      }),
+    })}
     fullWidth
     value={this.state.formData.content && this.state.formData.content}
     hintStyle={{ top: 12 }}
@@ -379,7 +413,9 @@ class CreateEditPost extends React.Component {
             {this.renderTitleInput()}
           </Row>
           <Row>
-            {this.state.formData.content_type.value === 1 && this.renderContentInput()}
+            {this.state.formData.content_type.value === 1 && this.renderContentTextInput()}
+            {this.state.formData.content_type.value === 2 && this.renderContentImageInput()}
+            {this.state.formData.content_type.value === 3 && this.renderContentLinkInput()}
           </Row>
         </div>
 

@@ -36,6 +36,7 @@ class ViewPostComments extends React.Component {
           const { xuser = {} } = item;
           return (
             <ListItem
+              key={item.id}
               secondaryText={
                 <p>
                   <span><MutedLink to={`/user/${xuser.id}`}>{xuser.nickname}</MutedLink> - <small>{fromNow(item.created_at)}</small></span><br />

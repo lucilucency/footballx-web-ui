@@ -1,7 +1,8 @@
-import { dispatchPost, dispatchGet, dispatchPut, dispatchDelete } from './dispatchAction';
+import { dispatchPost, dispatchGet, dispatchPut, dispatchDelete, dispatchGET } from './dispatchAction';
 import {
   parseCommentsInPost,
-  parseCommentAfterReply,
+  parseCommentAfterCreate,
+  parsePostAfterCreate,
 } from './parser';
 
 export const getMetadata = (params = {}) => (dispatch) => {
@@ -26,15 +27,46 @@ export const refresh = userID => dispatchGet('metadata', `xuser/${userID}/refesh
 
 // communities
 export const getSuggestedCommunities = () => dispatchGet('suggestedCommunities', 'communities/suggestion', {}, resp => resp.communities);
-
+export const subscribeCommunity = (communityID, { reducer = 'subscribedCommunities' }) => dispatchGET({
+  reducer,
+  path: `community/${communityID}/subscribe`,
+});
 // post
-export const getPosts = sortby => dispatchGet('posts', 'posts', { sortby }, resp => resp.posts);
-export const getPostsFollowing = sortby => dispatchGet('posts', 'posts/following', { sortby });
-export const createPost = params => dispatchPost('ADD/posts', 'post', params);
+export const getPosts = sortby => dispatchGET({
+  reducer: 'posts',
+  path: 'posts/following',
+  params: {
+    sortby,
+  },
+  transform: resp => resp.posts,
+  polling: true,
+  pollingBreak: 5000,
+});
+export const getPostsWorld = sortby => dispatchGET({
+  auth: false,
+  reducer: 'posts',
+  path: 'posts',
+  params: {
+    sortby,
+  },
+  transform: resp => resp.posts,
+  polling: true,
+  pollingBreak: 5000,
+});
+export const createPost = params => dispatchPost('ADD/posts', 'post', params, parsePostAfterCreate);
 export const editPost = (id, params) => dispatchPut('EDIT/post', `post/${id}`, params);
 export const deletePost = id => dispatchDelete('DELETE/post', `post/${id}`);
-export const getPostComments = (postID, sortby) => dispatchGet('comments', `post/${postID}/comments`, { sortby }, parseCommentsInPost);
-export const createComment = ({ post_id, submit_data, payload }) => dispatchPost('ADD/comments', `post/${post_id}/comment`, submit_data, parseCommentAfterReply, payload);
+export const getPostComments = (postID, sortby) => dispatchGET({
+  type: 'comments',
+  path: `post/${postID}/comments`,
+  params: {
+    sortby,
+  },
+  transform: parseCommentsInPost,
+  polling: true,
+  pollingBreak: 5000,
+});
+export const createComment = ({ post_id, submit_data, payload }) => dispatchPost('ADD/comments', `post/${post_id}/comment`, submit_data, parseCommentAfterCreate, payload);
 
 export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',

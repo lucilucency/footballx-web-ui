@@ -158,7 +158,7 @@ const predictionArray = [
     prediction: 'fn',
   },
   {
-    title: 'Tournament number of games in Main Posts',
+    title: 'Tournament number of games in Main Feeds',
     prediction: '51',
     notes: '4 Bo1, 17 Bo3, 1 Bo5. (4) + (2.5 * 17) + (4) = 50.5',
   },

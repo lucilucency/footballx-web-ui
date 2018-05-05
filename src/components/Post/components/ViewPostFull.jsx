@@ -50,7 +50,7 @@ class ViewPostFull extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getPostComments(this.props.data.id, 'hot').then(() => {
+    Promise.all([this.props.getPostComments(this.props.data.id, 'hot')]).then(() => {
       setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
     });
   }

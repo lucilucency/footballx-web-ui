@@ -11,7 +11,8 @@ import { Route } from 'react-router-dom';
 import strings from '../../lang';
 import Announce from '../Announce';
 // import Home from '../Home';
-import Posts from '../Posts';
+import MyFeeds from '../Feeds';
+import WorldFeeds from '../FeedsWorld';
 import Header from '../Header';
 // import Footer from '../Footer';
 import constants from '../constants';
@@ -120,9 +121,9 @@ class App extends React.Component {
           }
           <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             { location.pathname !== '/' && <Announce /> }
-            <Route exact path="/" component={Posts} />
-            <Route exact path="/home" component={Posts} />
-            <Route exact path="/hot" component={Posts} />
+            <Route exact path="/" component={WorldFeeds} />
+            <Route exact path="/home" component={MyFeeds} />
+            <Route exact path="/popular" component={WorldFeeds} />
             <Route exact path="/sign_in" component={Login} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}
@@ -142,10 +143,12 @@ App.propTypes = {
     width: PropTypes.number,
     show: PropTypes.bool,
   }),
+  user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   tray: state.app.tray,
+  user: state.app.metadata.data.user,
 });
 
 export default connect(mapStateToProps)(App);

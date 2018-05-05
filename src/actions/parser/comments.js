@@ -12,6 +12,4 @@ export const parseCommentsInPost = (data) => {
   });
 };
 
-export const parseCommentAfterReply = (data) => {
-  return data.post;
-};
+export const parseCommentAfterCreate = data => data.post;

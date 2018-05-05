@@ -1,11 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
-
-import { getPosts } from '../../../actions';
 // import constants from '../../constants';
-import { ViewPostCompact } from '../../Post/components';
+import { ViewPostCompact } from './index';
 
 const PostsGridStyled = styled.div`
   ${props => props.columns && css`
@@ -26,7 +25,6 @@ const PostsGridStyled = styled.div`
 
 class RequestLayer extends React.Component {
   componentDidMount() {
-    this.props.dispatchPosts('hot');
     this.columnCount = 1;
   }
 
@@ -40,8 +38,7 @@ class RequestLayer extends React.Component {
 }
 
 RequestLayer.propTypes = {
-  posts: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-  dispatchPosts: PropTypes.func,
+  posts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -49,9 +46,8 @@ const mapStateToProps = state => ({
   loading: state.app.posts.loading,
 });
 
-const mapDispatchToProps = dispatch => ({
-  dispatchPosts: params => dispatch(getPosts(params)),
-});
+// const mapDispatchToProps = dispatch => ({
+//   dispatchPosts: params => dispatch(getPosts(params)),
+// });
 
-// eslint-disable-next-line import/prefer-default-export
-export const PostGrid = connect(mapStateToProps, mapDispatchToProps)(RequestLayer);
+export default connect(mapStateToProps, null)(RequestLayer);

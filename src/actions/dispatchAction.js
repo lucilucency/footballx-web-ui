@@ -156,6 +156,85 @@ export function dispatchGet(type, path, params = {}, transform) {
   };
 }
 
+export function dispatchGET({
+  auth = true,
+  host = FX_API,
+  version = FX_VERSION,
+  reducer,
+  path,
+  params = {},
+  transform,
+  polling = false,
+  pollingBreak = 3000,
+  retries = 1,
+  retriesBreak = 1000,
+}) {
+  return (dispatchAction) => {
+    const url = `${host}/${version}/${path}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
+
+    const dispatchStart = () => ({
+      type: `REQUEST/${reducer}`,
+    });
+    const dispatchOK = payload => ({
+      type: `OK/${reducer}`,
+      payload,
+    });
+    const dispatchFail = error => ({
+      type: `FAIL/${reducer}`,
+      error,
+    });
+
+    const accessToken = localStorage.getItem('access_token');
+    const fetchDataWithRetry = (delay, tries = 1, error) => {
+      if (tries < 1) {
+        return dispatchFail(error);
+      }
+
+      let doRequest = request
+        .get(url)
+        .set('Content-Type', 'application/x-www-form-urlencoded');
+      if (auth) {
+        doRequest = doRequest.set('Authorization', `Bearer ${accessToken}`);
+      }
+      return doRequest
+        .query({}) // query string
+        .then((res) => {
+          if (res.statusCode === 200) {
+            let dispatchData = JSON.parse(res.text);
+            if (transform) {
+              dispatchData = transform(dispatchData);
+            }
+            return dispatchAction(dispatchOK(dispatchData));
+          }
+          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.body.message), delay);
+        })
+        .catch((err) => {
+          console.warn(`Error in dispatchGet/${reducer}`);
+          console.error(err);
+          if (err.message === 'Unauthorized') {
+            console.warn('Unauthorized, logging out...');
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_id');
+            // window.location.href = '/';
+            return null;
+          }
+
+          return dispatchAction(dispatchFail(err.response ? err.response.body.message : err));
+        });
+    };
+
+    dispatchAction(dispatchStart());
+    if (!polling) {
+      return fetchDataWithRetry(retriesBreak, retries);
+    }
+
+    fetchDataWithRetry(retriesBreak, 1);
+    return window.setInterval(() => {
+      fetchDataWithRetry(retriesBreak, 1);
+    }, pollingBreak);
+  };
+}
+
 export function dispatchPut(type, path, params = {}, transform) {
   const host = FX_API;
   const v = FX_VERSION;

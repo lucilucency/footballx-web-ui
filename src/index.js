@@ -11,8 +11,8 @@ import store from './store';
 import { refresh } from './actions';
 import App from './components/App';
 import constants from './components/constants';
-// import registerServiceWorker from './registerServiceWorker';
-import { unregister } from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker';
+// import { unregister } from './registerServiceWorker';
 
 // Inject global styles
 injectGlobal([`
@@ -177,6 +177,6 @@ if (rootElement.hasChildNodes()) {
 } else {
   hydrate(app, rootElement);
 }
-// registerServiceWorker();
-unregister();
+registerServiceWorker();
+// unregister();
 // document.getElementById('loader').style.display = 'none';

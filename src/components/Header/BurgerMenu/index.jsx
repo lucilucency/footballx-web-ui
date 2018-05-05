@@ -92,7 +92,7 @@ class BurgerMenu extends React.Component {
             <ListItem
               primaryText="Popular"
               leftAvatar={<Home style={avatarStyle} color={constants.blueA200} />}
-              containerElement={<Link to="/trending" />}
+              containerElement={<Link to="/popular" />}
               innerDivStyle={innerDivStyle}
             />
             <ListItem

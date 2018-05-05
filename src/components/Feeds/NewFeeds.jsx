@@ -1,19 +1,13 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import Paper from 'material-ui/Paper';
-
-// import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
-// import NearbyIcon from 'material-ui/svg-icons/communication/location-on';
-// import RecentsIcon from 'material-ui/svg-icons/action/restore';
-// import FavoritesIcon from 'material-ui/svg-icons/action/favorite';
-
-import { getPosts } from '../../actions';
 import constants from '../constants';
-import { CreatePostButton } from '../Post/components';
-import { PostGrid } from './components';
+import { getPosts } from '../../actions/index';
+import { CreatePostButton, PostGrid } from '../Post/components';
 import { SuggestedCommunities } from '../User/components';
 
 const Container = styled.div`
@@ -29,10 +23,12 @@ const Container = styled.div`
 const RightTray = styled.div`
   > div {
     margin-bottom: 1em;
-    text-align: center;
     position: relative;
     width: 100%;
-    padding-top: calc(75% + 40px);
+  }
+  
+  > div[data='page-welcome'] {
+    //padding-top: calc(75% + 40px);
   }
 `;
 
@@ -40,22 +36,24 @@ const Paper2 = styled(Paper)`
   display: grid;
   font-size: ${constants.fontSizeSmall};
   
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  text-align: center;
+  //position: absolute;
+  //top: 0;
+  //left: 0;
+  //bottom: 0;
+  //right: 0;
   padding: 10px;
 `;
 
-class HotPage extends React.Component {
+class NewFeeds extends React.Component {
   componentDidMount() {
-    this.props.dispatchPosts('hot');
-    this.columnCount = 1;
+    this.props.dispatchPosts('new');
   }
 
   render() {
+    if (!this.props.user) {
+      this.props.history.push('/');
+    }
+
     return (
       <div>
         <Helmet title="footballx - Posts" />
@@ -63,7 +61,7 @@ class HotPage extends React.Component {
           <PostGrid />
           <RightTray>
             {this.props.user && (
-              <div>
+              <div data="page-welcome">
                 <Paper2>
                   <p>Home</p>
                   <p>Your personal FootballX frontpage. Come here to check in with your favorite communities.</p>
@@ -71,13 +69,13 @@ class HotPage extends React.Component {
                 </Paper2>
               </div>
             )}
-            <div>
+            <div data="ads">
               <Paper2>
                 <p>Ads</p>
               </Paper2>
             </div>
             {this.props.user && (
-              <div>
+              <div data="suggested-communities">
                 <Paper2>
                   <p>Suggested communities</p>
                   <SuggestedCommunities />
@@ -91,15 +89,17 @@ class HotPage extends React.Component {
   }
 }
 
-HotPage.propTypes = {
-  browser: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  posts: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+NewFeeds.propTypes = {
+  browser: PropTypes.object,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  user: PropTypes.object,
   dispatchPosts: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   browser: state.browser,
-  posts: state.app.posts.data,
   loading: state.app.posts.loading,
   user: state.app.metadata.data.user,
 });
@@ -108,4 +108,4 @@ const mapDispatchToProps = dispatch => ({
   dispatchPosts: params => dispatch(getPosts(params)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HotPage);
+export default connect(mapStateToProps, mapDispatchToProps)(NewFeeds);

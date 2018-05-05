@@ -35,11 +35,12 @@ export default (type, initialData) => (state = {
         error: null,
       };
     case `OK/ADD/${type}`:
+      const newData = Array.isArray(action.payload) ? action.payload : [action.payload];
       return {
         ...state,
         loading: false,
-        data: update(state.data, {
-          $push: Array.isArray(action.payload) ? action.payload : [action.payload],
+        data: update(newData, {
+          $push: state.data,
         }),
         error: null,
       };

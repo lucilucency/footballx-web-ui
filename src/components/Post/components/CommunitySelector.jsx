@@ -78,35 +78,29 @@ class CommunitySelector extends React.Component {
 
   render() {
     const { dsCm } = this.props;
-    const groups = ['communities', 'popular'];
 
-    const countriesNodeList = groups.map((groupName, index) => (
-      <optgroup key={index} label={groupName}>
-        {dsCm[groupName] && dsCm[groupName]
-          .map((community, index) => {
-            const menuItemStyle = {
-              whiteSpace: 'normal',
-              display: 'flex',
-              justifyContent: 'space-between',
-              lineHeight: 'normal',
-            };
+    const countriesNodeList = dsCm.map((community, index) => {
+      const menuItemStyle = {
+        whiteSpace: 'normal',
+        display: 'flex',
+        justifyContent: 'space-between',
+        lineHeight: 'normal',
+      };
 
-            return (
-              <div key={index} value={community} label={`${community.community_name}`} style={menuItemStyle}>
-                <div style={{ marginRight: 10 }}>
-                  <span style={{ fontWeight: 'bold' }}>{community.community_name}</span>
-                  <br />
-                  <span style={{ fontSize: 12 }}>{community.address}</span>
-                </div>
-                <Avatar
-                  src={community.community_icon}
-                  size={30}
-                />
-              </div>
-            );
-          })}
-      </optgroup>
-    ));
+      return (
+        <div key={index} value={community} label={`${community.name}`} style={menuItemStyle}>
+          <div style={{ marginRight: 10 }}>
+            <span style={{ fontWeight: 'bold' }}>{community.name}</span>
+            <br />
+            <span style={{ fontSize: 12 }}>{community.c_followers} followers</span>
+          </div>
+          <Avatar
+            src={community.icon}
+            size={30}
+          />
+        </div>
+      );
+    });
 
     return (
       <BigSelector
@@ -132,26 +126,26 @@ class CommunitySelector extends React.Component {
 }
 
 
-const mapStateToProps = () => ({
-  // dsCm: state.app.suggestedCommunities.data,
-  dsCm: {
-    communities: [{
-      community_icon: 'https://s3-ap-southeast-1.amazonaws.com/football-x-data-download/league-icon/UEFA_Champions_League_logo.svg.png',
-      community_id: 2,
-      community_link: 'ttab',
-      community_name: 'ttab',
-    }, {
-      community_icon: 'https://s3-ap-southeast-1.amazonaws.com/football-x-data-download/league-icon/UEFA_Champions_League_logo.svg.png',
-      community_id: 1,
-      community_link: 'funnyfootball',
-      community_name: 'funnyfootball',
-    }, {
-      community_icon: 'https://media.gettyimages.com/photos/soccer-girl-picture-id532590749?s=170667a',
-      community_id: 10,
-      community_link: 'sexygirl',
-      community_name: 'sexygirl',
-    }],
-  },
+const mapStateToProps = state => ({
+  dsCm: state.app.suggestedCommunities.data,
+  // dsCm: {
+  //   communities: [{
+  //     community_icon: 'https://s3-ap-southeast-1.amazonaws.com/football-x-data-download/league-icon/UEFA_Champions_League_logo.svg.png',
+  //     community_id: 2,
+  //     community_link: 'ttab',
+  //     community_name: 'ttab',
+  //   }, {
+  //     community_icon: 'https://s3-ap-southeast-1.amazonaws.com/football-x-data-download/league-icon/UEFA_Champions_League_logo.svg.png',
+  //     community_id: 1,
+  //     community_link: 'funnyfootball',
+  //     community_name: 'funnyfootball',
+  //   }, {
+  //     community_icon: 'https://media.gettyimages.com/photos/soccer-girl-picture-id532590749?s=170667a',
+  //     community_id: 10,
+  //     community_link: 'sexygirl',
+  //     community_name: 'sexygirl',
+  //   }],
+  // },
 });
 
 const mapDispatchToProps = dispatch => ({
