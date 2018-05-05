@@ -62,24 +62,28 @@ class HotPage extends React.Component {
         <Container browser={this.props.browser}>
           <PostGrid />
           <RightTray>
-            <div>
-              <Paper2>
-                <p>Home</p>
-                <p>Your personal FootballX frontpage. Come here to check in with your favorite communities.</p>
-                <CreatePostButton />
-              </Paper2>
-            </div>
+            {this.props.user && (
+              <div>
+                <Paper2>
+                  <p>Home</p>
+                  <p>Your personal FootballX frontpage. Come here to check in with your favorite communities.</p>
+                  <CreatePostButton />
+                </Paper2>
+              </div>
+            )}
             <div>
               <Paper2>
                 <p>Ads</p>
               </Paper2>
             </div>
-            <div>
-              <Paper2>
-                <p>Suggested communities</p>
-                <SuggestedCommunities />
-              </Paper2>
-            </div>
+            {this.props.user && (
+              <div>
+                <Paper2>
+                  <p>Suggested communities</p>
+                  <SuggestedCommunities />
+                </Paper2>
+              </div>
+            )}
           </RightTray>
         </Container>
       </div>
@@ -97,6 +101,7 @@ const mapStateToProps = state => ({
   browser: state.browser,
   posts: state.app.posts.data,
   loading: state.app.posts.loading,
+  user: state.app.metadata.data.user,
 });
 
 const mapDispatchToProps = dispatch => ({

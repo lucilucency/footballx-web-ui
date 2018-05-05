@@ -389,16 +389,24 @@ class CreateEditPost extends React.Component {
 
         <Dialog
           title={strings.form_general_dialog_title}
-          actions={<FlatButton
-            label="Close"
+          actions={[<FlatButton
+            key="retry"
+            label="Retry"
+            secondary
+            keyboardFocused
+            onClick={() => {
+              this.closeDialog();
+            }}
+          />, <FlatButton
+            key="done"
+            label="Done"
             primary
             keyboardFocused
             onClick={() => {
               this.closeDialog();
-              return this.props.callback && this.props.callback();
-                // props.history.push(`/hotspot/${this.state.formData.post_id.value}`);
+              return this.props.callback ? this.props.callback() : props.history.push('/home');
             }}
-          />}
+          />]}
           modal={false}
           open={this.state.submitResults.show}
           onRequestClose={this.closeDialog}

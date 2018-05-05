@@ -9,8 +9,9 @@ import { getSuggestedCommunities } from '../../../actions';
 
 class RequestLayer extends React.Component {
   componentDidMount() {
-    this.props.getSuggestedCommunities();
-    this.columnCount = 1;
+    if (this.props.user) {
+      // this.props.getSuggestedCommunities();
+    }
   }
 
   render() {
@@ -31,17 +32,15 @@ class RequestLayer extends React.Component {
 }
 
 RequestLayer.propTypes = {
-  posts: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  user: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   getSuggestedCommunities: PropTypes.func,
 };
 
-const mapStateToProps = state => {
-  console.log('state', state.app.suggestedCommunities);
-  return ({
-    posts: state.app.suggestedCommunities.data,
-    loading: state.app.suggestedCommunities.loading,
-  });
-};
+const mapStateToProps = state => ({
+  posts: state.app.suggestedCommunities.data,
+  loading: state.app.suggestedCommunities.loading,
+  user: state.app.metadata.data.user,
+});
 
 const mapDispatchToProps = dispatch => ({
   getSuggestedCommunities: () => dispatch(getSuggestedCommunities()),

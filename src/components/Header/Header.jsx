@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces,react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -18,13 +19,13 @@ import AppLogo from '../App/AppLogo';
 import BurgerMenu from './BurgerMenu';
 import Logout from './Logout';
 
-const headerLinks = [
-  <Link key={strings.header_home} to="/home">{strings.header_home}</Link>,
+const getHeaderLinks = user => [
+  user && <Link key={strings.header_home} to="/home">{strings.header_home}</Link>,
   // <Link key={strings.header_popular} to="/popular">{strings.header_popular}</Link>,
   // <Link key={strings.header_all} to="/all">{strings.header_all}</Link>,
   // <Link key={strings.header_explorer} to="/explorer">{strings.header_explorer}</Link>,
   <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
-];
+].filter(o => o);
 
 const burgerLinks = [];
 
@@ -106,9 +107,9 @@ LogoGroup.propTypes = {
   }),
 };
 
-const LinkGroup = () => (
+const LinkGroup = ({ user }) => (
   <VerticalAlignToolbar>
-    {headerLinks.map(Page => (
+    {getHeaderLinks(user).map(Page => (
       <TabContainer key={Page.key}>
         <div style={{ margin: '0 10px', textAlign: 'center', fontWeight: `${constants.fontWeightNormal} !important` }}>
           {Page}
@@ -117,6 +118,9 @@ const LinkGroup = () => (
     ))}
   </VerticalAlignToolbar>
 );
+LinkGroup.propTypes = {
+  user: PropTypes.object,
+};
 
 const SearchGroup = () => (
   <VerticalAlignToolbar style={{ marginLeft: 20 }}>
@@ -164,7 +168,7 @@ const Header = ({ location, greaterThanSmall, user }) => (
     <ToolbarHeader>
       <VerticalAlignDiv>
         <LogoGroup greaterThanSmall={greaterThanSmall} location={location} />
-        {greaterThanSmall && <LinkGroup />}
+        {greaterThanSmall && <LinkGroup user={user} />}
         {greaterThanSmall && <SearchGroup />}
       </VerticalAlignDiv>
       <VerticalAlignDiv >

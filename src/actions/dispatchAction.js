@@ -70,6 +70,7 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
         .catch((err) => {
           console.error(`Error in dispatchPost/${type}`);
           if (err.message === 'Unauthorized') {
+            console.error('Unauthorized, logging out...');
             localStorage.removeItem('access_token');
             localStorage.removeItem('user_id');
             // window.location.href = '/login';
@@ -136,8 +137,10 @@ export function dispatchGet(type, path, params = {}, transform) {
           return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.body.message), delay);
         })
         .catch((err) => {
-          console.error(`Error in dispatchGet/${type}`);
+          console.warn(`Error in dispatchGet/${type}`);
+          console.error(err);
           if (err.message === 'Unauthorized') {
+            console.warn('Unauthorized, logging out...');
             localStorage.removeItem('access_token');
             localStorage.removeItem('user_id');
             // window.location.href = '/';

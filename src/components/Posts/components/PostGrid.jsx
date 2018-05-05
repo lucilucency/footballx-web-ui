@@ -33,7 +33,7 @@ class RequestLayer extends React.Component {
   render() {
     return (
       <PostsGridStyled columns={this.columnCount}>
-        {this.props.posts.map(item => <ViewPostCompact data={item} key={item.id} />)}
+        {this.props.posts.map(item => <ViewPostCompact data={item} key={item.id || Date.now()} />)}
       </PostsGridStyled>
     );
   }

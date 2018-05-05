@@ -52,10 +52,14 @@ const StyledDiv = styled.div`
   height: 100%;
   min-height: 100vh;
   left: ${props => (props.open ? '256px' : '0px')};
-  background-image: ${props => (props.location.pathname === '/' ? 'url("/assets/images/home-background.png")' : '')};
-  background-position: ${props => (props.location.pathname === '/' ? 'center top' : '')};
-  background-repeat: ${props => (props.location.pathname === '/' ? 'no-repeat' : '')};
-  background-size: cover;
+  
+  ${props => (props.location.pathname === '/home' ? css`
+    background-image: url('/assets/images/home-background.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover; background-size: cover;
+  ` : css``)}
+  
 `;
 
 const StyledBodyDiv = styled.div`

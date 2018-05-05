@@ -18,7 +18,7 @@ const initialState = {};
 class CommunitySelector extends React.Component {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,
-    dsCm: PropTypes.array,
+    dsCm: PropTypes.shape([]),
 
     errorText: PropTypes.string,
     getSuggestedCommunities: PropTypes.func,
