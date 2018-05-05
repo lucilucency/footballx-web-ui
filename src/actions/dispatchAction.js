@@ -72,7 +72,7 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
           if (err.message === 'Unauthorized') {
             localStorage.removeItem('access_token');
             localStorage.removeItem('user_id');
-            window.location.href = '/login';
+            // window.location.href = '/login';
             return null;
           }
 
@@ -140,7 +140,7 @@ export function dispatchGet(type, path, params = {}, transform) {
           if (err.message === 'Unauthorized') {
             localStorage.removeItem('access_token');
             localStorage.removeItem('user_id');
-            window.location.href = '/';
+            // window.location.href = '/';
             return null;
           }
 
