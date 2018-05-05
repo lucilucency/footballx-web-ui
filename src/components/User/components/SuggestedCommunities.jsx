@@ -16,15 +16,15 @@ class RequestLayer extends React.Component {
   render() {
     return (
       <List>
-        {this.props.posts.map(item => (
-          <ListItem
-            disabled
-            leftAvatar={<Avatar src={item.community_icon} />}
-            rightIcon={<ActionInfo />}
-            primaryText={item.community_name}
-            secondaryText="Jan 9, 2014"
-          />
-        ))}
+        {/*{this.props.posts.map(item => (*/}
+          {/*<ListItem*/}
+            {/*disabled*/}
+            {/*leftAvatar={<Avatar src={item.icon} size={32} />}*/}
+            {/*rightIcon={<ActionInfo />}*/}
+            {/*primaryText={item.name}*/}
+            {/*secondaryText={`${item.c_followers} followers`}*/}
+          {/*/>*/}
+        {/*))}*/}
       </List>
     );
   }
@@ -35,10 +35,13 @@ RequestLayer.propTypes = {
   getSuggestedCommunities: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  posts: state.app.suggestedCommunities.data,
-  loading: state.app.posts.loading,
-});
+const mapStateToProps = state => {
+  console.log('state', state.app.suggestedCommunities);
+  return ({
+    posts: state.app.suggestedCommunities.data,
+    loading: state.app.suggestedCommunities.loading,
+  });
+};
 
 const mapDispatchToProps = dispatch => ({
   getSuggestedCommunities: () => dispatch(getSuggestedCommunities()),

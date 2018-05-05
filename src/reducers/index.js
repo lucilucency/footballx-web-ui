@@ -9,7 +9,7 @@ export default combineReducers({
   records: reducer('records'),
   announcement: reducer('announcement'),
 
-  suggestedCommunities: reducer('communities/suggestion'),
+  suggestedCommunities: reducer('suggestedCommunities'),
 
   posts: reducer('posts'),
   comments: reducer('comments'),

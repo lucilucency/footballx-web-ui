@@ -25,7 +25,7 @@ export const loginFb = accessToken => dispatchPost('metadata', 'xuser/auth', { a
 export const refresh = userID => dispatchGet('metadata', `xuser/${userID}/refesh`, { xuser_id: userID });
 
 // communities
-export const getSuggestedCommunities = () => dispatchGet('communities/suggestion', 'communities/suggestion');
+export const getSuggestedCommunities = () => dispatchGet('suggestedCommunities', 'communities/suggestion', {}, resp => resp.communities);
 
 // post
 export const getPosts = sortby => dispatchGet('posts', 'posts', { sortby }, resp => resp.posts);
