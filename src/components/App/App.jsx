@@ -64,13 +64,13 @@ const StyledBodyDiv = styled.div`
   margin-top: 56px;
   ${props => props.isTrayOpen && css`
     padding-left: ${props.trayWidth + 25}px;
+    
+    @media only screen and (min-width: ${props.trayWidth + 900}px) {
+      width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   `};
-  
-  @media only screen and (min-width: 900px) {
-    width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-  }
 `;
 
 const AdBannerDiv = styled.div`
