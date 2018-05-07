@@ -28,6 +28,7 @@ module.exports = {
     }],
     "react/no-array-index-key": 1,
     "react/require-default-props": 0,
+    "react/forbid-prop-types": 0,
     'import/no-extraneous-dependencies': [
       "error",
       {

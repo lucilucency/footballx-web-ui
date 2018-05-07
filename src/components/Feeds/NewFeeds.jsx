@@ -46,13 +46,17 @@ const Paper2 = styled(Paper)`
 
 class NewFeeds extends React.Component {
   componentDidMount() {
-    this.props.dispatchPosts('new', this.props.user.id);
+    if (this.props.user.id) {
+      this.props.dispatchPosts('new', this.props.user.id);
+    } else {
+      setTimeout(() => this.props.dispatchPosts('new', this.props.user.id), 500);
+    }
   }
 
   render() {
-    if (!this.props.user) {
-      this.props.history.push('/');
-    }
+    // if (!this.props.user) {
+    //   this.props.history.push('/');
+    // }
 
     return (
       <div>
@@ -101,7 +105,7 @@ NewFeeds.propTypes = {
 const mapStateToProps = state => ({
   browser: state.browser,
   loading: state.app.posts.loading,
-  user: state.app.metadata.data.user,
+  user: state.app.metadata.data.user || {},
 });
 
 const mapDispatchToProps = dispatch => ({

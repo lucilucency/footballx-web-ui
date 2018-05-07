@@ -5,21 +5,6 @@ import {
   parsePostAfterCreate,
 } from './parser';
 
-export const getMetadata = (params = {}) => (dispatch) => {
-  const getDataStart = payload => ({
-    type: 'OK/metadata',
-    payload,
-  });
-
-  const accessToken = params.access_token || localStorage.getItem('access_token');
-  const userID = params.user_id || JSON.parse(localStorage.getItem('user_id'));
-  let payload = {};
-  if (accessToken && userID) {
-    payload = { user: userID, access_token: accessToken };
-  }
-  dispatch(getDataStart(payload));
-};
-
 // auth
 // export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
 export const loginFb = accessToken => dispatchPost('metadata', 'xuser/auth', { access_token: accessToken });

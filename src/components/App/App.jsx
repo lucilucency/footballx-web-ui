@@ -58,7 +58,7 @@ const StyledDiv = styled.div`
     background-image: url('/assets/images/home-background.png');
     background-position: center top;
     background-repeat: no-repeat;
-    -webkit-background-size: cover; background-size: cover;
+    -webkit-background-size: cover;background-size: cover;
   ` : css``)}
   
 `;

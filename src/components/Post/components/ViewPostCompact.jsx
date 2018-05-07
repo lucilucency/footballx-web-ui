@@ -95,11 +95,11 @@ class ViewPostCompact extends React.Component {
         {item.content_type === 1 && <CardTitle
           title={item.title}
           titleColor={constants.theme().textColorPrimary}
-          titleStyle={{ fontWeight: constants.fontWeightHeavy, fontSize: constants.fontSizeBig }}
+          titleStyle={{ fontWeight: constants.fontWeightMedium, fontSize: constants.fontSizeBig }}
           style={{ paddingTop: 0, paddingBottom: 0 }}
         />}
         {item.content_type === 1 &&
-        <CardText color={constants.theme().textColorSecondary} style={{ fontSize: constants.fontSizeSmall, whiteSpace: 'pre-wrap' }}>
+        <CardText color={constants.theme().textColorSecondary} style={{ fontSize: constants.fontSizeMedium, whiteSpace: 'pre-wrap' }}>
           {item.content}
         </CardText>}
         <CardActions
