@@ -267,6 +267,7 @@ export function dispatchGET({
 
     const accessToken = token || localStorage.getItem('access_token');
     if (path === 'posts/following') {
+      console.warn('localStorage when call getPosts', localStorage);
       console.log('accessToken', accessToken);
     }
 

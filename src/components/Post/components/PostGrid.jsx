@@ -1,10 +1,10 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
-// import constants from '../../constants';
+import { getMeFeeds, getPostsWorld } from '../../../actions/index';
 import { ViewPostCompact } from './index';
+// import constants from '../../constants';
 
 const PostsGridStyled = styled.div`
   ${props => props.columns && css`
@@ -23,9 +23,16 @@ const PostsGridStyled = styled.div`
   }
 `;
 
-class RequestLayer extends React.Component {
+class PostGrid extends React.Component {
   componentDidMount() {
     this.columnCount = 1;
+    switch (this.props.area) {
+      case 'self':
+        this.props.getMeFeeds(this.props.sorting, this.user.id);
+        break;
+      default:
+        this.props.getWorldFeeds(this.props.sorting);
+    }
   }
 
   render() {
@@ -37,13 +44,30 @@ class RequestLayer extends React.Component {
   }
 }
 
-RequestLayer.propTypes = {
-  posts: PropTypes.array.isRequired,
+PostGrid.propTypes = {
+  area: PropTypes.string,
+  sorting: PropTypes.string,
+
+  /**/
+  posts: PropTypes.array,
+  getMeFeeds: PropTypes.func,
+  getWorldFeeds: PropTypes.func,
+};
+
+PostGrid.defaultProps = {
+  area: 'world', /* ["self", "vn", "us", "jp", ...] */
+  sorting: 'new',
 };
 
 const mapStateToProps = state => ({
   posts: state.app.posts.data,
   loading: state.app.posts.loading,
+  user: state.app.metadata.data.user || {},
 });
 
-export default connect(mapStateToProps, null)(RequestLayer);
+const mapDispatchToProps = dispatch => ({
+  getMeFeeds: (sortby, userID) => dispatch(getMeFeeds(sortby, userID)),
+  getWorldFeeds: sortby => dispatch(getPostsWorld(sortby)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostGrid);

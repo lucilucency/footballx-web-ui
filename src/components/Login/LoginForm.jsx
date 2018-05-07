@@ -73,9 +73,7 @@ class LoginForm extends React.Component {
           const data = o.payload;
           localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('user_id', data.user.id);
-          this.props.refresh(data.user.id, data.access_token).then(() => {
-            that.props.history.push('/popular');
-          });
+          that.props.history.push('/home');
         } else {
           that.setState({
             loginError: true,

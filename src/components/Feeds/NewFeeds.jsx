@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,7 +5,6 @@ import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import Paper from 'material-ui/Paper';
 import constants from '../constants';
-import { getMeFeeds } from '../../actions/index';
 import { CreatePostButton, PostGrid } from '../Post/components';
 import { SuggestedCommunities } from '../User/components';
 
@@ -46,14 +44,7 @@ const Paper2 = styled(Paper)`
 
 class NewFeeds extends React.Component {
   componentDidMount() {
-    console.log('calling getMeFeeds');
-    if (this.props.user.id) {
-      console.log('get posts');
-      this.props.dispatchPosts('new', this.props.user.id);
-    } else {
-      console.log('wating 2000');
-      setTimeout(() => this.props.dispatchPosts('new', this.props.user.id), 2000);
-    }
+
   }
 
   render() {
@@ -98,11 +89,7 @@ class NewFeeds extends React.Component {
 
 NewFeeds.propTypes = {
   browser: PropTypes.object,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
   user: PropTypes.object,
-  dispatchPosts: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -111,8 +98,4 @@ const mapStateToProps = state => ({
   user: state.app.metadata.data.user || {},
 });
 
-const mapDispatchToProps = dispatch => ({
-  dispatchPosts: (sortby, userID) => dispatch(getMeFeeds(sortby, userID)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewFeeds);
+export default connect(mapStateToProps, null)(NewFeeds);

@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,7 +5,6 @@ import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import Paper from 'material-ui/Paper';
 import constants from '../constants';
-import { getPostsWorld } from '../../actions/index';
 import { CreatePostButton, PostGrid } from '../Post/components';
 import { SuggestedCommunities } from '../User/components';
 
@@ -46,7 +44,7 @@ const Paper2 = styled(Paper)`
 
 class NewWorldFeeds extends React.Component {
   componentDidMount() {
-    this.props.dispatchPosts('hot');
+
   }
 
   render() {
@@ -88,7 +86,6 @@ class NewWorldFeeds extends React.Component {
 NewWorldFeeds.propTypes = {
   browser: PropTypes.object,
   user: PropTypes.object,
-  dispatchPosts: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -97,8 +94,4 @@ const mapStateToProps = state => ({
   user: state.app.metadata.data.user,
 });
 
-const mapDispatchToProps = dispatch => ({
-  dispatchPosts: params => dispatch(getPostsWorld(params)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewWorldFeeds);
+export default connect(mapStateToProps, null)(NewWorldFeeds);
