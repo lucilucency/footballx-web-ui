@@ -59,6 +59,7 @@ export const createComment = ({ post_id, submit_data, payload }) => dispatchPost
 export const upVote = (postID, {
   reducer = 'EDIT_ARR/posts',
   path = 'post/change-vote',
+  payload,
 } = {}) => dispatchPOST({
   reducer,
   path,
@@ -66,11 +67,18 @@ export const upVote = (postID, {
     target_id: postID,
     vflag: 1,
   },
+  payload,
+  transform: (resp) => {
+    const respClone = resp.target_vote;
+    delete respClone.id;
+    return respClone;
+  },
 });
 
 export const downVote = (postID, {
   reducer = 'EDIT_ARR/posts',
   path = 'post/change-vote',
+  payload,
 } = {}) => dispatchPOST({
   reducer,
   path,
@@ -78,8 +86,16 @@ export const downVote = (postID, {
     target_id: postID,
     vflag: -1,
   },
+  payload,
+  transform: (resp) => {
+    const respClone = resp.target_vote;
+    delete respClone.id;
+    return respClone;
+  },
 });
 
+
+/**/
 export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',
   query,

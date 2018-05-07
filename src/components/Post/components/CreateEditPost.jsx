@@ -312,8 +312,8 @@ class CreateEditPost extends React.Component {
     fullWidth
     value={this.state.formData.content && this.state.formData.content}
     hintStyle={{ top: 12 }}
-    // validators={['required']}
-    // errorMessages={[strings.validate_is_required]}
+    validators={['required']}
+    errorMessages={[strings.validate_is_required]}
   />);
 
   render() {

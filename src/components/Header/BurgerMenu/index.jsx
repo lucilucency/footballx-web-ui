@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-constructor */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -17,7 +16,7 @@ import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import styled from 'styled-components';
 import Avatar from 'material-ui/Avatar';
 import { greenA200, redA200, grey50 } from 'material-ui/styles/colors';
-import { toggleTray } from '../../../actions';
+import { toggleTray, getSuggestedCommunities } from '../../../actions';
 import constants from '../../constants';
 
 const StyledDrawer = styled(Drawer)`
@@ -51,6 +50,8 @@ class BurgerMenu extends React.Component {
       fontSize: constants.fontSizeSmall,
     };
     const avatarStyle = {
+      padding: 1,
+      backgroundColor: constants.grey50,
       left: 8,
       height: '2em',
       width: '2em',
@@ -104,7 +105,7 @@ class BurgerMenu extends React.Component {
           </List>
           {false &&
           <List>
-            <Subheader>FAVORITES</Subheader>
+            <Subheader>Favorites</Subheader>
             <ListItem
               primaryText={<div style={labelStyle}>r/Bitcon</div>}
               leftAvatar={<Avatar color={constants.white} backgroundColor={constants.orangeA200} style={avatarStyle}>฿</Avatar>}
@@ -132,46 +133,25 @@ class BurgerMenu extends React.Component {
             />
           </List>}
           <List>
-            <Subheader>SUBSCRIPTIONS</Subheader>
-            <ListItem
-              primaryText={<div style={labelStyle}>r/Bitcon</div>}
-              rightIcon={<Checkbox
-                checkedIcon={<ActionFavorite style={rightIconStyle} />}
-                uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
-                style={{
-                  marginTop: 4,
-                }}
-              />}
-              leftAvatar={<Avatar color={constants.white} backgroundColor={constants.orangeA200} style={avatarStyle}>฿</Avatar>}
-              innerDivStyle={innerDivStyle}
-            />
-            <ListItem
-              primaryText={<div style={labelStyle}>r/IdleHeroes</div>}
-              rightIcon={<Checkbox
-                checkedIcon={<ActionFavorite style={rightIconStyle} />}
-                uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
-                style={{
-                  marginTop: 4,
-                }}
-              />}
-              leftAvatar={<Avatar color={greenA200} backgroundColor={grey50} style={avatarStyle}>I</Avatar>}
-              innerDivStyle={innerDivStyle}
-            />
-            <ListItem
-              primaryText={<div style={labelStyle}>r/ManchesterUnited</div>}
-              rightIcon={<Checkbox
-                checkedIcon={<ActionFavorite style={rightIconStyle} />}
-                uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
-                style={{
-                  marginTop: 4,
-                }}
-              />}
-              leftAvatar={<Avatar color={redA200} backgroundColor={grey50} style={avatarStyle} src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/220px-Manchester_United_FC_crest.svg.png" />}
-              innerDivStyle={innerDivStyle}
-            />
+            <Subheader>Subscriptions</Subheader>
+            {this.props.communities.map(item => (
+              <ListItem
+                key={item.id}
+                primaryText={<div style={labelStyle}>/{item.name}</div>}
+                rightIcon={<Checkbox
+                  checkedIcon={<ActionFavorite style={rightIconStyle} />}
+                  uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
+                  style={{
+                    marginTop: 4,
+                  }}
+                />}
+                leftAvatar={<Avatar style={avatarStyle} src={item.icon} />}
+                innerDivStyle={innerDivStyle}
+              />
+            ))}
           </List>
           <List>
-            <Subheader>NOTIFICATIONS</Subheader>
+            <Subheader>Notifications</Subheader>
             <ListItem
               primaryText="Events and match"
               rightToggle={<Toggle />}
@@ -198,14 +178,17 @@ BurgerMenu.propTypes = {
   tray: PropTypes.shape({
     width: PropTypes.number,
   }),
+  communities: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
   tray: state.app.tray,
+  communities: state.app.suggestedCommunities.data,
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleTray: props => dispatch(toggleTray(props)),
+  getSuggestedCommunities: () => dispatch(getSuggestedCommunities()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BurgerMenu);

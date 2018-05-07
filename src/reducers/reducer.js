@@ -35,14 +35,22 @@ export default (type, initialData) => (state = {
         error: null,
       };
     case `OK/ADD/${type}`:
-      const newData = Array.isArray(action.payload) ? action.payload : [action.payload];
+      if (action.payload) {
+        const newData = Array.isArray(action.payload) ? action.payload : [action.payload];
+        return {
+          ...state,
+          loading: false,
+          data: update(newData, {
+            $push: state.data,
+          }),
+          error: null,
+        };
+      }
+      console.error(`error in merge payload OK/ADD/${type}`);
       return {
         ...state,
         loading: false,
-        data: update(newData, {
-          $push: state.data,
-        }),
-        error: null,
+        error: true,
       };
     case `FAIL/ADD/${type}`:
       return {
@@ -88,20 +96,21 @@ export default (type, initialData) => (state = {
         error: null,
       };
     case `OK/EDIT_ARR/${type}`:
-      if (action.payload.id) {
+      if (action.payload && action.payload.id) {
         const objIndex = state.data.findIndex(o => o.id === action.payload.id);
 
-        const newData = state.data;
-        newData[objIndex] = action.payload;
+        const editTmp = state.data;
+        editTmp[objIndex] = action.payload;
 
         return {
           ...state,
           loading: false,
-          data: newData,
+          data: editTmp,
           error: null,
         };
       }
       console.error(`error in merge payload OK/EDIT_ARR/${type}`);
+      console.log(action);
       return {
         ...state,
         loading: false,

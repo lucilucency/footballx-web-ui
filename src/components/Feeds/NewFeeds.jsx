@@ -56,7 +56,7 @@ class NewFeeds extends React.Component {
       <div>
         <Helmet title="footballx - Posts" />
         <Container browser={this.props.browser}>
-          <PostGrid />
+          <PostGrid area="self" />
           <RightTray>
             {this.props.user && (
               <div data="page-welcome">

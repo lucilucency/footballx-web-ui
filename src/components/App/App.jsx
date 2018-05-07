@@ -43,6 +43,9 @@ const muiTheme = {
     height: 38,
     textTransform: 'capitalize',
   },
+  cardText: {
+    color: constants.theme().textColorSecondary,
+  },
 };
 
 const StyledDiv = styled.div`

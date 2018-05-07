@@ -28,7 +28,7 @@ class PostGrid extends React.Component {
     this.columnCount = 1;
     switch (this.props.area) {
       case 'self':
-        this.props.getMeFeeds(this.props.sorting, this.user.id);
+        this.props.getMeFeeds(this.props.sorting, this.props.user.id);
         break;
       default:
         this.props.getWorldFeeds(this.props.sorting);
@@ -50,6 +50,7 @@ PostGrid.propTypes = {
 
   /**/
   posts: PropTypes.array,
+  user: PropTypes.object,
   getMeFeeds: PropTypes.func,
   getWorldFeeds: PropTypes.func,
 };

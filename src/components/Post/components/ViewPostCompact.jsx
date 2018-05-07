@@ -61,11 +61,25 @@ class ViewPostCompact extends React.Component {
   }
 
   upvote = () => {
-    this.props.upVote(this.props.data.id);
+    const payload = {
+      ...this.props.data,
+      c_ups: (this.props.data.c_ups || 0) + 1,
+    };
+
+    this.props.upVote(this.props.data.id, {
+      payload,
+    });
   };
 
   downVote = () => {
-    this.props.downVote(this.props.data.id);
+    const payload = {
+      ...this.props.data,
+      c_ups: Math.max((this.props.data.c_ups || 0) - 1, 0),
+    };
+
+    this.props.downVote(this.props.data.id, {
+      payload,
+    });
   };
 
   render() {
@@ -92,15 +106,15 @@ class ViewPostCompact extends React.Component {
         >
           <img src={item.content} alt="" />
         </CardMedia>}
-        {item.content_type === 1 && <CardTitle
+        {(item.content_type === 1 || item.content_type === 3) && <CardTitle
           title={item.title}
           titleColor={constants.theme().textColorPrimary}
           titleStyle={{ fontWeight: constants.fontWeightMedium, fontSize: constants.fontSizeBig }}
           style={{ paddingTop: 0, paddingBottom: 0 }}
         />}
-        {item.content_type === 1 &&
-        <CardText color={constants.theme().textColorSecondary} style={{ fontSize: constants.fontSizeMedium, whiteSpace: 'pre-wrap' }}>
-          {item.content}
+        {(item.content_type === 1 || item.content_type === 3) &&
+        <CardText style={{ fontSize: constants.fontSizeMedium, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+          {item.content_type === 3 ? <a href={`${item.content}`} target="_blank">{item.content}</a> : item.content}
         </CardText>}
         <CardActions
           style={{
@@ -169,6 +183,7 @@ class ViewPostCompact extends React.Component {
 ViewPostCompact.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   upVote: PropTypes.func,
+  downVote: PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => ({
