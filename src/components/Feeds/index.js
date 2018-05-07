@@ -1,3 +1,3 @@
-import FxEvent from './NewFeeds';
+import NewFeeds from './NewFeeds';
 
-export default FxEvent;
+export default NewFeeds;

@@ -121,8 +121,12 @@ class App extends React.Component {
           }
           <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             { location.pathname !== '/' && <Announce /> }
-            <Route exact path="/" component={WorldFeeds} />
-            <Route exact path="/home" component={MyFeeds} />
+            {this.props.user ?
+              <Route exact path="/" component={MyFeeds} /> :
+              <Route exact path="/" component={WorldFeeds} />
+            }
+
+            {/*<Route exact path="/home" component={this.props.user ? MyFeeds : WorldFeeds} />*/}
             <Route exact path="/popular" component={WorldFeeds} />
             <Route exact path="/sign_in" component={Login} />
           </StyledBodyDiv>

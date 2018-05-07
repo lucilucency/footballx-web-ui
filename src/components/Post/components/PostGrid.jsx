@@ -46,8 +46,4 @@ const mapStateToProps = state => ({
   loading: state.app.posts.loading,
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   dispatchPosts: params => dispatch(getPosts(params)),
-// });
-
 export default connect(mapStateToProps, null)(RequestLayer);

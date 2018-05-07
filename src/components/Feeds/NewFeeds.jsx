@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import Paper from 'material-ui/Paper';
 import constants from '../constants';
-import { getPosts } from '../../actions/index';
+import { getMeFeeds } from '../../actions/index';
 import { CreatePostButton, PostGrid } from '../Post/components';
 import { SuggestedCommunities } from '../User/components';
 
@@ -46,10 +46,13 @@ const Paper2 = styled(Paper)`
 
 class NewFeeds extends React.Component {
   componentDidMount() {
+    console.log('calling getMeFeeds');
     if (this.props.user.id) {
+      console.log('get posts');
       this.props.dispatchPosts('new', this.props.user.id);
     } else {
-      setTimeout(() => this.props.dispatchPosts('new', this.props.user.id), 500);
+      console.log('wating 2000');
+      setTimeout(() => this.props.dispatchPosts('new', this.props.user.id), 2000);
     }
   }
 
@@ -109,7 +112,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  dispatchPosts: (sortby, userID) => dispatch(getPosts(sortby, userID)),
+  dispatchPosts: (sortby, userID) => dispatch(getMeFeeds(sortby, userID)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFeeds);

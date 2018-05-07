@@ -1,3 +1,3 @@
-import FxEvent from './HotWorldFeeds';
+import HotWorldFeeds from './HotWorldFeeds';
 
-export default FxEvent;
+export default HotWorldFeeds;

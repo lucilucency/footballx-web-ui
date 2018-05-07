@@ -8,7 +8,12 @@ import {
 // auth
 // export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
 export const loginFb = accessToken => dispatchPost('metadata', 'xuser/auth', { access_token: accessToken });
-export const refresh = userID => dispatchGet('metadata', `xuser/${userID}/refesh`, { xuser_id: userID });
+export const refresh = (xuser_id, token) => dispatchGET({
+  token,
+  reducer: 'metadata',
+  path: `xuser/${xuser_id}/refesh`,
+  params: { xuser_id },
+});
 
 // communities
 export const getSuggestedCommunities = () => dispatchGet('suggestedCommunities', 'communities/suggestion', {}, resp => resp.communities);
@@ -20,7 +25,7 @@ export const subscribeCommunity = (communityID, {
   path,
 });
 // post
-export const getPosts = (sortby, xuser_id) => dispatchGET({
+export const getMeFeeds = (sortby, xuser_id) => dispatchGET({
   reducer: 'posts',
   path: 'posts/following',
   params: {

@@ -1,12 +1,13 @@
 /* eslint-disable prefer-destructuring */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import FacebookLogin from 'react-facebook-login';
 import styled from 'styled-components';
-import { loginFb } from '../../actions';
+import { loginFb, refresh } from '../../actions';
 import strings from '../../lang';
 
 const OrLine = styled.div`
@@ -72,7 +73,9 @@ class LoginForm extends React.Component {
           const data = o.payload;
           localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('user_id', data.user.id);
-          that.props.history.push('/home');
+          this.props.refresh(data.user.id, data.access_token).then(() => {
+            that.props.history.push('/popular');
+          });
         } else {
           that.setState({
             loginError: true,
@@ -136,8 +139,13 @@ class LoginForm extends React.Component {
   }
 }
 
+LoginForm.propTypes = {
+  refresh: PropTypes.func,
+};
+
 const mapDispatchToProps = dispatch => ({
   loginFbFn: accessToken => dispatch(loginFb(accessToken)),
+  refresh: (user_id, token) => dispatch(refresh(user_id, token)),
 });
 
 export default withRouter(connect(null, mapDispatchToProps)(LoginForm));

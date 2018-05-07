@@ -240,6 +240,7 @@ export function dispatchPOST({
 
 export function dispatchGET({
   auth = true,
+  token,
   host = FX_API,
   version = FX_VERSION,
   reducer,
@@ -264,7 +265,11 @@ export function dispatchGET({
       error,
     });
 
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = token || localStorage.getItem('access_token');
+    if (path === 'posts/following') {
+      console.log('accessToken', accessToken);
+    }
+
     const fetchDataWithRetry = (delay, tries = 1, error) => {
       if (tries < 1) {
         return dispatchFail(error);
@@ -274,6 +279,9 @@ export function dispatchGET({
         .get(url)
         .set('Content-Type', 'application/x-www-form-urlencoded');
       if (auth) {
+        if (path === 'posts/following') {
+          console.log('add auth', accessToken);
+        }
         doRequest = doRequest.set('Authorization', `Bearer ${accessToken}`);
       }
       return doRequest
