@@ -50,7 +50,7 @@ class ViewPostFull extends React.Component {
   }
 
   componentDidMount() {
-    Promise.all([this.props.getPostComments(this.props.data.id, 'hot')]).then(() => {
+    Promise.all([this.props.getPostComments(this.props.data.id, 'hot', this.props.user.id)]).then(() => {
       setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
     });
   }
@@ -145,17 +145,19 @@ ViewPostFull.propTypes = {
   data: PropTypes.object.isRequired,
   comments: PropTypes.array,
 
-  /* function */
+  /**/
+  user: PropTypes.object,
   getPostComments: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   browser: state.browser,
   comments: state.app.comments.data,
+  user: state.app.metadata.data.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getPostComments: (postID, sortby) => dispatch(getPostComments(postID, sortby)),
+  getPostComments: (postID, sortby, xuser_id) => dispatch(getPostComments(postID, sortby, xuser_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPostFull);

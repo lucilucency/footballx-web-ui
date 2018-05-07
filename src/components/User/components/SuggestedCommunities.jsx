@@ -46,6 +46,7 @@ class RequestLayer extends React.Component {
       <List>
         {this.props.communities.map(item => (
           <ListItem
+            key={item.id}
             disabled
             primaryText={item.name}
             secondaryText={<small style={{ fontSize: constants.fontSizeSmall }}>{`${item.c_followers} followers`}</small>}

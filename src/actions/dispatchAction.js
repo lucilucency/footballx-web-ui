@@ -164,10 +164,8 @@ export function dispatchGET({
   path,
   params = {},
   transform,
-  polling = false,
-  pollingBreak = 3000,
   retries = 1,
-  retriesBreak = 1000,
+  retriesBreak = 3000,
 }) {
   return (dispatchAction) => {
     const url = `${host}/${version}/${path}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
@@ -224,14 +222,7 @@ export function dispatchGET({
     };
 
     dispatchAction(dispatchStart());
-    if (!polling) {
-      return fetchDataWithRetry(retriesBreak, retries);
-    }
-
-    fetchDataWithRetry(retriesBreak, 1);
-    return window.setInterval(() => {
-      fetchDataWithRetry(retriesBreak, 1);
-    }, pollingBreak);
+    return fetchDataWithRetry(retriesBreak, retries);
   };
 }
 

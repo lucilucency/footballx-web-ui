@@ -39,8 +39,6 @@ export const getPosts = sortby => dispatchGET({
     sortby,
   },
   transform: resp => resp.posts,
-  polling: true,
-  pollingBreak: 5000,
 });
 export const getPostsWorld = sortby => dispatchGET({
   auth: false,
@@ -50,17 +48,16 @@ export const getPostsWorld = sortby => dispatchGET({
     sortby,
   },
   transform: resp => resp.posts,
-  polling: true,
-  pollingBreak: 5000,
 });
 export const createPost = params => dispatchPost('ADD/posts', 'post', params, parsePostAfterCreate);
 export const editPost = (id, params) => dispatchPut('EDIT/post', `post/${id}`, params);
 export const deletePost = id => dispatchDelete('DELETE/post', `post/${id}`);
-export const getPostComments = (postID, sortby) => dispatchGET({
-  type: 'comments',
+export const getPostComments = (postID, sortby, xuser_id) => dispatchGET({
+  reducer: 'comments',
   path: `post/${postID}/comments`,
   params: {
     sortby,
+    xuser_id,
   },
   transform: parseCommentsInPost,
   polling: true,
