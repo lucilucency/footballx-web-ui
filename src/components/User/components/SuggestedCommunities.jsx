@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { List, ListItem, Avatar, Checkbox } from 'material-ui';
 import ActionFavorite from 'material-ui/svg-icons/action/touch-app';
 
-import { getSuggestedCommunities } from '../../../actions';
+import { getSuggestedCommunities, followCommunity, unfollowCommunity } from '../../../actions';
 import constants from '../../constants';
 // import { SubscribeButton } from '../../Community/components';
 
@@ -16,8 +16,9 @@ class RequestLayer extends React.Component {
     }
   }
 
-  doSubscribe = () => {
-    // console.log('communityID', this.props.communityID);
+  doSubscribe = (communityID) => {
+    console.log('communityID', communityID);
+    this.props.subscribe(this.props.user.id, communityID);
   };
 
   unSubscribe = () => {
@@ -88,6 +89,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getSuggestedCommunities: () => dispatch(getSuggestedCommunities()),
+  subscribe: (userID, communityID) => dispatch(followCommunity(userID, communityID)),
+  unsubscribe: (userID, communityID) => dispatch(unfollowCommunity(userID, communityID)),
 });
 
 // eslint-disable-next-line import/prefer-default-export

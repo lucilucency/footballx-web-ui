@@ -24,7 +24,7 @@ const getHeaderLinks = user => [
   // <Link key={strings.header_popular} to="/popular">{strings.header_popular}</Link>,
   // <Link key={strings.header_all} to="/all">{strings.header_all}</Link>,
   // <Link key={strings.header_explorer} to="/explorer">{strings.header_explorer}</Link>,
-  <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
+  // <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
 ].filter(o => o);
 
 const burgerLinks = [];

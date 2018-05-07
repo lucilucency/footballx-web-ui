@@ -25,9 +25,10 @@ export const subscribeCommunity = (communityID, {
   path,
 });
 // post
-export const getMeFeeds = (sortby, xuser_id) => dispatchGET({
+export const getMeFeeds = (sortby, xuser_id, token) => dispatchGET({
   reducer: 'posts',
   path: 'posts/following',
+  token,
   params: {
     sortby,
     xuser_id,
@@ -56,7 +57,7 @@ export const getPostComments = (postID, sortby, xuser_id) => dispatchGET({
   transform: parseCommentsInPost,
 });
 export const createComment = ({ post_id, submit_data, payload }) => dispatchPost('ADD/comments', `post/${post_id}/comment`, submit_data, parseCommentAfterCreate, payload);
-export const upVote = (postID, {
+export const upVote = (target_id, {
   reducer = 'EDIT_ARR/posts',
   path = 'post/change-vote',
   payload,
@@ -64,7 +65,7 @@ export const upVote = (postID, {
   reducer,
   path,
   params: {
-    target_id: postID,
+    target_id,
     vflag: 1,
   },
   payload,
@@ -75,7 +76,7 @@ export const upVote = (postID, {
   },
 });
 
-export const downVote = (postID, {
+export const downVote = (target_id, {
   reducer = 'EDIT_ARR/posts',
   path = 'post/change-vote',
   payload,
@@ -83,7 +84,7 @@ export const downVote = (postID, {
   reducer,
   path,
   params: {
-    target_id: postID,
+    target_id,
     vflag: -1,
   },
   payload,
@@ -92,6 +93,44 @@ export const downVote = (postID, {
     delete respClone.id;
     return respClone;
   },
+});
+
+// user
+const changeFollow = (userID, {
+  reducer = 'EDIT/metadata',
+  path = `xuser/${userID}/change-follow`,
+  target_id,
+  target_type,
+  action_type,
+}) => dispatchPOST({
+  version: 'v1',
+  reducer,
+  path,
+  params: {
+    target_id,
+    target_type,
+    action: action_type,
+  },
+});
+export const followUser = (userID, targetID) => changeFollow(userID, {
+  target_id: targetID,
+  target_type: 'xuser',
+  action_type: 'follow',
+});
+export const unfollowUser = (userID, targetID) => changeFollow(userID, {
+  target_id: targetID,
+  target_type: 'xuser',
+  action_type: 'unfollow',
+});
+export const followCommunity = (userID, targetID) => changeFollow(userID, {
+  target_id: targetID,
+  target_type: 'community',
+  action_type: 'follow',
+});
+export const unfollowCommunity = (userID, targetID) => changeFollow(userID, {
+  target_id: targetID,
+  target_type: 'community',
+  action_type: 'unfollow',
 });
 
 

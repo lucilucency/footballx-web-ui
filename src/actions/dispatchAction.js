@@ -266,26 +266,16 @@ export function dispatchGET({
     });
 
     const accessToken = token || localStorage.getItem('access_token');
-    if (path === 'posts/following') {
-      console.warn('localStorage when call getPosts', localStorage);
-      console.log('accessToken', accessToken);
-    }
 
     const fetchDataWithRetry = (delay, tries = 1, error) => {
       if (tries < 1) {
         return dispatchFail(error);
       }
 
-      let doRequest = request
+      return request
         .get(url)
-        .set('Content-Type', 'application/x-www-form-urlencoded');
-      if (auth) {
-        if (path === 'posts/following') {
-          console.log('add auth', accessToken);
-        }
-        doRequest = doRequest.set('Authorization', `Bearer ${accessToken}`);
-      }
-      return doRequest
+        .set('Content-Type', 'application/x-www-form-urlencoded')
+        .set('Authorization', `Bearer ${accessToken}`)
         .query({}) // query string
         .then((res) => {
           if (res.statusCode === 200) {
@@ -302,9 +292,8 @@ export function dispatchGET({
           console.error(err);
           if (err.message === 'Unauthorized') {
             console.warn('Unauthorized, logging out...');
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('user_id');
-            // window.location.href = '/';
+            // localStorage.removeItem('access_token');
+            // localStorage.removeItem('user_id');
             return null;
           }
 
