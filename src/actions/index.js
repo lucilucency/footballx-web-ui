@@ -1,4 +1,4 @@
-import { dispatchPost, dispatchGet, dispatchPut, dispatchDelete, dispatchGET } from './dispatchAction';
+import { dispatchPost, dispatchGet, dispatchPut, dispatchDelete, dispatchGET, dispatchPOST } from './dispatchAction';
 import {
   parseCommentsInPost,
   parseCommentAfterCreate,
@@ -27,16 +27,20 @@ export const refresh = userID => dispatchGet('metadata', `xuser/${userID}/refesh
 
 // communities
 export const getSuggestedCommunities = () => dispatchGet('suggestedCommunities', 'communities/suggestion', {}, resp => resp.communities);
-export const subscribeCommunity = (communityID, { reducer = 'subscribedCommunities' }) => dispatchGET({
+export const subscribeCommunity = (communityID, {
+  reducer = 'subscribedCommunities',
+  path = `community/${communityID}/subscribe`,
+} = {}) => dispatchGET({
   reducer,
-  path: `community/${communityID}/subscribe`,
+  path,
 });
 // post
-export const getPosts = sortby => dispatchGET({
+export const getPosts = (sortby, xuser_id) => dispatchGET({
   reducer: 'posts',
   path: 'posts/following',
   params: {
     sortby,
+    xuser_id,
   },
   transform: resp => resp.posts,
 });
@@ -60,10 +64,31 @@ export const getPostComments = (postID, sortby, xuser_id) => dispatchGET({
     xuser_id,
   },
   transform: parseCommentsInPost,
-  polling: true,
-  pollingBreak: 5000,
 });
 export const createComment = ({ post_id, submit_data, payload }) => dispatchPost('ADD/comments', `post/${post_id}/comment`, submit_data, parseCommentAfterCreate, payload);
+export const upVote = (postID, {
+  reducer = 'EDIT_ARR/posts',
+  path = 'post/change-vote',
+} = {}) => dispatchPOST({
+  reducer,
+  path,
+  params: {
+    target_id: postID,
+    vflag: 1,
+  },
+});
+
+export const downVote = (postID, {
+  reducer = 'EDIT_ARR/posts',
+  path = 'post/change-vote',
+} = {}) => dispatchPOST({
+  reducer,
+  path,
+  params: {
+    target_id: postID,
+    vflag: -1,
+  },
+});
 
 export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',

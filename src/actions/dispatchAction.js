@@ -52,8 +52,6 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
               dispatchData = transform(dispatchData);
             }
             if (payload) {
-              console.log('payload', payload);
-
               if (Array.isArray(payload)) {
                 dispatchData = payload;
               } else {
@@ -153,6 +151,90 @@ export function dispatchGet(type, path, params = {}, transform) {
 
     dispatchAction(dispatchStart());
     return fetchDataWithRetry(1000, 1);
+  };
+}
+
+export function dispatchPOST({
+  host = FX_API,
+  version = FX_VERSION,
+  contentType = 'application/x-www-form-urlencoded',
+  auth = true,
+  retries = 1,
+  retriesBreak = 3000,
+  reducer,
+  path,
+  params = {},
+  transform,
+  payload,
+}) {
+  return (dispatchAction) => {
+    const url = `${host}/${version}/${path}?${typeof params === 'string' ? params.substring(1) : ''}`;
+
+    const dispatchStart = () => ({
+      type: `REQUEST/${reducer}`,
+    });
+    const dispatchOK = payload => ({
+      type: `OK/${reducer}`,
+      payload,
+    });
+    const dispatchFail = error => ({
+      type: `FAIL/${reducer}`,
+      error,
+    });
+
+    const accessToken = localStorage.getItem('access_token') || '';
+
+    const fetchDataWithRetry = (delay, tries, error) => {
+      if (tries < 1) {
+        return dispatchAction(dispatchFail(error));
+      }
+
+      let doRequest = request
+        .post(url)
+        .set('Content-Type', contentType);
+      if (auth) {
+        doRequest = doRequest.set('Authorization', `Bearer ${accessToken}`);
+      }
+
+      return doRequest
+        .send(FormUrlEncoded(params))
+        .query({}) // query string
+        .then((res) => {
+          if (res.statusCode === 200) {
+            let dispatchData = JSON.parse(res.text);
+            if (transform) {
+              dispatchData = transform(dispatchData);
+            }
+            if (payload) {
+              if (Array.isArray(payload)) {
+                dispatchData = payload;
+              } else {
+                dispatchData = update(dispatchData, {
+                  $merge: payload,
+                });
+              }
+            }
+
+            return dispatchAction(dispatchOK(dispatchData));
+          }
+          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.error), delay);
+        })
+        .catch((err) => {
+          console.error(`Error in dispatchPost/${reducer}`);
+          if (err.message === 'Unauthorized') {
+            console.error('Unauthorized, logging out...');
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_id');
+            // window.location.href = '/login';
+            return null;
+          }
+
+          return dispatchAction(dispatchFail(err.message));
+        });
+    };
+
+    dispatchAction(dispatchStart());
+    return fetchDataWithRetry(retriesBreak, retries);
   };
 }
 

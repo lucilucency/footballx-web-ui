@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
+import { upVote, downVote } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, bindAll, renderDialog, ActiveLink, MutedLink } from '../../../utils';
 import constants from '../../constants';
@@ -59,6 +60,14 @@ class ViewPostCompact extends React.Component {
     });
   }
 
+  upvote = () => {
+    this.props.upVote(this.props.data.id);
+  };
+
+  downVote = () => {
+    this.props.downVote(this.props.data.id);
+  };
+
   render() {
     const item = this.props.data;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
@@ -105,6 +114,7 @@ class ViewPostCompact extends React.Component {
             <IconButton
               tooltip="Upvote"
               tooltipPosition="bottom-right"
+              onClick={this.upvote}
             >
               <IconUp color={constants.grey300} hoverColor={constants.blueA100} />
             </IconButton>
@@ -114,6 +124,7 @@ class ViewPostCompact extends React.Component {
             <IconButton
               tooltip="Downvote"
               tooltipPosition="bottom-right"
+              onClick={this.downVote}
             >
               <IconDown color={constants.grey300} hoverColor={constants.blueA100} />
             </IconButton>
@@ -157,6 +168,13 @@ class ViewPostCompact extends React.Component {
 
 ViewPostCompact.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  upVote: PropTypes.func,
 };
 
-export default connect()(ViewPostCompact);
+const mapDispatchToProps = dispatch => ({
+  upVote: (postID, params) => dispatch(upVote(postID, params)),
+  downVote: (postID, params) => dispatch(downVote(postID, params)),
+});
+
+
+export default connect(null, mapDispatchToProps)(ViewPostCompact);

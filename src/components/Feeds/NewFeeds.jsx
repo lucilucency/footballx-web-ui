@@ -46,7 +46,7 @@ const Paper2 = styled(Paper)`
 
 class NewFeeds extends React.Component {
   componentDidMount() {
-    this.props.dispatchPosts('new');
+    this.props.dispatchPosts('new', this.props.user.id);
   }
 
   render() {
@@ -105,7 +105,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  dispatchPosts: params => dispatch(getPosts(params)),
+  dispatchPosts: (sortby, userID) => dispatch(getPosts(sortby, userID)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFeeds);
