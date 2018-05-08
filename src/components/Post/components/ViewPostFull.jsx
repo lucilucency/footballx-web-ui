@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,7 +8,7 @@ import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
 import { getPostComments } from '../../../actions';
 import strings from '../../../lang';
-import { toDateTimeString } from '../../../utils';
+import { toDateTimeString, getCookie } from '../../../utils';
 import constants from '../../constants';
 import ViewPostComments from './ViewPostComments';
 import CreateComment from './CreateEditComment';
@@ -50,7 +49,7 @@ class ViewPostFull extends React.Component {
   }
 
   componentDidMount() {
-    Promise.all([this.props.getPostComments(this.props.data.id, 'hot', this.props.user.id)])
+    Promise.all([this.props.getPostComments(this.props.data.id, 'hot', getCookie('user_id'))])
       .then(() => {
         setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
       });
@@ -134,8 +133,8 @@ class ViewPostFull extends React.Component {
             </div>
           </CardActions>
         </Card>
-        <CreateComment postID={this.props.data.id} />
-        <ViewPostComments comments={this.props.comments} />
+        {this.props.isLoggedIn && <CreateComment postID={this.props.data.id} />}
+        <ViewPostComments comments={this.props.comments} isLoggedIn={this.props.isLoggedIn} />
       </div>
     );
   }
@@ -147,14 +146,13 @@ ViewPostFull.propTypes = {
   comments: PropTypes.array,
 
   /**/
-  user: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
   getPostComments: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   browser: state.browser,
   comments: state.app.comments.data,
-  user: state.app.metadata.data.user || {},
 });
 
 const mapDispatchToProps = dispatch => ({

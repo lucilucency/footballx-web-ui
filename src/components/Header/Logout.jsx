@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import LogOutButton from 'material-ui/svg-icons/action/power-settings-new';
 import strings from '../../lang';
 import constants from '../constants';
+import { eraseCookie } from '../../utils';
 
 const LinkStyled = styled.a`
   font-size: ${constants.fontSizeMedium};
@@ -27,9 +28,8 @@ const LinkStyled = styled.a`
 class Logout extends React.Component {
   static handleClickLogout(event) {
     event.preventDefault();
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('account_user');
-    localStorage.removeItem('user_id');
+    eraseCookie('access_token');
+    eraseCookie('user_id');
     window.location.href = '/';
   }
 

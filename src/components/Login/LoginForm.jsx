@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,6 +8,7 @@ import FacebookLogin from 'react-facebook-login';
 import styled from 'styled-components';
 import { loginFb, refresh } from '../../actions';
 import strings from '../../lang';
+import { setCookie } from '../../utils';
 
 const OrLine = styled.div`
   position: relative;
@@ -71,9 +71,10 @@ class LoginForm extends React.Component {
       if (!e) {
         if (o.payload) {
           const data = o.payload;
-          localStorage.setItem('access_token', data.access_token);
-          localStorage.setItem('user_id', data.user.id);
-          that.props.history.push('/home');
+          setCookie('access_token', data.access_token, 7);
+          setCookie('user_id', data.user.id, 7);
+
+          that.props.history.push('/popular');
         } else {
           that.setState({
             loginError: true,

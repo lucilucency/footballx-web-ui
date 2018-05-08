@@ -20,7 +20,7 @@ import BurgerMenu from './BurgerMenu';
 import Logout from './Logout';
 
 const getHeaderLinks = user => [
-  // user && <Link key={strings.header_home} to="/home">{strings.header_home}</Link>,
+  user && <Link key={strings.header_home} to="/home">{strings.header_home}</Link>,
   // <Link key={strings.header_popular} to="/popular">{strings.header_popular}</Link>,
   // <Link key={strings.header_all} to="/all">{strings.header_all}</Link>,
   // <Link key={strings.header_explorer} to="/explorer">{strings.header_explorer}</Link>,
@@ -107,7 +107,7 @@ LogoGroup.propTypes = {
   }),
 };
 
-const LinkGroup = ({ user }) => (
+const HeaderLink = ({ user }) => (
   <VerticalAlignToolbar>
     {getHeaderLinks(user).map(Page => (
       <TabContainer key={Page.key}>
@@ -118,7 +118,7 @@ const LinkGroup = ({ user }) => (
     ))}
   </VerticalAlignToolbar>
 );
-LinkGroup.propTypes = {
+HeaderLink.propTypes = {
   user: PropTypes.object,
 };
 
@@ -168,7 +168,7 @@ const Header = ({ location, greaterThanSmall, user }) => (
     <ToolbarHeader>
       <VerticalAlignDiv>
         <LogoGroup greaterThanSmall={greaterThanSmall} location={location} />
-        {greaterThanSmall && <LinkGroup user={user} />}
+        {null && <HeaderLink user={user} />}
         {greaterThanSmall && <SearchGroup />}
       </VerticalAlignDiv>
       <VerticalAlignDiv >

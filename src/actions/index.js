@@ -5,6 +5,7 @@ import {
   parsePostAfterCreate,
   parsePostInMeFeeds,
 } from './parser';
+import { getCookie } from '../utils';
 
 // auth
 // export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
@@ -15,7 +16,7 @@ export const refresh = (xuser_id, token) => dispatchGET({
   path: `xuser/${xuser_id}/refesh`,
   params: { xuser_id },
 });
-export const getMetadata = ({ access_token = localStorage.getItem('access_token'), user_id = localStorage.getItem('user_id') } = {}) => (dispatch) => {
+export const getMetadata = ({ access_token = getCookie('access_token'), user_id = getCookie('user_id') } = {}) => (dispatch) => {
   const getDataStart = payload => ({
     type: 'OK/metadata',
     payload,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import { fromNow, MutedLink } from '../../../utils';
+import { fromNow, MutedLink, getCookie } from '../../../utils';
 
 class ViewPostComments extends React.Component {
   state = {
@@ -24,12 +24,13 @@ class ViewPostComments extends React.Component {
 
   render() {
     const { comments } = this.props;
+    const userID = getCookie('user_id');
     return (
       <List>
         <Subheader>
           {comments.length ?
             <span>Comments ({comments.length})</span> :
-            <span>Be the first one bark here</span>
+            <span>Be the first one bark here {!userID && <MutedLink to="/sign_in">Log in</MutedLink>}</span>
           }
         </Subheader>
         {comments.map((item) => {

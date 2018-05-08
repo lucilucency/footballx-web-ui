@@ -11,6 +11,7 @@ import store from './store';
 import { getMetadata, refresh } from './actions';
 import App from './components/App';
 import constants from './components/constants';
+import { getCookie } from './utils';
 import registerServiceWorker from './registerServiceWorker';
 // import { unregister } from './registerServiceWorker';
 
@@ -155,7 +156,8 @@ li {
 `]);
 
 // Fetch metadata (used on all pages)
-const userID = localStorage.getItem('user_id');
+// const userID = localStorage.getItem('user_id');
+const userID = getCookie('user_id');
 if (userID) {
   store.dispatch(getMetadata());
   store.dispatch(refresh(userID));
