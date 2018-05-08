@@ -1,7 +1,5 @@
 export const parseCommentsInPost = (data) => {
   const { comments = [], xusers = [] } = data;
-  console.log(data);
-  console.log('comments', comments);
   const xuserIDs = xusers.map(o => Number(o.id));
 
   return comments.map((o) => {

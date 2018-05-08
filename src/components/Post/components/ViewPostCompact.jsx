@@ -65,9 +65,7 @@ class ViewPostCompact extends React.Component {
         autoDetectWindowHeight: false,
         modal: false,
         open: true,
-        contentStyle: { width: '100%', transform: 'translate(0, 0)' },
-        bodyStyle: { padding: 0 },
-        style: { paddingTop: 0, height: '100vh' },
+        // contentStyle: { width: '100%', maxWidth: 'none' },
       },
     }, () => {
       this.handleOpenDialog();
