@@ -11,7 +11,6 @@ import constants from '../../constants';
 
 class RequestLayer extends React.Component {
   componentDidMount() {
-    console.log('user in component did mount Suggested Community', this.props);
     if (this.props.user) {
       this.props.getSuggestedCommunities();
     }
@@ -21,8 +20,8 @@ class RequestLayer extends React.Component {
     this.props.subscribe(this.props.user.id, communityID);
   };
 
-  unSubscribe = () => {
-    // console.log('communityID', this.props.communityID);
+  unSubscribe = (communityID) => {
+    this.props.unsubscribe(this.props.user.id, communityID);
   };
 
   render() {
@@ -79,6 +78,9 @@ RequestLayer.propTypes = {
   user: PropTypes.object,
   getSuggestedCommunities: PropTypes.func,
   communities: PropTypes.array,
+
+  subscribe: PropTypes.func,
+  unsubscribe: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

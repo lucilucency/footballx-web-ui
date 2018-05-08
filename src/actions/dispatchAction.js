@@ -1,6 +1,6 @@
-/* eslint-disable no-restricted-syntax,guard-for-in */
 import queryString from 'querystring';
 import update from 'react-addons-update';
+import { getCookie } from '../utils';
 
 const request = require('superagent');
 const FormUrlEncoded = require('form-urlencoded');
@@ -33,7 +33,7 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
       options.contentType = 'application/x-www-form-urlencoded';
     }
 
-    const accessToken = localStorage.getItem('access_token') || '';
+    const accessToken = getCookie('access_token');
 
     const fetchDataWithRetry = (delay, tries, error) => {
       if (tries < 1) {
@@ -95,7 +95,6 @@ export function dispatch(type, payload, transform) {
   };
 }
 
-
 export function dispatchGet(type, path, params = {}, transform) {
   const host = FX_API;
   const v = FX_VERSION;
@@ -114,7 +113,7 @@ export function dispatchGet(type, path, params = {}, transform) {
       error,
     });
 
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = getCookie('access_token');
     const fetchDataWithRetry = (delay, tries, error) => {
       if (tries < 1) {
         return dispatchFail(error);
@@ -155,10 +154,10 @@ export function dispatchGet(type, path, params = {}, transform) {
 }
 
 export function dispatchPOST({
+  auth = true,
   host = FX_API,
   version = FX_VERSION,
   contentType = 'application/x-www-form-urlencoded',
-  auth = true,
   retries = 1,
   retriesBreak = 3000,
   reducer,
@@ -182,7 +181,7 @@ export function dispatchPOST({
       error,
     });
 
-    const accessToken = localStorage.getItem('access_token') || '';
+    const accessToken = getCookie('access_token');
 
     const fetchDataWithRetry = (delay, tries, error) => {
       if (tries < 1) {
@@ -240,7 +239,6 @@ export function dispatchPOST({
 
 export function dispatchGET({
   auth = true,
-  token,
   host = FX_API,
   version = FX_VERSION,
   reducer,
@@ -265,17 +263,21 @@ export function dispatchGET({
       error,
     });
 
-    const accessToken = token || localStorage.getItem('access_token');
+    const accessToken = getCookie('access_token');
 
     const fetchDataWithRetry = (delay, tries = 1, error) => {
       if (tries < 1) {
         return dispatchFail(error);
       }
 
-      return request
+      let doRequest = request
         .get(url)
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .set('Authorization', `Bearer ${accessToken}`)
+        .set('Content-Type', 'application/x-www-form-urlencoded');
+      if (auth) {
+        doRequest = doRequest.set('Authorization', `Bearer ${accessToken}`);
+      }
+
+      return doRequest
         .query({}) // query string
         .then((res) => {
           if (res.statusCode === 200) {
@@ -332,7 +334,7 @@ export function dispatchPut(type, path, params = {}, transform) {
       options.contentType = 'application/x-www-form-urlencoded';
     }
 
-    const accessToken = localStorage.getItem('access_token') || '';
+    const accessToken = getCookie('access_token');
 
     const fetchDataWithRetry = (delay, tries, error) => {
       if (tries < 1) {
@@ -390,7 +392,7 @@ export function dispatchDelete(type, path, params = {}, transform) {
       options.contentType = 'application/x-www-form-urlencoded';
     }
 
-    const accessToken = localStorage.getItem('access_token') || '';
+    const accessToken = getCookie('access_token');
 
     const fetchDataWithRetry = (delay, tries, error) => {
       if (tries < 1) {

@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types,max-len,no-confusing-arrow,no-restricted-globals */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -14,11 +13,10 @@ import {
 } from 'material-ui';
 
 import { IconFail, IconSuccess, IconProgress, IconLink, IconImage, IconText } from '../../Icons';
-
 import strings from '../../../lang';
 import { bindAll, mergeObject, FormWrapper, Row, TextValidator } from '../../../utils';
 import constants from '../../constants';
-import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn } from '../../../actions';
+import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 import CommunitySelector from './CommunitySelector';
@@ -49,7 +47,7 @@ class CreateEditPost extends React.Component {
     content: '',
     content_type: {
       text: strings.enum_post_type_1,
-      value: 1,
+      value: 2,
     },
     communities: {},
   };
@@ -184,6 +182,7 @@ class CreateEditPost extends React.Component {
   }
 
   deletePost() {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm('Are you sure you want to delete this post?')) {
       this.setState({
         submitResults: update(this.state.submitResults, {
@@ -282,22 +281,31 @@ class CreateEditPost extends React.Component {
     // errorMessages={[strings.validate_is_required]}
   />);
 
-  renderContentImageInput = () => (<TextValidator
-    name="content"
-    type="text"
-    hintText={strings.hint_post_content_image}
-    // floatingLabelText={strings.label_post_content}
-    onChange={e => this.setState({
-      formData: update(this.state.formData, {
-        content: { $set: e.target.value },
-      }),
-    })}
-    fullWidth
-    value={this.state.formData.content && this.state.formData.content}
-    hintStyle={{ top: 12 }}
-    // validators={['required']}
-    // errorMessages={[strings.validate_is_required]}
-  />);
+  fileChangedHandler = (event) => {
+    console.log('file change');
+    const selectedFile = event.target.files[0];
+    console.log('selectedFile', selectedFile);
+    this.setState({ selectedFile });
+    ajaxUpload({
+      file: selectedFile,
+    });
+  };
+
+  uploadHandler = () => {
+    console.log('do upload');
+    console.log(this.state.selectedFile);
+  };
+
+  renderContentImageInput = () => (
+    <FlatButton
+      containerElement="label"
+      label="Choose a image"
+      primary
+      onClick={this.uploadHandler}
+    >
+      <input type="file" style={{ display: 'none' }} onChange={this.fileChangedHandler} />
+    </FlatButton>
+  );
 
   renderContentLinkInput = () => (<TextValidator
     name="content"
@@ -326,23 +334,6 @@ class CreateEditPost extends React.Component {
       loading,
     } = this.props;
 
-    // const renderContentTypeSelector = (
-    //   <SelectField
-    //     floatingLabelText={strings.filter_type}
-    //     value={this.state.formData.content_type.value}
-    //     onChange={(event, index, value) => this.setState({
-    //       formData: update(this.state.formData, {
-    //         content_type: { value: { $set: value } },
-    //       }),
-    //     })}
-    //     fullwidth
-    //   >
-    //     {this.props.dsPostType.map((o, index) => (
-    //       <MenuItem key={index} value={o.value} primaryText={o.text} />
-    //     ))}
-    //   </SelectField>
-    // );
-
     const actions = [
       mode === 'edit' && (
         <FlatButton
@@ -357,7 +348,7 @@ class CreateEditPost extends React.Component {
         label={strings.form_general_close}
         key="cancel"
         secondary
-        onClick={() => this.props.callback ? this.props.callback() : props.history.push('/home')}
+        onClick={this.props.callback ? this.props.callback : () => props.history.push('/home')}
       />,
       <FlatButton
         key="submit"

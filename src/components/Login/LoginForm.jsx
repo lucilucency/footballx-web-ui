@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import FacebookLogin from 'react-facebook-login';
 import styled from 'styled-components';
-import { loginFb, refresh } from '../../actions';
+import { loginFb } from '../../actions';
 import strings from '../../lang';
 import { setCookie } from '../../utils';
 
@@ -52,16 +52,10 @@ class LoginForm extends React.Component {
       message: '',
     };
     this.doLoginFb = this.doLoginFb.bind(this);
-    this.handleTextFieldKeyDown = this.handleTextFieldKeyDown.bind(this);
   }
 
   componentWillMount() {
 
-  }
-
-  handleClick(event) {
-    event.preventDefault();
-    this.doLoginFb();
   }
 
   doLoginFb(userFbData) {
@@ -85,18 +79,18 @@ class LoginForm extends React.Component {
     });
   }
 
-  handleTextFieldKeyDown = (event) => {
-    const that = this;
-    switch (event.key) {
-      case 'Enter':
-        that.doLogin();
-        break;
-      case 'Escape':
-        // etc...
-        break;
-      default: break;
-    }
-  };
+  // handleTextFieldKeyDown = (event) => {
+  //   const that = this;
+  //   switch (event.key) {
+  //     case 'Enter':
+  //       that.doLogin();
+  //       break;
+  //     case 'Escape':
+  //       // etc...
+  //       break;
+  //     default: break;
+  //   }
+  // };
 
   render() {
     return (
@@ -106,9 +100,7 @@ class LoginForm extends React.Component {
           autoLoad
           fields="name,email,picture"
           size="small"
-          callback={(data) => {
-            this.doLoginFb(data);
-          }}
+          callback={this.doLoginFb}
           style={{
             width: 100,
           }}
@@ -119,7 +111,7 @@ class LoginForm extends React.Component {
             hintText="Enter your Username"
             floatingLabelText="Username"
             // onChange={(event, newValue) => this.setState({ username: newValue, message: '' })}
-            onKeyDown={this.handleTextFieldKeyDown}
+            // onKeyDown={this.handleTextFieldKeyDown}
           />
           <br />
           <TextField
@@ -127,24 +119,19 @@ class LoginForm extends React.Component {
             hintText="Enter your Password"
             floatingLabelText="Password"
             // onChange={(event, newValue) => this.setState({ password: newValue })}
-            onKeyDown={this.handleTextFieldKeyDown}
+            // onKeyDown={this.handleTextFieldKeyDown}
             errorText={this.state.message}
           />
           <br />
-          <FlatButton label={strings.home_login} primary onClick={event => this.handleClick(event)} />
+          <FlatButton label={strings.home_login} primary />
         </form>
       </div>
     );
   }
 }
 
-LoginForm.propTypes = {
-  refresh: PropTypes.func,
-};
-
 const mapDispatchToProps = dispatch => ({
   loginFbFn: accessToken => dispatch(loginFb(accessToken)),
-  refresh: (user_id, token) => dispatch(refresh(user_id, token)),
 });
 
 export default withRouter(connect(null, mapDispatchToProps)(LoginForm));

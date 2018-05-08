@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, FlatButton, IconButton } from 'material-ui';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
@@ -48,6 +47,9 @@ class ViewPostFull extends React.Component {
   }
 
   upvote = () => {
+    if (!this.props.isLoggedIn) {
+      return;
+    }
     if (this.props.data.vflag === 1) {
       return;
     }
@@ -64,6 +66,9 @@ class ViewPostFull extends React.Component {
   };
 
   downVote = () => {
+    if (!this.props.isLoggedIn) {
+      return;
+    }
     if (this.props.data.vflag === -1) {
       return;
     }
@@ -133,7 +138,7 @@ class ViewPostFull extends React.Component {
             <ActionModule>
               <IconButton
                 tooltip="Upvote"
-                tooltipPosition="bottom-right"
+                tooltipPosition="top-center"
                 onClick={this.upvote}
                 // disabled={!this.props.isLoggedIn || item.vflag === 1}
               >
@@ -142,7 +147,7 @@ class ViewPostFull extends React.Component {
               <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(ups - downs) || 0}</small>
               <IconButton
                 tooltip="Downvote"
-                tooltipPosition="bottom-right"
+                tooltipPosition="top-center"
                 onClick={this.downVote}
                 // disabled={!this.props.isLoggedIn || item.vflag === -1}
               >

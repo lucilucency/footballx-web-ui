@@ -10,8 +10,7 @@ import { getCookie } from '../utils';
 // auth
 // export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
 export const loginFb = accessToken => dispatchPost('metadata', 'xuser/auth', { access_token: accessToken });
-export const refresh = (xuser_id, token) => dispatchGET({
-  token,
+export const refresh = xuser_id => dispatchGET({
   reducer: 'metadata',
   path: `xuser/${xuser_id}/refesh`,
   params: { xuser_id },
@@ -45,10 +44,9 @@ export const subscribeCommunity = (communityID, {
   path,
 });
 // post
-export const getMeFeeds = (sortby, xuser_id, token) => dispatchGET({
+export const getMeFeeds = (sortby, xuser_id) => dispatchGET({
   reducer: 'posts',
   path: 'posts/following',
-  token,
   params: {
     sortby,
     xuser_id,

@@ -73,35 +73,33 @@ class ViewPostCompact extends React.Component {
   }
 
   upvote = () => {
-    if (this.props.data.vflag === 1) {
-      return;
-    }
-    const payload = {
-      ...this.props.data,
-      vflag: 1,
-      c_ups: (this.props.data.c_ups || 0) + 1,
-      c_downs: (this.props.data.c_downs || 0) - 1,
-    };
+    if (this.props.isLoggedIn && this.props.data.vflag !== 1) {
+      const payload = {
+        ...this.props.data,
+        vflag: 1,
+        c_ups: (this.props.data.c_ups || 0) + 1,
+        c_downs: (this.props.data.c_downs || 0) - 1,
+      };
 
-    this.props.upVote(this.props.data.id, {
-      payload,
-    });
+      this.props.upVote(this.props.data.id, {
+        payload,
+      });
+    }
   };
 
   downVote = () => {
-    if (this.props.data.vflag === -1) {
-      return;
-    }
-    const payload = {
-      ...this.props.data,
-      vflag: -1,
-      c_ups: (this.props.data.c_ups || 0) - 1,
-      c_downs: (this.props.data.c_downs || 0) + 1,
-    };
+    if (this.props.isLoggedIn && this.props.data.vflag !== -1) {
+      const payload = {
+        ...this.props.data,
+        vflag: -1,
+        c_ups: (this.props.data.c_ups || 0) - 1,
+        c_downs: (this.props.data.c_downs || 0) + 1,
+      };
 
-    this.props.downVote(this.props.data.id, {
-      payload,
-    });
+      this.props.downVote(this.props.data.id, {
+        payload,
+      });
+    }
   };
 
   render() {
@@ -157,18 +155,18 @@ class ViewPostCompact extends React.Component {
           <ActionModule>
             <IconButton
               tooltip="Upvote"
-              tooltipPosition="bottom-right"
+              tooltipPosition="top-center"
               onClick={this.upvote}
-              // disabled={!this.props.isLoggedIn || item.vflag === 1}
+              disabled={!this.props.isLoggedIn}
             >
               <IconUp color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
             </IconButton>
             <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(ups - downs) || 0}</small>
             <IconButton
               tooltip="Downvote"
-              tooltipPosition="bottom-right"
+              tooltipPosition="top-center"
               onClick={this.downVote}
-              // disabled={!this.props.isLoggedIn || item.vflag === -1}
+              disabled={!this.props.isLoggedIn}
             >
               <IconDown color={item.vflag === -1 ? constants.redA100 : constants.grey300} hoverColor={constants.redA100} />
             </IconButton>

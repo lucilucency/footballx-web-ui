@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,26 +7,12 @@ import {
   Chip,
   Avatar,
 } from 'material-ui';
-// import strings from '../../../lang';
-// import constants from '../../constants';
 import { bindAll, BigSelector } from '../../../utils';
 import { getSuggestedCommunities } from '../../../actions';
 
 const initialState = {};
 
 class CommunitySelector extends React.Component {
-  static propTypes = {
-    onSelect: PropTypes.func.isRequired,
-    dsCm: PropTypes.shape([]),
-
-    errorText: PropTypes.string,
-    getSuggestedCommunities: PropTypes.func,
-  };
-
-  static defaultProps = {
-    errorText: '',
-  };
-
   constructor(props) {
     super(props);
 
@@ -125,27 +110,20 @@ class CommunitySelector extends React.Component {
   }
 }
 
+CommunitySelector.propTypes = {
+  onSelect: PropTypes.func.isRequired,
+  dsCm: PropTypes.array,
+
+  errorText: PropTypes.string,
+  getSuggestedCommunities: PropTypes.func,
+};
+
+CommunitySelector.defaultProps = {
+  errorText: '',
+};
 
 const mapStateToProps = state => ({
   dsCm: state.app.suggestedCommunities.data,
-  // dsCm: {
-  //   communities: [{
-  //     community_icon: 'https://s3-ap-southeast-1.amazonaws.com/football-x-data-download/league-icon/UEFA_Champions_League_logo.svg.png',
-  //     community_id: 2,
-  //     community_link: 'ttab',
-  //     community_name: 'ttab',
-  //   }, {
-  //     community_icon: 'https://s3-ap-southeast-1.amazonaws.com/football-x-data-download/league-icon/UEFA_Champions_League_logo.svg.png',
-  //     community_id: 1,
-  //     community_link: 'funnyfootball',
-  //     community_name: 'funnyfootball',
-  //   }, {
-  //     community_icon: 'https://media.gettyimages.com/photos/soccer-girl-picture-id532590749?s=170667a',
-  //     community_id: 10,
-  //     community_link: 'sexygirl',
-  //     community_name: 'sexygirl',
-  //   }],
-  // },
 });
 
 const mapDispatchToProps = dispatch => ({
