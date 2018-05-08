@@ -6,25 +6,17 @@ import styled from 'styled-components';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, FlatButton, IconButton } from 'material-ui';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
-import { getPostComments } from '../../../actions';
+import { getPostComments, upVote, downVote } from '../../../actions';
 import strings from '../../../lang';
-import { toDateTimeString, getCookie } from '../../../utils';
+import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
 import constants from '../../constants';
 import ViewPostComments from './ViewPostComments';
 import CreateComment from './CreateEditComment';
 
-const ActiveLink = styled(Link)`
-  :hover {
-    text-decoration: underline;
-  }
-`;
-
-const MutedLink = styled(Link)`
-  color: ${constants.colorMutedLight};
-  
-  :hover {
-    text-decoration: underline;
-  }
+const ActionModule = styled.div`
+  display: flex; 
+  flex-direction: row;
+  margin-right: 5px;
 `;
 
 const LinkCoverStyled = styled.span`
@@ -55,10 +47,44 @@ class ViewPostFull extends React.Component {
       });
   }
 
+  upvote = () => {
+    if (this.props.data.vflag === 1) {
+      return;
+    }
+    const payload = {
+      ...this.props.data,
+      vflag: 1,
+      c_ups: (this.props.data.c_ups || 0) + 1,
+      c_downs: (this.props.data.c_downs || 0) - 1,
+    };
+
+    this.props.upVote(this.props.data.id, {
+      payload,
+    });
+  };
+
+  downVote = () => {
+    if (this.props.data.vflag === -1) {
+      return;
+    }
+    const payload = {
+      ...this.props.data,
+      vflag: -1,
+      c_ups: (this.props.data.c_ups || 0) - 1,
+      c_downs: (this.props.data.c_downs || 0) + 1,
+    };
+
+    this.props.downVote(this.props.data.id, {
+      payload,
+    });
+  };
+
   render() {
     const item = this.props.data;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
     const postLink = <MutedLink to={`/post/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
+    const ups = item.c_ups || 0;
+    const downs = item.c_downs || 0;
 
     return (
       <div>
@@ -85,7 +111,12 @@ class ViewPostFull extends React.Component {
             title={item.title}
             titleColor={constants.theme().textColorPrimary}
             titleStyle={{ fontWeight: constants.fontWeightHeavy, fontSize: constants.fontSizeBig }}
-            style={{ paddingTop: 0, paddingBottom: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
+            style={{
+              paddingTop: 0,
+              paddingBottom: 0,
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-all',
+            }}
           />}
           {item.content_type === 1 &&
           <CardText color={constants.theme().textColorSecondary} style={{ fontSize: constants.fontSizeMedium, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
@@ -99,25 +130,26 @@ class ViewPostFull extends React.Component {
               borderTop: `1px solid ${constants.grey50}`,
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'row', marginRight: 5 }}>
+            <ActionModule>
               <IconButton
                 tooltip="Upvote"
                 tooltipPosition="bottom-right"
+                onClick={this.upvote}
+                // disabled={!this.props.isLoggedIn || item.vflag === 1}
               >
-                <IconUp color={constants.grey300} hoverColor={constants.blueA100} />
+                <IconUp color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
               </IconButton>
-              <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{item.c_ups || 0}</small>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(ups - downs) || 0}</small>
               <IconButton
                 tooltip="Downvote"
                 tooltipPosition="bottom-right"
+                onClick={this.downVote}
+                // disabled={!this.props.isLoggedIn || item.vflag === -1}
               >
-                <IconDown color={constants.grey300} hoverColor={constants.blueA100} />
+                <IconDown color={item.vflag === -1 ? constants.redA100 : constants.grey300} hoverColor={constants.redA100} />
               </IconButton>
-              <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{item.c_downs || 0}</small>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', marginRight: 5 }}>
+            </ActionModule>
+            <ActionModule>
               <FlatButton
                 target="_blank"
                 label="Share"
@@ -130,7 +162,7 @@ class ViewPostFull extends React.Component {
                 }}
                 labelStyle={{ fontSize: constants.fontSizeSmall, paddingLeft: 5, paddingRight: 5 }}
               />
-            </div>
+            </ActionModule>
           </CardActions>
         </Card>
         {this.props.isLoggedIn && <CreateComment postID={this.props.data.id} />}
@@ -143,11 +175,13 @@ class ViewPostFull extends React.Component {
 ViewPostFull.propTypes = {
   /* data */
   data: PropTypes.object.isRequired,
-  comments: PropTypes.array,
+  isLoggedIn: PropTypes.bool,
 
   /**/
-  isLoggedIn: PropTypes.bool,
+  comments: PropTypes.array,
   getPostComments: PropTypes.func,
+  upVote: PropTypes.func,
+  downVote: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -157,6 +191,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getPostComments: (postID, sortby, xuser_id) => dispatch(getPostComments(postID, sortby, xuser_id)),
+  upVote: (postID, params) => dispatch(upVote(postID, params)),
+  downVote: (postID, params) => dispatch(downVote(postID, params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPostFull);

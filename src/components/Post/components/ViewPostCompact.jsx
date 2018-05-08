@@ -59,6 +59,7 @@ class ViewPostCompact extends React.Component {
         // title: strings.heading_edit_team,
         view: <ViewPostFull
           data={this.props.data}
+          isLoggedIn={this.props.isLoggedIn}
         />,
         repositionOnUpdate: false,
         autoDetectWindowHeight: false,
@@ -136,7 +137,12 @@ class ViewPostCompact extends React.Component {
           title={item.title}
           titleColor={constants.theme().textColorPrimary}
           titleStyle={{ fontWeight: constants.fontWeightMedium, fontSize: constants.fontSizeBig }}
-          style={{ paddingTop: 0, paddingBottom: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
+          style={{
+            paddingTop: 0,
+            paddingBottom: 0,
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-all',
+          }}
         />}
         {(item.content_type === 1 || item.content_type === 3) &&
         <CardText style={{ fontSize: constants.fontSizeMedium, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
@@ -155,7 +161,7 @@ class ViewPostCompact extends React.Component {
               tooltip="Upvote"
               tooltipPosition="bottom-right"
               onClick={this.upvote}
-              // disabled={this.props.disabled || item.vflag === 1}
+              // disabled={!this.props.isLoggedIn || item.vflag === 1}
             >
               <IconUp color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
             </IconButton>
@@ -164,7 +170,7 @@ class ViewPostCompact extends React.Component {
               tooltip="Downvote"
               tooltipPosition="bottom-right"
               onClick={this.downVote}
-              // disabled={this.props.disabled || item.vflag === -1}
+              // disabled={!this.props.isLoggedIn || item.vflag === -1}
             >
               <IconDown color={item.vflag === -1 ? constants.redA100 : constants.grey300} hoverColor={constants.redA100} />
             </IconButton>
@@ -207,7 +213,7 @@ class ViewPostCompact extends React.Component {
 
 ViewPostCompact.propTypes = {
   data: PropTypes.object.isRequired,
-  disabled: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
 
   /**/
   upVote: PropTypes.func,
