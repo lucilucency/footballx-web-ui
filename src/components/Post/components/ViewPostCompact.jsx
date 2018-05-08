@@ -73,12 +73,25 @@ class ViewPostCompact extends React.Component {
   }
 
   upvote = () => {
-    if (this.props.isLoggedIn && this.props.data.vflag !== 1) {
+    if (this.props.isLoggedIn) {
+      let { c_ups = 0, c_downs = 0, vflag } = this.props.data;
+      if (vflag === 1) {
+        vflag = 0;
+        c_ups -= 1;
+      } else if (vflag === 0) {
+        vflag = 1;
+        c_ups += 1;
+      } else if (vflag === -1) {
+        vflag = 1;
+        c_ups += 1;
+        c_downs -= 1;
+      }
+
       const payload = {
         ...this.props.data,
-        vflag: 1,
-        c_ups: (this.props.data.c_ups || 0) + 1,
-        c_downs: (this.props.data.c_downs || 0) - 1,
+        vflag,
+        c_ups,
+        c_downs,
       };
 
       this.props.upVote(this.props.data.id, {
@@ -88,15 +101,28 @@ class ViewPostCompact extends React.Component {
   };
 
   downVote = () => {
-    if (this.props.isLoggedIn && this.props.data.vflag !== -1) {
+    if (this.props.isLoggedIn) {
+      let { c_ups = 0, c_downs = 0, vflag } = this.props.data;
+      if (vflag === 1) {
+        vflag = -1;
+        c_ups -= 1;
+        c_downs += 1;
+      } else if (vflag === 0) {
+        vflag = -1;
+        c_downs += 1;
+      } else if (vflag === -1) {
+        vflag = 0;
+        c_downs -= 1;
+      }
+
       const payload = {
         ...this.props.data,
-        vflag: -1,
-        c_ups: (this.props.data.c_ups || 0) - 1,
-        c_downs: (this.props.data.c_downs || 0) + 1,
+        vflag,
+        c_ups,
+        c_downs,
       };
 
-      this.props.downVote(this.props.data.id, {
+      this.props.upVote(this.props.data.id, {
         payload,
       });
     }
@@ -161,7 +187,9 @@ class ViewPostCompact extends React.Component {
             >
               <IconUp color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
             </IconButton>
-            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(ups - downs) || 0}</small>
+            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(ups) || 0}</small>
+          </ActionModule>
+          <ActionModule>
             <IconButton
               tooltip="Downvote"
               tooltipPosition="top-center"
@@ -170,6 +198,7 @@ class ViewPostCompact extends React.Component {
             >
               <IconDown color={item.vflag === -1 ? constants.redA100 : constants.grey300} hoverColor={constants.redA100} />
             </IconButton>
+            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(downs) || 0}</small>
           </ActionModule>
           <ActionModule>
             <FlatButton

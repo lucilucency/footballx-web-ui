@@ -11,7 +11,7 @@ import {
   BottomNavigation,
   BottomNavigationItem,
 } from 'material-ui';
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 
 import { IconFail, IconSuccess, IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
