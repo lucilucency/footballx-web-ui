@@ -11,10 +11,11 @@ import {
   BottomNavigation,
   BottomNavigationItem,
 } from 'material-ui';
+import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 
 import { IconFail, IconSuccess, IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
-import { bindAll, mergeObject, FormWrapper, Row, TextValidator } from '../../../utils';
+import { bindAll, mergeObject, FormWrapper, TextValidator } from '../../../utils';
 import constants from '../../constants';
 import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload } from '../../../actions';
 import Error from '../../Error/index';
@@ -241,6 +242,7 @@ class CreateEditPost extends React.Component {
     this.setState({
       formData: update(this.state.formData, {
         content_type: { value: { $set: type } },
+        content: { $set: '' },
       }),
     });
   }
@@ -266,11 +268,7 @@ class CreateEditPost extends React.Component {
     type="text"
     hintText={strings.hint_post_content}
     // floatingLabelText={strings.label_post_content}
-    onChange={e => this.setState({
-      formData: update(this.state.formData, {
-        content: { $set: e.target.value },
-      }),
-    })}
+    onChange={e => this.updateContent(e.target.value)}
     multiLine
     rows={4}
     rowsMax={10}
@@ -281,19 +279,26 @@ class CreateEditPost extends React.Component {
     // errorMessages={[strings.validate_is_required]}
   />);
 
+  updateContent = (text) => {
+    this.setState({
+      formData: update(this.state.formData, {
+        content: { $set: text },
+      }),
+    }, () => {
+      window.dispatchEvent(new Event('resize'));
+    });
+  };
+
   fileChangedHandler = (event) => {
-    console.log('file change');
     const selectedFile = event.target.files[0];
-    console.log('selectedFile', selectedFile);
-    this.setState({ selectedFile });
     ajaxUpload({
       file: selectedFile,
+    }).then((resp) => {
+      this.updateContent(resp.text);
     });
   };
 
   uploadHandler = () => {
-    console.log('do upload');
-    console.log(this.state.selectedFile);
   };
 
   renderContentImageInput = () => (
@@ -312,11 +317,7 @@ class CreateEditPost extends React.Component {
     type="text"
     hintText={strings.hint_post_content_link}
     // floatingLabelText={strings.label_post_content}
-    onChange={e => this.setState({
-      formData: update(this.state.formData, {
-        content: { $set: e.target.value },
-      }),
-    })}
+    onChange={e => this.updateContent(e.target.value)}
     fullWidth
     value={this.state.formData.content && this.state.formData.content}
     hintStyle={{ top: 12 }}
@@ -400,14 +401,33 @@ class CreateEditPost extends React.Component {
               });
             }}
           />
-          <Row>
+          <div>
             {this.renderTitleInput()}
-          </Row>
-          <Row>
+          </div>
+          <div>
             {this.state.formData.content_type.value === 1 && this.renderContentTextInput()}
             {this.state.formData.content_type.value === 2 && this.renderContentImageInput()}
             {this.state.formData.content_type.value === 3 && this.renderContentLinkInput()}
-          </Row>
+            {this.state.formData.content_type.value === 2 && this.state.formData.content && (
+              <Card>
+                <CardMedia
+                  overlay={<CardTitle subtitle={this.state.formData.title} />}
+                  style={{
+                    height: 200,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <img
+                    src={this.state.formData.content}
+                    alt=""
+                    style={{
+                      // height: 200,
+                    }}
+                  />
+                </CardMedia>
+              </Card>
+            )}
+          </div>
         </div>
 
         <div className="actions">
