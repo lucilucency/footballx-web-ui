@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import Paper from 'material-ui/Paper';
+import Subheader from 'material-ui/Subheader';
 import constants from '../constants';
 import { CreatePostButton, PostGrid } from '../Post/components';
 import { SuggestedCommunities } from '../User/components';
@@ -57,21 +58,24 @@ class NewWorldFeeds extends React.Component {
             {this.props.user && (
               <div data="page-welcome">
                 <Paper2>
-                  <p>Home</p>
-                  <p>Your personal FootballX frontpage. Come here to check in with your favorite communities.</p>
+                  <Subheader>Popular</Subheader>
+                  <p>
+                    The best posts on Footballx for you, pulled from the most active communities on Reddit.
+                    Check here to see the most shared, upvoted, and commented content on the internet.
+                  </p>
                   <CreatePostButton />
                 </Paper2>
               </div>
             )}
             <div data="ads">
               <Paper2>
-                <p>Ads</p>
+                <Subheader>Ads</Subheader>
               </Paper2>
             </div>
             {this.props.user && (
               <div data="suggested-communities">
                 <Paper2>
-                  <p>Suggested communities</p>
+                  <Subheader>Suggested communities</Subheader>
                   <SuggestedCommunities />
                 </Paper2>
               </div>

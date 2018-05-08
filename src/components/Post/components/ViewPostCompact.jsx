@@ -18,6 +18,12 @@ const LinkCoverStyled = styled.span`
   font-size: ${constants.fontSizeSmall};
 `;
 
+const ActionModule = styled.div`
+  display: flex; 
+  flex-direction: row;
+  margin-right: 5px;
+`;
+
 class ViewPostCompact extends React.Component {
   static initialState = {
     openDialog: false,
@@ -54,6 +60,13 @@ class ViewPostCompact extends React.Component {
         view: <ViewPostFull
           data={this.props.data}
         />,
+        repositionOnUpdate: false,
+        autoDetectWindowHeight: false,
+        modal: false,
+        open: true,
+        contentStyle: { width: '100%', transform: 'translate(0, 0)' },
+        bodyStyle: { padding: 0 },
+        style: { paddingTop: 0, height: '100vh' },
       },
     }, () => {
       this.handleOpenDialog();
@@ -61,9 +74,14 @@ class ViewPostCompact extends React.Component {
   }
 
   upvote = () => {
+    if (this.props.data.vflag === 1) {
+      return;
+    }
     const payload = {
       ...this.props.data,
+      vflag: 1,
       c_ups: (this.props.data.c_ups || 0) + 1,
+      c_downs: (this.props.data.c_downs || 0) - 1,
     };
 
     this.props.upVote(this.props.data.id, {
@@ -72,9 +90,14 @@ class ViewPostCompact extends React.Component {
   };
 
   downVote = () => {
+    if (this.props.data.vflag === -1) {
+      return;
+    }
     const payload = {
       ...this.props.data,
-      c_ups: Math.max((this.props.data.c_ups || 0) - 1, 0),
+      vflag: -1,
+      c_ups: (this.props.data.c_ups || 0) - 1,
+      c_downs: (this.props.data.c_downs || 0) + 1,
     };
 
     this.props.downVote(this.props.data.id, {
@@ -86,6 +109,9 @@ class ViewPostCompact extends React.Component {
     const item = this.props.data;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
     const postLink = <MutedLink to={`/post/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
+    const ups = item.c_ups || 0;
+    const downs = item.c_downs || 0;
+
     return (
       <Card
         key={item.id}
@@ -110,7 +136,7 @@ class ViewPostCompact extends React.Component {
           title={item.title}
           titleColor={constants.theme().textColorPrimary}
           titleStyle={{ fontWeight: constants.fontWeightMedium, fontSize: constants.fontSizeBig }}
-          style={{ paddingTop: 0, paddingBottom: 0 }}
+          style={{ paddingTop: 0, paddingBottom: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
         />}
         {(item.content_type === 1 || item.content_type === 3) &&
         <CardText style={{ fontSize: constants.fontSizeMedium, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
@@ -124,27 +150,26 @@ class ViewPostCompact extends React.Component {
             borderTop: `1px solid ${constants.grey50}`,
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'row', marginRight: 5 }}>
+          <ActionModule>
             <IconButton
               tooltip="Upvote"
               tooltipPosition="bottom-right"
               onClick={this.upvote}
+              // disabled={this.props.disabled || item.vflag === 1}
             >
-              <IconUp color={constants.grey300} hoverColor={constants.blueA100} />
+              <IconUp color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
             </IconButton>
-            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{item.c_ups || 0}</small>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(ups - downs) || 0}</small>
             <IconButton
               tooltip="Downvote"
               tooltipPosition="bottom-right"
               onClick={this.downVote}
+              // disabled={this.props.disabled || item.vflag === -1}
             >
-              <IconDown color={constants.grey300} hoverColor={constants.blueA100} />
+              <IconDown color={item.vflag === -1 ? constants.redA100 : constants.grey300} hoverColor={constants.redA100} />
             </IconButton>
-            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{item.c_downs || 0}</small>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'row', marginRight: 5 }}>
+          </ActionModule>
+          <ActionModule>
             <FlatButton
               target="_blank"
               label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
@@ -158,8 +183,8 @@ class ViewPostCompact extends React.Component {
               labelStyle={{ fontSize: constants.fontSizeSmall, paddingLeft: 5, paddingRight: 5 }}
               onClick={this.popupViewPostFull}
             />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'row', marginRight: 5 }}>
+          </ActionModule>
+          <ActionModule>
             <FlatButton
               target="_blank"
               label="Share"
@@ -172,7 +197,7 @@ class ViewPostCompact extends React.Component {
               }}
               labelStyle={{ fontSize: constants.fontSizeSmall, paddingLeft: 5, paddingRight: 5 }}
             />
-          </div>
+          </ActionModule>
         </CardActions>
         {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}
       </Card>
@@ -181,7 +206,10 @@ class ViewPostCompact extends React.Component {
 }
 
 ViewPostCompact.propTypes = {
-  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  data: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
+
+  /**/
   upVote: PropTypes.func,
   downVote: PropTypes.func,
 };

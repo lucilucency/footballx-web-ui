@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem } from 'material-ui/List';
-import Home from 'material-ui/svg-icons/action/gavel';
-import TrendingUp from 'material-ui/svg-icons/action/trending-up';
+import Home from 'material-ui/svg-icons/action/home';
+import IconAll from 'material-ui/svg-icons/action/track-changes';
+import IconPopular from 'material-ui/svg-icons/action/trending-up';
 import ActionFavorite from 'material-ui/svg-icons/toggle/star';
 
 import Toggle from 'material-ui/Toggle';
@@ -89,17 +90,25 @@ class BurgerMenu extends React.Component {
           }}
         >
           <List>
-            <Subheader>FEEDS</Subheader>
+            <Subheader>Feeds</Subheader>
+            {this.props.user && (
+              <ListItem
+                primaryText="Home"
+                leftAvatar={<Home style={avatarStyle} color={constants.blueA200} />}
+                containerElement={<Link to="/" />}
+                innerDivStyle={innerDivStyle}
+              />
+            )}
             <ListItem
               primaryText="Popular"
-              leftAvatar={<Home style={avatarStyle} color={constants.blueA200} />}
+              leftAvatar={<IconPopular style={avatarStyle} color={constants.greenA200} />}
               containerElement={<Link to="/popular" />}
               innerDivStyle={innerDivStyle}
             />
             <ListItem
-              primaryText="Trending"
-              leftAvatar={<TrendingUp style={avatarStyle} color={constants.greenA200} />}
-              containerElement={<Link to="/hot" />}
+              primaryText="All"
+              leftAvatar={<IconAll style={avatarStyle} color={constants.orangeA200} />}
+              containerElement={<Link to="/all" />}
               innerDivStyle={innerDivStyle}
             />
           </List>
@@ -132,37 +141,41 @@ class BurgerMenu extends React.Component {
               innerDivStyle={innerDivStyle}
             />
           </List>}
-          <List>
-            <Subheader>Subscriptions</Subheader>
-            {this.props.communities.map(item => (
+          {this.props.user && (
+            <List>
+              <Subheader>Subscriptions</Subheader>
+              {this.props.communities.map(item => (
+                <ListItem
+                  key={item.id}
+                  primaryText={<div style={labelStyle}>/{item.name}</div>}
+                  rightIcon={<Checkbox
+                    checkedIcon={<ActionFavorite style={rightIconStyle} />}
+                    uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
+                    style={{
+                      marginTop: 4,
+                    }}
+                  />}
+                  leftAvatar={<Avatar style={avatarStyle} src={item.icon} />}
+                  innerDivStyle={innerDivStyle}
+                />
+              ))}
+            </List>
+          )}
+          {this.props.user && (
+            <List>
+              <Subheader>Notifications</Subheader>
               <ListItem
-                key={item.id}
-                primaryText={<div style={labelStyle}>/{item.name}</div>}
-                rightIcon={<Checkbox
-                  checkedIcon={<ActionFavorite style={rightIconStyle} />}
-                  uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
-                  style={{
-                    marginTop: 4,
-                  }}
-                />}
-                leftAvatar={<Avatar style={avatarStyle} src={item.icon} />}
+                primaryText="Events and match"
+                rightToggle={<Toggle />}
                 innerDivStyle={innerDivStyle}
               />
-            ))}
-          </List>
-          <List>
-            <Subheader>Notifications</Subheader>
-            <ListItem
-              primaryText="Events and match"
-              rightToggle={<Toggle />}
-              innerDivStyle={innerDivStyle}
-            />
-            <ListItem
-              primaryText="Messages"
-              rightToggle={<Toggle />}
-              innerDivStyle={innerDivStyle}
-            />
-          </List>
+              <ListItem
+                primaryText="Messages"
+                rightToggle={<Toggle />}
+                innerDivStyle={innerDivStyle}
+              />
+            </List>
+          )}
         </StyledDrawer>
       </div>
     );
@@ -179,11 +192,13 @@ BurgerMenu.propTypes = {
     width: PropTypes.number,
   }),
   communities: PropTypes.array,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   tray: state.app.tray,
   communities: state.app.suggestedCommunities.data,
+  user: state.app.metadata.data.user,
 });
 
 const mapDispatchToProps = dispatch => ({

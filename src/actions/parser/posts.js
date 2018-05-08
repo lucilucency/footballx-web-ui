@@ -1,3 +1,15 @@
+export const parsePostInMeFeeds = (data) => {
+  const { posts, votes } = data;
+  return posts.map((post) => {
+    const find = votes.find(o => o.post_id === post.id);
+    if (find) delete(find.id);
+    return {
+      ...post,
+      ...find,
+    };
+  });
+};
+
 export const parsePostAfterCreate = (data) => {
   const { post, community } = data;
   return {
@@ -8,3 +20,4 @@ export const parsePostAfterCreate = (data) => {
     community_link: community.link,
   };
 };
+

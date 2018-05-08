@@ -38,7 +38,7 @@ class PostGrid extends React.Component {
   render() {
     return (
       <PostsGridStyled columns={this.columnCount}>
-        {this.props.posts.map(item => <ViewPostCompact data={item} key={item.id || Date.now()} />)}
+        {this.props.posts.map(item => <ViewPostCompact data={item} key={item.id || Date.now()} disabled={Boolean(!this.props.user)} />)}
       </PostsGridStyled>
     );
   }

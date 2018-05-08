@@ -41,6 +41,7 @@ class CreateEditPostButton extends React.Component {
         view: <CreateEditPost
           callback={this.handleCloseDialog}
         />,
+        modal: true,
       },
     }, () => {
       this.handleOpenDialog();

@@ -11,13 +11,13 @@ import constants from '../../constants';
 
 class RequestLayer extends React.Component {
   componentDidMount() {
+    console.log('user in component did mount Suggested Community', this.props);
     if (this.props.user) {
       this.props.getSuggestedCommunities();
     }
   }
 
   doSubscribe = (communityID) => {
-    console.log('communityID', communityID);
     this.props.subscribe(this.props.user.id, communityID);
   };
 

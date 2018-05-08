@@ -3,6 +3,7 @@ import {
   parseCommentsInPost,
   parseCommentAfterCreate,
   parsePostAfterCreate,
+  parsePostInMeFeeds,
 } from './parser';
 
 // auth
@@ -14,6 +15,24 @@ export const refresh = (xuser_id, token) => dispatchGET({
   path: `xuser/${xuser_id}/refesh`,
   params: { xuser_id },
 });
+export const getMetadata = ({ access_token = localStorage.getItem('access_token'), user_id = localStorage.getItem('user_id') } = {}) => (dispatch) => {
+  const getDataStart = payload => ({
+    type: 'OK/metadata',
+    payload,
+  });
+
+  let payload = {};
+  if (access_token && user_id) {
+    payload = {
+      access_token,
+      user: {
+        id: user_id,
+      },
+    };
+  }
+
+  dispatch(getDataStart(payload));
+};
 
 // communities
 export const getSuggestedCommunities = () => dispatchGet('suggestedCommunities', 'communities/suggestion', {}, resp => resp.communities);
@@ -33,7 +52,7 @@ export const getMeFeeds = (sortby, xuser_id, token) => dispatchGET({
     sortby,
     xuser_id,
   },
-  transform: resp => resp.posts,
+  transform: parsePostInMeFeeds,
 });
 export const getPostsWorld = sortby => dispatchGET({
   auth: false,

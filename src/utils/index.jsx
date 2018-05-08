@@ -151,10 +151,16 @@ export function renderDialog(dialogConstruct = {}, triggerOpen, triggerClose) {
       actions={actions}
       open={triggerOpen}
       onRequestClose={onRequestClose}
-      // autoScrollBodyContent
       modal={modal}
       contentStyle={contentStyle}
       autoScrollBodyContent
+
+      // epositionOnUpdate={false}
+      // autoDetectWindowHeight={false}
+      // modal={false}
+      // contentStyle={{width: '100%', transform: 'translate(0, 0)'}}
+      // bodyStyle={{padding: 0}}
+      // style={{paddingTop: 0, height: '100vh'}}
     >
       {view}
     </Dialog>
