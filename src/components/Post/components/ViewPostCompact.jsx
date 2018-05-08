@@ -187,9 +187,7 @@ class ViewPostCompact extends React.Component {
             >
               <IconUp color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
             </IconButton>
-            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(ups) || 0}</small>
-          </ActionModule>
-          <ActionModule>
+            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(ups - downs) || 0}</small>
             <IconButton
               tooltip="Downvote"
               tooltipPosition="top-center"
@@ -198,7 +196,6 @@ class ViewPostCompact extends React.Component {
             >
               <IconDown color={item.vflag === -1 ? constants.redA100 : constants.grey300} hoverColor={constants.redA100} />
             </IconButton>
-            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{(downs) || 0}</small>
           </ActionModule>
           <ActionModule>
             <FlatButton
