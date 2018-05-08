@@ -50,9 +50,10 @@ class ViewPostFull extends React.Component {
   }
 
   componentDidMount() {
-    Promise.all([this.props.getPostComments(this.props.data.id, 'hot', this.props.user.id)]).then(() => {
-      setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
-    });
+    Promise.all([this.props.getPostComments(this.props.data.id, 'hot', this.props.user.id)])
+      .then(() => {
+        setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
+      });
   }
 
   render() {
@@ -85,10 +86,10 @@ class ViewPostFull extends React.Component {
             title={item.title}
             titleColor={constants.theme().textColorPrimary}
             titleStyle={{ fontWeight: constants.fontWeightHeavy, fontSize: constants.fontSizeBig }}
-            style={{ paddingTop: 0, paddingBottom: 0 }}
+            style={{ paddingTop: 0, paddingBottom: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
           />}
           {item.content_type === 1 &&
-          <CardText color={constants.theme().textColorSecondary} style={{ fontSize: constants.fontSizeMedium }}>
+          <CardText color={constants.theme().textColorSecondary} style={{ fontSize: constants.fontSizeMedium, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
             {item.content}
           </CardText>}
           <CardActions
@@ -153,7 +154,7 @@ ViewPostFull.propTypes = {
 const mapStateToProps = state => ({
   browser: state.browser,
   comments: state.app.comments.data,
-  user: state.app.metadata.data.user,
+  user: state.app.metadata.data.user || {},
 });
 
 const mapDispatchToProps = dispatch => ({

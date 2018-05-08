@@ -1,7 +1,7 @@
 export const parsePostInMeFeeds = (data) => {
   const { posts, votes } = data;
   return posts.map((post) => {
-    const find = votes.find(o => o.post_id === post.id);
+    const find = votes && votes.find(o => o.post_id === post.id);
     if (find) delete(find.id);
     return {
       ...post,
