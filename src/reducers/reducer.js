@@ -101,7 +101,8 @@ export default (type, initialData) => (state = {
         const objIndex = state.data.findIndex(o => o.id === action.payload.id);
 
         const editTmp = state.data;
-        editTmp[objIndex] = mergeObject(editTmp[objIndex], action.payload);
+        // editTmp[objIndex] = mergeObject(editTmp[objIndex], action.payload);
+        editTmp[objIndex] = action.payload;
 
         return {
           ...state,

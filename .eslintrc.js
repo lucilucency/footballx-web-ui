@@ -21,6 +21,7 @@ module.exports = {
     }],
     "no-console": ["error", { allow: ["warn", "error"] }],
     "no-shadow": 1,
+    "no-tabs": 0,
     "import/named": ["error"],
     "jsx-a11y/anchor-is-valid": ["warn", {
       "components": ["Link"],

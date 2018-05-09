@@ -24,6 +24,7 @@ class CreateEditPost extends React.Component {
     loading: PropTypes.bool,
 
     postID: PropTypes.number,
+    post: PropTypes.object.isRequired,
     commentsNo: PropTypes.number,
     user: PropTypes.object,
     /* function */
@@ -145,7 +146,7 @@ class CreateEditPost extends React.Component {
               xuser: this.props.user,
             },
             payloadCallback: {
-              id: this.props.postID,
+              ...this.props.post,
               c_comments: this.props.commentsNo + 1,
             },
           }));

@@ -170,7 +170,7 @@ class ViewPostFull extends React.Component {
             </ActionModule>
           </CardActions>
         </Card>
-        {this.props.isLoggedIn && <CreateComment postID={this.props.data.id} commentsNo={this.props.data.c_comments} />}
+        {this.props.isLoggedIn && <CreateComment postID={this.props.data.id} commentsNo={this.props.data.c_comments} post={this.props.data} />}
         <ViewPostComments comments={this.props.comments} isLoggedIn={this.props.isLoggedIn} />
       </div>
     );

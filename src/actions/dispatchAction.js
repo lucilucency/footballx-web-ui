@@ -224,7 +224,9 @@ export function dispatchPOST({
               }
             }
 
-            dispatchAction(dispatchCallbackOK(payloadCallback));
+            if (reducerCallback) {
+              dispatchAction(dispatchCallbackOK(payloadCallback));
+            }
             return dispatchAction(dispatchOK(dispatchData));
           }
           return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.error), delay);
