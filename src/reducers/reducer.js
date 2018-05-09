@@ -1,6 +1,5 @@
 /* eslint-disable no-else-return */
 import update from 'react-addons-update';
-import { mergeObject } from '../utils';
 
 export default (type, initialData) => (state = {
   loading: false,
@@ -98,21 +97,20 @@ export default (type, initialData) => (state = {
       };
     case `OK/EDIT_ARR/${type}`:
       if (action.payload && action.payload.id) {
-        const objIndex = state.data.findIndex(o => o.id === action.payload.id);
-
-        const editTmp = state.data;
-        // editTmp[objIndex] = mergeObject(editTmp[objIndex], action.payload);
-        editTmp[objIndex] = action.payload;
-
         return {
           ...state,
           loading: false,
-          data: editTmp,
+          data: state.data.map((todo) => {
+            if (todo.id === action.payload.id) {
+              return Object.assign({}, todo, action.payload);
+            }
+
+            return todo;
+          }),
           error: null,
         };
       }
       console.error(`error in merge payload OK/EDIT_ARR/${type}`);
-      console.log(action);
       return {
         ...state,
         loading: false,

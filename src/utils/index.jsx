@@ -1,8 +1,4 @@
-import React from 'react';
-/* data */
-import strings from 'lang';
-import { Dialog } from 'material-ui';
-import { FullScreenDialog } from './FullScreenDialog';
+import strings from '../lang';
 
 export * from './time';
 export * from './style';
@@ -127,47 +123,6 @@ export const percentile = (pct) => {
     grade: 'F',
   };
 };
-
-export function renderDialog({
-  view = <h1>Welcome!</h1>,
-  fullScreen = false,
-  title,
-  actions = [],
-  contentStyle = {},
-  modal,
-  autoScrollBodyContent = true,
-} = {}, open, onRequestClose = () => {
-  console.warn('Request close dialog');
-}) {
-  if (fullScreen) {
-    return (
-      <FullScreenDialog
-        title={title}
-        actions={actions}
-        open={open}
-        onRequestClose={onRequestClose}
-        modal={modal}
-        contentStyle={contentStyle}
-        autoScrollBodyContent={autoScrollBodyContent}
-      >
-        {view}
-      </FullScreenDialog>
-    );
-  }
-  return (
-    <Dialog
-      title={title}
-      actions={actions}
-      open={open}
-      onRequestClose={onRequestClose}
-      modal={modal}
-      contentStyle={contentStyle}
-      autoScrollBodyContent={autoScrollBodyContent}
-    >
-      {view}
-    </Dialog>
-  );
-}
 
 export function bindAll(methods, self) {
   methods.forEach((item) => {

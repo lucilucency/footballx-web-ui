@@ -188,8 +188,7 @@ class ViewPostCompact extends React.Component {
             >
               <IconUp color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
             </IconButton>
-            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{ups}</small>
-            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{downs}</small>
+            <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{ups - downs}</small>
             <IconButton
               tooltip="Downvote"
               tooltipPosition="top-center"

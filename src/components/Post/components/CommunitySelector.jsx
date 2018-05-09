@@ -47,7 +47,7 @@ class CommunitySelector extends React.Component {
           {values.map(({ label, value: community }, index) => (
             <Chip key={index} style={{ margin: 5 }} onRequestDelete={this.onRequestDelete(index, stateName)}>
               <Avatar
-                src={community.community_icon}
+                src={community.icon}
                 size={30}
               />
               {label}
@@ -89,7 +89,7 @@ class CommunitySelector extends React.Component {
 
     return (
       <BigSelector
-        floatingLabel="Choose a community"
+        // floatingLabel="Choose a community"
         name="selectedItems"
         multiple
         keepSearchOnSelect

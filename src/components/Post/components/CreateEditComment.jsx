@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types,max-len,no-confusing-arrow,no-restricted-globals */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -25,7 +24,6 @@ class CreateEditPost extends React.Component {
 
     postID: PropTypes.number,
     post: PropTypes.object.isRequired,
-    commentsNo: PropTypes.number,
     user: PropTypes.object,
     /* function */
     defaultDeleteFunction: PropTypes.func,
@@ -37,8 +35,6 @@ class CreateEditPost extends React.Component {
     toggle: false,
     popup: false,
     loading: false,
-
-    commentsNo: 0,
   };
 
   static defaultFormData = {
@@ -147,7 +143,7 @@ class CreateEditPost extends React.Component {
             },
             payloadCallback: {
               ...this.props.post,
-              c_comments: this.props.commentsNo + 1,
+              c_comments: this.props.post.c_comments + 1,
             },
           }));
         }
@@ -182,6 +178,7 @@ class CreateEditPost extends React.Component {
   }
 
   deleteComment() {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm('Are you sure you want to delete this post?')) {
       this.setState({
         submitResults: update(this.state.submitResults, {

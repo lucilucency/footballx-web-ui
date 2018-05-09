@@ -304,7 +304,6 @@ class CreateEditPost extends React.Component {
       }}
     >
       <CardMedia
-        // overlay={<CardTitle subtitle={this.state.formData.title} />}
         style={{
           height: 200,
           overflow: 'hidden',
