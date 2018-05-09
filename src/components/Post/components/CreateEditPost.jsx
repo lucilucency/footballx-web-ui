@@ -31,7 +31,8 @@ class CreateEditPost extends React.Component {
     loading: PropTypes.bool,
     callback: PropTypes.func,
 
-    /* function */
+    /**/
+    user: PropTypes.object,
     defaultDeleteFunction: PropTypes.func,
   };
 
@@ -58,7 +59,6 @@ class CreateEditPost extends React.Component {
     formData: {
       ...CreateEditPost.defaultFormData,
     },
-    payload: {},
     submitResults: {
       data: [],
       show: false,
@@ -135,9 +135,6 @@ class CreateEditPost extends React.Component {
           show: { $set: true },
         }),
       }, () => {
-        const createFn = that.props.dispatch ? that.props.dispatch : that.props.defaultCreateFunction;
-        const editFn = that.props.dispatch ? that.props.dispatch : that.props.defaultEditFunction;
-
         const doSubmit = new Promise((resolve) => {
           that.setState({
             submitResults: update(that.state.submitResults, {
@@ -151,9 +148,16 @@ class CreateEditPost extends React.Component {
           });
 
           if (mode === 'edit') {
-            resolve(editFn(that.props.post.id, submitData));
+            resolve(that.props.defaultEditFunction(that.props.post.id, submitData));
           } else {
-            resolve(createFn(submitData, this.state.payload));
+            resolve(that.props.defaultCreateFunction({
+              params: submitData,
+              payload: {
+                xuser_avatar: this.props.user.avatar,
+                xuser_nickname: this.props.user.nickname,
+                xuser_id: this.props.user.id,
+              },
+            }));
           }
         });
 
@@ -284,7 +288,7 @@ class CreateEditPost extends React.Component {
         content: { $set: text },
       }),
     }, () => {
-      window.dispatchEvent(new Event('resize'));
+      // window.dispatchEvent(new Event('resize'));
     });
   };
 
@@ -499,10 +503,11 @@ class CreateEditPost extends React.Component {
 const mapStateToProps = state => ({
   currentQueryString: window.location.search,
   loading: state.app.posts.loading,
+  user: state.app.metadata.data.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-  defaultCreateFunction: params => dispatch(defaultCreateFn(params)),
+  defaultCreateFunction: ({ params, payload }) => dispatch(defaultCreateFn({ params, payload })),
   defaultEditFunction: (hotspotId, params) => dispatch(defaultEditFn(hotspotId, params)),
   defaultDeleteFunction: hotspotID => dispatch(defaultDeleteFn(hotspotID)),
 });

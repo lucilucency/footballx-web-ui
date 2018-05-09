@@ -63,10 +63,11 @@ export const getPostsWorld = sortby => dispatchGET({
   },
   transform: resp => resp.posts,
 });
-export const createPost = params => dispatchPOST({
+export const createPost = ({ params, payload }) => dispatchPOST({
   reducer: 'ADD/posts',
   path: 'post',
   params,
+  payload,
   transform: parsePostAfterCreate,
 });
 export const editPost = (id, params) => dispatchPut('EDIT/post', `post/${id}`, params);
