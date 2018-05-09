@@ -12,6 +12,7 @@ export default combineReducers({
   suggestedCommunities: reducer('suggestedCommunities'),
 
   posts: reducer('posts'),
+  post: reducer('post'),
   comments: reducer('comments'),
 
   form,

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
-import { upVote, downVote } from '../../../actions';
+import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, bindAll, renderDialog, ActiveLink, MutedLink } from '../../../utils';
 import constants from '../../constants';
@@ -54,11 +54,12 @@ class ViewPostCompact extends React.Component {
   }
 
   popupViewPostFull() {
+    this.props.setPost(this.props.data);
     this.setState({
       dialogConstruct: {
         // title: strings.heading_edit_team,
         view: <ViewPostFull
-          data={this.props.data}
+          postID={this.props.data.id}
           isLoggedIn={this.props.isLoggedIn}
         />,
         repositionOnUpdate: false,
@@ -246,6 +247,7 @@ ViewPostCompact.propTypes = {
 const mapDispatchToProps = dispatch => ({
   upVote: (postID, params) => dispatch(upVote(postID, params)),
   downVote: (postID, params) => dispatch(downVote(postID, params)),
+  setPost: payload => dispatch(setPost(payload)),
 });
 
 

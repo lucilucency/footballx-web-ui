@@ -9,7 +9,11 @@ import { getCookie } from '../utils';
 
 // auth
 // export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
-export const loginFb = accessToken => dispatchPost('metadata', 'xuser/auth', { access_token: accessToken });
+export const loginFb = access_token => dispatchPOST({
+  reducer: 'metadata',
+  path: 'xuser/auth',
+  params: { access_token },
+});
 export const refresh = xuser_id => dispatchGET({
   reducer: 'metadata',
   path: `xuser/${xuser_id}/refesh`,
@@ -39,12 +43,9 @@ export const getSuggestedCommunities = () => dispatchGet('suggestedCommunities',
 export const subscribeCommunity = (communityID, {
   reducer = 'subscribedCommunities',
   path = `community/${communityID}/subscribe`,
-} = {}) => dispatchGET({
-  reducer,
-  path,
-});
+} = {}) => dispatchGET({ reducer, path });
 // post
-export const getMeFeeds = (sortby, xuser_id) => dispatchGET({
+export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGET({
   reducer: 'posts',
   path: 'posts/following',
   params: {
@@ -62,9 +63,18 @@ export const getPostsWorld = sortby => dispatchGET({
   },
   transform: resp => resp.posts,
 });
-export const createPost = params => dispatchPost('ADD/posts', 'post', params, parsePostAfterCreate);
+export const createPost = params => dispatchPOST({
+  reducer: 'ADD/posts',
+  path: 'post',
+  params,
+  transform: parsePostAfterCreate,
+});
 export const editPost = (id, params) => dispatchPut('EDIT/post', `post/${id}`, params);
 export const deletePost = id => dispatchDelete('DELETE/post', `post/${id}`);
+export const setPost = payload => dispatch => dispatch(({
+  type: 'OK/post',
+  payload,
+}));
 export const getPostComments = (postID, sortby, xuser_id) => dispatchGET({
   reducer: 'comments',
   path: `post/${postID}/comments`,
@@ -90,7 +100,7 @@ export const createComment = (postID, {
   payloadCallback,
 });
 
-export const upVote = (target_id, {
+export const changeVote = (target_id, vflag, {
   reducer = 'EDIT_ARR/posts',
   path = 'post/change-vote',
   payload,
@@ -99,7 +109,7 @@ export const upVote = (target_id, {
   path,
   params: {
     target_id,
-    vflag: 1,
+    vflag,
   },
   payload,
   transform: (resp) => {
@@ -109,24 +119,15 @@ export const upVote = (target_id, {
   },
 });
 
-export const downVote = (target_id, {
-  reducer = 'EDIT_ARR/posts',
-  path = 'post/change-vote',
-  payload,
-} = {}) => dispatchPOST({
-  reducer,
-  path,
-  params: {
-    target_id,
-    vflag: -1,
-  },
-  payload,
-  transform: (resp) => {
-    const respClone = resp.target_vote;
-    delete respClone.id;
-    return respClone;
-  },
-});
+export const upVote = (target_id, params) => dispatch => Promise.all([
+  dispatch(changeVote(target_id, 1, params)),
+  dispatch(setPost(params.payload)),
+]);
+
+export const downVote = (target_id, params) => dispatch => Promise.all([
+  dispatch(changeVote(target_id, -1, params)),
+  dispatch(setPost(params.payload)),
+]);
 
 // user
 const changeFollow = (userID, {
@@ -172,7 +173,11 @@ export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',
   query,
 }));
-export const getSearchResult = query => dispatchPost('search', 'search', { q: query });
+export const getSearchResult = query => dispatchPOST({
+  reducer: 'search',
+  path: 'search',
+  params: { q: query },
+});
 export const getSearchResultAndPros = query => dispatch => Promise.all([
   dispatch(setSearchQuery(query)),
   dispatch(getSearchResult(query)),

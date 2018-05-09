@@ -27,7 +27,10 @@ class PostGrid extends React.Component {
   componentDidMount() {
     this.columnCount = 1;
     if (this.props.isLoggedIn) {
-      this.props.getMeFeeds(this.props.sorting, this.props.user.id);
+      this.props.getMeFeeds({
+        sorting: this.props.sorting,
+        xuser_id: this.props.user.id,
+      });
     } else {
       this.props.getWorldFeeds(this.props.sorting);
     }
@@ -77,7 +80,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getMeFeeds: (sortby, userID) => dispatch(getMeFeeds(sortby, userID)),
+  getMeFeeds: ({ sortby, userID }) => dispatch(getMeFeeds({ sortby, userID })),
   getWorldFeeds: sortby => dispatch(getPostsWorld(sortby)),
 });
 

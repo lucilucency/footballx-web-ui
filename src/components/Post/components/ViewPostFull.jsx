@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, FlatButton, IconButton } from 'material-ui';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
-import { getPostComments, upVote, downVote } from '../../../actions';
+import { getPostComments, upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
 import constants from '../../constants';
@@ -40,7 +40,7 @@ class ViewPostFull extends React.Component {
   }
 
   componentDidMount() {
-    Promise.all([this.props.getPostComments(this.props.data.id, 'hot', getCookie('user_id'))])
+    Promise.all([this.props.getPostComments(this.props.postID, 'hot', getCookie('user_id'))])
       .then(() => {
         setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
       });
@@ -197,7 +197,8 @@ class ViewPostFull extends React.Component {
 
 ViewPostFull.propTypes = {
   /* data */
-  data: PropTypes.object.isRequired,
+  postID: PropTypes.number,
+  data: PropTypes.object,
   isLoggedIn: PropTypes.bool,
 
   /**/
@@ -210,12 +211,14 @@ ViewPostFull.propTypes = {
 const mapStateToProps = state => ({
   browser: state.browser,
   comments: state.app.comments.data,
+  data: state.app.post.data,
 });
 
 const mapDispatchToProps = dispatch => ({
   getPostComments: (postID, sortby, xuser_id) => dispatch(getPostComments(postID, sortby, xuser_id)),
   upVote: (postID, params) => dispatch(upVote(postID, params)),
   downVote: (postID, params) => dispatch(downVote(postID, params)),
+  setPost: payload => dispatch(setPost(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPostFull);
