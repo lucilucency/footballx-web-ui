@@ -33,7 +33,7 @@ const Constants = {
   normalTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
   linearTransition: 'all 300ms linear',
   theme: () => {
-    const themeName = localStorage.getItem('theme') || 'dark';
+    const themeName = localStorage.getItem('theme') || 'light';
     let theme = {};
     switch (themeName) {
       case 'dark':

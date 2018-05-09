@@ -159,19 +159,21 @@ class BurgerMenu extends React.Component {
             <List>
               <Subheader>Misc</Subheader>
               <ListItem
-                primaryText="Light"
+                primaryText="Light off"
                 rightToggle={<Toggle
-                  toggled={localStorage.getItem('theme') === 'light'}
+                  toggled={localStorage.getItem('theme') === 'dark'}
                   onToggle={(e, isInputChecked) => {
                     if (isInputChecked) {
-                      localStorage.setItem('theme', 'light');
-                    } else {
                       localStorage.setItem('theme', 'dark');
+                    } else {
+                      localStorage.setItem('theme', 'light');
                     }
                     window.location.reload();
                   }}
                 />}
-                innerDivStyle={innerDivStyle}
+                innerDivStyle={{
+                  fontSize: constants.fontSizeSmall,
+                }}
               />
             </List>
           )}
