@@ -41,9 +41,7 @@ class PostGrid extends React.Component {
       return this.props.posts.map(item => <ViewPostCompact data={item} key={item.id || Date.now()} isLoggedIn={this.props.isLoggedIn} />);
     }
 
-    return [...Array(10)].map((el, index) => (
-      <ViewPostCompactBlank key={index} />
-    ));
+    return (<ViewPostCompactBlank />);
   }
 
   render() {
