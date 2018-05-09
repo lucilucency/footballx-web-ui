@@ -65,6 +65,7 @@ class ViewPostCompact extends React.Component {
         autoDetectWindowHeight: false,
         modal: false,
         open: true,
+        fullScreen: true,
         // contentStyle: { width: '100%', maxWidth: 'none' },
       },
     }, () => {
@@ -122,7 +123,7 @@ class ViewPostCompact extends React.Component {
         c_downs,
       };
 
-      this.props.upVote(this.props.data.id, {
+      this.props.downVote(this.props.data.id, {
         payload,
       });
     }
@@ -131,7 +132,7 @@ class ViewPostCompact extends React.Component {
   render() {
     const item = this.props.data;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
-    const postLink = <MutedLink to={`/post/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
+    const postLink = <MutedLink to={`p/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
     const ups = item.c_ups || 0;
     const downs = item.c_downs || 0;
 

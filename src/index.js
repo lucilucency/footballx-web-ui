@@ -48,7 +48,7 @@ li {
   overflow-x: hidden;
   min-height: 100vh;
   background-color: ${constants.theme().backgroundColor};
-  // background-image: ${constants.theme().backgroundImage};
+  background-image: ${constants.theme().backgroundColorSecondary};
   color: ${constants.theme().textColorPrimary};
 }
 
@@ -59,7 +59,7 @@ li {
 [data-id="tooltip"] {
   padding: 8px 12px !important;
   border-radius: 2px !important;
-  background-color: ${constants.theme().almostColor} !important;
+  background-color: ${constants.theme().backgroundColor} !important;
   color: ${constants.theme().textColorPrimary} !important;
   white-space: pre-wrap;
   line-height: 1.5 !important;
@@ -99,7 +99,7 @@ li {
 
   &::after {
     content: attr(data-hint);
-    background-color: ${constants.theme().almostColor};
+    background-color: ${constants.theme().backgroundColor};
     color: ${constants.theme().textColorPrimary};
     border-radius: 2px;
     padding: 5px 8px;
@@ -134,7 +134,7 @@ li {
   &::before {
     border-style: solid;
     border-width: 3px 6px 0 6px;
-    border-color: ${constants.theme().almostColor} transparent transparent transparent;
+    border-color: ${constants.theme().backgroundColor};
     top: -3px;
   }
 }

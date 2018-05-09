@@ -24,6 +24,7 @@ class CreateEditPost extends React.Component {
     loading: PropTypes.bool,
 
     postID: PropTypes.number,
+    commentsNo: PropTypes.number,
     user: PropTypes.object,
     /* function */
     defaultDeleteFunction: PropTypes.func,
@@ -35,6 +36,8 @@ class CreateEditPost extends React.Component {
     toggle: false,
     popup: false,
     loading: false,
+
+    commentsNo: 0,
   };
 
   static defaultFormData = {
@@ -136,11 +139,14 @@ class CreateEditPost extends React.Component {
         if (mode === 'edit') {
           resolve(editFn(that.props.data.id, submitData));
         } else {
-          resolve(createFn({
-            post_id: this.props.postID,
-            submit_data: submitData,
+          resolve(createFn(this.props.postID, {
+            params: submitData,
             payload: {
               xuser: this.props.user,
+            },
+            payloadCallback: {
+              id: this.props.postID,
+              c_comments: this.props.commentsNo + 1,
             },
           }));
         }

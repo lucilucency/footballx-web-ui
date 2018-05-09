@@ -1,12 +1,13 @@
 import React from 'react';
-import { string } from 'prop-types';
+import PropTypes from 'prop-types';
+import strings from '../../lang';
 
 const Error = props => (
-  <div>Whoops! Something went wrong. {props.text ? props.text : ''}</div>
+  <div>{strings.err_default} {props.text ? props.text : ''}</div>
 );
 
 Error.propTypes = {
-  text: string,
+  text: PropTypes.string,
 };
 
 export default Error;

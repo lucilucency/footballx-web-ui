@@ -10,11 +10,12 @@ import styled, { css } from 'styled-components';
 import { Route } from 'react-router-dom';
 import strings from '../../lang';
 import Announce from '../Announce';
-// import Home from '../Home';
-import MyFeeds from '../Feeds';
-import WorldFeeds from '../FeedsWorld';
 import Header from '../Header';
 // import Footer from '../Footer';
+// import Home from '../Home';
+import MyFeeds from '../FeedNews';
+import WorldFeeds from '../FeedPopular';
+import Post from '../Post';
 import constants from '../constants';
 import Login from '../Login';
 
@@ -41,7 +42,7 @@ const muiTheme = {
   },
   button: {
     height: 38,
-    textTransform: 'capitalize',
+    textTransform: 'none',
   },
   cardText: {
     color: constants.theme().textColorSecondary,
@@ -127,6 +128,8 @@ class App extends React.Component {
             <Route exact path="/home" component={MyFeeds} />
             <Route exact path="/popular" component={WorldFeeds} />
             <Route exact path="/sign_in" component={Login} />
+
+            <Route exact path="/p/:id?/:info?/:subInfo?" component={Post} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}
         </StyledDiv>

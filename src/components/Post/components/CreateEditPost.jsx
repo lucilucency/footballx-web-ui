@@ -11,7 +11,7 @@ import {
   BottomNavigation,
   BottomNavigationItem,
 } from 'material-ui';
-import { Card, CardMedia, CardTitle } from 'material-ui/Card';
+import { Card, CardMedia, CardActions } from 'material-ui/Card';
 
 import { IconFail, IconSuccess, IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
@@ -109,7 +109,7 @@ class CreateEditPost extends React.Component {
       this.setState({
         formData: update(this.state.formData, {
           communities: {
-            error: { $set: strings.validate_is_required },
+            error: { $set: strings.err_is_required },
           },
         }),
       });
@@ -260,14 +260,13 @@ class CreateEditPost extends React.Component {
     fullWidth
     value={this.state.formData.title}
     validators={['required']}
-    errorMessages={[strings.validate_is_required]}
+    errorMessages={[strings.err_is_required]}
   />);
 
   renderContentTextInput = () => (<TextValidator
     name="content"
     type="text"
     hintText={strings.hint_post_content}
-    // floatingLabelText={strings.label_post_content}
     onChange={e => this.updateContent(e.target.value)}
     multiLine
     rows={4}
@@ -276,7 +275,7 @@ class CreateEditPost extends React.Component {
     value={this.state.formData.content && this.state.formData.content}
     hintStyle={{ top: 12 }}
     // validators={['required']}
-    // errorMessages={[strings.validate_is_required]}
+    // errorMessages={[strings.err_is_required]}
   />);
 
   updateContent = (text) => {
@@ -298,31 +297,69 @@ class CreateEditPost extends React.Component {
     });
   };
 
-  uploadHandler = () => {
-  };
-
   renderContentImageInput = () => (
-    <FlatButton
-      containerElement="label"
-      label="Choose a image"
-      primary
-      onClick={this.uploadHandler}
+    <Card
+      style={{
+        position: 'relative',
+      }}
     >
-      <input type="file" style={{ display: 'none' }} onChange={this.fileChangedHandler} />
-    </FlatButton>
+      <CardMedia
+        // overlay={<CardTitle subtitle={this.state.formData.title} />}
+        style={{
+          height: 200,
+          overflow: 'hidden',
+          textAlign: 'center',
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-block',
+            height: '100%',
+            verticalAlign: 'middle',
+          }}
+        >
+          <img
+            src={this.state.formData.content}
+            alt=""
+            style={{
+              verticalAlign: 'middle',
+              // maxHeight: 200,
+              maxWidth: '100%',
+            }}
+          />
+        </div>
+      </CardMedia>
+      <CardActions
+        style={{
+          position: 'absolute',
+          bottom: 'calc(70px)',
+          left: 'calc(50% - 85px)',
+        }}
+      >
+        <FlatButton
+          containerElement="label"
+          label={strings.button_upload_image}
+          primary
+          style={{
+            width: 170,
+          }}
+        >
+          <input type="file" style={{ display: 'none' }} onChange={this.fileChangedHandler} />
+        </FlatButton>
+      </CardActions>
+    </Card>
   );
 
   renderContentLinkInput = () => (<TextValidator
     name="content"
     type="text"
     hintText={strings.hint_post_content_link}
-    // floatingLabelText={strings.label_post_content}
     onChange={e => this.updateContent(e.target.value)}
     fullWidth
     value={this.state.formData.content && this.state.formData.content}
     hintStyle={{ top: 12 }}
     validators={['required']}
-    errorMessages={[strings.validate_is_required]}
+    errorMessages={[strings.err_is_required]}
   />);
 
   render() {
@@ -355,6 +392,8 @@ class CreateEditPost extends React.Component {
         key="submit"
         type="submit"
         label={strings.form_general_submit}
+        labelPosition="before"
+        icon={this.props.loading && <IconProgress size={24} />}
         primary
       />,
     ];
@@ -408,25 +447,6 @@ class CreateEditPost extends React.Component {
             {this.state.formData.content_type.value === 1 && this.renderContentTextInput()}
             {this.state.formData.content_type.value === 2 && this.renderContentImageInput()}
             {this.state.formData.content_type.value === 3 && this.renderContentLinkInput()}
-            {this.state.formData.content_type.value === 2 && this.state.formData.content && (
-              <Card>
-                <CardMedia
-                  overlay={<CardTitle subtitle={this.state.formData.title} />}
-                  style={{
-                    height: 200,
-                    overflow: 'hidden',
-                  }}
-                >
-                  <img
-                    src={this.state.formData.content}
-                    alt=""
-                    style={{
-                      // height: 200,
-                    }}
-                  />
-                </CardMedia>
-              </Card>
-            )}
           </div>
         </div>
 
@@ -477,8 +497,9 @@ class CreateEditPost extends React.Component {
   }
 }
 
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
   currentQueryString: window.location.search,
+  loading: state.app.posts.loading,
 });
 
 const mapDispatchToProps = dispatch => ({

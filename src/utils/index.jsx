@@ -2,6 +2,7 @@ import React from 'react';
 /* data */
 import strings from 'lang';
 import { Dialog } from 'material-ui';
+import { FullScreenDialog } from './FullScreenDialog';
 
 export * from './time';
 export * from './style';
@@ -127,40 +128,41 @@ export const percentile = (pct) => {
   };
 };
 
-export function renderDialog(dialogConstruct = {}, triggerOpen, triggerClose) {
-  const blankFn = () => {
-    console.warn('Request close dialog');
-  };
-
-  const defaultDialogCons = {
-    title: null,
-    actions: [],
-    view: <h1>Welcome!</h1>,
-    onRequestClose: triggerClose || blankFn,
-    contentStyle: {},
-    modal: false,
-  };
-  const {
-    title, actions, view, onRequestClose, modal, contentStyle,
-  } = Object.assign(defaultDialogCons, dialogConstruct);
-  // const { title, actions, view, onRequestClose, modal, contentStyle } = dialogConstruct;
-
+export function renderDialog({
+  view = <h1>Welcome!</h1>,
+  fullScreen = false,
+  title,
+  actions = [],
+  contentStyle = {},
+  modal,
+  autoScrollBodyContent = true,
+} = {}, open, onRequestClose = () => {
+  console.warn('Request close dialog');
+}) {
+  if (fullScreen) {
+    return (
+      <FullScreenDialog
+        title={title}
+        actions={actions}
+        open={open}
+        onRequestClose={onRequestClose}
+        modal={modal}
+        contentStyle={contentStyle}
+        autoScrollBodyContent={autoScrollBodyContent}
+      >
+        {view}
+      </FullScreenDialog>
+    );
+  }
   return (
     <Dialog
       title={title}
       actions={actions}
-      open={triggerOpen}
+      open={open}
       onRequestClose={onRequestClose}
       modal={modal}
       contentStyle={contentStyle}
-      autoScrollBodyContent
-
-      // epositionOnUpdate={false}
-      // autoDetectWindowHeight={false}
-      // modal={false}
-      // contentStyle={{width: '100%', transform: 'translate(0, 0)'}}
-      // bodyStyle={{padding: 0}}
-      // style={{paddingTop: 0, height: '100vh'}}
+      autoScrollBodyContent={autoScrollBodyContent}
     >
       {view}
     </Dialog>
@@ -174,7 +176,7 @@ export function bindAll(methods, self) {
   });
 }
 
-export function setCookie(name,value,days) {
+export function setCookie(name, value, days) {
   let expires = '';
   if (days) {
     const date = new Date();
@@ -186,7 +188,7 @@ export function setCookie(name,value,days) {
 export function getCookie(name) {
   const nameEQ = `${name}=`;
   const ca = document.cookie.split(';');
-  for (let i = 0; i < ca.length; i++) {
+  for (let i = 0; i < ca.length; i += 1) {
     let c = ca[i];
     while (c.charAt(0) === ' ') c = c.substring(1, c.length);
     if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);

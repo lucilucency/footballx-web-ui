@@ -84,10 +84,14 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
   };
 }
 
-export function dispatch(type, payload, transform) {
+export function dispatch({
+  reducer,
+  payload,
+  transform,
+}) {
   return (dispatchAction) => {
     const dispatchOK = payload => ({
-      type: `OK/${type}`,
+      type: `OK/${reducer}`,
       payload,
     });
     const dispatchData = transform ? transform(payload) : payload;
@@ -165,6 +169,8 @@ export function dispatchPOST({
   params = {},
   transform,
   payload,
+  reducerCallback,
+  payloadCallback,
 }) {
   return (dispatchAction) => {
     const url = `${host}/${version}/${path}?${typeof params === 'string' ? params.substring(1) : ''}`;
@@ -174,6 +180,10 @@ export function dispatchPOST({
     });
     const dispatchOK = payload => ({
       type: `OK/${reducer}`,
+      payload,
+    });
+    const dispatchCallbackOK = payload => ({
+      type: `OK/${reducerCallback}`,
       payload,
     });
     const dispatchFail = error => ({
@@ -214,6 +224,7 @@ export function dispatchPOST({
               }
             }
 
+            dispatchAction(dispatchCallbackOK(payloadCallback));
             return dispatchAction(dispatchOK(dispatchData));
           }
           return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.error), delay);

@@ -1,3 +1,3 @@
-import FxEvent from './Post';
+import Post from './Post';
 
-export default FxEvent;
+export default Post;

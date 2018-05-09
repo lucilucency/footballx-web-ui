@@ -65,7 +65,7 @@ class SearchForm extends React.Component {
             width: 'calc(100% + 40px)',
           }}
           underlineStyle={{ borderColor: 'transparent' }}
-          hintStyle={{ fontSize: constants.fontSizeSmall }}
+          hintStyle={{ fontSize: constants.fontSizeSmall, whiteSpace: 'nowrap' }}
         />
       </form>
     );

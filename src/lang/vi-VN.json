@@ -672,11 +672,11 @@
   "tooltip_xp_per_min": "Experience gained per minute",
   "tooltip_xuser": "X-Member",
   "tooltip_xuser_register_checkin": "Registered users/checked-in users",
-  "validate_invalid_format": "This field must be in %s format!",
-  "validate_is_required": "This field is required",
-  "validate_maximum": "Maximum %d",
-  "validate_minimum": "Minimum %d",
-  "validate_password_mismatch": "Not match",
+  "err_invalid_format": "This field must be in %s format!",
+  "err_is_required": "This field is required",
+  "err_maximum": "Maximum %d",
+  "err_minimum": "Minimum %d",
+  "err_password_mismatch": "Not match",
   "vision_all_time": "All time",
   "vision_expired": "Expired after"
 }

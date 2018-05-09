@@ -33,7 +33,7 @@ const Constants = {
   normalTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
   linearTransition: 'all 300ms linear',
   theme: () => {
-    const themeName = localStorage.getItem('theme') || 'light';
+    const themeName = localStorage.getItem('theme') || 'dark';
     let theme = {};
     switch (themeName) {
       case 'dark':
@@ -46,14 +46,16 @@ const Constants = {
 
           colorPrimary: 'rgba(0, 0, 0, 0.6)',
           colorSecondary: '#fff',
-          textColorPrimary: '#F5F5F5',
+          textColorPrimary: 'rgb(245, 245, 245)',
           textColorSecondary: '#212020',
 
-          backgroundColor: 'linear-gradient(135deg, #2e2d45, #1c2127)',
+          backgroundColor: 'rgb(25, 32, 35)',
+          backgroundColorSecondary: 'linear-gradient(135deg, rgb(46, 45, 69), rgb(28, 33, 39))',
           surfaceColorPrimary: 'rgb(46, 47, 64)',
           surfaceColorSecondary: 'rgb(39, 39, 58)',
           dividerColor: 'rgb(52, 50, 50)',
           linkColorPrimary: '#6BF',
+          iconBackgroundColor: 'rgba(255, 255, 255, 0.1)',
 
           fontFamily: `
           -apple-system, BlinkMacSystemFont,
@@ -83,6 +85,7 @@ const Constants = {
           surfaceColorSecondary: '#fff',
           dividerColor: 'rgb(224, 224, 224)',
           linkColorPrimary: '#6BF',
+          iconBackgroundColor: materialColor.grey50,
 
           fontFamily: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
           // fontFamily: 'font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;'

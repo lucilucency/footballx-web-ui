@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { getMeFeeds, getPostsWorld } from '../../../actions/index';
-import { ViewPostCompact } from './index';
+import { ViewPostCompact, ViewPostCompactBlank } from './index';
 // import constants from '../../constants';
 
 const PostsGridStyled = styled.div`
@@ -26,45 +26,51 @@ const PostsGridStyled = styled.div`
 class PostGrid extends React.Component {
   componentDidMount() {
     this.columnCount = 1;
-    switch (this.props.area) {
-      case 'self':
-        this.props.getMeFeeds(this.props.sorting, this.props.user.id, this.props.token);
-        break;
-      default:
-        this.props.getWorldFeeds(this.props.sorting);
+    if (this.props.isLoggedIn) {
+      this.props.getMeFeeds(this.props.sorting, this.props.user.id);
+    } else {
+      this.props.getWorldFeeds(this.props.sorting);
     }
+  }
+
+  renderPostsGrid() {
+    if (this.props.posts.length) {
+      return this.props.posts.map(item => <ViewPostCompact data={item} key={item.id || Date.now()} isLoggedIn={this.props.isLoggedIn} />);
+    }
+
+    return [...Array(10)].map(() => <ViewPostCompactBlank />);
   }
 
   render() {
     return (
       <PostsGridStyled columns={this.columnCount}>
-        {this.props.posts.map(item => <ViewPostCompact data={item} key={item.id || Date.now()} isLoggedIn={Boolean(this.props.user.id)} />)}
+        {this.renderPostsGrid()}
       </PostsGridStyled>
     );
   }
 }
 
 PostGrid.propTypes = {
-  area: PropTypes.string,
+  // filter: PropTypes.string,
   sorting: PropTypes.string,
+  isLoggedIn: PropTypes.bool,
 
   /**/
   posts: PropTypes.array,
   user: PropTypes.object,
-  token: PropTypes.string,
   getMeFeeds: PropTypes.func,
   getWorldFeeds: PropTypes.func,
 };
 
 PostGrid.defaultProps = {
-  area: 'world', /* ["self", "vn", "us", "jp", ...] */
   sorting: 'new',
 };
 
 const mapStateToProps = state => ({
   posts: state.app.posts.data,
   loading: state.app.posts.loading,
-  user: state.app.metadata.data.user || {},
+  user: state.app.metadata.data.user,
+  isLoggedIn: Boolean(state.app.metadata.data.user),
   token: state.app.metadata.data.access_token,
 });
 

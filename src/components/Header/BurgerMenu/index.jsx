@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem } from 'material-ui/List';
 import Home from 'material-ui/svg-icons/action/home';
-import IconAll from 'material-ui/svg-icons/action/track-changes';
+// import IconAll from 'material-ui/svg-icons/action/track-changes';
 import IconPopular from 'material-ui/svg-icons/action/trending-up';
 import ActionFavorite from 'material-ui/svg-icons/toggle/star';
 
@@ -52,7 +52,7 @@ class BurgerMenu extends React.Component {
     };
     const avatarStyle = {
       padding: 1,
-      backgroundColor: constants.grey50,
+      backgroundColor: constants.theme().iconBackgroundColor,
       left: 8,
       height: '2em',
       width: '2em',
@@ -105,12 +105,6 @@ class BurgerMenu extends React.Component {
               containerElement={<Link to="/popular" />}
               innerDivStyle={innerDivStyle}
             />
-            <ListItem
-              primaryText="All"
-              leftAvatar={<IconAll style={avatarStyle} color={constants.orangeA200} />}
-              containerElement={<Link to="/all" />}
-              innerDivStyle={innerDivStyle}
-            />
           </List>
           {false &&
           <List>
@@ -143,7 +137,7 @@ class BurgerMenu extends React.Component {
           </List>}
           {this.props.user && (
             <List>
-              <Subheader>Subscriptions</Subheader>
+              <Subheader>Followings</Subheader>
               {this.props.communities.map(item => (
                 <ListItem
                   key={item.id}
@@ -163,15 +157,20 @@ class BurgerMenu extends React.Component {
           )}
           {this.props.user && (
             <List>
-              <Subheader>Notifications</Subheader>
+              <Subheader>Misc</Subheader>
               <ListItem
-                primaryText="Events and match"
-                rightToggle={<Toggle />}
-                innerDivStyle={innerDivStyle}
-              />
-              <ListItem
-                primaryText="Messages"
-                rightToggle={<Toggle />}
+                primaryText="Light"
+                rightToggle={<Toggle
+                  toggled={localStorage.getItem('theme') === 'light'}
+                  onToggle={(e, isInputChecked) => {
+                    if (isInputChecked) {
+                      localStorage.setItem('theme', 'light');
+                    } else {
+                      localStorage.setItem('theme', 'dark');
+                    }
+                    window.location.reload();
+                  }}
+                />}
                 innerDivStyle={innerDivStyle}
               />
             </List>

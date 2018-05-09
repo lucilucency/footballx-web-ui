@@ -1,15 +1,26 @@
-/* global FX_API */
-/* global FX_VERSION */
 import queryString from 'querystring';
 import { getCookie } from '../utils';
 
 const request = require('superagent');
 const FormUrlEncoded = require('form-urlencoded');
 
+const FX_API = process.env.REACT_APP_API_HOST;
+const FX_VERSION = process.env.REACT_APP_VERSION;
+
 // eslint-disable-next-line import/prefer-default-export
-export const ajaxGet = (path, params = {}, host = `${FX_API}/${FX_VERSION}`) => {
-  const url = `${host}/${path}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
-  const accessToken = getCookie('access_token');
+export const ajaxGet = ({
+  auth = false,
+  host = FX_API,
+  version = FX_VERSION,
+  url,
+  contentType = 'application/x-www-form-urlencoded',
+  retries = 1,
+  retriesBreak = 3000,
+  path,
+  params = {},
+}) => {
+  const queryUrl = url || `${host}/${version}/${path}`;
+  const queryUrlWithParams = `${queryUrl}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
 
   const fetchDataWithRetry = (delay, tries, error) => {
     if (tries < 1) {
@@ -17,10 +28,16 @@ export const ajaxGet = (path, params = {}, host = `${FX_API}/${FX_VERSION}`) => 
       console.error(`Error in ajaxGet/${path}`);
       return false;
     }
-    return request
-      .get(url)
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .set('Authorization', `Bearer ${accessToken}`)
+
+    let doRequest = request
+      .get(queryUrlWithParams)
+      .set('Content-Type', contentType);
+    if (auth) {
+      const accessToken = getCookie('access_token');
+      doRequest = doRequest.set('Authorization', `Bearer ${accessToken}`);
+    }
+
+    return doRequest
       .query({}) // query string
       .catch((err) => {
         console.error(`Error in ajaxGet/${path}`);
@@ -29,7 +46,7 @@ export const ajaxGet = (path, params = {}, host = `${FX_API}/${FX_VERSION}`) => 
       });
   };
 
-  return fetchDataWithRetry(3000, 3);
+  return fetchDataWithRetry(retriesBreak, retries);
 };
 
 // eslint-disable-next-line import/prefer-default-export

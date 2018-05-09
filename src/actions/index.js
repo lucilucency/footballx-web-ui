@@ -74,7 +74,22 @@ export const getPostComments = (postID, sortby, xuser_id) => dispatchGET({
   },
   transform: parseCommentsInPost,
 });
-export const createComment = ({ post_id, submit_data, payload }) => dispatchPost('ADD/comments', `post/${post_id}/comment`, submit_data, parseCommentAfterCreate, payload);
+export const createComment = (postID, {
+  reducer = 'ADD/comments',
+  reducerCallback = 'EDIT_ARR/posts',
+  params,
+  payload,
+  payloadCallback,
+} = {}) => dispatchPOST({
+  reducer,
+  reducerCallback,
+  path: `post/${postID}/comment`,
+  params,
+  payload,
+  transform: parseCommentAfterCreate,
+  payloadCallback,
+});
+
 export const upVote = (target_id, {
   reducer = 'EDIT_ARR/posts',
   path = 'post/change-vote',
@@ -172,4 +187,5 @@ export const getAnnouncement = merged => dispatchGet('announcement', 'search/iss
 
 export * from './ajax';
 export * from './dispatchForm';
+export * from './dispatchAction';
 export * from './request';

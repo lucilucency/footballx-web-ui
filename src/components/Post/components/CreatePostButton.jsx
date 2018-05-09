@@ -42,6 +42,7 @@ class CreateEditPostButton extends React.Component {
           callback={this.handleCloseDialog}
         />,
         modal: true,
+        fullScreen: true,
       },
     }, () => {
       this.handleOpenDialog();
@@ -53,7 +54,7 @@ class CreateEditPostButton extends React.Component {
       <div>
         <RaisedButton
           target="_blank"
-          label={strings.label_create_post}
+          label={strings.button_create_post}
           onClick={this.popupCreatePost}
           fullWidth
           primary

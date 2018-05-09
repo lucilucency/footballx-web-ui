@@ -87,7 +87,7 @@ class ViewPostFull extends React.Component {
   render() {
     const item = this.props.data;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
-    const postLink = <MutedLink to={`/post/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
+    const postLink = <MutedLink to={`/p/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
     const ups = item.c_ups || 0;
     const downs = item.c_downs || 0;
 
@@ -170,7 +170,7 @@ class ViewPostFull extends React.Component {
             </ActionModule>
           </CardActions>
         </Card>
-        {this.props.isLoggedIn && <CreateComment postID={this.props.data.id} />}
+        {this.props.isLoggedIn && <CreateComment postID={this.props.data.id} commentsNo={this.props.data.c_comments} />}
         <ViewPostComments comments={this.props.comments} isLoggedIn={this.props.isLoggedIn} />
       </div>
     );

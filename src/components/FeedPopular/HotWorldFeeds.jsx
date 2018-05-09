@@ -53,7 +53,7 @@ class NewWorldFeeds extends React.Component {
       <div>
         <Helmet title="footballx - Posts" />
         <Container browser={this.props.browser}>
-          <PostGrid />
+          <PostGrid sorting="top" />
           <RightTray>
             {this.props.user && (
               <div data="page-welcome">

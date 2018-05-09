@@ -1,5 +1,6 @@
 /* eslint-disable no-else-return */
 import update from 'react-addons-update';
+import { mergeObject } from '../utils';
 
 export default (type, initialData) => (state = {
   loading: false,
@@ -100,7 +101,7 @@ export default (type, initialData) => (state = {
         const objIndex = state.data.findIndex(o => o.id === action.payload.id);
 
         const editTmp = state.data;
-        editTmp[objIndex] = action.payload;
+        editTmp[objIndex] = mergeObject(editTmp[objIndex], action.payload);
 
         return {
           ...state,
