@@ -1,4 +1,4 @@
-import { dispatchPost, dispatchGet, dispatchPut, dispatchDelete, dispatchGET, dispatchPOST } from './dispatchAction';
+import { dispatchGet, dispatchPut, dispatchDelete, dispatchGET, dispatchPOST } from './dispatchAction';
 import {
   parseCommentsInPost,
   parseCommentAfterCreate,
