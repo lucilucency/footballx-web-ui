@@ -7,7 +7,6 @@ import { IconButton, Toolbar, ToolbarGroup, Avatar } from 'material-ui';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionHome from 'material-ui/svg-icons/action/home';
-import Bug from 'material-ui/svg-icons/action/bug-report';
 import styled from 'styled-components';
 import { IconFacebook } from '../Icons';
 import strings from '../../lang';
@@ -59,7 +58,7 @@ const ToolbarHeader = styled(Toolbar)`
   position: fixed;
   width: 100%;
   z-index: 1000;
-  background-color: ${constants.theme().colorPrimary} !important;
+  background-color: ${constants.theme().surfaceColorSecondary} !important;
   padding: 8px !important;
   & a {
     color: ${constants.theme().textColorPrimary};
@@ -161,7 +160,7 @@ const SettingsGroup = ({ user }) => (
       children: user.avatar ? <Avatar src={user.avatar} size={28} /> : <ActionSettings />,
     }}
   >
-    <LocalizationMenu />
+    {null && <LocalizationMenu />}
     <LinkRouterStyled to={`/u/${user.id}`}>
       <ActionHome />
       <span>{strings.app_my_profile}</span>

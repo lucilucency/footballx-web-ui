@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import strings from '../../../lang/index';
 import Spinner from '../../Spinner/index';
-import Error from '../../Error/index';
 import LoggedInUser from './LoggedInUser';
 
 const IconButtonLink = styled(Link)`
