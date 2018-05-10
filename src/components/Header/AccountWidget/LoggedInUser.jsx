@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import FlatButton from 'material-ui/FlatButton';
-import strings from '../../lang';
+import constants from '../../constants';
+import strings from '../../../lang/index';
 
 const StyledFlatButton = styled(FlatButton)`
  min-width: 30px !important;
@@ -15,8 +16,8 @@ const StyledFlatButton = styled(FlatButton)`
    text-overflow: ellipsis;
    text-transform: none !important;
    white-space: nowrap;
-   font-size: 16px !important;
-   padding-right: 10px !important;
+   font-size: ${constants.fontSizeCommon} !important;
+   padding-right: 0 !important;
    padding-left: 0 !important;
  }
 `;

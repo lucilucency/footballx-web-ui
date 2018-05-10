@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import strings from '../../lang';
-import Spinner from '../Spinner';
-import Error from '../Error';
+import strings from '../../../lang/index';
+import Spinner from '../../Spinner/index';
+import Error from '../../Error/index';
 import LoggedInUser from './LoggedInUser';
 
 const IconButtonLink = styled(Link)`
@@ -37,26 +37,45 @@ const Styled = styled.div`
 `;
 
 const AccountWidget = ({
-  loading, error, user, style,
-}) => (
-  <Styled style={style}>
-    {loading && !error && <Spinner size={20} />}
-    {error && <Error />}
-    {!error && !loading && user
-      ? <LoggedInUser style={style} user={user} />
-      :
-      <IconButtonLink to="/sign_in">
-        {strings.app_login}
-      </IconButtonLink>
+  loading, user, style, greaterThanSmall,
+}) => {
+  const renderUser = () => {
+    if (!user) {
+      if (!loading) {
+        return (
+          <IconButtonLink to="/sign_in">
+            {strings.app_login}
+          </IconButtonLink>
+        );
+      } else if (loading) {
+        return <Spinner size={20} />;
+      }
     }
-  </Styled>
-);
+
+    if (loading) {
+      return <Spinner size={20} />;
+    }
+
+    if (greaterThanSmall) {
+      return <LoggedInUser style={style} user={user} greaterThanSmall={greaterThanSmall} />;
+    }
+
+    return null;
+  };
+
+  return (
+    <Styled style={style}>
+      {renderUser()}
+    </Styled>
+  );
+};
 
 AccountWidget.propTypes = {
   loading: PropTypes.bool,
-  error: PropTypes.string,
+  // error: PropTypes.string,
   user: PropTypes.shape({}),
   style: PropTypes.string,
+  greaterThanSmall: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {

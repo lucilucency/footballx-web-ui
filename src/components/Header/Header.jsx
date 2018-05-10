@@ -3,17 +3,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { IconButton, Toolbar, ToolbarGroup, Avatar } from 'material-ui';
 import ActionSearch from 'material-ui/svg-icons/action/search';
-import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
-import IconButton from 'material-ui/IconButton';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
+import ActionHome from 'material-ui/svg-icons/action/home';
 import Bug from 'material-ui/svg-icons/action/bug-report';
 import styled from 'styled-components';
+import { IconFacebook } from '../Icons';
 import strings from '../../lang';
 import { LocalizationMenu } from '../Localization';
 import Dropdown from '../Header/Dropdown';
 import constants from '../constants';
-import AccountWidget from '../AccountWidget';
+import AccountWidget from './AccountWidget';
 import SearchForm from '../Search/SearchForm';
 import AppLogo from '../App/AppLogo';
 import BurgerMenu from './BurgerMenu';
@@ -28,10 +29,6 @@ const getHeaderLinks = user => [
 ].filter(o => o);
 
 const burgerLinks = [];
-
-const buttonProps = {
-  children: <ActionSettings />,
-};
 
 const VerticalAlignToolbar = styled(ToolbarGroup)`
   display: flex;
@@ -84,7 +81,26 @@ const LinkStyled = styled.a`
   margin-right: 15px;
 
   & svg {
-    margin-right: 5px;
+    margin-right: 8px;
+
+    /* Override material-ui */
+    color: currentColor !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+`;
+
+const LinkRouterStyled = styled(Link)`
+  font-size: ${constants.fontSizeMedium};
+  font-weight: ${constants.fontWeightLight};
+  color: ${constants.colorMutedLight} !important;
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+  margin-right: 15px;
+
+  & svg {
+    margin-right: 8px;
 
     /* Override material-ui */
     color: currentColor !important;
@@ -129,32 +145,35 @@ const SearchGroup = () => (
   </VerticalAlignToolbar>
 );
 
-const AccountGroup = () => (
+const AccountGroup = ({ greaterThanSmall }) => (
   <VerticalAlignToolbar>
-    <AccountWidget />
+    <AccountWidget greaterThanSmall={greaterThanSmall} />
   </VerticalAlignToolbar>
 );
-
-const LinkContributor = () => (
-  <LinkStyled
-    href="//facebook.com/groups/626461337693569"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <Bug />
-    <span>
-      {strings.app_contribute}
-    </span>
-  </LinkStyled>
-);
+AccountGroup.propTypes = {
+  greaterThanSmall: PropTypes.bool,
+};
 
 const SettingsGroup = ({ user }) => (
   <VerticalAlignDropdown
     Button={IconButton}
-    buttonProps={buttonProps}
+    buttonProps={{
+      children: user.avatar ? <Avatar src={user.avatar} size={28} /> : <ActionSettings />,
+    }}
   >
     <LocalizationMenu />
-    <LinkContributor />
+    <LinkRouterStyled to={`/u/${user.id}`}>
+      <ActionHome />
+      <span>{strings.app_my_profile}</span>
+    </LinkRouterStyled>
+    <LinkStyled
+      href="//facebook.com/groups/626461337693569"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <IconFacebook fill="rgb(179,179,179)" />
+      <span>{strings.app_join_us_fb}</span>
+    </LinkStyled>
     {user ? <Logout /> : null}
   </VerticalAlignDropdown>
 );
@@ -172,8 +191,8 @@ const Header = ({ location, greaterThanSmall, user }) => (
         {greaterThanSmall && <SearchGroup />}
       </VerticalAlignDiv>
       <VerticalAlignDiv >
-        {greaterThanSmall && <AccountGroup />}
-        {<SettingsGroup user={user} />}
+        <AccountGroup greaterThanSmall={greaterThanSmall} />
+        {user && <SettingsGroup user={user} />}
       </VerticalAlignDiv>
     </ToolbarHeader>
   </div>
@@ -182,6 +201,7 @@ const Header = ({ location, greaterThanSmall, user }) => (
 Header.propTypes = {
   location: PropTypes.shape({}),
   greaterThanSmall: PropTypes.bool,
+
   user: PropTypes.shape({}),
 };
 

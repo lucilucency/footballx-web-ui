@@ -71,7 +71,7 @@ class LocalizationMenuItems extends Component {
             style={{
               color: lang.value === getLocalization && constants.colorGolden,
             }}
-            key={lang.translated}
+            key={lang.value}
             value={lang.value}
             primaryText={lang.native}
             onClick={() => setLocalization(null, null, lang)}

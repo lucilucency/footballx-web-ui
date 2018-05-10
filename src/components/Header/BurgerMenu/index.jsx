@@ -90,20 +90,20 @@ class BurgerMenu extends React.Component {
         >
           <List>
             <Subheader>Feeds</Subheader>
-            {this.props.user && (
+            <ListItem
+              primaryText="Home"
+              leftAvatar={<Home style={avatarStyle} color={constants.blueA200} />}
+              containerElement={<Link to="/" />}
+              innerDivStyle={innerDivStyle}
+            />
+            {false && (
               <ListItem
-                primaryText="Home"
-                leftAvatar={<Home style={avatarStyle} color={constants.blueA200} />}
-                containerElement={<Link to="/" />}
+                primaryText="Popular"
+                leftAvatar={<IconPopular style={avatarStyle} color={constants.greenA200} />}
+                containerElement={<Link to="/popular" />}
                 innerDivStyle={innerDivStyle}
               />
             )}
-            <ListItem
-              primaryText="Popular"
-              leftAvatar={<IconPopular style={avatarStyle} color={constants.greenA200} />}
-              containerElement={<Link to="/popular" />}
-              innerDivStyle={innerDivStyle}
-            />
           </List>
           {false &&
           <List>

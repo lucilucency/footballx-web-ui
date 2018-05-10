@@ -29,6 +29,7 @@ export { default as IconDice } from './Dice';
 export { default as IconCrystalBall } from './CrystalBall';
 export { default as IconCheckCircle } from './CheckCircle';
 export { default as IconShare } from './Share';
+export { default as IconFacebook } from './Facebook';
 
 export {
   IconFail,
