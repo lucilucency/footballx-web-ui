@@ -163,7 +163,11 @@ if (userID) {
   store.dispatch(refresh(userID));
 }
 
-ReactGA.initialize('UA-108354448-2');
+ReactGA.initialize(process.env.REACT_APP_GA, {
+  gaOptions: {
+    userId: userID,
+  },
+});
 ReactGA.pageview(window.location.pathname + window.location.search);
 const history = createHistory();
 history.listen((location) => {

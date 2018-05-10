@@ -242,6 +242,7 @@ ViewPostCompact.propTypes = {
   /**/
   upVote: PropTypes.func,
   downVote: PropTypes.func,
+  setPost: PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => ({

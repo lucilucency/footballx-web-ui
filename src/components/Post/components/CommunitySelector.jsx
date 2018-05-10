@@ -48,7 +48,11 @@ class CommunitySelector extends React.Component {
             <Chip key={index} style={{ margin: 5 }} onRequestDelete={this.onRequestDelete(index, stateName)}>
               <Avatar
                 src={community.icon}
-                size={30}
+                style={{
+                  width: 24,
+                  height: 24,
+                  margin: '4px -4px 4px 4px',
+                }}
               />
               {label}
             </Chip>
@@ -81,7 +85,7 @@ class CommunitySelector extends React.Component {
           </div>
           <Avatar
             src={community.icon}
-            size={30}
+            size={48}
           />
         </div>
       );

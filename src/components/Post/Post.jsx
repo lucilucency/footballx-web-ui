@@ -23,7 +23,7 @@ class Post extends React.Component {
 
 Post.propTypes = {
   match: PropTypes.object,
-  user: PropTypes.object,
+  // user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

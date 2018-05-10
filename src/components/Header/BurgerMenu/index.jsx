@@ -52,7 +52,6 @@ class BurgerMenu extends React.Component {
     };
     const avatarStyle = {
       padding: 1,
-      backgroundColor: constants.theme().iconBackgroundColor,
       left: 8,
       height: '2em',
       width: '2em',

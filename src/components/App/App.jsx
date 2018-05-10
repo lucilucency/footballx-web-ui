@@ -22,6 +22,9 @@ import Login from '../Login';
 const muiTheme = {
   fontFamily: constants.theme().fontFamily,
   card: { fontWeight: constants.fontWeightNormal },
+  cardText: {
+    color: constants.theme().textColorSecondary,
+  },
   badge: { fontWeight: constants.fontWeightNormal },
   subheader: { fontWeight: constants.fontWeightNormal },
   raisedButton: { fontWeight: constants.fontWeightNormal },
@@ -44,8 +47,8 @@ const muiTheme = {
     height: 38,
     textTransform: 'none',
   },
-  cardText: {
-    color: constants.theme().textColorSecondary,
+  avatar: {
+    backgroundColor: constants.theme().avatarBackgroundColor,
   },
 };
 
