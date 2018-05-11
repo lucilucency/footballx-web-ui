@@ -129,7 +129,6 @@ class App extends React.Component {
             { location.pathname !== '/' && <Announce /> }
             <Route exact path="/" component={this.props.user ? MyFeeds : WorldFeeds} />
             <Route exact path="/home" component={MyFeeds} />
-            <Route exact path="/popular" component={WorldFeeds} />
             <Route exact path="/sign_in" component={Login} />
 
             <Route exact path="/p/:id?/:info?/:subInfo?" component={Post} />

@@ -21,7 +21,6 @@ import Logout from './Logout';
 
 const getHeaderLinks = user => [
   user && <Link key={strings.header_home} to="/home">{strings.header_home}</Link>,
-  // <Link key={strings.header_popular} to="/popular">{strings.header_popular}</Link>,
   // <Link key={strings.header_all} to="/all">{strings.header_all}</Link>,
   // <Link key={strings.header_explorer} to="/explorer">{strings.header_explorer}</Link>,
   // <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
