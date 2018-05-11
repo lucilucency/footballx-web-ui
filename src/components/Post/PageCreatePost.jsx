@@ -51,7 +51,6 @@ class PageCreatePost extends React.Component {
 }
 
 PageCreatePost.propTypes = {
-  match: PropTypes.object,
   user: PropTypes.object,
   browser: PropTypes.object,
 };
