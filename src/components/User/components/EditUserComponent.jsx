@@ -14,14 +14,13 @@ import FlatButton from 'material-ui/FlatButton';
  * Linear steppers require users to complete one step in order to move on to the next.
  */
 class EditUserComponent extends React.Component {
-
   state = {
     finished: false,
     stepIndex: 0,
   };
 
   handleNext = () => {
-    const {stepIndex} = this.state;
+    const { stepIndex } = this.state;
     this.setState({
       stepIndex: stepIndex + 1,
       finished: stepIndex >= 2,
@@ -29,12 +28,13 @@ class EditUserComponent extends React.Component {
   };
 
   handlePrev = () => {
-    const {stepIndex} = this.state;
+    const { stepIndex } = this.state;
     if (stepIndex > 0) {
-      this.setState({stepIndex: stepIndex - 1});
+      this.setState({ stepIndex: stepIndex - 1 });
     }
   };
 
+  // eslint-disable-next-line class-methods-use-this
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
@@ -49,11 +49,11 @@ class EditUserComponent extends React.Component {
   }
 
   render() {
-    const {finished, stepIndex} = this.state;
-    const contentStyle = {margin: '0 16px'};
+    const { finished, stepIndex } = this.state;
+    const contentStyle = { margin: '0 16px' };
 
     return (
-      <div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
+      <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
         <Stepper activeStep={stepIndex}>
           <Step>
             <StepLabel>Select campaign settings</StepLabel>
@@ -72,7 +72,7 @@ class EditUserComponent extends React.Component {
                 href="#"
                 onClick={(event) => {
                   event.preventDefault();
-                  this.setState({stepIndex: 0, finished: false});
+                  this.setState({ stepIndex: 0, finished: false });
                 }}
               >
                 Click here
@@ -81,16 +81,16 @@ class EditUserComponent extends React.Component {
           ) : (
             <div>
               <p>{this.getStepContent(stepIndex)}</p>
-              <div style={{marginTop: 12}}>
+              <div style={{ marginTop: 12 }}>
                 <FlatButton
                   label="Back"
                   disabled={stepIndex === 0}
                   onClick={this.handlePrev}
-                  style={{marginRight: 12}}
+                  style={{ marginRight: 12 }}
                 />
                 <RaisedButton
                   label={stepIndex === 2 ? 'Finish' : 'Next'}
-                  primary={true}
+                  primary
                   onClick={this.handleNext}
                 />
               </div>

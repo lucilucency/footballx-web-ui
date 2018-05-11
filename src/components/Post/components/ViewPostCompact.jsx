@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, Subheader, RaisedButton } from 'material-ui';
-import ButtonBase from 'material-ui-next/ButtonBase';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, Subheader } from 'material-ui';
 import FlatButton from 'material-ui/FlatButton';
 import styled, { css } from 'styled-components';
 import IconButton from 'material-ui/IconButton';
