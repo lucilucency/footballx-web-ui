@@ -104,7 +104,7 @@ class ViewPostCompact extends React.Component {
 
   downVote = () => {
     if (this.props.isLoggedIn) {
-      let { c_ups = 0, c_downs = 0, vflag } = this.props.data;
+      let { c_ups = 0, c_downs = 0, vflag = 0 } = this.props.data;
       if (vflag === 1) {
         vflag = -1;
         c_ups -= 1;
