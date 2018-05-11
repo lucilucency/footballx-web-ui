@@ -1,10 +1,44 @@
 import React from 'react';
-import { Dialog } from 'material-ui';
+import { Dialog, Paper, Subheader } from 'material-ui';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { ValidatorForm } from './FormValidator';
 import constants from '../components/constants';
 import { FullScreenDialog } from './FullScreenDialog';
+
+export {
+  Subheader,
+};
+
+export const Container = styled.div`
+  display: grid;
+  grid-gap: 2em;
+  ${props => (props.browser.greaterThan.small ? css`
+    grid-template-columns: 2.5fr 1fr;  
+  ` : css`
+    grid-template-columns: 1fr;
+  `)}
+`;
+
+export const RightTray = styled.div`
+  > div {
+    margin-bottom: 1em;
+    position: relative;
+    width: 100%;
+  }
+  
+  > div[data='page-welcome'] {
+    //padding-top: calc(75% + 40px);
+  }
+`;
+
+export const SmallPaper = styled(Paper)`
+  display: grid;
+  font-size: ${constants.fontSizeSmall};
+  
+  padding: 10px;
+`;
+
 
 export const FormWrapper = styled(ValidatorForm)`
   margin: 20px;

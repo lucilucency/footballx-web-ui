@@ -59,14 +59,15 @@ export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGET({
   },
   transform: parsePostInMeFeeds,
 });
-export const getPostsWorld = sortby => dispatchGET({
+export const getPostsWorld = ({ sortby = 'new', xuser_id }) => dispatchGET({
   auth: false,
   reducer: 'posts',
   path: 'posts',
   params: {
     sortby,
+    xuser_id,
   },
-  transform: resp => resp.posts,
+  transform: parsePostInMeFeeds,
 });
 export const createPost = ({ params, payload }) => dispatchPOST({
   reducer: 'ADD/posts',

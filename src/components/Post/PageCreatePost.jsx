@@ -2,56 +2,45 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import styled from 'styled-components';
-import Paper from 'material-ui/Paper';
-import Subheader from 'material-ui/Subheader';
-import constants from '../constants';
-import { CreatePostButton, PostGrid } from '../Post/components';
-import { SuggestedCommunities } from '../User/components';
-import { Container, RightTray } from '../../utils';
+import { Subheader } from 'material-ui';
+import { CreateEditPost } from './components';
+import { Container, RightTray, SmallPaper } from '../../utils';
 
-const Paper2 = styled(Paper)`
-  display: grid;
-  font-size: ${constants.fontSizeSmall};
-  
-  padding: 10px;
-`;
-
-class NewWorldFeeds extends React.Component {
+class PageCreatePost extends React.Component {
   componentDidMount() {
-
+    console.warn('done mount');
   }
 
   render() {
     return (
       <div>
-        <Helmet title="footballx - Posts" />
+        <Helmet title="Up your thought" />
         <Container browser={this.props.browser}>
-          <PostGrid sorting="top" filter="world" />
+          <SmallPaper>
+            <CreateEditPost popup />
+          </SmallPaper>
           <RightTray>
             {this.props.user && (
               <div data="page-welcome">
-                <Paper2>
+                <SmallPaper>
                   <Subheader>Popular</Subheader>
                   <p>
                     The best posts on Footballx for you, pulled from the most active communities on Reddit.
                     Check here to see the most shared, upvoted, and commented content on the internet.
                   </p>
-                  <CreatePostButton />
-                </Paper2>
+                </SmallPaper>
               </div>
             )}
             <div data="ads">
-              <Paper2>
+              <SmallPaper>
                 <Subheader>Ads</Subheader>
-              </Paper2>
+              </SmallPaper>
             </div>
             {this.props.user && (
               <div data="suggested-communities">
-                <Paper2>
+                <SmallPaper>
                   <Subheader>Suggested communities</Subheader>
-                  <SuggestedCommunities />
-                </Paper2>
+                </SmallPaper>
               </div>
             )}
           </RightTray>
@@ -61,15 +50,18 @@ class NewWorldFeeds extends React.Component {
   }
 }
 
-NewWorldFeeds.propTypes = {
-  browser: PropTypes.object,
+PageCreatePost.propTypes = {
+  match: PropTypes.object,
   user: PropTypes.object,
+  browser: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
+  user: state.app.metadata.user,
   browser: state.browser,
-  loading: state.app.posts.loading,
-  user: state.app.metadata.data.user,
 });
 
-export default connect(mapStateToProps, null)(NewWorldFeeds);
+// const mapDispatchToProps = dispatch => ({
+// });
+
+export default connect(mapStateToProps, null)(PageCreatePost);

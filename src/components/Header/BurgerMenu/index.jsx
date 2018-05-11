@@ -6,7 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import List, { ListItem } from 'material-ui/List';
 import Home from 'material-ui/svg-icons/action/home';
 // import IconAll from 'material-ui/svg-icons/action/track-changes';
-// import IconPopular from 'material-ui/svg-icons/action/trending-up';
+import IconPopular from 'material-ui/svg-icons/action/trending-up';
 import ActionFavorite from 'material-ui/svg-icons/toggle/star';
 
 import Toggle from 'material-ui/Toggle';
@@ -94,6 +94,12 @@ class BurgerMenu extends React.Component {
               primaryText="Home"
               leftAvatar={<Home style={avatarStyle} color={constants.blueA200} />}
               containerElement={<Link to="/" />}
+              innerDivStyle={innerDivStyle}
+            />
+            <ListItem
+              primaryText="Popular"
+              leftAvatar={<IconPopular style={avatarStyle} color={constants.greenA200} />}
+              containerElement={<Link to="/popular" />}
               innerDivStyle={innerDivStyle}
             />
           </List>

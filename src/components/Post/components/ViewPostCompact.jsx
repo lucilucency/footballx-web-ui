@@ -133,7 +133,18 @@ class ViewPostCompact extends React.Component {
   render() {
     const item = this.props.data;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
-    const postLink = <MutedLink to={`p/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
+    const postLink = (
+      <MutedLink
+        to={{
+          pathname: `/p/${item.id}`,
+          state: {
+            data: item,
+          },
+        }}
+      >
+        {toDateTimeString(item.created_at)}
+      </MutedLink>
+    );
     const ups = item.c_ups || 0;
     const downs = item.c_downs || 0;
 

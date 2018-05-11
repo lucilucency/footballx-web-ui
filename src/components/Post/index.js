@@ -1,3 +1,7 @@
-import Post from './Post';
+import PageViewPost from './PageViewPost';
+import PageCreatePost from './PageCreatePost';
 
-export default Post;
+export {
+  PageViewPost,
+  PageCreatePost,
+};

@@ -26,19 +26,25 @@ const PostsGridStyled = styled.div`
 class PostGrid extends React.Component {
   componentDidMount() {
     this.columnCount = 1;
-    if (this.props.isLoggedIn) {
+    if (!this.props.isLoggedIn) {
+      this.props.getWorldFeeds({ sortby: this.props.sorting });
+    } else if (this.props.filter === 'world') {
+      this.props.getWorldFeeds({ sortby: this.props.sorting, xuser_id: this.props.user.id });
+    } else {
       this.props.getMeFeeds({
         sorting: this.props.sorting,
         xuser_id: this.props.user.id,
       });
-    } else {
-      this.props.getWorldFeeds(this.props.sorting);
     }
   }
 
   renderPostsGrid() {
     if (this.props.posts.length) {
       return this.props.posts.map(item => <ViewPostCompact data={item} key={item.id || Date.now()} isLoggedIn={this.props.isLoggedIn} />);
+    }
+
+    if (this.props.loading) {
+      return (<ViewPostCompactBlank />);
     }
 
     return (<ViewPostCompactBlank />);
@@ -56,10 +62,12 @@ class PostGrid extends React.Component {
 PostGrid.propTypes = {
   // filter: PropTypes.string,
   sorting: PropTypes.string,
+  filter: PropTypes.string,
   isLoggedIn: PropTypes.bool,
 
   /**/
   posts: PropTypes.array,
+  loading: PropTypes.bool,
   user: PropTypes.object,
   getMeFeeds: PropTypes.func,
   getWorldFeeds: PropTypes.func,
@@ -78,8 +86,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getMeFeeds: ({ sortby, userID }) => dispatch(getMeFeeds({ sortby, userID })),
-  getWorldFeeds: sortby => dispatch(getPostsWorld(sortby)),
+  getMeFeeds: ({ sortby, xuser_id }) => dispatch(getMeFeeds({ sortby, xuser_id })),
+  getWorldFeeds: ({ sortby, xuser_id }) => dispatch(getPostsWorld({ sortby, xuser_id })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostGrid);

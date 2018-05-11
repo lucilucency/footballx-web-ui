@@ -15,7 +15,7 @@ import Header from '../Header';
 // import Home from '../Home';
 import MyFeeds from '../FeedNews';
 import WorldFeeds from '../FeedPopular';
-import Post from '../Post';
+import { PageCreatePost, PageViewPost } from '../Post';
 import constants from '../constants';
 import Login from '../Login';
 
@@ -61,12 +61,12 @@ const StyledDiv = styled.div`
   min-height: 100vh;
   left: ${props => (props.open ? '256px' : '0px')};
   
-  // ${props => (props.location.pathname === '/home' ? css`
-  //   background-image: url('/assets/images/home-background.png');
-  //   background-position: center top;
-  //   background-repeat: no-repeat;
-  //   -webkit-background-size: cover;background-size: cover;
-  // ` : css``)}
+  ${props => (props.location.pathname === '/home' ? css`
+    // background-image: url('/assets/images/home-background.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;background-size: cover;
+  ` : css``)}
 `;
 
 const StyledBodyDiv = styled.div`
@@ -76,8 +76,8 @@ const StyledBodyDiv = styled.div`
   ${props => props.isTrayOpen && css`
     padding-left: ${props.trayWidth + 25}px;
     
-    @media only screen and (min-width: ${props.trayWidth + 900}px) {
-      width: 900px;
+    @media only screen and (min-width: ${props.trayWidth + 1200}px) {
+      width: 1200px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -129,9 +129,11 @@ class App extends React.Component {
             { location.pathname !== '/' && <Announce /> }
             <Route exact path="/" component={this.props.user ? MyFeeds : WorldFeeds} />
             <Route exact path="/home" component={MyFeeds} />
+            <Route exact path="/popular" component={WorldFeeds} />
             <Route exact path="/sign_in" component={Login} />
 
-            <Route exact path="/p/:id?/:info?/:subInfo?" component={Post} />
+            <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
+            <Route exact path="/submit" component={PageCreatePost} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}
         </StyledDiv>

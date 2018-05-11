@@ -12,6 +12,7 @@ import {
   BottomNavigationItem,
 } from 'material-ui';
 import { Card, CardMedia, CardActions } from 'material-ui/Card';
+import styled from 'styled-components';
 
 import { IconFail, IconSuccess, IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
@@ -23,19 +24,6 @@ import Spinner from '../../Spinner/index';
 import CommunitySelector from './CommunitySelector';
 
 class CreateEditPost extends React.Component {
-  static propTypes = {
-    mode: PropTypes.string,
-    display: PropTypes.bool,
-    toggle: PropTypes.bool,
-    popup: PropTypes.bool,
-    loading: PropTypes.bool,
-    callback: PropTypes.func,
-
-    /**/
-    user: PropTypes.object,
-    defaultDeleteFunction: PropTypes.func,
-  };
-
   static defaultProps = {
     mode: 'create',
     display: true,
@@ -293,65 +281,104 @@ class CreateEditPost extends React.Component {
   };
 
   fileChangedHandler = (event) => {
+    const that = this;
     const selectedFile = event.target.files[0];
-    ajaxUpload({
-      file: selectedFile,
-    }).then((resp) => {
-      this.updateContent(resp.text);
-    });
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      that.updateContent(e.target.result);
+
+      ajaxUpload({
+        file: selectedFile,
+      }).then((resp) => {
+        that.updateContent(resp.text);
+      });
+    };
+
+    reader.readAsDataURL(selectedFile);
   };
 
-  renderContentImageInput = () => (
-    <Card
-      style={{
-        position: 'relative',
-      }}
-    >
-      <CardMedia
+  renderContentImageInput = () => {
+    const Button = styled.button`
+      box-sizing: border-box;
+      cursor: pointer;
+      font-weight: 500;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 11px;
+      background-color: transparent;
+      color: rgb(0, 121, 211);
+      display: inline-block;
+      line-height: 18px;
+      border-width: 1px;
+      border-style: solid;
+      border-image: initial;
+      border-radius: 4px;
+      text-decoration: none;
+      padding: 6px 16px 4px;
+      border-color: rgb(0, 121, 211);
+      margin: 10px 8px;
+  `;
+    return (
+      <Card
         style={{
-          height: 200,
-          overflow: 'hidden',
-          textAlign: 'center',
+          position: 'relative',
         }}
       >
-        <div
+        <CardMedia
           style={{
-            display: 'inline-block',
-            height: '100%',
-            verticalAlign: 'middle',
+            minHeight: 200,
+            overflow: 'hidden',
+            textAlign: 'center',
           }}
         >
-          <img
-            src={this.state.formData.content}
-            alt=""
+          <div
             style={{
+              display: 'inline-block',
+              height: '100%',
               verticalAlign: 'middle',
-              // maxHeight: 200,
-              maxWidth: '100%',
             }}
-          />
-        </div>
-      </CardMedia>
-      <CardActions
-        style={{
-          position: 'absolute',
-          bottom: 'calc(70px)',
-          left: 'calc(50% - 85px)',
-        }}
-      >
-        <FlatButton
-          containerElement="label"
-          label={strings.button_upload_image}
-          primary
+          >
+            <img
+              src={this.state.formData.content}
+              alt=""
+              style={{
+                verticalAlign: 'middle',
+                // maxHeight: 200,
+                maxWidth: '100%',
+              }}
+            />
+          </div>
+        </CardMedia>
+        <CardActions
           style={{
-            width: 170,
+            textAlign: 'center',
+            width: 250,
+            position: 'absolute',
+            bottom: 'calc(70px)',
+            left: 'calc(50% - 125px)',
           }}
         >
-          <input type="file" style={{ display: 'none' }} onChange={this.fileChangedHandler} />
-        </FlatButton>
-      </CardActions>
-    </Card>
-  );
+          <p
+            style={{
+              color: 'rgb(0, 121, 211)',
+            }}
+          >
+            Drag and drop or
+            <Button onClick={(e) => {
+              e.preventDefault();
+                this.inputFile.click();
+              }}
+            >
+              {strings.button_upload_image}
+            </Button>
+            <input ref={(el) => { this.inputFile = el; }} type="file" style={{ display: 'none' }} onChange={this.fileChangedHandler} />
+          </p>
+        </CardActions>
+      </Card>
+    );
+  }
 
   renderContentLinkInput = () => (<TextValidator
     name="content"
@@ -389,7 +416,7 @@ class CreateEditPost extends React.Component {
         label={strings.form_general_close}
         key="cancel"
         secondary
-        onClick={this.props.callback ? this.props.callback : () => props.history.push('/home')}
+        onClick={this.props.callback ? this.props.callback : () => props.history.push('/')}
       />,
       <FlatButton
         key="submit"
@@ -511,5 +538,18 @@ const mapDispatchToProps = dispatch => ({
   defaultEditFunction: (hotspotId, params) => dispatch(defaultEditFn(hotspotId, params)),
   defaultDeleteFunction: hotspotID => dispatch(defaultDeleteFn(hotspotID)),
 });
+
+CreateEditPost.propTypes = {
+  mode: PropTypes.string,
+  display: PropTypes.bool,
+  toggle: PropTypes.bool,
+  popup: PropTypes.bool,
+  callback: PropTypes.func,
+
+  /**/
+  loading: PropTypes.bool,
+  user: PropTypes.object,
+  defaultDeleteFunction: PropTypes.func,
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditPost));
