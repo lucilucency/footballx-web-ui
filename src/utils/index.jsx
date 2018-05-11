@@ -7,6 +7,7 @@ export * from './styledComponent';
 export * from './misc';
 export * from './FormValidator';
 export * from './BigSelector';
+export * from './FacebookLogin';
 
 export function toNumber(input) {
   return Number(input);

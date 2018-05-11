@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import FacebookLogin from 'react-facebook-login';
+// import FacebookLogin from 'react-facebook-login';
 import styled from 'styled-components';
 import { loginFb } from '../../actions';
 import strings from '../../lang';
 import { setCookie } from '../../utils';
+import FbLoginBtn from './FbLoginBtn';
 
 const OrLine = styled.div`
   position: relative;
@@ -60,16 +61,15 @@ class LoginForm extends React.Component {
 
   doLoginFb(userFbData) {
     const that = this;
-    const token = userFbData.accessToken;
+    const token = userFbData;
     that.props.loginFbFn(token).then((o, e) => {
       if (!e) {
         if (o.payload) {
           const data = o.payload;
           setCookie('access_token', data.access_token, 7);
           setCookie('user_id', data.user.id, 7);
-          setCookie('nickname', data.user.nickname, 7);
 
-          that.props.history.push('/');
+          that.props.history.push('/popular');
         } else {
           that.setState({
             loginError: true,
@@ -96,15 +96,14 @@ class LoginForm extends React.Component {
   render() {
     return (
       <div>
-        <FacebookLogin
-          appId={process.env.REACT_APP_FACEBOOK_ID}
-          autoLoad
-          fields="name,email,picture"
-          size="small"
-          callback={this.doLoginFb}
-          style={{
-            width: 100,
+        <FbLoginBtn
+          width={250}
+          dataScope="public_profile,email"
+          onSuccess={this.doLoginFb}
+          onFailure={(err) => {
+            console.warn('err', err);
           }}
+          // afterLogin={}
         />
         <OrLine>or</OrLine>
         <form>
