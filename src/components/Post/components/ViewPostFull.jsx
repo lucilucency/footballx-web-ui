@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, FlatButton, IconButton } from 'material-ui';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
@@ -12,6 +12,8 @@ import constants from '../../constants';
 import ViewPostComments from './ViewPostComments';
 import CreateComment from './CreateEditComment';
 
+const HEIGHT = 400;
+
 const ActionModule = styled.div`
   display: flex; 
   flex-direction: row;
@@ -21,6 +23,30 @@ const ActionModule = styled.div`
 const LinkCoverStyled = styled.span`
   color: ${constants.colorMutedLight};
   font-size: ${constants.fontSizeSmall};
+`;
+
+const ImageWrapper = styled.div`
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+`;
+const Image = styled.img`
+  vertical-align: middle;
+  height: ${HEIGHT}px;
+  width: auto;
+  min-width: 0;
+`;
+const Background = styled.div`
+  ${props => props.src && css`
+    background-image: url(${props.src});
+    background-size: cover;
+    display: block;
+    filter: blur(3px);
+    height: ${HEIGHT}px;
+  `}
 `;
 
 class ViewPostFull extends React.Component {
@@ -127,8 +153,18 @@ class ViewPostFull extends React.Component {
               titleColor={constants.theme().textColorPrimary}
               titleStyle={{ fontWeight: constants.fontWeightMedium, fontSize: constants.fontSizeBig }}
             />}
+            style={{
+              overflow: 'hidden',
+              textAlign: 'center',
+            }}
           >
-            <img src={item.content} alt="" />
+            <Background src={item.content} />
+            <ImageWrapper>
+              <Image
+                src={item.content}
+                alt=""
+              />
+            </ImageWrapper>
           </CardMedia>}
           {item.content_type === 1 && <CardTitle
             title={item.title}

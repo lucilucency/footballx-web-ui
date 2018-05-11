@@ -5,6 +5,7 @@ import AutoLockScrolling from 'material-ui/internal/AutoLockScrolling';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationCloseIcon from 'material-ui/svg-icons/navigation/close';
+import constants from '../../components/constants';
 
 const styles = {
   root: {
@@ -85,7 +86,7 @@ const getStyles = (props, theme) => {
   };
 
   if (props.immersive) {
-    styles.appBar.background = 'linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.4)';
+    styles.appBar.background = constants.theme().backgroundColor;
     styles.appBar.position = 'absolute';
   }
 

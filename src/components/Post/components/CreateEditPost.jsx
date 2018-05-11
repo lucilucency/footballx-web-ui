@@ -378,7 +378,7 @@ class CreateEditPost extends React.Component {
         </CardActions>
       </Card>
     );
-  }
+  };
 
   renderContentLinkInput = () => (<TextValidator
     name="content"

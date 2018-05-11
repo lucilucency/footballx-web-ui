@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, Subheader } from 'material-ui';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, Subheader, RaisedButton } from 'material-ui';
+import ButtonBase from 'material-ui-next/ButtonBase';
 import FlatButton from 'material-ui/FlatButton';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import IconButton from 'material-ui/IconButton';
 import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
@@ -12,6 +13,8 @@ import strings from '../../../lang';
 import { toDateTimeString, bindAll, renderDialog, ActiveLink, MutedLink, SmallPaper, Container, RightTray } from '../../../utils';
 import constants from '../../constants';
 import ViewPostFull from './ViewPostFull';
+
+const HEIGHT = 400;
 
 const LinkCoverStyled = styled.span`
   color: ${constants.colorMutedLight};
@@ -22,6 +25,30 @@ const ActionModule = styled.div`
   display: flex; 
   flex-direction: row;
   margin-right: 5px;
+`;
+
+const ImageWrapper = styled.div`
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+`;
+const Image = styled.img`
+  vertical-align: middle;
+  height: ${HEIGHT}px;
+  width: auto;
+  min-width: 0;
+`;
+const Background = styled.div`
+  ${props => props.src && css`
+    background-image: url(${props.src});
+    background-size: cover;
+    display: block;
+    filter: blur(3px);
+    height: ${HEIGHT}px;
+  `}
 `;
 
 class ViewPostCompact extends React.Component {
@@ -190,15 +217,27 @@ class ViewPostCompact extends React.Component {
           style={{ padding: '1em 1em 0.5em 1em' }}
         />
         {item.content_type === 2 &&
-        <CardMedia
-          overlay={<CardTitle
-            title={item.title}
-            titleColor={constants.theme().textColorPrimary}
-            titleStyle={{ fontWeight: constants.fontWeightMedium, fontSize: constants.fontSizeBig }}
-          />}
-        >
-          <img src={item.content} alt="" />
-        </CardMedia>}
+          <CardMedia
+            overlay={<CardTitle
+              title={item.title}
+              titleColor={constants.theme().textColorPrimary}
+              titleStyle={{ fontWeight: constants.fontWeightMedium, fontSize: constants.fontSizeBig }}
+            />}
+            style={{
+              overflow: 'hidden',
+              textAlign: 'center',
+            }}
+            onClick={this.popupViewPostFull}
+          >
+            <Background src={item.content} />
+            <ImageWrapper>
+              <Image
+                src={item.content}
+                alt=""
+              />
+            </ImageWrapper>
+          </CardMedia>
+        }
         {(item.content_type === 1 || item.content_type === 3) && <CardTitle
           title={item.title}
           titleColor={constants.theme().textColorPrimary}
