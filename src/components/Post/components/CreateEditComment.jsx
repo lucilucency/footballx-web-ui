@@ -15,20 +15,6 @@ import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 
 class CreateEditPost extends React.Component {
-  static propTypes = {
-    mode: PropTypes.string,
-    display: PropTypes.bool,
-    toggle: PropTypes.bool,
-    popup: PropTypes.bool,
-    loading: PropTypes.bool,
-
-    postID: PropTypes.number,
-    post: PropTypes.object.isRequired,
-    user: PropTypes.object,
-    /* function */
-    defaultDeleteFunction: PropTypes.func,
-  };
-
   static defaultProps = {
     mode: 'create',
     display: true,
@@ -110,19 +96,16 @@ class CreateEditPost extends React.Component {
   submit(e) {
     e.preventDefault();
 
-    const that = this;
     const { mode } = this.props;
 
     this.setState({
-      submitResults: update(that.state.submitResults, {
+      submitResults: update(this.state.submitResults, {
         show: { $set: true },
       }),
     }, () => {
-      const editFn = that.props.defaultEditFunction;
-
       const doSubmit = new Promise((resolve) => {
-        that.setState({
-          submitResults: update(that.state.submitResults, {
+        this.setState({
+          submitResults: update(this.state.submitResults, {
             data: {
               $push: [{
                 submitAction: mode === 'edit' ? 'Updating comment' : 'Creating comment',
@@ -133,12 +116,12 @@ class CreateEditPost extends React.Component {
         });
         const submitData = this.getFormData();
         if (mode === 'edit') {
-          resolve(editFn(that.props.data.id, submitData));
+          resolve(this.props.defaultEditFunction(this.props.data.id, submitData));
         } else {
-          resolve(that.props.defaultCreateFunction({
+          resolve(this.props.defaultCreateFunction({
             params: {
               ...submitData,
-              target_id: that.props.postID,
+              target_id: this.props.postID,
             },
             payload: {
               xuser: this.props.user,
@@ -170,8 +153,8 @@ class CreateEditPost extends React.Component {
           });
         }
 
-        that.setState({
-          submitResults: update(that.state.submitResults, {
+        this.setState({
+          submitResults: update(this.state.submitResults, {
             data: { $set: resultsReport },
           }),
         });
@@ -326,5 +309,22 @@ const mapDispatchToProps = dispatch => ({
   defaultEditFunction: () => {},
   defaultDeleteFunction: () => {},
 });
+
+CreateEditPost.propTypes = {
+  mode: PropTypes.string,
+  display: PropTypes.bool,
+  toggle: PropTypes.bool,
+  popup: PropTypes.bool,
+
+  postID: PropTypes.number,
+  post: PropTypes.object.isRequired,
+  data: PropTypes.object,
+  /* function */
+  user: PropTypes.object,
+  loading: PropTypes.bool,
+  defaultDeleteFunction: PropTypes.func,
+  defaultCreateFunction: PropTypes.func,
+  defaultEditFunction: PropTypes.func,
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditPost));
