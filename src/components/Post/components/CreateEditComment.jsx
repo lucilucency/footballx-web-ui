@@ -118,8 +118,7 @@ class CreateEditPost extends React.Component {
         show: { $set: true },
       }),
     }, () => {
-      const createFn = that.props.dispatch ? that.props.dispatch : that.props.defaultCreateFunction;
-      const editFn = that.props.dispatch ? that.props.dispatch : that.props.defaultEditFunction;
+      const editFn = that.props.defaultEditFunction;
 
       const doSubmit = new Promise((resolve) => {
         that.setState({
@@ -136,14 +135,17 @@ class CreateEditPost extends React.Component {
         if (mode === 'edit') {
           resolve(editFn(that.props.data.id, submitData));
         } else {
-          resolve(createFn(this.props.postID, {
-            params: submitData,
+          resolve(that.props.defaultCreateFunction({
+            params: {
+              ...submitData,
+              target_id: that.props.postID,
+            },
             payload: {
               xuser: this.props.user,
             },
             payloadCallback: {
               ...this.props.post,
-              c_comments: this.props.post.c_comments + 1,
+              c_comments: (this.props.post.c_comments || 0) + 1,
             },
           }));
         }
@@ -320,7 +322,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  defaultCreateFunction: (postID, params) => dispatch(defaultCreateFn(postID, params)),
+  defaultCreateFunction: data => dispatch(defaultCreateFn(data)),
   defaultEditFunction: () => {},
   defaultDeleteFunction: () => {},
 });

@@ -91,7 +91,7 @@ export const getPostComments = (postID, sortby, xuser_id) => dispatchGET({
   },
   transform: parseCommentsInPost,
 });
-export const createComment = (postID, {
+export const createComment = ({
   reducer = 'ADD/comments',
   reducerCallback = 'EDIT_ARR/posts',
   params,
@@ -100,7 +100,7 @@ export const createComment = (postID, {
 } = {}) => dispatchPOST({
   reducer,
   reducerCallback,
-  path: `post/${postID}/comment`,
+  path: 'comment',
   params,
   payload,
   transform: parseCommentAfterCreate,

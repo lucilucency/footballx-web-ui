@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, Subheader } from 'material-ui';
 import FlatButton from 'material-ui/FlatButton';
 import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
@@ -9,7 +9,7 @@ import IconUp from 'material-ui/svg-icons/action/thumb-up';
 import IconDown from 'material-ui/svg-icons/action/thumb-down';
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
-import { toDateTimeString, bindAll, renderDialog, ActiveLink, MutedLink } from '../../../utils';
+import { toDateTimeString, bindAll, renderDialog, ActiveLink, MutedLink, SmallPaper, Container, RightTray } from '../../../utils';
 import constants from '../../constants';
 import ViewPostFull from './ViewPostFull';
 
@@ -58,10 +58,41 @@ class ViewPostCompact extends React.Component {
     this.setState({
       dialogConstruct: {
         // title: strings.heading_edit_team,
-        view: <ViewPostFull
-          postID={this.props.data.id}
-          isLoggedIn={this.props.isLoggedIn}
-        />,
+        view: (
+          <Container browser={this.props.browser}>
+            <SmallPaper>
+              <ViewPostFull
+                postID={this.props.data.id}
+                isLoggedIn={this.props.isLoggedIn}
+              />
+            </SmallPaper>
+            <RightTray>
+              {this.props.isLoggedIn && (
+                <div data="page-welcome">
+                  <SmallPaper>
+                    <Subheader>Popular</Subheader>
+                    <p>
+                      The best posts on Footballx for you, pulled from the most active communities on Reddit.
+                      Check here to see the most shared, upvoted, and commented content on the internet.
+                    </p>
+                  </SmallPaper>
+                </div>
+              )}
+              <div data="ads">
+                <SmallPaper>
+                  <Subheader>Ads</Subheader>
+                </SmallPaper>
+              </div>
+              {this.props.isLoggedIn && (
+                <div data="suggested-communities">
+                  <SmallPaper>
+                    <Subheader>Suggested communities</Subheader>
+                  </SmallPaper>
+                </div>
+              )}
+            </RightTray>
+          </Container>
+        ),
         repositionOnUpdate: false,
         autoDetectWindowHeight: false,
         modal: false,
@@ -254,7 +285,12 @@ ViewPostCompact.propTypes = {
   upVote: PropTypes.func,
   downVote: PropTypes.func,
   setPost: PropTypes.func,
+  browser: PropTypes.object,
 };
+
+const mapStateToProps = state => ({
+  browser: state.browser,
+});
 
 const mapDispatchToProps = dispatch => ({
   upVote: (postID, params) => dispatch(upVote(postID, params)),
@@ -263,4 +299,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(null, mapDispatchToProps)(ViewPostCompact);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewPostCompact);
