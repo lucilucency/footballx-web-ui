@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Transition from 'react-transition-group/Transition';
 import AutoLockScrolling from 'material-ui/internal/AutoLockScrolling';
-import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationCloseIcon from 'material-ui/svg-icons/navigation/close';
 import constants from '../../components/constants';

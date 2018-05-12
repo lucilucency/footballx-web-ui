@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import { fromNow, ActiveLink } from '../../../utils';
-import constants from '../../constants';
 
 class ViewPostComments extends React.Component {
   state = {
