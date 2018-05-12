@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { getMeFeeds, getPostsWorld } from '../../../actions/index';
-import { ViewPostCompact, ViewPostCompactBlank } from './index';
+import { ViewPostCompact2, ViewPostCompactBlank } from './index';
 // import constants from '../../constants';
 
 const PostsGridStyled = styled.div`
@@ -40,7 +40,7 @@ class PostGrid extends React.Component {
 
   renderPostsGrid() {
     if (this.props.posts.length) {
-      return this.props.posts.map(item => <ViewPostCompact data={item} key={item.id || Date.now()} isLoggedIn={this.props.isLoggedIn} />);
+      return this.props.posts.map(item => <ViewPostCompact2 data={item} key={item.id || Date.now()} isLoggedIn={this.props.isLoggedIn} />);
     }
 
     if (this.props.loading) {

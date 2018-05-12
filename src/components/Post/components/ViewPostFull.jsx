@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, FlatButton, IconButton } from 'material-ui';
-import IconUp from 'material-ui/svg-icons/action/thumb-up';
-import IconDown from 'material-ui/svg-icons/action/thumb-down';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, FlatButton } from 'material-ui';
 import { getPostComments, upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
 import constants from '../../constants';
 import ViewPostComments from './ViewPostComments';
 import CreateComment from './CreateEditComment';
+import ButtonUpvote from './ButtonUpvote';
 
 const HEIGHT = 400;
 
@@ -132,8 +131,6 @@ class ViewPostFull extends React.Component {
     const item = this.props.data;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
     const postLink = <MutedLink to={`/p/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
-    const ups = item.c_ups || 0;
-    const downs = item.c_downs || 0;
 
     return (
       <div>
@@ -189,25 +186,11 @@ class ViewPostFull extends React.Component {
               borderTop: `1px solid ${constants.grey50}`,
             }}
           >
-            <ActionModule>
-              <IconButton
-                tooltip="Upvote"
-                tooltipPosition="top-center"
-                onClick={this.upvote}
-                // disabled={!this.props.isLoggedIn || item.vflag === 1}
-              >
-                <IconUp color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
-              </IconButton>
-              <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{ups - downs}</small>
-              <IconButton
-                tooltip="Downvote"
-                tooltipPosition="top-center"
-                onClick={this.downVote}
-                // disabled={!this.props.isLoggedIn || item.vflag === -1}
-              >
-                <IconDown color={item.vflag === -1 ? constants.redA100 : constants.grey300} hoverColor={constants.redA100} />
-              </IconButton>
-            </ActionModule>
+            <ButtonUpvote
+              type="post"
+              isLoggedIn={this.props.isLoggedIn}
+              data={this.props.data}
+            />
             <ActionModule>
               <FlatButton
                 target="_blank"

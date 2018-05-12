@@ -126,14 +126,14 @@ export const changeVote = (target_id, vflag, {
   },
 });
 
-export const upVote = (target_id, params) => dispatch => Promise.all([
+export const upVote = (target_id, params, type = 'post') => dispatch => Promise.all([
   dispatch(changeVote(target_id, 1, params)),
-  dispatch(setPost(params.payload)),
+  type === 'post' && dispatch(setPost(params.payload)),
 ]);
 
-export const downVote = (target_id, params) => dispatch => Promise.all([
+export const downVote = (target_id, params, type = 'post') => dispatch => Promise.all([
   dispatch(changeVote(target_id, -1, params)),
-  dispatch(setPost(params.payload)),
+  type === 'post' && dispatch(setPost(params.payload)),
 ]);
 
 // user

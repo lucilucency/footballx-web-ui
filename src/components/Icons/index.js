@@ -5,6 +5,15 @@ import IconLink from 'material-ui/svg-icons/content/link';
 import IconText from 'material-ui/svg-icons/content/text-format';
 import IconImage from 'material-ui/svg-icons/editor/insert-photo';
 
+export {
+  IconFail,
+  IconSuccess,
+  IconProgress,
+  IconLink,
+  IconImage,
+  IconText,
+};
+
 export { default as IconCheese } from './Cheese';
 export { default as IconSteam } from './Steam';
 export { default as IconGithub } from './Github';
@@ -30,12 +39,6 @@ export { default as IconCrystalBall } from './CrystalBall';
 export { default as IconCheckCircle } from './CheckCircle';
 export { default as IconShare } from './Share';
 export { default as IconFacebook } from './Facebook';
+export { default as IconUpvote } from './Upvote';
+export { default as IconDownvote } from './Downvote';
 
-export {
-  IconFail,
-  IconSuccess,
-  IconProgress,
-  IconLink,
-  IconImage,
-  IconText,
-};
