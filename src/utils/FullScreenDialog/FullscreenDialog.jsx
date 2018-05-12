@@ -15,7 +15,7 @@ const styles = {
     top: 0,
     left: 0,
     zIndex: 1500,
-    background: '#fafafa',
+    background: constants.theme().backgroundColorSecondary,
   },
   transition: {
     entering: {
@@ -39,6 +39,11 @@ const styles = {
       transition: 'all 225ms cubic-bezier(0.0, 0.0, 0.2, 1)',
       transform: 'translate(0, 56px)',
     },
+  },
+  closeButton: {
+    fontSize: '12px',
+    width: 88,
+    textAlign: 'right',
   },
 };
 
@@ -82,6 +87,7 @@ const getStyles = (props, theme) => {
     container: {
       flex: 1,
       overflow: 'auto',
+      marginTop: 33,
     },
   };
 
@@ -116,7 +122,17 @@ export default function FullscreenDialog(props, { muiTheme }) {
       open={open}
       style={{ ...style, ...styles.root }}
     >
-      <AppBar
+      <IconButton
+        onClick={onRequestClose}
+        style={{
+          position: 'absolute',
+          right: 0,
+          width: 88,
+        }}
+      >
+        {closeIcon}
+      </IconButton>
+      {null && <AppBar
         title={title}
         titleStyle={titleStyle}
         style={{ ...styles.appBar, ...appBarStyle }}
@@ -128,7 +144,7 @@ export default function FullscreenDialog(props, { muiTheme }) {
         iconElementRight={actionButton}
         showMenuIconButton={onRequestClose != null}
         zDepth={immersive ? 0 : appBarZDepth}
-      />
+      />}
       <div style={{ ...styles.container, ...containerStyle }}>
         {children}
       </div>
@@ -190,6 +206,7 @@ FullscreenDialog.propTypes = {
 FullscreenDialog.defaultProps = {
   appBarZDepth: 1,
   closeIcon: <NavigationCloseIcon />,
+  // closeIcon: <p style={{...styles.closeButton, fontSize: '12px'}}>Close</p>,
   immersive: false,
 };
 

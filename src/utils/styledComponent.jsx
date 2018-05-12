@@ -14,7 +14,7 @@ export const Container = styled.div`
   display: grid;
   grid-gap: 2em;
   padding: 1em;
-  ${props => (props.browser.greaterThan.small ? css`
+  ${props => (props.browser && props.browser.greaterThan.small ? css`
     grid-template-columns: 2.5fr 1fr;  
   ` : css`
     grid-template-columns: 1fr;

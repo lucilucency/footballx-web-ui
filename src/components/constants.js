@@ -81,6 +81,7 @@ const Constants = {
           textColorSecondary: 'rgb(70, 68, 68)',
 
           backgroundColor: '#eef2f5',
+          backgroundColorSecondary: '#eef2f5',
           surfaceColorPrimary: '#fff',
           surfaceColorSecondary: '#fff',
           dividerColor: 'rgb(224, 224, 224)',

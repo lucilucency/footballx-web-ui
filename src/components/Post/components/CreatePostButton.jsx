@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, Subheader } from 'material-ui';
 import strings from '../../../lang';
-import { bindAll, renderDialog } from '../../../utils';
+import { bindAll, renderDialog, SmallPaper, Container, RightTray } from '../../../utils';
 import CreateEditPost from './CreateEditPost';
 
 class CreateEditPostButton extends React.Component {
@@ -37,10 +38,32 @@ class CreateEditPostButton extends React.Component {
   popupCreatePost() {
     this.setState({
       dialogConstruct: {
-        // title: strings.heading_edit_team,
-        view: <CreateEditPost
-          callback={this.handleCloseDialog}
-        />,
+        view: (
+          <Container browser={this.props.browser}>
+            <SmallPaper>
+              <CreateEditPost
+                callback={this.handleCloseDialog}
+                popup
+              />
+            </SmallPaper>
+            <RightTray>
+              <div data="page-welcome">
+                <SmallPaper>
+                  <Subheader>Popular</Subheader>
+                  <p>
+                    The best posts on Footballx for you, pulled from the most active communities on Reddit.
+                    Check here to see the most shared, upvoted, and commented content on the internet.
+                  </p>
+                </SmallPaper>
+              </div>
+              <div data="ads">
+                <SmallPaper>
+                  <Subheader>Ads</Subheader>
+                </SmallPaper>
+              </div>
+            </RightTray>
+          </Container>
+        ),
         modal: true,
         fullScreen: true,
       },
@@ -65,6 +88,12 @@ class CreateEditPostButton extends React.Component {
   }
 }
 
-CreateEditPostButton.propTypes = {};
+const mapStateToProps = state => ({
+  browser: state.browser,
+});
 
-export default connect()(CreateEditPostButton);
+CreateEditPostButton.propTypes = {
+  browser: PropTypes.object,
+};
+
+export default connect(mapStateToProps, null)(CreateEditPostButton);
