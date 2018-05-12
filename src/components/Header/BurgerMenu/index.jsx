@@ -90,12 +90,12 @@ class BurgerMenu extends React.Component {
         >
           <List>
             <Subheader>Feeds</Subheader>
-            <ListItem
+            {this.props.user && <ListItem
               primaryText="Home"
               leftAvatar={<Home style={avatarStyle} color={constants.blueA200} />}
               containerElement={<Link to="/" />}
               innerDivStyle={innerDivStyle}
-            />
+            />}
             <ListItem
               primaryText="Popular"
               leftAvatar={<IconPopular style={avatarStyle} color={constants.greenA200} />}

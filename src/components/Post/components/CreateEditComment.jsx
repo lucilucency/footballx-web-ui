@@ -5,11 +5,11 @@ import update from 'react-addons-update';
 import PropTypes from 'prop-types';
 import {
   FlatButton,
-  TextField,
+  RaisedButton,
 } from 'material-ui';
-
+import constants from '../../constants';
 import strings from '../../../lang';
-import { bindAll, mergeObject, FormWrapper } from '../../../utils';
+import { bindAll, mergeObject, FormWrapper, TextValidator } from '../../../utils';
 import { createComment as defaultCreateFn } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
@@ -57,7 +57,7 @@ class CreateEditPost extends React.Component {
   }
 
   componentDidMount() {
-    this.contentInput.focus();
+    // this.contentInput.focus();
   }
 
   componentWillReceiveProps(newProps) {
@@ -121,7 +121,7 @@ class CreateEditPost extends React.Component {
           resolve(this.props.defaultCreateFunction({
             params: {
               ...submitData,
-              target_id: this.props.postID,
+              target_id: this.props.post.id,
             },
             payload: {
               xuser: this.props.user,
@@ -142,7 +142,7 @@ class CreateEditPost extends React.Component {
             this.setState({
               formData: CreateEditPost.defaultFormData,
             }, () => {
-              this.contentInput.focus();
+              // this.contentInput.focus();
             });
           }
         } else {
@@ -227,23 +227,30 @@ class CreateEditPost extends React.Component {
       loading,
     } = this.props;
 
-    const renderContentInput = () => (<TextField
+    const renderContentInput = () => (<TextValidator
+      // floatingLabelText={strings.hint_comment}
+      name="comment_content"
       key="content"
       type="text"
-      ref={(el) => {
-        this.contentInput = el;
-      }}
-      hintText={strings.hint_comment}
+      // ref={(el) => {
+      //   this.contentInput = el;
+      // }}
+      hintText={this.props.post.c_comments ? strings.hint_comment : 'Be the first one bark here'}
+      hintStyle={{ top: 12 }}
       onChange={e => this.setState({
         formData: update(this.state.formData, {
           content: { $set: e.target.value },
         }),
       })}
-      rowsMax={4}
+      multiLine
+      rows={4}
+      rowsMax={10}
       fullWidth
       value={this.state.formData.content && this.state.formData.content}
-      hintStyle={{ top: 12 }}
       autoComplete="off"
+      underlineShow={false}
+      validators={['required']}
+      errorMessages={[strings.err_empty_comment_content]}
     />);
 
     const actions = [
@@ -256,12 +263,20 @@ class CreateEditPost extends React.Component {
           style={{ float: 'left' }}
         />
       ),
-      null && (
-        <FlatButton
+      (
+        <RaisedButton
           key="submit"
           type="submit"
-          label={strings.form_general_submit}
+          label={strings.label_comment}
+          style={{
+            margin: 5,
+          }}
+          buttonStyle={{
+            height: '32px',
+            lineHeight: '32px',
+          }}
           primary
+          disabled={!this.state.formData.content.length}
         />
       ),
     ];
@@ -277,7 +292,14 @@ class CreateEditPost extends React.Component {
         {loading && <Spinner />}
         {this.state.error && <Error text={this.state.error} />}
 
-        <div>
+        <div
+          style={{
+            backgroundColor: 'hsla(0,0%,100%,0)',
+            border: `1px solid ${constants.grey200}`,
+            borderRadius: 2,
+            padding: '0 10px',
+          }}
+        >
           {renderContentInput()}
         </div>
 
@@ -316,7 +338,6 @@ CreateEditPost.propTypes = {
   toggle: PropTypes.bool,
   popup: PropTypes.bool,
 
-  postID: PropTypes.number,
   post: PropTypes.object.isRequired,
   data: PropTypes.object,
   /* function */

@@ -86,10 +86,15 @@ class ButtonUpvote extends React.Component {
             width: 32,
             height: 32,
           }}
+          style={{
+            width: 40,
+            height: 40,
+            padding: 5,
+          }}
         >
-          <IconUpvote color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
+          <IconUpvote color={item.vflag === 1 ? constants.blueA100 : constants.theme().buttonMute} hoverColor={constants.blueA100} />
         </IconButton>
-        <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{ups - downs}</small>
+        <span style={{ verticalAlign: 'middle', lineHeight: '40px' }}>{ups - downs}</span>
         <IconButton
           tooltip="Downvote"
           tooltipPosition="top-center"
@@ -99,8 +104,13 @@ class ButtonUpvote extends React.Component {
             width: 32,
             height: 32,
           }}
+          style={{
+            width: 40,
+            height: 40,
+            padding: 5,
+          }}
         >
-          <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.grey300} hoverColor={constants.redA100} />
+          <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.theme().buttonMute} hoverColor={constants.redA100} />
         </IconButton>
       </ActionModule>
     );

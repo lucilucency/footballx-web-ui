@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled, { css } from 'styled-components';
+import styled  from 'styled-components';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, FlatButton } from 'material-ui';
-import { getPostComments, upVote, downVote, setPost } from '../../../actions';
+import { getPostComments, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
 import constants from '../../constants';
@@ -25,10 +25,6 @@ const LinkCoverStyled = styled.span`
 `;
 
 const ImageWrapper = styled.div`
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
   text-align: center;
   width: 100%;
 `;
@@ -37,15 +33,6 @@ const Image = styled.img`
   height: ${HEIGHT}px;
   width: auto;
   min-width: 0;
-`;
-const Background = styled.div`
-  ${props => props.src && css`
-    background-image: url(${props.src});
-    background-size: cover;
-    display: block;
-    filter: blur(3px);
-    height: ${HEIGHT}px;
-  `}
 `;
 
 class ViewPostFull extends React.Component {
@@ -71,62 +58,6 @@ class ViewPostFull extends React.Component {
       });
   }
 
-  upvote = () => {
-    if (this.props.isLoggedIn) {
-      let { c_ups = 0, c_downs = 0, vflag = 0 } = this.props.data;
-      if (vflag === 1) {
-        vflag = 0;
-        c_ups -= 1;
-      } else if (vflag === 0) {
-        vflag = 1;
-        c_ups += 1;
-      } else if (vflag === -1) {
-        vflag = 1;
-        c_ups += 1;
-        c_downs -= 1;
-      }
-
-      const payload = {
-        ...this.props.data,
-        vflag,
-        c_ups,
-        c_downs,
-      };
-
-      this.props.upVote(this.props.data.id, {
-        payload,
-      });
-    }
-  };
-
-  downVote = () => {
-    if (this.props.isLoggedIn) {
-      let { c_ups = 0, c_downs = 0, vflag = 0 } = this.props.data;
-      if (vflag === 1) {
-        vflag = -1;
-        c_ups -= 1;
-        c_downs += 1;
-      } else if (vflag === 0) {
-        vflag = -1;
-        c_downs += 1;
-      } else if (vflag === -1) {
-        vflag = 0;
-        c_downs -= 1;
-      }
-
-      const payload = {
-        ...this.props.data,
-        vflag,
-        c_ups,
-        c_downs,
-      };
-
-      this.props.downVote(this.props.data.id, {
-        payload,
-      });
-    }
-  };
-
   render() {
     const item = this.props.data;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
@@ -136,6 +67,9 @@ class ViewPostFull extends React.Component {
       <div>
         <Card
           key={item.id}
+          style={{
+            boxShadow: 'none',
+          }}
         >
           <CardHeader
             title={<ActiveLink to={`/r/${item.community_link}`}>{item.community_name}</ActiveLink>}
@@ -145,17 +79,12 @@ class ViewPostFull extends React.Component {
           />
           {item.content_type === 2 &&
           <CardMedia
-            overlay={<CardTitle
-              title={item.title}
-              titleColor={constants.theme().textColorPrimary}
-              titleStyle={{ fontWeight: constants.fontWeightMedium, fontSize: constants.fontSizeBig }}
-            />}
             style={{
               overflow: 'hidden',
               textAlign: 'center',
             }}
+            onClick={this.popupViewPostFull}
           >
-            <Background src={item.content} />
             <ImageWrapper>
               <Image
                 src={item.content}
@@ -180,10 +109,11 @@ class ViewPostFull extends React.Component {
           </CardText>}
           <CardActions
             style={{
-              padding: '0 8px',
+              padding: '0 0',
               display: 'flex',
               flexDirection: 'row',
               borderTop: `1px solid ${constants.grey50}`,
+              fontWeight: constants.fontWeightHeavy,
             }}
           >
             <ButtonUpvote
@@ -194,20 +124,44 @@ class ViewPostFull extends React.Component {
             <ActionModule>
               <FlatButton
                 target="_blank"
-                label="Share"
-                // icon={<IconShare color={constants.grey300} hoverColor={constants.blueA100} style={{}} />}
+                label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
+                // icon={<IconShare color={constants.theme().buttonMute} hoverColor={constants.blueA100} style={{}} />}
                 style={{
-                  marginTop: 6,
+                  marginTop: 2,
                   lineHeight: '32px',
                   height: 34,
                   minWidth: 60,
                 }}
-                labelStyle={{ fontSize: constants.fontSizeSmall, paddingLeft: 5, paddingRight: 5 }}
+                labelStyle={{
+                  fontSize: constants.fontSizeSmall,
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                  fontWeight: constants.fontWeightHeavy,
+                }}
+              />
+            </ActionModule>
+            <ActionModule>
+              <FlatButton
+                target="_blank"
+                label="Share"
+                // icon={<IconShare color={constants.grey300} hoverColor={constants.blueA100} style={{}} />}
+                style={{
+                  marginTop: 2,
+                  lineHeight: '32px',
+                  height: 34,
+                  minWidth: 60,
+                }}
+                labelStyle={{
+                  fontSize: constants.fontSizeSmall,
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                  fontWeight: constants.fontWeightHeavy,
+                }}
               />
             </ActionModule>
           </CardActions>
         </Card>
-        {this.props.isLoggedIn && <CreateComment postID={this.props.data.id} commentsNo={this.props.data.c_comments} post={this.props.data} />}
+        {this.props.isLoggedIn && <CreateComment post={this.props.data} />}
         <ViewPostComments comments={this.props.comments} isLoggedIn={this.props.isLoggedIn} />
       </div>
     );
@@ -235,8 +189,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getPostComments: (postID, sortby, xuser_id) => dispatch(getPostComments(postID, sortby, xuser_id)),
-  upVote: (postID, params) => dispatch(upVote(postID, params)),
-  downVote: (postID, params) => dispatch(downVote(postID, params)),
   setPost: payload => dispatch(setPost(payload)),
 });
 

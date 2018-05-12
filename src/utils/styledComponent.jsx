@@ -42,7 +42,7 @@ export const SmallPaper = styled(Paper)`
 
 
 export const FormWrapper = styled(ValidatorForm)`
-  margin: 20px;
+  // margin: 20px;
   transition: max-height 1s;
   box-sizing: border-box;
   ${props => ((props['data-display']) ? css`
@@ -66,6 +66,7 @@ export const FormWrapper = styled(ValidatorForm)`
 `;
 
 export const ActiveLink = styled(Link)`
+  color: #000;
   :hover {
     text-decoration: underline;
   }

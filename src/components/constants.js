@@ -56,6 +56,7 @@ const Constants = {
           dividerColor: 'rgb(52, 50, 50)',
           linkColorPrimary: '#6BF',
           avatarBackgroundColor: 'rgba(255, 255, 255, 0.1)',
+          buttonMute: materialColor.grey400,
 
           fontFamily: `
           -apple-system, BlinkMacSystemFont,
@@ -87,6 +88,7 @@ const Constants = {
           dividerColor: 'rgb(224, 224, 224)',
           linkColorPrimary: '#6BF',
           avatarBackgroundColor: materialColor.grey50,
+          buttonMute: materialColor.grey400,
 
           fontFamily: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
           // fontFamily: 'font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;'

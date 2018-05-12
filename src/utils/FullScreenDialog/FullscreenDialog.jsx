@@ -15,11 +15,11 @@ const styles = {
     top: 0,
     left: 0,
     zIndex: 1500,
-    background: constants.theme().backgroundColorSecondary,
+    background: 'rgba(0, 0, 0, .8)',
   },
   transition: {
     entering: {
-      opacity: 0,
+      opacity: 0.5,
       transition: 'all 225ms cubic-bezier(0.0, 0.0, 0.2, 1)',
       transform: 'translate(0, 56px)',
     },
@@ -42,8 +42,8 @@ const styles = {
   },
   closeButton: {
     fontSize: '12px',
-    width: 88,
-    textAlign: 'right',
+    // width: 88,
+    // textAlign: 'right',
   },
 };
 
@@ -62,7 +62,17 @@ const FullscreenDialogFrame = ({ children, open, style }) => (
         ...styles.transition[state],
       }}
       >
-        {children}
+        <div
+          style={{
+            width: '80%',
+            minHeight: '100%',
+            margin: 'auto',
+            overflowY: 'auto',
+            background: constants.theme().backgroundColorSecondary,
+          }}
+        >
+          {children}
+        </div>
         <AutoLockScrolling lock={open} />
       </div>
     )}
@@ -87,7 +97,7 @@ const getStyles = (props, theme) => {
     container: {
       flex: 1,
       overflow: 'auto',
-      marginTop: 33,
+      // marginTop: 33,
     },
   };
 
@@ -103,18 +113,12 @@ export default function FullscreenDialog(props, { muiTheme }) {
   const styles = getStyles(props, muiTheme);
 
   const {
-    actionButton,
-    appBarStyle,
-    appBarZDepth,
     children,
     closeIcon,
     containerStyle,
-    immersive,
     onRequestClose,
     open,
     style,
-    title,
-    titleStyle,
   } = props;
 
   return (
@@ -127,24 +131,10 @@ export default function FullscreenDialog(props, { muiTheme }) {
         style={{
           position: 'absolute',
           right: 0,
-          width: 88,
         }}
       >
         {closeIcon}
       </IconButton>
-      {null && <AppBar
-        title={title}
-        titleStyle={titleStyle}
-        style={{ ...styles.appBar, ...appBarStyle }}
-        iconElementLeft={(
-          <IconButton onClick={onRequestClose}>
-            {closeIcon}
-          </IconButton>
-        )}
-        iconElementRight={actionButton}
-        showMenuIconButton={onRequestClose != null}
-        zDepth={immersive ? 0 : appBarZDepth}
-      />}
       <div style={{ ...styles.container, ...containerStyle }}>
         {children}
       </div>
@@ -153,18 +143,6 @@ export default function FullscreenDialog(props, { muiTheme }) {
 }
 
 FullscreenDialog.propTypes = {
-  /**
-   * A `FlatButton` or `IconButton` that is used as affirmative action button.
-   */
-  actionButton: PropTypes.node,
-  /**
-   * Overrides the inline-styles of the app bar.
-   */
-  appBarStyle: PropTypes.object,
-  /**
-   * Overrides the z-depth of the app bar, will affect its shadow. This is ignored if immersive is set to `true`.
-   */
-  appBarZDepth: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
   /**
    * Children elements.
    */
@@ -178,10 +156,6 @@ FullscreenDialog.propTypes = {
    */
   containerStyle: PropTypes.object,
   /**
-   *  Toggles the immersive mode. If set to `true`, the app bar has a semi-transparent gradient and overlays the content.
-   */
-  immersive: PropTypes.bool,
-  /**
    * Callback that is invoked when the dismissive action button is touched.
    */
   onRequestClose: PropTypes.func,
@@ -193,19 +167,11 @@ FullscreenDialog.propTypes = {
    * Overrides the inline-styles of the dialog's root element.
    */
   style: PropTypes.object,
-  /**
-   * The title of the dialog.
-   */
-  title: PropTypes.string,
-  /**
-   * Overrides the inline-styles of the app bar's title element.
-   */
-  titleStyle: PropTypes.object,
 };
 
 FullscreenDialog.defaultProps = {
   appBarZDepth: 1,
-  closeIcon: <NavigationCloseIcon />,
+  closeIcon: <NavigationCloseIcon color="#696b6f" hoverColor="white" />,
   // closeIcon: <p style={{...styles.closeButton, fontSize: '12px'}}>Close</p>,
   immersive: false,
 };

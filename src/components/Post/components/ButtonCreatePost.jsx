@@ -43,7 +43,6 @@ class CreateEditPostButton extends React.Component {
             <SmallPaper>
               <CreateEditPost
                 callback={this.handleCloseDialog}
-                popup
               />
             </SmallPaper>
             <RightTray>

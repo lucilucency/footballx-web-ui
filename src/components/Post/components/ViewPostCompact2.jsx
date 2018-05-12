@@ -26,10 +26,6 @@ const ActionModule = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  //display: inline-block;
-  //position: absolute;
-  //top: 0;
-  //left: 0;
   text-align: center;
   width: 100%;
 `;
@@ -243,6 +239,7 @@ class ViewPostCompact extends React.Component {
             display: 'flex',
             flexDirection: 'row',
             borderTop: `1px solid ${constants.grey50}`,
+            fontWeight: constants.fontWeightHeavy,
           }}
         >
           <ActionModule>
@@ -256,7 +253,7 @@ class ViewPostCompact extends React.Component {
                 height: 32,
               }}
             >
-              <IconUpvote color={item.vflag === 1 ? constants.blueA100 : constants.grey300} hoverColor={constants.blueA100} />
+              <IconUpvote color={item.vflag === 1 ? constants.blueA100 : constants.theme().buttonMute} hoverColor={constants.blueA100} />
             </IconButton>
             <small style={{ verticalAlign: 'middle', lineHeight: '48px' }}>{ups - downs}</small>
             <IconButton
@@ -269,21 +266,26 @@ class ViewPostCompact extends React.Component {
                 height: 32,
               }}
             >
-              <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.grey300} hoverColor={constants.redA100} />
+              <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.theme().buttonMute} hoverColor={constants.redA100} />
             </IconButton>
           </ActionModule>
           <ActionModule>
             <FlatButton
               target="_blank"
               label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
-              // icon={<IconShare color={constants.grey300} hoverColor={constants.blueA100} style={{}} />}
+              // icon={<IconShare color={constants.theme().buttonMute} hoverColor={constants.blueA100} style={{}} />}
               style={{
                 marginTop: 6,
                 lineHeight: '32px',
                 height: 34,
                 minWidth: 60,
               }}
-              labelStyle={{ fontSize: constants.fontSizeSmall, paddingLeft: 5, paddingRight: 5 }}
+              labelStyle={{
+                fontSize: constants.fontSizeSmall,
+                paddingLeft: 5,
+                paddingRight: 5,
+                fontWeight: constants.fontWeightHeavy,
+              }}
               onClick={this.popupViewPostFull}
             />
           </ActionModule>
@@ -291,14 +293,19 @@ class ViewPostCompact extends React.Component {
             <FlatButton
               target="_blank"
               label="Share"
-              // icon={<IconShare color={constants.grey300} hoverColor={constants.blueA100} style={{}} />}
+              // icon={<IconShare color={constants.theme().buttonMute} hoverColor={constants.blueA100} style={{}} />}
               style={{
                 marginTop: 6,
                 lineHeight: '32px',
                 height: 34,
                 minWidth: 60,
               }}
-              labelStyle={{ fontSize: constants.fontSizeSmall, paddingLeft: 5, paddingRight: 5 }}
+              labelStyle={{
+                fontSize: constants.fontSizeSmall,
+                paddingLeft: 5,
+                paddingRight: 5,
+                fontWeight: constants.fontWeightHeavy,
+              }}
             />
           </ActionModule>
         </CardActions>

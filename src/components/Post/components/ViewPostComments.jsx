@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import { fromNow, MutedLink, getCookie } from '../../../utils';
+import { fromNow, ActiveLink } from '../../../utils';
+import constants from '../../constants';
 
 class ViewPostComments extends React.Component {
   state = {
@@ -24,28 +24,30 @@ class ViewPostComments extends React.Component {
 
   render() {
     const { comments } = this.props;
-    const userID = getCookie('user_id');
     return (
       <List>
-        <Subheader>
-          {comments.length ?
-            <span>Comments ({comments.length})</span> :
-            <span>Be the first one bark here {!userID && <MutedLink to="/sign_in">Log in</MutedLink>}</span>
-          }
-        </Subheader>
         {comments.map((item) => {
           const { xuser = {} } = item;
           return (
             <ListItem
               key={item.id}
               secondaryText={
-                <p>
-                  <span><MutedLink to={`/user/${xuser.id}`}>{xuser.nickname}</MutedLink> - <small>{fromNow(item.created_at)}</small></span><br />
-                  {item.content}
-                </p>
+                <div>
+                  <small>
+                    <ActiveLink to={`/user/${xuser.id}`}>{xuser.nickname}</ActiveLink> - <span>{fromNow(item.created_at)}</span>
+                  </small>
+                  <br />
+                  <div
+                    style={{
+                      color: 'rgb(28, 28, 28)',
+                    }}
+                  >
+                    {item.content}
+                  </div>
+                </div>
               }
               disabled
-              secondaryTextLines={2}
+              secondaryTextLines={10}
               innerDivStyle={{
                 paddingTop: 0,
                 paddingBottom: 5,
