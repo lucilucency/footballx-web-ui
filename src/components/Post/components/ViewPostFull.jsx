@@ -11,8 +11,6 @@ import ViewPostComments from './ViewPostComments';
 import CreateComment from './CreateEditComment';
 import ButtonUpvote from './ButtonUpvote';
 
-const HEIGHT = 400;
-
 const ActionModule = styled.div`
   display: flex; 
   flex-direction: row;
@@ -30,9 +28,7 @@ const ImageWrapper = styled.div`
 `;
 const Image = styled.img`
   vertical-align: middle;
-  height: ${HEIGHT}px;
-  width: auto;
-  min-width: 0;
+  width: 100%;
 `;
 
 class ViewPostFull extends React.Component {
@@ -77,6 +73,21 @@ class ViewPostFull extends React.Component {
             avatar={item.community_icon}
             style={{ padding: '1em 1em 0.5em 1em' }}
           />
+          <CardTitle
+            title={item.title}
+            titleColor={constants.theme().textColorPrimary}
+            titleStyle={{
+              fontWeight: constants.fontWeightHeavy,
+              fontSize: constants.fontSizeBig,
+              lineHeight: 1.44,
+            }}
+            style={{
+              paddingTop: 0,
+              // paddingBottom: 0,
+              // whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+            }}
+          />
           {item.content_type === 2 &&
           <CardMedia
             style={{
@@ -92,19 +103,15 @@ class ViewPostFull extends React.Component {
               />
             </ImageWrapper>
           </CardMedia>}
-          {item.content_type === 1 && <CardTitle
-            title={item.title}
-            titleColor={constants.theme().textColorPrimary}
-            titleStyle={{ fontWeight: constants.fontWeightHeavy, fontSize: constants.fontSizeBig }}
-            style={{
-              paddingTop: 0,
-              paddingBottom: 0,
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-all',
-            }}
-          />}
           {item.content_type === 1 &&
-          <CardText color={constants.theme().textColorSecondary} style={{ fontSize: constants.fontSizeMedium, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+          <CardText
+            color={constants.theme().textColorSecondary}
+            style={{
+              fontSize: constants.fontSizeMedium,
+              // whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+            }}
+          >
             {item.content}
           </CardText>}
           <CardActions

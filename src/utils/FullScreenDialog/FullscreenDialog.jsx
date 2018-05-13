@@ -18,7 +18,7 @@ const styles = {
   },
   transition: {
     entering: {
-      opacity: 0.5,
+      opacity: 0,
       transition: 'all 225ms cubic-bezier(0.0, 0.0, 0.2, 1)',
       transform: 'translate(0, 56px)',
     },

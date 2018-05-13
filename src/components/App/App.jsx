@@ -25,6 +25,9 @@ const muiTheme = {
   cardText: {
     color: constants.theme().textColorSecondary,
   },
+  cardTitle: {
+
+  },
   badge: { fontWeight: constants.fontWeightNormal },
   subheader: { fontWeight: constants.fontWeightNormal },
   raisedButton: { fontWeight: constants.fontWeightNormal },
@@ -76,8 +79,8 @@ const StyledBodyDiv = styled.div`
   ${props => props.isTrayOpen && css`
     padding-left: ${props.trayWidth + 25}px;
     
-    @media only screen and (min-width: ${props.trayWidth + 1200}px) {
-      width: 1200px;
+    @media only screen and (min-width: ${props.trayWidth + 1080}px) {
+      width: 1080px;
       margin-left: auto;
       margin-right: auto;
     }
