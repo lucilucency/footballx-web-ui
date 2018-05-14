@@ -8,7 +8,7 @@ import { FormWrapper, TextValidator, PasswordWithEye } from '../../../utils';
 import constants from '../../constants';
 import { updateMetadata, updateUserProfile } from '../../../actions';
 import Error from '../../Error/index';
-import Spinner from '../../Spinner/index';
+// import Spinner from '../../Spinner/index';
 
 class UpdateProfileNickname extends Component {
   static defaultProps = {
@@ -92,7 +92,7 @@ class UpdateProfileNickname extends Component {
       display,
       toggle,
       popup,
-      loading,
+      // loading,
     } = this.props;
 
     return (
