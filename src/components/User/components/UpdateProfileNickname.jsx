@@ -15,7 +15,7 @@ class UpdateProfileNickname extends Component {
     display: true,
     toggle: false,
     popup: false,
-    loading: false,
+    // loading: false,
   };
 
   static defaultFormData = {
@@ -185,7 +185,7 @@ UpdateProfileNickname.propTypes = {
   setTrigger: PropTypes.func.isRequired,
 
   /**/
-  loading: PropTypes.bool,
+  // loading: PropTypes.bool,
   user: PropTypes.object,
   updateMetadata: PropTypes.func,
   updateUserProfile: PropTypes.func,
