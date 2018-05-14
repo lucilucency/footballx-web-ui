@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import update from 'react-addons-update';
 import PropTypes from 'prop-types';
 import { format } from 'util';
 import strings from '../../../lang';
-import { FormWrapper, TextValidator } from '../../../utils';
+import { FormWrapper, TextValidator, PasswordWithEye } from '../../../utils';
 import constants from '../../constants';
-import { updateMetadata } from '../../../actions';
+import { updateMetadata, updateUserProfile } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 
-class UpdateProfileNickname extends React.Component {
+class UpdateProfileNickname extends Component {
   static defaultProps = {
     display: true,
     toggle: false,
@@ -19,7 +19,8 @@ class UpdateProfileNickname extends React.Component {
   };
 
   static defaultFormData = {
-    title: '',
+    username: '',
+    password: '',
   };
 
   static initialState = ({
@@ -39,10 +40,22 @@ class UpdateProfileNickname extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.setTrigger(this.submit);
+  }
+
   updateTitle = (e) => {
     this.setState({
       formData: update(this.state.formData, {
-        title: { $set: e.target.value },
+        username: { $set: e.target.value },
+      }),
+    }, this.handleChange);
+  };
+
+  updatePassword = (e) => {
+    this.setState({
+      formData: update(this.state.formData, {
+        password: { $set: e.target.value },
       }),
     }, this.handleChange);
   };
@@ -51,17 +64,24 @@ class UpdateProfileNickname extends React.Component {
     this.props.onChange(this.isValid());
   };
 
-  isValid = () => !this.isExistNickname();
-
   isExistNickname = () => false;
+  isValid = () => !this.isExistNickname();
 
   submit = () => {
     if (this.isValid()) {
       this.props.updateMetadata({
         ...this.props.user,
-        username: this.state.formData.title,
+        username: this.state.formData.username,
       });
-      this.props.callback();
+      this.props.updateUserProfile(this.props.user.id, {
+        username: this.state.formData.username,
+        password: this.state.formData.password,
+      }, {
+        ...this.props.user,
+        username: this.state.formData.username,
+      });
+
+      // this.props.callback();
     } else {
       //
     }
@@ -87,28 +107,58 @@ class UpdateProfileNickname extends React.Component {
           {loading && <Spinner />}
           {this.state.error && <Error text={this.state.error} />}
 
-          <div
-            style={{
-              backgroundColor: 'hsla(0,0%,100%,0)',
-              border: `1px solid ${constants.grey200}`,
-              borderRadius: 4,
-              padding: '0 10px',
-              marginBottom: 10,
-            }}
-          >
-            <TextValidator
-              name="title"
-              type="text"
-              hintText={strings.hint_nickname}
-              onChange={this.updateTitle}
-              fullWidth
-              autoComplete="off"
-              underlineShow={false}
-              value={this.state.formData.title}
-              validators={['required', 'maxStringLength:20']}
-              errorMessages={[strings.err_is_required, format(strings.err_maximum, 20)]}
-            />
-          </div>
+          {!loading && (
+            <div>
+              <div
+                style={{
+                  backgroundColor: 'hsla(0,0%,100%,0)',
+                  border: `1px solid ${constants.grey200}`,
+                  borderRadius: 4,
+                  padding: '0 10px',
+                  marginBottom: 10,
+                }}
+              >
+                <TextValidator
+                  name="username"
+                  type="text"
+                  hintText={strings.hint_nickname}
+                  onChange={this.updateTitle}
+                  fullWidth
+                  autoComplete="off"
+                  underlineShow={false}
+                  value={this.state.formData.username}
+                  validators={['required', 'maxStringLength:20']}
+                  errorMessages={[strings.err_is_required, format(strings.err_maximum, 20)]}
+                  // errorText="Your password is too short"
+                />
+              </div>
+              {null && (
+                <div
+                  style={{
+                    backgroundColor: 'hsla(0,0%,100%,0)',
+                    border: `1px solid ${constants.grey200}`,
+                    borderRadius: 4,
+                    padding: '0 10px',
+                    marginBottom: 10,
+                  }}
+                >
+                  <PasswordWithEye
+                    name="password"
+                    type="password"
+                    hintText={strings.hint_password}
+                    onChange={this.updatePassword}
+                    fullWidth
+                    autoComplete="off"
+                    underlineShow={false}
+                    value={this.state.formData.password}
+                    // errorText="Your password is too short"
+                    // validators={['required', 'maxStringLength:16']}
+                    // errorMessages={[strings.err_is_required, format(strings.err_maximum, 16)]}
+                  />
+                </div>
+              )}
+            </div>
+          )}
         </FormWrapper>
       </div>
     );
@@ -117,25 +167,28 @@ class UpdateProfileNickname extends React.Component {
 
 const mapStateToProps = state => ({
   currentQueryString: window.location.search,
-  // loading: state.app.posts.loading,
+  loading: state.app.posts.loading,
   user: state.app.metadata.data.user,
 });
 
 const mapDispatchToProps = dispatch => ({
   updateMetadata: payload => dispatch(updateMetadata(payload)),
+  updateUserProfile: (userID, params, payload) => dispatch(updateUserProfile(userID, params, payload)),
 });
 
 UpdateProfileNickname.propTypes = {
   display: PropTypes.bool,
   toggle: PropTypes.bool,
   popup: PropTypes.bool,
-  callback: PropTypes.func.isRequired,
+  // callback: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  setTrigger: PropTypes.func.isRequired,
 
   /**/
   loading: PropTypes.bool,
   user: PropTypes.object,
   updateMetadata: PropTypes.func,
+  updateUserProfile: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateProfileNickname);

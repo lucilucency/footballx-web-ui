@@ -1,4 +1,4 @@
-import { dispatchGet, dispatchPut, dispatchDelete, dispatchGET, dispatchPOST } from './dispatchAction';
+import { dispatchGet, dispatchDelete, dispatchGET, dispatchPOST, dispatchPUT } from './dispatchAction';
 import {
   parseCommentsInPost,
   parseCommentAfterCreate,
@@ -29,6 +29,7 @@ export const getMetadata = ({
   access_token = getCookie('access_token'),
   user_id = getCookie('user_id'),
   nickname = getCookie('nickname'),
+  username = getCookie('username'),
 } = {}) => (dispatch) => {
   const getDataStart = payload => ({
     type: 'OK/metadata',
@@ -42,6 +43,7 @@ export const getMetadata = ({
       user: {
         id: user_id,
         nickname,
+        username,
       },
     };
   }
@@ -53,6 +55,15 @@ export const updateMetadata = user => dispatch => dispatch(({
     user,
   },
 }));
+export const updateUserProfile = (userID, params, payload) => dispatchPUT({
+  reducer: 'EDIT/metadata',
+  path: `xuser/${userID}`,
+  params,
+  payload: {
+    user: payload,
+  },
+  transform: resp => ({ user: resp.xuser }),
+});
 
 // communities
 export const getSuggestedCommunities = () => dispatchGet('suggestedCommunities', 'communities/suggestion', {}, resp => resp.communities);
@@ -87,7 +98,11 @@ export const createPost = ({ params, payload }) => dispatchPOST({
   payload,
   transform: parsePostAfterCreate,
 });
-export const editPost = (id, params) => dispatchPut('EDIT/post', `post/${id}`, params);
+export const editPost = (id, params) => dispatchPUT({
+  reducer: 'EDIT/post',
+  path: `post/${id}`,
+  params,
+});
 export const deletePost = id => dispatchDelete('DELETE/post', `post/${id}`);
 export const setPost = payload => dispatch => dispatch(({
   type: 'OK/post',

@@ -25,7 +25,7 @@ const StyledFlatButton = styled(FlatButton)`
 const LoggedInUser = ({ user, style }) => (
   <Link style={style} to={`/user/${user.id}`}>
     <StyledFlatButton
-      label={user.fullname || user.nickname || strings.app_my_profile}
+      label={user.username || user.nickname || strings.app_my_profile}
       hoverColor="transparent"
     />
   </Link>

@@ -1,7 +1,8 @@
 /* eslint-disable no-confusing-arrow */
+/* eslint-disable no-return-assign */
 import React from 'react';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   Step,
   Stepper,
@@ -11,12 +12,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import styled, { css } from 'styled-components';
 import constants from '../../constants';
-import { updateMetadata } from '../../../actions';
 import UpdateProfileNickname from './UpdateProfileNickname';
 
 const AdBannerDiv = styled.div`
-  
-  
   width: 100vw;
   height: 100vh;
   opacity: 0.98;
@@ -42,16 +40,29 @@ const AdBannerDiv = styled.div`
 `;
 
 class HorizontalNonLinearStepper extends React.Component {
-  state = {
-    showBanner: true,
-    stepIndex: 0,
-    isAllowNickname: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showBanner: !this.props.user.username,
+      stepIndex: 0,
+      isValidNickname: false,
+    };
+  }
 
   handleNext = () => {
     const { stepIndex } = this.state;
-    if (stepIndex < 2) {
-      this.setState({ stepIndex: stepIndex + 1 });
+
+    switch (stepIndex) {
+      case 0:
+        this.triggerSubmitNickname();
+        this.setState({ stepIndex: stepIndex + 1 });
+        break;
+      case 1:
+        this.setState({ stepIndex: stepIndex + 1 });
+        break;
+      default:
+        break;
     }
   };
 
@@ -68,31 +79,10 @@ class HorizontalNonLinearStepper extends React.Component {
     });
   };
 
-  getStepContent = (stepIndex) => {
-    switch (stepIndex) {
-      case 0:
-        return (<UpdateProfileNickname
-          onChange={isAllow => this.setState({ isAllowNickname: isAllow })}
-          callback={() => this.setState({ stepIndex: 1 })}
-        />);
-      case 1:
-        return (
-          <div>
-            <h2>Cool!</h2>
-            <p>What is your favorite team?</p>
-          </div>
-        );
-      case 2:
-        return 'This is the bit I really care about!';
-      default:
-        return 'You\'re a long way from home!';
-    }
-  };
-
   isAvailableToGo = (stepIndex) => {
     switch (stepIndex) {
       case 0:
-        return this.state.isAllowNickname;
+        return this.state.isValidNickname;
       case 1:
         return true;
       default:
@@ -107,7 +97,7 @@ class HorizontalNonLinearStepper extends React.Component {
     };
 
     return (
-      <AdBannerDiv show={this.state.showBanner}>
+      <AdBannerDiv show={!this.props.user.username || this.state.showBanner}>
         <div>
           <h3>Hi, stranger</h3>
           <p>
@@ -132,7 +122,25 @@ class HorizontalNonLinearStepper extends React.Component {
             </Step>
           </Stepper>
           <div style={contentStyle}>
-            {this.getStepContent(stepIndex)}
+            {stepIndex === 0 && (
+              <UpdateProfileNickname
+                setTrigger={action => this.triggerSubmitNickname = action}
+                onChange={isValid => this.setState({ isValidNickname: isValid })}
+                // callback={() => this.setState({ stepIndex: 1 })}
+              />
+            )}
+            {stepIndex === 1 && (
+              <div>
+                <h2>Cool!</h2>
+                <p>What is your favorite team?</p>
+              </div>
+            )}
+            {stepIndex === 2 && (
+              <div>
+                <h2>Amazing Team!</h2>
+                <p>Let us know which communities you want to follow</p>
+              </div>
+            )}
             <div style={{ marginTop: 12 }}>
               <FlatButton
                 label="Back"
@@ -159,13 +167,8 @@ class HorizontalNonLinearStepper extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  updateMetadata: payload => dispatch(updateMetadata(payload)),
-});
-
 HorizontalNonLinearStepper.propTypes = {
-  // user: PropTypes.object,
-  // updateMetadata: PropTypes.func,
+  user: PropTypes.object,
 };
 
-export default connect(null, mapDispatchToProps)(HorizontalNonLinearStepper);
+export default connect(null, null)(HorizontalNonLinearStepper);

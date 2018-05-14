@@ -114,7 +114,7 @@ class App extends React.Component {
             titleTemplate={strings.title_template}
           />
           <Header params={params} location={location} />
-          { location.pathname !== '/popular' && this.props.user && (!this.props.user.username || false) &&
+          { location.pathname !== '/popular' && this.props.user &&
           <UpdateProfileStepper user={this.props.user} />}
           <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             { location.pathname !== '/' && <Announce /> }

@@ -323,6 +323,73 @@ export function dispatchGET({
   };
 }
 
+export function dispatchPUT({
+  host = FX_API,
+  version = FX_VERSION,
+  reducer,
+  path,
+  params = {},
+  transform,
+  retries = 1,
+  retriesBreak = 3000,
+  callback,
+}) {
+  return (dispatchAction) => {
+    const url = `${host}/${version}/${path}?${typeof params === 'string' ? params.substring(1) : ''}`;
+
+    const dispatchStart = () => ({
+      type: `REQUEST/${reducer}`,
+    });
+    const dispatchOK = payload => ({
+      type: `OK/${reducer}`,
+      payload,
+    });
+    const dispatchFail = error => ({
+      type: `FAIL/${reducer}`,
+      error,
+    });
+
+    const options = { method: 'PUT' };
+
+    if (typeof params === 'object') {
+      options.body = FormUrlEncoded(params);
+      options.contentType = 'application/x-www-form-urlencoded';
+    }
+
+    const accessToken = getCookie('access_token');
+
+    const fetchDataWithRetry = (delay, tries, error) => {
+      if (tries < 1) {
+        return dispatchFail(error);
+      }
+      return request
+        .put(url)
+        .send(options.body)
+        .set('Content-Type', options.contentType)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .then((res) => {
+          if (res.statusCode === 200) {
+            let dispatchData = JSON.parse(res.text);
+            if (transform) {
+              dispatchData = transform(dispatchData);
+            }
+
+            if (callback) callback(dispatchData);
+            return dispatchAction(dispatchOK(dispatchData));
+          }
+          return setTimeout(() => fetchDataWithRetry(delay, tries - 1, res.error), delay);
+        })
+        .catch((err) => {
+          console.error(`Error in dispatchPut/${reducer}`);
+          return dispatchAction(dispatchFail(err.message));
+        });
+    };
+
+    dispatchAction(dispatchStart());
+    return fetchDataWithRetry(retriesBreak, retries);
+  };
+}
+
 export function dispatchPut(type, path, params = {}, transform) {
   const host = FX_API;
   const v = FX_VERSION;
