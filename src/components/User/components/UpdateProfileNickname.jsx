@@ -104,10 +104,10 @@ class UpdateProfileNickname extends Component {
           onSubmit={this.submit}
           // onError={errors => console.log(errors)}
         >
-          {loading && <Spinner />}
+          {/* {loading && <Spinner />} */}
           {this.state.error && <Error text={this.state.error} />}
 
-          {!loading && (
+          {(
             <div>
               <div
                 style={{
