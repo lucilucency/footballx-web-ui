@@ -143,20 +143,11 @@ const SearchGroup = () => (
   </VerticalAlignToolbar>
 );
 
-const AccountGroup = ({ greaterThanSmall }) => (
-  <VerticalAlignToolbar>
-    <AccountWidget greaterThanSmall={greaterThanSmall} />
-  </VerticalAlignToolbar>
-);
-AccountGroup.propTypes = {
-  greaterThanSmall: PropTypes.bool,
-};
-
 const SettingsGroup = ({ user }) => (
   <VerticalAlignDropdown
     Button={IconButton}
     buttonProps={{
-      children: user.avatar ? <Avatar src={user.avatar} size={28} /> : <ActionSettings />,
+      children: user.avatar ? <Avatar src={user.avatar} size={24} /> : <ActionSettings />,
     }}
   >
     {null && <LocalizationMenu />}
@@ -189,7 +180,7 @@ const Header = ({ location, greaterThanSmall, user }) => (
         {greaterThanSmall && <SearchGroup />}
       </VerticalAlignDiv>
       <VerticalAlignDiv >
-        <AccountGroup greaterThanSmall={greaterThanSmall} />
+        <AccountWidget greaterThanSmall={greaterThanSmall} />
         {user && <SettingsGroup user={user} />}
       </VerticalAlignDiv>
     </ToolbarHeader>

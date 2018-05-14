@@ -235,8 +235,6 @@ export function dispatchPOST({
           console.error(`Error in dispatchPost/${reducer}`);
           if (err.message === 'Unauthorized') {
             console.error('Unauthorized, logging out...');
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('user_id');
             // window.location.href = '/login';
             return null;
           }

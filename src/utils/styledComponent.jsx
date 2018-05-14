@@ -14,11 +14,11 @@ export const Container = styled.div`
   display: grid;
   grid-gap: 2em;
   padding: 1em;
-  ${props => (props.browser && props.browser.greaterThan.small ? css`
-    grid-template-columns: 2.5fr 1fr;  
-  ` : css`
+  grid-template-columns: 2.5fr 1fr;
+  
+  @media only screen and (max-width: 660px) {
     grid-template-columns: 1fr;
-  `)}
+  }
 `;
 
 export const RightTray = styled.div`

@@ -65,7 +65,8 @@ class LoginForm extends React.Component {
           setCookie('access_token', data.access_token, 7);
           setCookie('user_id', data.user.id, 7);
 
-          that.props.history.push('/');
+          // that.props.history.push('/');
+          window.location.href = '/';
         } else {
           that.setState({
             loginError: true,

@@ -3,9 +3,35 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { FlatButton, IconButton } from 'material-ui';
+import IconCreatePost from 'material-ui/svg-icons/editor/border-color';
+import constants from '../../constants';
 import strings from '../../../lang/index';
 import Spinner from '../../Spinner/index';
-import LoggedInUser from './LoggedInUser';
+
+const StyledFlatButton = styled(FlatButton)`
+ min-width: 30px !important;
+ & > div > span {
+   display: inline-block;
+   max-width: 200px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   text-transform: none !important;
+   white-space: nowrap;
+   font-size: ${constants.fontSizeCommon} !important;
+   padding-right: 0 !important;
+   padding-left: 0 !important;
+ }
+`;
+
+const LoggedInUser = ({ user, style }) => (
+  <Link style={style} to={`/user/${user.id}`}>
+    <StyledFlatButton
+      label={user.username || user.nickname || strings.app_my_profile}
+      hoverColor="transparent"
+    />
+  </Link>
+);
 
 const IconButtonLink = styled(Link)`
   padding: 0 !important;
@@ -59,7 +85,13 @@ const AccountWidget = ({
       return <LoggedInUser style={style} user={user} greaterThanSmall={greaterThanSmall} />;
     }
 
-    return null;
+    return (
+      <Link style={style} to="/submit">
+        <IconButton iconStyle={{ width: 20, height: 20 }}>
+          <IconCreatePost />
+        </IconButton>
+      </Link>
+    );
   };
 
   return (

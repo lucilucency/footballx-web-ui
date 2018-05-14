@@ -27,16 +27,18 @@ class NewFeeds extends React.Component {
               <div data="page-welcome">
                 <SmallPaper>
                   <Subheader>Home</Subheader>
-                  <p>Your personal FootballX frontpage. Come here to check in with your favorite communities.</p>
-                  <CreatePostButton />
+                  <p>Enjoy football world with great news, hot discussions!</p>
+                  <CreatePostButton user={this.props.user} browser={this.props.browser} />
                 </SmallPaper>
               </div>
             )}
-            <div data="ads">
-              <SmallPaper>
-                <Subheader>Ads</Subheader>
-              </SmallPaper>
-            </div>
+            {null && (
+              <div data="ads">
+                <SmallPaper>
+                  <Subheader>Ads</Subheader>
+                </SmallPaper>
+              </div>
+            )}
             {this.props.user && (
               <div data="suggested-communities">
                 <SmallPaper>

@@ -174,7 +174,7 @@ class ViewPostCompact extends React.Component {
 
   render() {
     const item = this.props.data;
-    const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
+    const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_username || item.xuser_nickname}</MutedLink>;
     const postLink = (
       <MutedLink
         to={{

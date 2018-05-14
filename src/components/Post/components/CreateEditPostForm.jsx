@@ -584,6 +584,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CreateEditPost.propTypes = {
+  user: PropTypes.object,
+
   mode: PropTypes.string,
   display: PropTypes.bool,
   toggle: PropTypes.bool,
@@ -592,7 +594,6 @@ CreateEditPost.propTypes = {
 
   /**/
   loading: PropTypes.bool,
-  user: PropTypes.object,
   defaultDeleteFunction: PropTypes.func,
 };
 

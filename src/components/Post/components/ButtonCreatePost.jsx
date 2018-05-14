@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { RaisedButton, Subheader } from 'material-ui';
+import { RaisedButton } from 'material-ui';
 import strings from '../../../lang';
-import { bindAll, renderDialog, SmallPaper, Container, RightTray } from '../../../utils';
-import CreateEditPost from './CreateEditPostForm';
+import { bindAll, renderDialog } from '../../../utils';
+import CreateEditPostFrame from './CreateEditPostFrame';
 
 class CreateEditPostButton extends React.Component {
   static initialState = {
@@ -39,27 +39,7 @@ class CreateEditPostButton extends React.Component {
     this.setState({
       dialogConstruct: {
         view: (
-          <Container browser={this.props.browser}>
-            <CreateEditPost
-              callback={this.handleCloseDialog}
-            />
-            <RightTray>
-              <div data="page-welcome">
-                <SmallPaper>
-                  <Subheader>Popular</Subheader>
-                  <p>
-                    The best posts on Footballx for you, pulled from the most active communities on Reddit.
-                    Check here to see the most shared, upvoted, and commented content on the internet.
-                  </p>
-                </SmallPaper>
-              </div>
-              <div data="ads">
-                <SmallPaper>
-                  <Subheader>Ads</Subheader>
-                </SmallPaper>
-              </div>
-            </RightTray>
-          </Container>
+          <CreateEditPostFrame />
         ),
         modal: true,
         fullScreen: true,
@@ -85,12 +65,9 @@ class CreateEditPostButton extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  browser: state.browser,
-});
-
 CreateEditPostButton.propTypes = {
-  browser: PropTypes.object,
+  // browser: PropTypes.object,
+  // user: PropTypes.object,
 };
 
-export default connect(mapStateToProps, null)(CreateEditPostButton);
+export default connect()(CreateEditPostButton);

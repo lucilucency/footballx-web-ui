@@ -5,7 +5,7 @@ import {
   parsePostAfterCreate,
   parsePostInMeFeeds,
 } from './parser';
-import { getCookie, setCookie } from '../utils';
+import { getCookie, setCookie, eraseCookie } from '../utils';
 
 // auth
 // export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
@@ -19,9 +19,10 @@ export const refresh = xuser_id => dispatchGET({
   path: `xuser/${xuser_id}/refesh`,
   params: { xuser_id },
   callback: (resp) => {
-    const username = getCookie('username');
-    if (!username && resp.user.username) {
+    if (resp.user.username) {
       setCookie('username', resp.user.username, 7);
+    } else {
+      eraseCookie('username');
     }
   },
 });
@@ -63,6 +64,9 @@ export const updateUserProfile = (userID, params, payload) => dispatchPUT({
     user: payload,
   },
   transform: resp => ({ user: resp.xuser }),
+  callback: () => {
+    setCookie('username', payload.username, 7);
+  },
 });
 
 // communities

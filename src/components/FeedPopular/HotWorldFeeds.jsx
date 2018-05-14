@@ -17,49 +17,44 @@ const Paper2 = styled(Paper)`
   padding: 10px;
 `;
 
-class NewWorldFeeds extends React.Component {
-  componentDidMount() {
+const NewWorldFeeds = ({ user, browser }) => (
+  <div>
+    <Helmet title="footballx - Posts" />
+    <Container browser={browser}>
+      <PostGrid sorting="top" filter="world" />
+      <RightTray>
+        {user && (
+          <div data="page-welcome">
+            <Paper2>
+              <Subheader>Popular</Subheader>
+              <p>
+                The best posts on Footballx for you, pulled from the most active communities on Reddit.
+                Check here to see the most shared, upvoted, and commented content on the internet.
+              </p>
+              <CreatePostButton />
+            </Paper2>
+          </div>
+        )}
+        {null && (
+          <div data="ads">
+            <Paper2>
+              <Subheader>Ads</Subheader>
+            </Paper2>
+          </div>
+        )}
+        {user && (
+          <div data="suggested-communities">
+            <Paper2>
+              <Subheader>Suggested communities</Subheader>
+              <SuggestedCommunities />
+            </Paper2>
+          </div>
+        )}
+      </RightTray>
+    </Container>
+  </div>
+);
 
-  }
-
-  render() {
-    return (
-      <div>
-        <Helmet title="footballx - Posts" />
-        <Container browser={this.props.browser}>
-          <PostGrid sorting="top" filter="world" />
-          <RightTray>
-            {this.props.user && (
-              <div data="page-welcome">
-                <Paper2>
-                  <Subheader>Popular</Subheader>
-                  <p>
-                    The best posts on Footballx for you, pulled from the most active communities on Reddit.
-                    Check here to see the most shared, upvoted, and commented content on the internet.
-                  </p>
-                  <CreatePostButton />
-                </Paper2>
-              </div>
-            )}
-            <div data="ads">
-              <Paper2>
-                <Subheader>Ads</Subheader>
-              </Paper2>
-            </div>
-            {this.props.user && (
-              <div data="suggested-communities">
-                <Paper2>
-                  <Subheader>Suggested communities</Subheader>
-                  <SuggestedCommunities />
-                </Paper2>
-              </div>
-            )}
-          </RightTray>
-        </Container>
-      </div>
-    );
-  }
-}
 
 NewWorldFeeds.propTypes = {
   browser: PropTypes.object,

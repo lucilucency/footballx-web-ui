@@ -7,7 +7,6 @@ import strings from '../../../lang';
 import { FormWrapper, TextValidator, PasswordWithEye } from '../../../utils';
 import constants from '../../constants';
 import { updateMetadata, updateUserProfile } from '../../../actions';
-import Error from '../../Error/index';
 // import Spinner from '../../Spinner/index';
 
 class UpdateProfileNickname extends Component {
@@ -49,6 +48,7 @@ class UpdateProfileNickname extends Component {
       formData: update(this.state.formData, {
         username: { $set: e.target.value },
       }),
+      error: '',
     }, this.handleChange);
   };
 
@@ -68,23 +68,31 @@ class UpdateProfileNickname extends Component {
   isValid = () => !this.isExistNickname();
 
   submit = () => {
-    if (this.isValid()) {
-      this.props.updateMetadata({
-        ...this.props.user,
-        username: this.state.formData.username,
-      });
-      this.props.updateUserProfile(this.props.user.id, {
-        username: this.state.formData.username,
-        password: this.state.formData.password,
-      }, {
-        ...this.props.user,
-        username: this.state.formData.username,
-      });
+    // if (this.isValid()) {}
 
-      // this.props.callback();
-    } else {
-      //
-    }
+    // this.props.updateMetadata({
+    //   ...this.props.user,
+    //   username: this.state.formData.username,
+    // });
+    this.props.updateUserProfile(this.props.user.id, {
+      username: this.state.formData.username,
+      password: this.state.formData.password,
+    }, {
+      ...this.props.user,
+      username: this.state.formData.username,
+    }).then((resp) => {
+      if (resp.type && resp.type.indexOf('OK') === -1) {
+        this.setState({
+          error: 'Invalid nickname or nickname already exist.',
+        }, () => {
+          this.props.callback(false);
+        });
+      } else {
+        this.props.callback(true);
+      }
+    });
+
+    // this.props.callback();
   };
 
   render() {
@@ -105,8 +113,6 @@ class UpdateProfileNickname extends Component {
           // onError={errors => console.log(errors)}
         >
           {/* {loading && <Spinner />} */}
-          {this.state.error && <Error text={this.state.error} />}
-
           {(
             <div>
               <div
@@ -127,9 +133,9 @@ class UpdateProfileNickname extends Component {
                   autoComplete="off"
                   underlineShow={false}
                   value={this.state.formData.username}
-                  validators={['required', 'maxStringLength:20']}
-                  errorMessages={[strings.err_is_required, format(strings.err_maximum, 20)]}
-                  // errorText="Your password is too short"
+                  validators={['required', 'maxStringLength:20', 'noSpace']}
+                  errorMessages={[strings.err_is_required, format(strings.err_maximum, 20), 'Invalid username']}
+                  errorText={this.state.error}
                 />
               </div>
               {null && (
@@ -180,14 +186,14 @@ UpdateProfileNickname.propTypes = {
   display: PropTypes.bool,
   toggle: PropTypes.bool,
   popup: PropTypes.bool,
-  // callback: PropTypes.func.isRequired,
+  callback: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   setTrigger: PropTypes.func.isRequired,
 
   /**/
   // loading: PropTypes.bool,
   user: PropTypes.object,
-  updateMetadata: PropTypes.func,
+  // updateMetadata: PropTypes.func,
   updateUserProfile: PropTypes.func,
 };
 

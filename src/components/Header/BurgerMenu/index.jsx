@@ -5,18 +5,16 @@ import { Link } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem } from 'material-ui/List';
 import Home from 'material-ui/svg-icons/action/home';
-// import IconAll from 'material-ui/svg-icons/action/track-changes';
 import IconPopular from 'material-ui/svg-icons/action/trending-up';
-import ActionFavorite from 'material-ui/svg-icons/toggle/star';
+// import ActionFavorite from 'material-ui/svg-icons/toggle/star';
+// import Checkbox from 'material-ui/Checkbox';
 
 import Toggle from 'material-ui/Toggle';
-import Checkbox from 'material-ui/Checkbox';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import styled from 'styled-components';
 import Avatar from 'material-ui/Avatar';
-import { greenA200, redA200, grey50 } from 'material-ui/styles/colors';
 import { toggleTray, getSuggestedCommunities } from '../../../actions';
 import constants from '../../constants';
 
@@ -57,10 +55,10 @@ class BurgerMenu extends React.Component {
       width: '2em',
       fontSize: '1em',
     };
-    const rightIconStyle = {
-      height: '2em',
-      width: '2em',
-    };
+    // const rightIconStyle = {
+    //   height: '2em',
+    //   width: '2em',
+    // };
 
     const { tray } = this.props;
     const labelStyle = {
@@ -103,49 +101,20 @@ class BurgerMenu extends React.Component {
               innerDivStyle={innerDivStyle}
             />
           </List>
-          {false &&
-          <List>
-            <Subheader>Favorites</Subheader>
-            <ListItem
-              primaryText={<div style={labelStyle}>r/Bitcon</div>}
-              leftAvatar={<Avatar color={constants.white} backgroundColor={constants.orangeA200} style={avatarStyle}>฿</Avatar>}
-              innerDivStyle={innerDivStyle}
-            />
-            <ListItem
-              primaryText={<div style={labelStyle}>r/IdleHeroes</div>}
-              leftAvatar={<Avatar color={greenA200} backgroundColor={grey50} style={avatarStyle}>I</Avatar>}
-              innerDivStyle={innerDivStyle}
-            />
-            <ListItem
-              primaryText={
-                <div style={{
-                  maxWidth: this.props.tray.width - 100,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  textTransform: 'none !important',
-                  whiteSpace: 'nowrap',
-                }}
-                >
-                  r/ManchesterUnitedFanClubVietNamMUSVN
-                </div>}
-              leftAvatar={<Avatar color={redA200} backgroundColor={grey50} style={avatarStyle} src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/220px-Manchester_United_FC_crest.svg.png" />}
-              innerDivStyle={innerDivStyle}
-            />
-          </List>}
           {this.props.user && (
             <List>
               <Subheader>Your communities</Subheader>
               {this.props.communities.map(item => (
                 <ListItem
                   key={item.id}
-                  primaryText={<div style={labelStyle}>/{item.name}</div>}
-                  rightIcon={<Checkbox
-                    checkedIcon={<ActionFavorite style={rightIconStyle} />}
-                    uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
-                    style={{
-                      marginTop: 4,
-                    }}
-                  />}
+                  primaryText={<div style={labelStyle}>{item.name}</div>}
+                  // rightIcon={<Checkbox
+                  //   checkedIcon={<ActionFavorite style={rightIconStyle} />}
+                  //   uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
+                  //   style={{
+                  //     marginTop: 4,
+                  //   }}
+                  // />}
                   leftAvatar={<Avatar style={avatarStyle} src={item.icon} />}
                   innerDivStyle={innerDivStyle}
                 />
