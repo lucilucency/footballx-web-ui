@@ -95,5 +95,4 @@ const mapDispatchToProps = dispatch => ({
   unsubscribe: (userID, communityID) => dispatch(unfollowCommunity(userID, communityID)),
 });
 
-// eslint-disable-next-line import/prefer-default-export
-export const SuggestedCommunities = connect(mapStateToProps, mapDispatchToProps)(RequestLayer);
+export default connect(mapStateToProps, mapDispatchToProps)(RequestLayer);

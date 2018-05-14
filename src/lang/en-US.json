@@ -291,6 +291,7 @@
   "hint_issue_notes": "Note eg: For match...",
   "hint_number": "Quantity eg: 100",
   "hint_password": "Password minimum: 3, maximum: 16",
+  "hint_nickname": "Did you ever have a nickname as a child?",
   "hint_post_content": "Don't be shy! Share your opinion",
   "hint_post_content_image": "Give a hot pic",
   "hint_post_content_link": "Link",

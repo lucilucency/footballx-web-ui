@@ -5,7 +5,7 @@ import {
   parsePostAfterCreate,
   parsePostInMeFeeds,
 } from './parser';
-import { getCookie } from '../utils';
+import { getCookie, setCookie } from '../utils';
 
 // auth
 // export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
@@ -18,6 +18,12 @@ export const refresh = xuser_id => dispatchGET({
   reducer: 'metadata',
   path: `xuser/${xuser_id}/refesh`,
   params: { xuser_id },
+  callback: (resp) => {
+    const username = getCookie('username');
+    if (!username && resp.user.username) {
+      setCookie('username', resp.user.username, 7);
+    }
+  },
 });
 export const getMetadata = ({
   access_token = getCookie('access_token'),
@@ -39,9 +45,14 @@ export const getMetadata = ({
       },
     };
   }
-
   dispatch(getDataStart(payload));
 };
+export const updateMetadata = user => dispatch => dispatch(({
+  type: 'OK/EDIT/metadata',
+  payload: {
+    user,
+  },
+}));
 
 // communities
 export const getSuggestedCommunities = () => dispatchGet('suggestedCommunities', 'communities/suggestion', {}, resp => resp.communities);

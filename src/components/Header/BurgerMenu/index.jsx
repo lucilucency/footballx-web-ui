@@ -134,7 +134,7 @@ class BurgerMenu extends React.Component {
           </List>}
           {this.props.user && (
             <List>
-              <Subheader>Followings</Subheader>
+              <Subheader>Your communities</Subheader>
               {this.props.communities.map(item => (
                 <ListItem
                   key={item.id}

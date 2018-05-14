@@ -260,6 +260,7 @@ export function dispatchGET({
   transform,
   retries = 1,
   retriesBreak = 3000,
+  callback,
 }) {
   return (dispatchAction) => {
     const url = `${host}/${version}/${path}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
@@ -298,6 +299,7 @@ export function dispatchGET({
             if (transform) {
               dispatchData = transform(dispatchData);
             }
+            if (callback) callback(dispatchData);
             return dispatchAction(dispatchOK(dispatchData));
           }
           return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.body.message), delay);

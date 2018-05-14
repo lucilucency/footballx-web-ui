@@ -16,6 +16,7 @@ import Header from '../Header';
 import MyFeeds from '../FeedNews';
 import WorldFeeds from '../FeedPopular';
 import { PageCreatePost, PageViewPost } from '../Post';
+import { UpdateProfileStepper } from '../User';
 import constants from '../constants';
 import Login from '../Login';
 
@@ -29,7 +30,10 @@ const muiTheme = {
 
   },
   badge: { fontWeight: constants.fontWeightNormal },
-  subheader: { fontWeight: constants.fontWeightNormal },
+  subheader: {
+    fontWeight: constants.fontWeightNormal,
+    color: constants.theme().textColorPrimary,
+  },
   raisedButton: { fontWeight: constants.fontWeightNormal },
   flatButton: { fontWeight: constants.fontWeightNormal },
   inkBar: {
@@ -87,15 +91,6 @@ const StyledBodyDiv = styled.div`
   `};
 `;
 
-const AdBannerDiv = styled.div`
-  text-align: center;
-
-  & img {
-    margin-top: 10px;
-    max-width: 100%;
-  }
-`;
-
 class App extends React.Component {
   UNSAFE_componentWillUpdate(nextProps) {
     if (this.props.location.key !== nextProps.location.key) {
@@ -119,15 +114,8 @@ class App extends React.Component {
             titleTemplate={strings.title_template}
           />
           <Header params={params} location={location} />
-          {false &&
-          <AdBannerDiv>
-            { location.pathname !== '/' &&
-            <a href="http://www.vpgame.com/?lang=en_us">
-              <img src="/assets/images/vp-banner.jpg" alt="" />
-            </a>
-            }
-          </AdBannerDiv>
-          }
+          { location.pathname !== '/popular' && this.props.user && (!this.props.user.username || false) &&
+          <UpdateProfileStepper user={this.props.user} />}
           <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             { location.pathname !== '/' && <Announce /> }
             <Route exact path="/" component={this.props.user ? MyFeeds : WorldFeeds} />
