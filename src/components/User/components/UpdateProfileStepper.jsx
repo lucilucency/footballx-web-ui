@@ -148,10 +148,13 @@ class HorizontalNonLinearStepper extends React.Component {
               WELCOME TO OUR HOOD <br />
               At Footballx, you’ll help build something that encourages millions around the world to think more, do more, learn more, feel more– and maybe even laugh more.
             </p>
-            <Stepper activeStep={stepIndex} style={{
-              flexFlow: 'row wrap',
-              justifyContent: 'center',
-            }}>
+            <Stepper
+              activeStep={stepIndex}
+              style={{
+                flexFlow: 'row wrap',
+                justifyContent: 'center',
+              }}
+            >
               <Step>
                 <StepButton onClick={() => this.setState({ stepIndex: 0 })}>
                   Set your nickname

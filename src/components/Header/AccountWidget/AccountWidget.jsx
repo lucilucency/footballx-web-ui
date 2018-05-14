@@ -33,6 +33,11 @@ const LoggedInUser = ({ user, style }) => (
   </Link>
 );
 
+LoggedInUser.propTypes = {
+  user: PropTypes.object,
+  style: PropTypes.object,
+};
+
 const IconButtonLink = styled(Link)`
   padding: 0 !important;
   height: auto !important;

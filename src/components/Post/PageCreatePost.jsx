@@ -5,6 +5,10 @@ import Helmet from 'react-helmet';
 import { CreateEditPostFrame } from './components';
 
 class PageCreatePost extends React.Component {
+  componentDidMount() {
+
+  }
+
   render() {
     return (
       <div>
