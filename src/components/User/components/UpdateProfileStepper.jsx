@@ -1,7 +1,7 @@
 /* eslint-disable no-confusing-arrow */
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {
   Step,
   Stepper,
@@ -164,8 +164,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 HorizontalNonLinearStepper.propTypes = {
-  user: PropTypes.object,
-  updateMetadata: PropTypes.func,
+  // user: PropTypes.object,
+  // updateMetadata: PropTypes.func,
 };
 
 export default connect(null, mapDispatchToProps)(HorizontalNonLinearStepper);
