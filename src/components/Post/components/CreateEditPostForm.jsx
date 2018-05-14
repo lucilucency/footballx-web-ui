@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {
   Dialog,
   FlatButton,
+  RaisedButton,
   List,
   ListItem,
   BottomNavigation,
@@ -37,7 +38,7 @@ class CreateEditPost extends React.Component {
     content: '',
     content_type: {
       text: strings.enum_post_type_1,
-      value: 2,
+      value: 1,
     },
     communities: {},
   };
@@ -93,11 +94,11 @@ class CreateEditPost extends React.Component {
   getFormData() {
     const { formData } = this.state;
 
-    if (!formData.communities.value || !formData.communities.value[0]) {
+    if (!formData.communities.value) {
       this.setState({
         formData: update(this.state.formData, {
           communities: {
-            error: { $set: strings.err_is_required },
+            error: { $set: strings.err_empty_community },
           },
         }),
       });
@@ -108,7 +109,7 @@ class CreateEditPost extends React.Component {
       title: formData.title,
       content: formData.content,
       content_type: formData.content_type.value || 1,
-      community_id: formData.communities.value[0].value.id,
+      community_id: formData.communities.value.value.id,
     };
   }
 
@@ -243,13 +244,15 @@ class CreateEditPost extends React.Component {
     name="title"
     type="text"
     hintText={strings.hint_post_title}
-    floatingLabelText={strings.label_post_title}
+    // floatingLabelText={strings.label_post_title}
     onChange={e => this.setState({
       formData: update(this.state.formData, {
         title: { $set: e.target.value },
       }),
     })}
     fullWidth
+    autoComplete="off"
+    underlineShow={false}
     value={this.state.formData.title}
     validators={['required']}
     errorMessages={[strings.err_is_required]}
@@ -259,15 +262,15 @@ class CreateEditPost extends React.Component {
     name="content"
     type="text"
     hintText={strings.hint_post_content}
+    hintStyle={{ top: 12 }}
+    value={this.state.formData.content && this.state.formData.content}
     onChange={e => this.updateContent(e.target.value)}
     multiLine
     rows={4}
     rowsMax={10}
     fullWidth
-    value={this.state.formData.content && this.state.formData.content}
-    hintStyle={{ top: 12 }}
-    // validators={['required']}
-    // errorMessages={[strings.err_is_required]}
+    autoComplete="off"
+    underlineShow={false}
   />);
 
   updateContent = (text) => {
@@ -324,6 +327,7 @@ class CreateEditPost extends React.Component {
       <Card
         style={{
           position: 'relative',
+          boxShadow: 'none',
         }}
       >
         <CardMedia
@@ -385,11 +389,13 @@ class CreateEditPost extends React.Component {
     type="text"
     hintText={strings.hint_post_content_link}
     onChange={e => this.updateContent(e.target.value)}
-    fullWidth
     value={this.state.formData.content && this.state.formData.content}
     hintStyle={{ top: 12 }}
+    fullWidth
     validators={['required']}
     errorMessages={[strings.err_is_required]}
+    autoComplete="off"
+    underlineShow={false}
   />);
 
   render() {
@@ -402,6 +408,10 @@ class CreateEditPost extends React.Component {
       loading,
     } = this.props;
 
+    const actionsButtonStyle = {
+      height: '32px',
+      lineHeight: '32px',
+    };
     const actions = [
       mode === 'edit' && (
         <FlatButton
@@ -412,117 +422,151 @@ class CreateEditPost extends React.Component {
           style={{ float: 'left' }}
         />
       ),
-      <FlatButton
-        label={strings.form_general_close}
+      <RaisedButton
         key="cancel"
-        secondary
+        label={strings.form_general_cancel}
         onClick={this.props.callback ? this.props.callback : () => props.history.push('/')}
+        style={{
+          margin: 5,
+          // boxShadow: 'none',
+          boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 2px, rgba(0, 0, 0, 0.12) 0px 0px 2px',
+        }}
+        buttonStyle={actionsButtonStyle}
+        overlayStyle={{
+          height: 32,
+        }}
       />,
-      <FlatButton
+      <RaisedButton
         key="submit"
         type="submit"
-        label={strings.form_general_submit}
-        labelPosition="before"
+        label={strings.label_post}
         icon={this.props.loading && <IconProgress size={24} />}
+        style={{
+          margin: 5,
+        }}
+        buttonStyle={actionsButtonStyle}
         primary
+        disabled={!this.state.formData.title.length}
       />,
     ];
 
     return (
-      <FormWrapper
-        data-toggle={toggle}
-        data-popup={popup}
-        data-display={display}
-        onSubmit={this.submit}
-        // onError={errors => console.log(errors)}
-      >
-        {loading && <Spinner />}
-        {this.state.error && <Error text={this.state.error} />}
-
-        <BottomNavigation selectedIndex={this.state.formData.content_type.value - 1}>
-          <BottomNavigationItem
-            label="Text"
-            icon={<IconText />}
-            onClick={() => this.updateFormDataContentType(1)}
-          />
-          <BottomNavigationItem
-            label="Image"
-            icon={<IconImage />}
-            onClick={() => this.updateFormDataContentType(2)}
-          />
-          <BottomNavigationItem
-            label="Link"
-            icon={<IconLink />}
-            onClick={() => this.updateFormDataContentType(3)}
-          />
-        </BottomNavigation>
-
-        <div>
-          <CommunitySelector
-            errorText={this.state.formData.communities.error}
-            onSelect={(values) => {
-              this.setState({
-                formData: update(this.state.formData, {
-                  communities: {
-                    value: { $set: values },
-                  },
-                }),
-              });
-            }}
-          />
-          <div>
-            {this.renderTitleInput()}
-          </div>
-          <div>
-            {this.state.formData.content_type.value === 1 && this.renderContentTextInput()}
-            {this.state.formData.content_type.value === 2 && this.renderContentImageInput()}
-            {this.state.formData.content_type.value === 3 && this.renderContentLinkInput()}
-          </div>
-        </div>
-
-        <div className="actions">
-          {actions}
-        </div>
-
-        <Dialog
-          title={strings.form_general_dialog_title}
-          actions={[<FlatButton
-            key="retry"
-            label="Retry"
-            secondary
-            keyboardFocused
-            onClick={() => {
-              this.closeDialog();
-            }}
-          />, <FlatButton
-            key="done"
-            label="Done"
-            primary
-            keyboardFocused
-            onClick={() => {
-              this.closeDialog();
-              return this.props.callback ? this.props.callback() : props.history.push('/home');
-            }}
-          />]}
-          modal={false}
-          open={this.state.submitResults.show}
-          onRequestClose={this.closeDialog}
+      <div>
+        <CommunitySelector
+          errorText={this.state.formData.communities.error}
+          onSelect={(values) => {
+            this.setState({
+              formData: update(this.state.formData, {
+                communities: {
+                  value: { $set: values },
+                },
+              }),
+            });
+          }}
+        />
+        <FormWrapper
+          data-toggle={toggle}
+          data-popup={popup}
+          data-display={display}
+          onSubmit={this.submit}
+          // onError={errors => console.log(errors)}
         >
-          <List>
-            {this.state.submitResults.data.map(r => (<ListItem
-              key={r.submitAction}
-              primaryText={r.submitAction}
-              // eslint-disable-next-line no-nested-ternary
-              leftIcon={r.submitting ? <IconProgress size={24} /> :
-                r.error ? <IconFail color={constants.colorRed} title={strings.form_general_fail} /> :
-                <IconSuccess color={constants.colorSuccess} title={strings.form_general_success} />
-              }
-              secondaryText={r.error && r.error}
-              secondaryTextLines={1}
-            />))}
-          </List>
-        </Dialog>
-      </FormWrapper>
+          {loading && <Spinner />}
+          {this.state.error && <Error text={this.state.error} />}
+
+          <BottomNavigation
+            selectedIndex={this.state.formData.content_type.value - 1}
+            style={{ justifyContent: 'space-around', marginBottom: '1em' }}
+          >
+            <BottomNavigationItem
+              label="Text"
+              icon={<IconText />}
+              onClick={() => this.updateFormDataContentType(1)}
+            />
+            <BottomNavigationItem
+              label="Image"
+              icon={<IconImage />}
+              onClick={() => this.updateFormDataContentType(2)}
+            />
+            <BottomNavigationItem
+              label="Link"
+              icon={<IconLink />}
+              onClick={() => this.updateFormDataContentType(3)}
+            />
+          </BottomNavigation>
+
+          <div>
+            <div
+              style={{
+                backgroundColor: 'hsla(0,0%,100%,0)',
+                border: `1px solid ${constants.grey200}`,
+                borderRadius: 4,
+                padding: '0 10px',
+                marginBottom: 10,
+              }}
+            >
+              {this.renderTitleInput()}
+            </div>
+            <div
+              style={{
+                backgroundColor: 'hsla(0,0%,100%,0)',
+                border: `1px solid ${constants.grey200}`,
+                borderRadius: 4,
+                padding: '0 10px',
+                marginBottom: 10,
+              }}
+            >
+              {this.state.formData.content_type.value === 1 && this.renderContentTextInput()}
+              {this.state.formData.content_type.value === 2 && this.renderContentImageInput()}
+              {this.state.formData.content_type.value === 3 && this.renderContentLinkInput()}
+            </div>
+          </div>
+
+          <div className="actions">
+            {actions}
+          </div>
+
+          <Dialog
+            title={strings.form_general_dialog_title}
+            actions={[<FlatButton
+              key="retry"
+              label="Retry"
+              secondary
+              keyboardFocused
+              onClick={() => {
+                this.closeDialog();
+              }}
+            />, <FlatButton
+              key="done"
+              label="Done"
+              primary
+              keyboardFocused
+              onClick={() => {
+                this.closeDialog();
+                return this.props.callback ? this.props.callback() : props.history.push('/home');
+              }}
+            />]}
+            modal={false}
+            open={this.state.submitResults.show}
+            onRequestClose={this.closeDialog}
+          >
+            <List>
+              {this.state.submitResults.data.map(r => (<ListItem
+                key={r.submitAction}
+                primaryText={r.submitAction}
+                // eslint-disable-next-line no-nested-ternary
+                leftIcon={r.submitting ? <IconProgress size={24} /> :
+                  r.error
+                    ? <IconFail color={constants.colorRed} title={strings.form_general_fail} /> :
+                    <IconSuccess color={constants.colorSuccess} title={strings.form_general_success} />
+                }
+                secondaryText={r.error && r.error}
+                secondaryTextLines={1}
+              />))}
+            </List>
+          </Dialog>
+        </FormWrapper>
+      </div>
     );
   }
 }

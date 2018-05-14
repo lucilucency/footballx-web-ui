@@ -1,4 +1,4 @@
-import CreateEditPost from './CreateEditPost';
+import CreateEditPost from './CreateEditPostForm';
 import CreatePostButton from './ButtonCreatePost';
 import ViewPostCompact from './ViewPostCompact';
 import ViewPostCompactBlank from './ViewPostCompactBlank';

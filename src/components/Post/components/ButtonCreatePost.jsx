@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { RaisedButton, Subheader } from 'material-ui';
 import strings from '../../../lang';
 import { bindAll, renderDialog, SmallPaper, Container, RightTray } from '../../../utils';
-import CreateEditPost from './CreateEditPost';
+import CreateEditPost from './CreateEditPostForm';
 
 class CreateEditPostButton extends React.Component {
   static initialState = {
@@ -40,11 +40,9 @@ class CreateEditPostButton extends React.Component {
       dialogConstruct: {
         view: (
           <Container browser={this.props.browser}>
-            <SmallPaper>
-              <CreateEditPost
-                callback={this.handleCloseDialog}
-              />
-            </SmallPaper>
+            <CreateEditPost
+              callback={this.handleCloseDialog}
+            />
             <RightTray>
               <div data="page-welcome">
                 <SmallPaper>

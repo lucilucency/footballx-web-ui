@@ -14,7 +14,7 @@ const styles = {
     position: 'relative',
   },
   selections: { flex: 1 },
-  underline: { position: 'relative', marginTop: 4 },
+  underline: { position: 'relative', marginTop: 1 },
 };
 
 const SelectionsPresenter = ({

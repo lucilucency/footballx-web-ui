@@ -24,7 +24,9 @@ class CommunitySelector extends React.Component {
 
     this.state = {
       ...initialState,
-      selectedItems: [],
+      selectedCommunities: {
+        value: null,
+      },
     };
   }
 
@@ -33,30 +35,34 @@ class CommunitySelector extends React.Component {
   }
 
   onRequestDelete = (key, stateName) => () => {
-    this.state[stateName].filter((v, i) => i !== key);
-
-    this.setState({ [stateName]: this.state[stateName].filter((v, i) => i !== key) });
+    this.setState({
+      [stateName]: {
+        value: null,
+      },
+    });
   };
 
-  handleSelection = (values, stateName) => this.setState({ [stateName]: values }, this.props.onSelect(values, stateName));
+  handleSelection = (values, stateName) => {
+    this.setState({ [stateName]: values }, () => {
+      this.props.onSelect(values, stateName);
+    });
+  };
 
-  handleCustomDisplaySelections = stateName => (values) => {
-    if (values.length) {
+  handleCustomDisplaySelections = stateName => ({ value, label } = {}) => {
+    if (value) {
       return (
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {values.map(({ label, value: community }, index) => (
-            <Chip key={index} style={{ margin: 5 }} onRequestDelete={this.onRequestDelete(index, stateName)}>
-              <Avatar
-                src={community.icon}
-                style={{
-                  width: 24,
-                  height: 24,
-                  margin: '4px -4px 4px 4px',
-                }}
-              />
-              {label}
-            </Chip>
-          ))}
+          <Chip style={{ margin: 5 }} onRequestDelete={this.onRequestDelete(0, stateName)}>
+            <Avatar
+              src={value.icon}
+              style={{
+                width: 24,
+                height: 24,
+                margin: '4px -4px 4px 4px',
+              }}
+            />
+            {label}
+          </Chip>
         </div>
       );
     }
@@ -68,7 +74,7 @@ class CommunitySelector extends React.Component {
   render() {
     const { dsCm } = this.props;
 
-    const countriesNodeList = dsCm.map((community, index) => {
+    const nodeList = dsCm.map((community, index) => {
       const menuItemStyle = {
         whiteSpace: 'normal',
         display: 'flex',
@@ -94,8 +100,8 @@ class CommunitySelector extends React.Component {
     return (
       <BigSelector
         // floatingLabel="Choose a community"
-        name="selectedItems"
-        multiple
+        name="selectedCommunities"
+        // multiple
         keepSearchOnSelect
         showAutocompleteThreshold="always"
         // withResetSelectAllButtons
@@ -103,12 +109,15 @@ class CommunitySelector extends React.Component {
         hintTextAutocomplete="Select community"
         hintText="Complex example"
         onChange={this.handleSelection}
-        value={this.state.selectedItems}
-        selectionsRenderer={this.handleCustomDisplaySelections('selectedItems')}
-        style={{ width: '100%', marginTop: 20 }}
+        value={this.state.selectedCommunities}
+        selectionsRenderer={this.handleCustomDisplaySelections('selectedCommunities')}
         errorText={this.props.errorText}
+        style={{
+          width: 300,
+          marginBottom: '1em',
+        }}
       >
-        {countriesNodeList}
+        {nodeList}
       </BigSelector>
     );
   }

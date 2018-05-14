@@ -232,9 +232,6 @@ class CreateEditPost extends React.Component {
       name="comment_content"
       key="content"
       type="text"
-      // ref={(el) => {
-      //   this.contentInput = el;
-      // }}
       hintText={this.props.post.c_comments ? strings.hint_comment : 'Be the first one bark here'}
       hintStyle={{ top: 12 }}
       onChange={e => this.setState({

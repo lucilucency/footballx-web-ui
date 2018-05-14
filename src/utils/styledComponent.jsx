@@ -42,7 +42,8 @@ export const SmallPaper = styled(Paper)`
 
 
 export const FormWrapper = styled(ValidatorForm)`
-  // margin: 20px;
+  background-color: ${constants.theme().surfaceColorPrimary};
+  padding: 1em;
   transition: max-height 1s;
   box-sizing: border-box;
   ${props => ((props['data-display']) ? css`

@@ -16,9 +16,7 @@ class PageCreatePost extends React.Component {
       <div>
         <Helmet title="Up your thought" />
         <Container browser={this.props.browser}>
-          <SmallPaper>
-            <CreateEditPost popup />
-          </SmallPaper>
+          <CreateEditPost />
           <RightTray>
             {this.props.user && (
               <div data="page-welcome">
