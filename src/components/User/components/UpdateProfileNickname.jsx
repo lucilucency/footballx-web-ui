@@ -76,7 +76,7 @@ class UpdateProfileNickname extends Component {
     // });
     this.props.updateUserProfile(this.props.user.id, {
       username: this.state.formData.username,
-      password: this.state.formData.password,
+      // password: this.state.formData.password,
     }, {
       ...this.props.user,
       username: this.state.formData.username,

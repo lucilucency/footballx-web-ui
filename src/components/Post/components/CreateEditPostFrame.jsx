@@ -11,7 +11,7 @@ const PageCreatePost = () => (
     <RightTray>
       <div data="page-welcome">
         <SmallPaper>
-          <Subheader>Popular</Subheader>
+          <p>Posting to FootballX</p>
           <p>
             The best posts on Footballx for you, pulled from the most active communities on Reddit.
             Check here to see the most shared, upvoted, and commented content on the internet.

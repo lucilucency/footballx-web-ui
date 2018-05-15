@@ -77,6 +77,7 @@ const AdBannerDiv = styled.div`
 class HorizontalNonLinearStepper extends React.Component {
   constructor(props) {
     super(props);
+    console.log('props', props);
     this.state = {
       showBanner: !props.user.username,
       stepIndex: 0,

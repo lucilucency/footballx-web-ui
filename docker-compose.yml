@@ -6,10 +6,10 @@ services:
   ui:
     build:
       context: .
-    image: odota/web
+    image: footballx/web
     entrypoint: "./scripts/docker.sh"
     ports:
       - "8080:8080"
     volumes: 
       - .:/usr/src
-    container_name: odota-web
+    container_name: footballx-web
