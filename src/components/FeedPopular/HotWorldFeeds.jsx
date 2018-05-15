@@ -26,9 +26,9 @@ const NewWorldFeeds = ({ user, browser }) => (
         {user && (
           <div data="page-welcome">
             <Paper2>
-              <Subheader>Popular</Subheader>
+              <p>Popular</p>
               <p>
-                The best posts on Footballx for you, pulled from the most active communities on Reddit.
+                The best posts on Footballx for you, pulled from the most active communities on FootballX.
                 Check here to see the most shared, upvoted, and commented content on the internet.
               </p>
               <CreatePostButton />

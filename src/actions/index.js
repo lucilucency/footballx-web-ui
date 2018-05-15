@@ -215,15 +215,24 @@ export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',
   query,
 }));
-export const getSearchResult = query => dispatchPOST({
+export const getSearchCommunities = query => dispatchGET({
   reducer: 'search',
-  path: 'search',
-  params: { q: query },
+  path: 'communities',
+  params: {
+    query,
+  },
+});
+export const getSearchUsers = query => dispatchGET({
+  reducer: 'search',
+  path: 'communities',
+  params: {
+    query,
+  },
 });
 export const getSearchResultAndPros = query => dispatch => Promise.all([
   dispatch(setSearchQuery(query)),
-  dispatch(getSearchResult(query)),
-  // dispatch(getUsers()),
+  dispatch(getSearchCommunities(query)),
+  // dispatch(getSearchUsers(query)),
 ]);
 export const getAnnouncement = merged => dispatchGet('announcement', 'search/issues', {
   q: `repo:footballx/web type:pr base:production label:release merged:>${merged}`,

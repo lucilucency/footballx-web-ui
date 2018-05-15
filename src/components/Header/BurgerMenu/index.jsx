@@ -101,7 +101,7 @@ class BurgerMenu extends React.Component {
               innerDivStyle={innerDivStyle}
             />
           </List>
-          {this.props.user && (
+          {this.props.user && this.props.communities.length ? (
             <List>
               <Subheader>Your communities</Subheader>
               {this.props.communities.map(item => (
@@ -120,7 +120,7 @@ class BurgerMenu extends React.Component {
                 />
               ))}
             </List>
-          )}
+          ) : null}
           {this.props.user && (
             <List>
               <Subheader>Misc</Subheader>

@@ -134,7 +134,7 @@ class UpdateProfileNickname extends Component {
                   underlineShow={false}
                   value={this.state.formData.username}
                   validators={['required', 'maxStringLength:20', 'noSpace']}
-                  errorMessages={[strings.err_is_required, format(strings.err_maximum, 20), 'Invalid username']}
+                  errorMessages={[strings.err_is_required, format(strings.err_maximum, 20), 'Invalid username: no space']}
                   errorText={this.state.error}
                 />
               </div>

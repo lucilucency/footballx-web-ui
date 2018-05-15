@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Checkbox } from 'material-ui';
 import ActionFavorite from 'material-ui/svg-icons/action/touch-app';
-import { subscribeCommunity } from '../../../actions';
+import { followCommunity, unfollowCommunity } from '../../../actions';
 import constants from '../../constants';
 
 class SubscribeButton extends React.Component {
@@ -56,6 +56,9 @@ class SubscribeButton extends React.Component {
 SubscribeButton.propTypes = {
   isSubscribed: PropTypes.bool,
   // communityID: PropTypes.number,
+
+  // subscribe: PropTypes.func,
+  // unsubscribe: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -63,7 +66,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  subscribeCommunity: (id, params) => dispatch(subscribeCommunity(id, params)),
+  subscribe: (userID, communityID) => dispatch(followCommunity(userID, communityID)),
+  unsubscribe: (userID, communityID) => dispatch(unfollowCommunity(userID, communityID)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubscribeButton);

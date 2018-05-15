@@ -14,7 +14,6 @@ import ButtonUpvote from './ButtonUpvote';
 const ActionModule = styled.div`
   display: flex; 
   flex-direction: row;
-  margin-right: 5px;
 `;
 
 const LinkCoverStyled = styled.span`
@@ -48,7 +47,7 @@ class ViewPostFull extends React.Component {
   }
 
   componentDidMount() {
-    Promise.all([this.props.getPostComments(this.props.postID, 'hot', getCookie('user_id'))])
+    Promise.all([this.props.getPostComments(this.props.data.id, 'hot', getCookie('user_id'))])
       .then(() => {
         setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
       });
@@ -56,7 +55,7 @@ class ViewPostFull extends React.Component {
 
   render() {
     const item = this.props.data;
-    const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_nickname}</MutedLink>;
+    const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_username || item.xuser_nickname}</MutedLink>;
     const postLink = <MutedLink to={`/p/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
 
     return (
@@ -103,7 +102,7 @@ class ViewPostFull extends React.Component {
               />
             </ImageWrapper>
           </CardMedia>}
-          {item.content_type === 1 &&
+          {(item.content_type === 1 || item.content_type === 3) &&
           <CardText
             color={constants.theme().textColorSecondary}
             style={{
@@ -112,7 +111,7 @@ class ViewPostFull extends React.Component {
               wordBreak: 'break-word',
             }}
           >
-            {item.content}
+            {item.content_type === 3 ? <a href={`${item.content}`} target="_blank">{item.content}</a> : item.content}
           </CardText>}
           <CardActions
             style={{
@@ -129,23 +128,23 @@ class ViewPostFull extends React.Component {
               data={this.props.data}
             />
             <ActionModule>
-              <FlatButton
-                target="_blank"
-                label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
-                // icon={<IconShare color={constants.theme().buttonMute} hoverColor={constants.blueA100} style={{}} />}
+              <div
                 style={{
-                  marginTop: 2,
+                  marginTop: 4,
                   lineHeight: '32px',
                   height: 34,
                   minWidth: 60,
                 }}
-                labelStyle={{
-                  fontSize: constants.fontSizeSmall,
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                  fontWeight: constants.fontWeightHeavy,
-                }}
-              />
+              >
+                <span
+                  style={{
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                  }}
+                >
+                  {item.c_comments ? `${item.c_comments} comments` : 'Comment'}
+                </span>
+              </div>
             </ActionModule>
             <ActionModule>
               <FlatButton
@@ -177,7 +176,6 @@ class ViewPostFull extends React.Component {
 
 ViewPostFull.propTypes = {
   /* data */
-  postID: PropTypes.number,
   data: PropTypes.object,
   isLoggedIn: PropTypes.bool,
 
