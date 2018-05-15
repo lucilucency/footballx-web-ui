@@ -31,11 +31,13 @@ class PostGrid extends React.Component {
       this.props.getWorldFeeds({ sortby: this.props.sorting });
     } else if (this.props.filter === 'world') {
       this.props.getWorldFeeds({ sortby: this.props.sorting, xuser_id: this.props.user.id });
-    } else {
+    } else if (this.props.token) {
       this.props.getMeFeeds({
         sorting: this.props.sorting,
         xuser_id: this.props.user.id,
       });
+    } else {
+      this.props.getWorldFeeds({ sortby: this.props.sorting });
     }
   }
 
@@ -64,7 +66,6 @@ PostGrid.propTypes = {
   // filter: PropTypes.string,
   sorting: PropTypes.string,
   filter: PropTypes.string,
-  isLoggedIn: PropTypes.bool,
 
   /**/
   posts: PropTypes.array,
@@ -72,6 +73,9 @@ PostGrid.propTypes = {
   user: PropTypes.object,
   getMeFeeds: PropTypes.func,
   getWorldFeeds: PropTypes.func,
+  token: PropTypes.string,
+  isLoggedIn: PropTypes.bool,
+
 };
 
 PostGrid.defaultProps = {

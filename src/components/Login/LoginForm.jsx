@@ -1,14 +1,12 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-// import FacebookLogin from 'react-facebook-login';
 import styled from 'styled-components';
 import { loginFb } from '../../actions';
 import strings from '../../lang';
-import { setCookie } from '../../utils';
 import FbLoginBtn from './FbLoginBtn';
 
 const OrLine = styled.div`
@@ -58,15 +56,15 @@ class LoginForm extends React.Component {
   doLoginFb(userFbData) {
     const that = this;
     const token = userFbData;
-    that.props.loginFbFn(token).then((o, e) => {
+    this.props.loginFacebook(token).then((o, e) => {
       if (!e) {
         if (o.payload) {
-          const data = o.payload;
-          setCookie('access_token', data.access_token, 7);
-          setCookie('user_id', data.user.id, 7);
+          // const data = o.payload;
+          // setCookie('access_token', data.access_token, 7);
+          // setCookie('user_id', data.user.id, 7);
 
-          // that.props.history.push('/');
-          window.location.href = '/';
+          that.props.history.push('/');
+          // window.location.href = '/';
         } else {
           that.setState({
             loginError: true,
@@ -127,8 +125,12 @@ class LoginForm extends React.Component {
   }
 }
 
+LoginForm.propTypes = {
+  loginFacebook: PropTypes.func,
+};
+
 const mapDispatchToProps = dispatch => ({
-  loginFbFn: accessToken => dispatch(loginFb(accessToken)),
+  loginFacebook: accessToken => dispatch(loginFb(accessToken)),
 });
 
 export default withRouter(connect(null, mapDispatchToProps)(LoginForm));

@@ -13,10 +13,6 @@ class NewFeeds extends React.Component {
   }
 
   render() {
-    // if (!this.props.user) {
-    //   this.props.history.push('/');
-    // }
-
     return (
       <div>
         <Helmet title="News feed" />

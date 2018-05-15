@@ -13,6 +13,11 @@ export const loginFb = access_token => dispatchPOST({
   reducer: 'metadata',
   path: 'xuser/auth',
   params: { access_token },
+  callback: (resp) => {
+    setCookie('access_token', resp.access_token, 7);
+    setCookie('user_id', resp.user.id, 7);
+    setCookie('username', resp.user.username, 7);
+  },
 });
 export const refresh = xuser_id => dispatchGET({
   reducer: 'metadata',

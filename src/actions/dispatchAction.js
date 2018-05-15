@@ -171,6 +171,7 @@ export function dispatchPOST({
   payload,
   reducerCallback,
   payloadCallback,
+  callback,
 }) {
   return (dispatchAction) => {
     const url = `${host}/${version}/${path}?${typeof params === 'string' ? params.substring(1) : ''}`;
@@ -223,7 +224,7 @@ export function dispatchPOST({
                 });
               }
             }
-
+            if (callback) callback(dispatchData);
             if (reducerCallback) {
               dispatchAction(dispatchCallbackOK(payloadCallback));
             }
