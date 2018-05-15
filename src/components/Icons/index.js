@@ -41,4 +41,5 @@ export { default as IconShare } from './Share';
 export { default as IconFacebook } from './Facebook';
 export { default as IconUpvote } from './Upvote';
 export { default as IconDownvote } from './Downvote';
+export { default as IconFootballX } from './Footballx';
 

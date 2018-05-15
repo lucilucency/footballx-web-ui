@@ -48,8 +48,10 @@ class RequestLayer extends React.Component {
             key={item.id}
             disabled
             primaryText={item.name}
-            secondaryText={<small style={{ fontSize: constants.fontSizeSmall }}>{`${item.c_followers} followers`}</small>}
-            rightIcon={<Checkbox
+            secondaryText={item.c_followers &&
+              <small style={{ fontSize: constants.fontSizeSmall }}>{`${item.c_followers} followers`}</small>
+            }
+            rightToggle={<Checkbox
               checkedIcon={<ActionFavorite style={rightIconStyle} />}
               uncheckedIcon={<ActionFavorite style={{ ...rightIconStyle, fill: constants.grey300 }} />}
               onCheck={(e, isChecked) => {
@@ -60,9 +62,9 @@ class RequestLayer extends React.Component {
                 }
               }}
               style={{
-                top: 0,
-                width: '3em',
-                height: '3em',
+                // top: 0,
+                width: '2em',
+                height: '2em',
               }}
             />}
             leftAvatar={<Avatar color={constants.white} style={avatarStyle} src={item.icon} />}

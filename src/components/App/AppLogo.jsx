@@ -4,12 +4,16 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import constants from '../constants';
 import strings from '../../lang';
+import { IconFootballX } from '../Icons';
 
 const StyledLink = styled(Link)`
   font-weight: ${constants.fontWeightMedium};
   color: ${constants.theme().textColorPrimary};
   text-transform: uppercase;
-
+  //background-color: ${constants.theme().backgroundColor};
+  display: inline-block;
+  vertical-align: middle;
+  
   &:hover {
     color: ${constants.theme().textColorPrimary};
     opacity: 0.6;
@@ -18,9 +22,20 @@ const StyledLink = styled(Link)`
 
 const AppLogo = ({ size }) => (
   <StyledLink to="/">
-    <big style={{ fontSize: size }}>
-      {`<${strings.app_name}/>`}
-    </big>
+    <span style={{ fontSize: size, verticalAlign: 'middle' }}>
+      {strings.app_name}
+    </span>
+    {null && (
+      <IconFootballX
+        style={{
+          width: 1.45 * size,
+          height: 1.5 * size,
+          verticalAlign: 'middle',
+          backgroundColor: constants.theme().backgroundColor,
+          borderRadius: 1.5 * size,
+        }}
+      />
+    )}
   </StyledLink>
 );
 

@@ -110,7 +110,7 @@ const LinkRouterStyled = styled(Link)`
 const LogoGroup = ({ greaterThanSmall, location }) => (
   <VerticalAlignToolbar>
     <BurgerMenu menuItems={burgerLinks} greaterThanSmall={greaterThanSmall} location={location} />
-    <AppLogo style={{ marginRight: 18 }} />
+    <AppLogo style={{ marginRight: 18 }} size="24" />
   </VerticalAlignToolbar>
 );
 
