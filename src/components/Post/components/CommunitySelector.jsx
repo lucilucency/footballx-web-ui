@@ -9,6 +9,8 @@ import {
 } from 'material-ui';
 import { bindAll, BigSelector } from '../../../utils';
 import { getSuggestedCommunities } from '../../../actions';
+import constants from '../../constants';
+import strings from '../../../lang';
 
 const initialState = {};
 
@@ -67,8 +69,21 @@ class CommunitySelector extends React.Component {
       );
     }
 
-    return (<div style={{ minHeight: 42, lineHeight: '42px' }}>Choose a community</div>);
-    // advice: use one of <option>s' default height as min-height
+    return (
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <Chip style={{ margin: 5, backgroundColor: constants.theme().surfaceColorPrimary }}>
+          <Avatar
+            src={null}
+            style={{
+              width: 24,
+              height: 24,
+              margin: '4px -4px 4px 4px',
+            }}
+          />
+          {strings.label_choose_community}
+        </Chip>
+      </div>
+    );
   };
 
   render() {
@@ -106,7 +121,7 @@ class CommunitySelector extends React.Component {
         showAutocompleteThreshold="always"
         // withResetSelectAllButtons
         checkPosition="left"
-        hintTextAutocomplete="Select community"
+        hintTextAutocomplete="Community"
         hintText="Complex example"
         onChange={this.handleSelection}
         value={this.state.selectedCommunities}
@@ -115,6 +130,8 @@ class CommunitySelector extends React.Component {
         style={{
           width: 300,
           marginBottom: '1em',
+          borderRadius: '3px',
+          backgroundColor: constants.theme().surfaceColorPrimary,
         }}
       >
         {nodeList}

@@ -7,6 +7,7 @@ import { hydrate, render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
+import Amplitude from 'react-amplitude';
 import store from './store';
 import { getMetadata, refresh } from './actions';
 import App from './components/App';
@@ -162,6 +163,9 @@ if (userID) {
   store.dispatch(getMetadata());
   store.dispatch(refresh(userID));
 }
+
+Amplitude.init('07108ecf4fba17b59856950d78ce36bb');
+Amplitude.setUserId(userID);
 
 ReactGA.initialize(process.env.REACT_APP_GA, {
   gaOptions: {

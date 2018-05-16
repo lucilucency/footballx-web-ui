@@ -1,13 +1,13 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Subheader } from 'material-ui';
 import CreateEditPostForm from './CreateEditPostForm';
 import { Container, RightTray, SmallPaper } from '../../../utils';
 
-const PageCreatePost = () => (
+const PageCreatePost = ({ callback }) => (
   <Container>
-    <CreateEditPostForm />
+    <CreateEditPostForm callback={callback} />
     <RightTray>
       <div data="page-welcome">
         <SmallPaper>
@@ -31,6 +31,7 @@ const PageCreatePost = () => (
 
 PageCreatePost.propTypes = {
   // user: PropTypes.object.isRequired,
+  callback: PropTypes.func,
 };
 
 // const mapStateToProps = state => ({

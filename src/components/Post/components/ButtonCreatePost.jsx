@@ -39,7 +39,9 @@ class CreateEditPostButton extends React.Component {
     this.setState({
       dialogConstruct: {
         view: (
-          <CreateEditPostFrame />
+          <CreateEditPostFrame
+            callback={this.handleCloseDialog}
+          />
         ),
         modal: true,
         fullScreen: true,
