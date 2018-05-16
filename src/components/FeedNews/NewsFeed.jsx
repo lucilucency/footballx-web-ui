@@ -6,6 +6,7 @@ import Subheader from 'material-ui/Subheader';
 import { CreatePostButton, PostGrid } from '../Post/components';
 import { SuggestedCommunities } from '../User/components';
 import { Container, RightTray, SmallPaper } from '../../utils';
+import strings from '../../lang';
 
 class NewFeeds extends React.Component {
   componentDidMount() {
@@ -23,7 +24,7 @@ class NewFeeds extends React.Component {
               <div data="page-welcome">
                 <SmallPaper>
                   <Subheader>Home</Subheader>
-                  <p>Enjoy football world with great news, hot discussions!</p>
+                  <p>{strings.paragraph_home_desc}</p>
                   <CreatePostButton user={this.props.user} browser={this.props.browser} />
                 </SmallPaper>
               </div>
@@ -38,7 +39,7 @@ class NewFeeds extends React.Component {
             {this.props.user && (
               <div data="suggested-communities">
                 <SmallPaper>
-                  <Subheader>Suggested communities</Subheader>
+                  <Subheader>{strings.label_suggested_community}</Subheader>
                   <SuggestedCommunities />
                 </SmallPaper>
               </div>

@@ -4,10 +4,12 @@ import { Subheader } from 'material-ui';
 import ViewPostFull from './ViewPostFull';
 import { Container, RightTray, SmallPaper } from '../../../utils';
 
-const PageCreatePost = ({ isLoggedIn }) => (
+const ViewPostFullFrame = ({ isLoggedIn, postID, data }) => (
   <Container>
     <ViewPostFull
       isLoggedIn={isLoggedIn}
+      postID={postID}
+      data={data}
     />
     <RightTray>
       <div data="page-welcome">
@@ -30,9 +32,11 @@ const PageCreatePost = ({ isLoggedIn }) => (
   </Container>
 );
 
-PageCreatePost.propTypes = {
+ViewPostFullFrame.propTypes = {
   // user: PropTypes.object.isRequired,
-  isLoggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.bool.isRequired,
+  postID: PropTypes.bool,
+  data: PropTypes.bool,
 };
 
-export default PageCreatePost;
+export default ViewPostFullFrame;

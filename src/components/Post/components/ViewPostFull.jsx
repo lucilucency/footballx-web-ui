@@ -47,10 +47,7 @@ class ViewPostFull extends React.Component {
   }
 
   componentDidMount() {
-    Promise.all([this.props.getPostComments(this.props.data.id, 'hot', getCookie('user_id'))])
-      .then(() => {
-        setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
-      });
+    this.props.getPostComments(this.props.postID || this.props.data.id, 'hot', getCookie('user_id'));
   }
 
   render() {
@@ -120,6 +117,7 @@ class ViewPostFull extends React.Component {
               flexDirection: 'row',
               borderTop: `1px solid ${constants.grey50}`,
               fontWeight: constants.fontWeightHeavy,
+              fontSize: constants.fontSizeSmall,
             }}
           >
             <ButtonUpvote
@@ -176,6 +174,7 @@ class ViewPostFull extends React.Component {
 
 ViewPostFull.propTypes = {
   /* data */
+  postID: PropTypes.number,
   data: PropTypes.object,
   isLoggedIn: PropTypes.bool,
 
@@ -185,7 +184,6 @@ ViewPostFull.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  browser: state.browser,
   comments: state.app.comments.data,
   data: state.app.post.data,
 });

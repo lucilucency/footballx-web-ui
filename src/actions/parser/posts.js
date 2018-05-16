@@ -1,3 +1,13 @@
+export const parsePost = ({ post = {}, vote } = {}) => {
+  const v = vote;
+  if (v) delete (v.id);
+  return {
+    ...post,
+    ...vote,
+  };
+};
+
+
 export const parsePostInMeFeeds = (data) => {
   const { posts = [], votes = [] } = data;
   return posts.map((post) => {

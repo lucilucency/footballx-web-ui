@@ -9,6 +9,7 @@ import constants from '../constants';
 import { CreatePostButton, PostGrid } from '../Post/components';
 import { SuggestedCommunities } from '../User/components';
 import { Container, RightTray } from '../../utils';
+import strings from '../../lang';
 
 const Paper2 = styled(Paper)`
   display: grid;
@@ -27,10 +28,7 @@ const NewWorldFeeds = ({ user, browser }) => (
           <div data="page-welcome">
             <Paper2>
               <p>Popular</p>
-              <p>
-                The best posts on Footballx for you, pulled from the most active communities on FootballX.
-                Check here to see the most shared, upvoted, and commented content on the internet.
-              </p>
+              <p>{strings.paragraph_popular_desc}</p>
               <CreatePostButton />
             </Paper2>
           </div>
@@ -45,7 +43,7 @@ const NewWorldFeeds = ({ user, browser }) => (
         {user && (
           <div data="suggested-communities">
             <Paper2>
-              <Subheader>Suggested communities</Subheader>
+              <Subheader>{strings.label_suggested_community}</Subheader>
               <SuggestedCommunities />
             </Paper2>
           </div>

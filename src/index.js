@@ -2,7 +2,7 @@
 import 'core-js/fn/object/values';
 import React from 'react';
 import createHistory from 'history/createBrowserHistory';
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga';
 import { hydrate, render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
@@ -168,16 +168,16 @@ Amplitude.init('07108ecf4fba17b59856950d78ce36bb');
 Amplitude.setUserId(userID);
 Amplitude.logEvent('ENTER_WEB_APP');
 
-ReactGA.initialize(process.env.REACT_APP_GA, {
-  gaOptions: {
-    userId: userID,
-  },
-});
-ReactGA.pageview(window.location.pathname + window.location.search);
+// ReactGA.initialize(process.env.REACT_APP_GA, {
+//   gaOptions: {
+//     userId: userID,
+//   },
+// });
+// ReactGA.pageview(window.location.pathname + window.location.search);
 const history = createHistory();
-history.listen((location) => {
-  ReactGA.pageview(location.pathname);
-});
+// history.listen((location) => {
+//   ReactGA.pageview(location.pathname);
+// });
 
 const rootElement = document.getElementById('root');
 const app = (

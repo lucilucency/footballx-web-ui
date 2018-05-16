@@ -51,7 +51,6 @@
     "react-amplitude": "^0.1.4",
     "react-dom": "^16.3.1",
     "react-facebook": "^5.0.3",
-    "react-ga": "^2.4.1",
     "react-helmet": "^5.2.0",
     "react-infinite": "^0.13.0",
     "react-lifecycles-compat": "^3.0.2",

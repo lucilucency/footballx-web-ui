@@ -14,6 +14,7 @@ import styled, { css } from 'styled-components';
 import constants from '../../constants';
 import UpdateProfileNickname from './UpdateProfileNickname';
 import SuggestedCommunities from './SuggestedCommunities';
+import strings from '../../../lang';
 
 const Overlay = styled.div`
   width: 100vw;
@@ -143,10 +144,10 @@ class HorizontalNonLinearStepper extends React.Component {
         <Overlay show={this.state.showBanner} />
         <AdBannerDiv show={this.state.showBanner}>
           <div>
-            <h3>Hi, stranger</h3>
+            <h3>{strings.paragraph_update_profile_hi}</h3>
             <p>
-              WELCOME TO OUR HOOD <br />
-              At Footballx, you’ll help build something that encourages millions around the world to think more, do more, learn more, feel more– and maybe even laugh more.
+              {strings.paragraph_update_profile_welcome} <br />
+              {strings.paragraph_update_profile_introduce}
             </p>
             <Stepper
               activeStep={stepIndex}
@@ -157,17 +158,17 @@ class HorizontalNonLinearStepper extends React.Component {
             >
               <Step>
                 <StepButton onClick={() => this.setState({ stepIndex: 0 })}>
-                  Set your nickname
+                  {strings.label_set_nickname}
                 </StepButton>
               </Step>
               <Step>
                 <StepButton onClick={() => this.setState({ stepIndex: 1 })}>
-                  Choose your team
+                  {strings.label_choose_following_team}
                 </StepButton>
               </Step>
               <Step>
                 <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
-                  Follow communities
+                  {strings.label_choose_following_community}
                 </StepButton>
               </Step>
             </Stepper>
@@ -190,13 +191,13 @@ class HorizontalNonLinearStepper extends React.Component {
               {stepIndex === 1 && (
                 <div>
                   <h2>Cool!</h2>
-                  <p>What is your favorite team?</p>
+                  <p>{strings.hint_choose_following_team}</p>
                 </div>
               )}
               {stepIndex === 2 && (
                 <div>
-                  <h2>Amazing Team!</h2>
-                  <p>Let us know which communities you want to follow</p>
+                  <h2>Amazing!</h2>
+                  <p>{strings.hint_choose_following_community}</p>
                   <SuggestedCommunities />
                 </div>
               )}

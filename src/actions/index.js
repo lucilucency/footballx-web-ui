@@ -2,6 +2,7 @@ import { dispatchGet, dispatchDelete, dispatchGET, dispatchPOST, dispatchPUT } f
 import {
   parseCommentsInPost,
   parseCommentAfterCreate,
+  parsePost,
   parsePostAfterCreate,
   parsePostInMeFeeds,
 } from './parser';
@@ -117,6 +118,14 @@ export const setPost = payload => dispatch => dispatch(({
   type: 'OK/post',
   payload,
 }));
+export const getPost = postID => dispatchGET({
+  reducer: 'post',
+  path: `post/${postID}`,
+  params: {
+    xuser_id: getCookie('user_id'),
+  },
+  transform: parsePost,
+});
 export const getPostComments = (postID, sortby, xuser_id) => dispatchGET({
   reducer: 'comments',
   path: `post/${postID}/comments`,

@@ -4,6 +4,7 @@ import CreatePostButton from './ButtonCreatePost';
 import ViewPostCompact from './ViewPostCompact';
 import ViewPostCompactBlank from './ViewPostCompactBlank';
 import ViewPostFull from './ViewPostFull';
+import ViewPostFullFrame from './ViewPostFullFrame';
 import PostGrid from './PostGrid';
 
 export {
@@ -13,5 +14,6 @@ export {
   ViewPostCompact,
   ViewPostCompactBlank,
   ViewPostFull,
+  ViewPostFullFrame,
   PostGrid,
 };
