@@ -1,6 +1,6 @@
 import queryString from 'querystring';
 import update from 'react-addons-update';
-import { getCookie } from '../utils';
+import { getCookie, eraseCookie } from '../utils';
 
 const request = require('superagent');
 const FormUrlEncoded = require('form-urlencoded');
@@ -69,8 +69,9 @@ export function dispatchPost(type, path, params = {}, transform, payload) {
           console.error(`Error in dispatchPost/${type}`);
           if (err.message === 'Unauthorized') {
             console.error('Unauthorized, logging out...');
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('user_id');
+            eraseCookie('user_id');
+            eraseCookie('username');
+            eraseCookie('access_token');
             // window.location.href = '/login';
             return null;
           }
@@ -142,8 +143,9 @@ export function dispatchGet(type, path, params = {}, transform) {
           console.error(err);
           if (err.message === 'Unauthorized') {
             console.warn('Unauthorized, logging out...');
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('user_id');
+            eraseCookie('user_id');
+            eraseCookie('username');
+            eraseCookie('access_token');
             // window.location.href = '/';
             return null;
           }
@@ -308,8 +310,9 @@ export function dispatchGET({
           console.error(err);
           if (err.message === 'Unauthorized') {
             console.warn('Unauthorized, logging out...');
-            // localStorage.removeItem('access_token');
-            // localStorage.removeItem('user_id');
+            eraseCookie('user_id');
+            eraseCookie('username');
+            eraseCookie('access_token');
             return null;
           }
 
