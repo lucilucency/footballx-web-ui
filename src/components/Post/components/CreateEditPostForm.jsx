@@ -8,6 +8,7 @@ import {
   RaisedButton,
   BottomNavigation,
   BottomNavigationItem,
+  Snackbar,
 } from 'material-ui';
 import { Card, CardMedia, CardActions } from 'material-ui/Card';
 import styled from 'styled-components';
@@ -59,9 +60,12 @@ class CreateEditPost extends React.Component {
   };
 
   static initialState = ({
-    type: 'text',
     formData: {
       ...CreateEditPost.defaultFormData,
+    },
+    snack: {
+      open: false,
+      message: '',
     },
   });
 
@@ -240,7 +244,13 @@ class CreateEditPost extends React.Component {
         if (respUpload.statusCode === 200) {
           promiseSubmit({ ...submitData, content: respUpload.text }).then((respSubmit) => {
             if (respSubmit.type && respSubmit.type.indexOf('OK') !== -1) {
-              alert('You posting success. Check in now');
+              // alert('You posting success. Check in now');
+              this.setState({
+                snack: {
+                  open: true,
+                  message: 'You posting success. Check in now',
+                },
+              });
             } else {
               alert('You post is unsuccessful. Sorry for that.');
             }
@@ -516,6 +526,14 @@ class CreateEditPost extends React.Component {
           <div className="actions">
             {actions}
           </div>
+
+          <Snackbar
+            open={this.state.snack.open}
+            message={this.state.snack.message}
+            action="undo"
+            autoHideDuration={3000}
+            onRequestClose={this.handleRequestClose}
+          />
         </FormWrapper>
       </div>
     );

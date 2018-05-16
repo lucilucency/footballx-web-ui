@@ -135,7 +135,7 @@ export const createComment = ({
 } = {}) => dispatchPOST({
   reducer,
   reducerCallback,
-  path: 'comment',
+  path: 'post-comment',
   params,
   payload,
   transform: parseCommentAfterCreate,
