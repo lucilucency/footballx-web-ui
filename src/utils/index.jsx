@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-properties,radix */
 import strings from '../lang';
 
 export * from './time';
@@ -16,6 +17,13 @@ export function toNumber(input) {
 
 export function toUpperCase(input) {
   return input.toString().toUpperCase();
+}
+
+export function bytesToSize(bytes) {
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  if (bytes === 0) return '0 Byte';
+  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+  return `${Math.round(bytes / Math.pow(1024, i), 2)} ${sizes[i]}`;
 }
 
 export function abbreviateNumber(num) {

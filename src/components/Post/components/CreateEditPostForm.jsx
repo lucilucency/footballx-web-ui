@@ -8,16 +8,15 @@ import {
   RaisedButton,
   BottomNavigation,
   BottomNavigationItem,
-  Snackbar,
 } from 'material-ui';
-import { Card, CardMedia, CardActions } from 'material-ui/Card';
+import { Card, CardMedia, CardActions, CardText } from 'material-ui/Card';
 import styled from 'styled-components';
 
 import { IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
-import { bindAll, mergeObject, FormWrapper, TextValidator } from '../../../utils';
+import { bindAll, mergeObject, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
 import constants from '../../constants';
-import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload } from '../../../actions';
+import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload, announce } from '../../../actions';
 // import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 import CommunitySelector from './CommunitySelector';
@@ -62,10 +61,6 @@ class CreateEditPost extends React.Component {
   static initialState = ({
     formData: {
       ...CreateEditPost.defaultFormData,
-    },
-    snack: {
-      open: false,
-      message: '',
     },
   });
 
@@ -173,11 +168,6 @@ class CreateEditPost extends React.Component {
     const reader = new FileReader();
     reader.onload = (e) => {
       this.setFormData('selectedImageView', e.target.result);
-      // this.setState({
-      //   formData: update(this.state.formData, {
-      //     selectedImageView: { $set: e.target.result },
-      //   }),
-      // });
     };
 
     reader.readAsDataURL(file);
@@ -187,11 +177,6 @@ class CreateEditPost extends React.Component {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       this.setFormData('selectedImage', selectedFile);
-      // this.setState({
-      //   formData: update(this.state.formData, {
-      //     selectedImage: { $set: selectedFile },
-      //   }),
-      // });
 
       this.previewImage(selectedFile);
     }
@@ -244,19 +229,32 @@ class CreateEditPost extends React.Component {
         if (respUpload.statusCode === 200) {
           promiseSubmit({ ...submitData, content: respUpload.text }).then((respSubmit) => {
             if (respSubmit.type && respSubmit.type.indexOf('OK') !== -1) {
-              // alert('You posting success. Check in now');
-              this.setState({
-                snack: {
-                  open: true,
-                  message: 'You posting success. Check in now',
+              this.props.announce({
+                message: strings.announce_create_post_success,
+                action: 'Check it now',
+                onActionClick: () => {
+                  this.props.history.push(`/p/${respSubmit.payload.id}`);
                 },
               });
             } else {
-              alert('Image is too big. Try again with smaller one');
+              this.props.announce({
+                message: strings.announce_create_post_fail,
+                action: 'Try again',
+                onActionClick: () => {
+                  this.props.history.push('/submit');
+                },
+                autoHideDuration: 8000,
+              });
             }
           });
         } else {
-          alert('Image is too big. Try again with smaller one');
+          this.props.announce({
+            message: strings.announce_create_post_fail,
+            action: 'Try again',
+            onActionClick: () => {
+              this.props.history.push('/submit');
+            },
+          });
         }
       });
     }
@@ -340,12 +338,7 @@ class CreateEditPost extends React.Component {
   />);
 
   renderContentImageInput = () => (
-    <Card
-      style={{
-        position: 'relative',
-        boxShadow: 'none',
-      }}
-    >
+    <Card style={{ position: 'relative', boxShadow: 'none' }}>
       <CardMedia
         style={{
           minHeight: 200,
@@ -375,12 +368,12 @@ class CreateEditPost extends React.Component {
           textAlign: 'center',
           width: 250,
           position: 'absolute',
-          bottom: 'calc(70px)',
+          top: 'calc(70px)',
           left: 'calc(50% - 125px)',
         }}
       >
         <p style={{ color: 'rgb(0, 121, 211)' }}>
-          Drag and drop or
+          {/* Drag and drop or */}
           <ButtonUpload onClick={(e) => {
             e.preventDefault();
             this.inputFile.click();
@@ -391,6 +384,12 @@ class CreateEditPost extends React.Component {
           <input ref={(el) => { this.inputFile = el; }} type="file" accept="application/java-vm" style={{ display: 'none' }} onChange={this.fileChangedHandler} />
         </p>
       </CardActions>
+      {this.state.formData.selectedImage && (
+        <CardText>
+          <p>Selected image size: {bytesToSize(this.state.formData.selectedImage.size)}</p>
+          <p>Maximum image size: 1.2 MB</p>
+        </CardText>
+      )}
     </Card>
   );
 
@@ -470,7 +469,6 @@ class CreateEditPost extends React.Component {
           data-popup={popup}
           data-display={display}
           onSubmit={this.submit}
-          // onError={errors => console.log(errors)}
         >
           {loading && <Spinner />}
           {/* {this.state.formData.error && <Error errors={this.state.formData.error} />} */}
@@ -526,14 +524,6 @@ class CreateEditPost extends React.Component {
           <div className="actions">
             {actions}
           </div>
-
-          <Snackbar
-            open={this.state.snack.open}
-            message={this.state.snack.message}
-            action="undo"
-            autoHideDuration={3000}
-            onRequestClose={this.handleRequestClose}
-          />
         </FormWrapper>
       </div>
     );
@@ -550,6 +540,7 @@ const mapDispatchToProps = dispatch => ({
   defaultCreateFunction: ({ params, payload }) => dispatch(defaultCreateFn({ params, payload })),
   defaultEditFunction: (hotspotId, params) => dispatch(defaultEditFn(hotspotId, params)),
   defaultDeleteFunction: hotspotID => dispatch(defaultDeleteFn(hotspotID)),
+  announce: props => dispatch(announce(props)),
 });
 
 CreateEditPost.propTypes = {
@@ -562,9 +553,10 @@ CreateEditPost.propTypes = {
   callback: PropTypes.func,
 
   /**/
+  history: PropTypes.object,
   loading: PropTypes.bool,
   defaultDeleteFunction: PropTypes.func,
-  history: PropTypes.object,
+  announce: PropTypes.func,
 };
 
 CreateEditPost.defaultProps = {

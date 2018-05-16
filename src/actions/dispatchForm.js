@@ -1,15 +1,3 @@
-const TOGGLE_SHOW_FORM = 'form/TOGGLE_SHOW_FORM';
-
-export const formActions = {
-  TOGGLE_SHOW_FORM,
-};
-
-export const toggleShowForm = (formName, state) => ({
-  type: TOGGLE_SHOW_FORM,
-  formName,
-  state,
-});
-
 export const toggleTray = (props = {}) => {
   const { state, width } = props;
   return ({
@@ -18,3 +6,18 @@ export const toggleTray = (props = {}) => {
     width,
   });
 };
+
+export const announce = ({
+  open = true,
+  message,
+  action,
+  onActionClick,
+  autoHideDuration,
+}) => ({
+  type: 'announcement',
+  open,
+  message,
+  action,
+  onActionClick,
+  autoHideDuration,
+});

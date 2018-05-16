@@ -15,7 +15,8 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import styled from 'styled-components';
 import Avatar from 'material-ui/Avatar';
-import { toggleTray, getSuggestedCommunities } from '../../../actions';
+import Snackbar from 'material-ui/Snackbar';
+import { toggleTray, getSuggestedCommunities, announce } from '../../../actions';
 import constants from '../../constants';
 
 const StyledDrawer = styled(Drawer)`
@@ -144,6 +145,16 @@ class BurgerMenu extends React.Component {
             </List>
           )}
         </StyledDrawer>
+        <Snackbar
+          open={this.props.announcement.open}
+          message={this.props.announcement.message}
+          action={this.props.announcement.action}
+          autoHideDuration={this.props.announcement.autoHideDuration}
+          onActionClick={this.props.announcement.onActionClick}
+          onRequestClose={() => {
+            this.props.announce({ open: false });
+          }}
+        />
       </div>
     );
   }
@@ -151,25 +162,26 @@ class BurgerMenu extends React.Component {
 
 BurgerMenu.propTypes = {
   greaterThanSmall: PropTypes.bool,
-  toggleTray: PropTypes.func,
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
-  tray: PropTypes.shape({
-    width: PropTypes.number,
-  }),
+  location: PropTypes.object,
   communities: PropTypes.array,
   user: PropTypes.object,
+  announcement: PropTypes.object,
+  tray: PropTypes.object,
+
+  announce: PropTypes.func,
+  toggleTray: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   tray: state.app.tray,
+  announcement: state.app.announcement,
   communities: state.app.suggestedCommunities.data,
   user: state.app.metadata.data.user,
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleTray: props => dispatch(toggleTray(props)),
+  announce: props => dispatch(announce(props)),
   getSuggestedCommunities: () => dispatch(getSuggestedCommunities()),
 });
 
