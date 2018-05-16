@@ -17,7 +17,7 @@ import strings from '../../../lang';
 import { bindAll, mergeObject, FormWrapper, TextValidator } from '../../../utils';
 import constants from '../../constants';
 import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload } from '../../../actions';
-import Error from '../../Error/index';
+// import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 import CommunitySelector from './CommunitySelector';
 
