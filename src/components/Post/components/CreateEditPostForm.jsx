@@ -252,11 +252,11 @@ class CreateEditPost extends React.Component {
                 },
               });
             } else {
-              alert('You post is unsuccessful. Sorry for that.');
+              alert('Image is too big. Try again with smaller one');
             }
           });
         } else {
-          alert('You post is unsuccessful. Sorry for that.');
+          alert('Image is too big. Try again with smaller one');
         }
       });
     }
