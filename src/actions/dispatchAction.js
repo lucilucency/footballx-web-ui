@@ -146,7 +146,7 @@ export function dispatchGet(type, path, params = {}, transform) {
             eraseCookie('user_id');
             eraseCookie('username');
             eraseCookie('access_token');
-            // window.location.href = '/';
+            window.location.href = '/';
             return null;
           }
 
