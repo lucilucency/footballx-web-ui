@@ -82,9 +82,9 @@ const Constants = {
           textColorSecondary: 'rgb(70, 68, 68)',
 
           backgroundColor: '#eef2f5',
-          backgroundColorSecondary: '#eef2f5',
+          backgroundColorSecondary: '#eef2f5', /* root background-image */
           surfaceColorPrimary: '#fff',
-          surfaceColorSecondary: '#fff',
+          surfaceColorSecondary: '#fff', /* header */
           dividerColor: 'rgb(224, 224, 224)',
           linkColorPrimary: '#6BF',
           avatarBackgroundColor: materialColor.grey50,

@@ -12,14 +12,18 @@ import {
 import { Card, CardMedia, CardActions, CardText } from 'material-ui/Card';
 import styled from 'styled-components';
 
+import { format } from 'util';
 import { IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
 import { bindAll, mergeObject, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
 import constants from '../../constants';
 import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload, announce } from '../../../actions';
-// import Error from '../../Error/index';
+import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 import CommunitySelector from './CommunitySelector';
+
+const MAX_SIZE = 1200000;
+const MAX_SIZE_MB = 1.2;
 
 const ButtonUpload = styled.button`
   box-sizing: border-box;
@@ -29,7 +33,7 @@ const ButtonUpload = styled.button`
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 11px;
-  background-color: transparent;
+  background-color: ${constants.theme().surfaceColorPrimary};
   color: rgb(0, 121, 211);
   display: inline-block;
   line-height: 18px;
@@ -102,8 +106,12 @@ class CreateEditPost extends React.Component {
     const { formData } = this.state;
     const err = [];
 
-    if (formData.content_type.value === 2 && (!formData.selectedImage || !formData.selectedImageView)) {
-      err.push(strings.err_empty_image);
+    if (formData.content_type.value === 2) {
+      if (!formData.selectedImage) {
+        err.push(strings.err_empty_image);
+      } else if (formData.selectedImage.size > MAX_SIZE) {
+        err.push(format(strings.err_maximum_fize_size, MAX_SIZE_MB));
+      }
     }
 
     if (!formData.communities.value) {
@@ -387,7 +395,7 @@ class CreateEditPost extends React.Component {
       {this.state.formData.selectedImage && (
         <CardText>
           <p>Selected image size: {bytesToSize(this.state.formData.selectedImage.size)}</p>
-          <p>Maximum image size: 1.2 MB</p>
+          {this.state.formData.selectedImage.size > MAX_SIZE && <Error text={`Maximum image size: ${MAX_SIZE_MB} MB`} />}
         </CardText>
       )}
     </Card>

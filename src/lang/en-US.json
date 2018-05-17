@@ -60,6 +60,7 @@
   "err_empty_image": "You need to select an image",
   "err_empty_title": "Set a cool title",
   "err_maximum": "Maximum %d",
+  "err_maximum_fize_size": "Maximum file size: %d",
   "err_minimum": "Minimum %d",
   "err_password_mismatch": "Not match",
   "event": "Event",

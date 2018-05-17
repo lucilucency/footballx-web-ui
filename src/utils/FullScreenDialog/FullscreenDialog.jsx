@@ -67,7 +67,7 @@ const FullscreenDialogFrame = ({ children, open, style }) => (
             minHeight: '100%',
             margin: 'auto',
             overflowY: 'auto',
-            background: constants.theme().backgroundColorSecondary,
+            background: constants.theme().backgroundColor,
           }}
         >
           {children}
