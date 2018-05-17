@@ -218,6 +218,19 @@ export const unfollowCommunity = (userID, targetID) => changeFollow(userID, {
   target_type: 'community',
   action_type: 'unfollow',
 });
+const registerClub = (userID, {
+  club_id,
+  is_favorite,
+  reducer = 'EDIT/metadata',
+  path = `xuser/${userID}/club`,
+}) => dispatchPOST({
+  reducer,
+  path,
+  version: 'v1',
+  params: { club_id, is_favorite, xuser_id: userID },
+});
+export const followTeam = (userID, teamID) => registerClub(userID, { club_id: teamID, is_favorite: true });
+export const unfollowTeam = (userID, teamID) => registerClub(userID, { club_id: teamID, is_favorite: false });
 
 
 /**/

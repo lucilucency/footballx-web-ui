@@ -1,10 +1,10 @@
 /* eslint-disable no-shadow */
 import queryString from 'querystring';
 import update from 'react-addons-update';
+import formurlencoded from 'form-urlencoded';
 import { getCookie, eraseCookie } from '../utils';
 
 const request = require('superagent');
-const FormUrlEncoded = require('form-urlencoded');
 
 const FX_API = process.env.REACT_APP_API_HOST;
 const FX_VERSION = process.env.REACT_APP_VERSION;
@@ -133,7 +133,7 @@ export function dispatchPOST({
       }
 
       return doRequest
-        .send(FormUrlEncoded(params))
+        .send(formurlencoded(params))
         .query({}) // query string
         .then((res) => {
           if (res.statusCode === 200) {
@@ -237,6 +237,7 @@ export function dispatchGET({
             eraseCookie('user_id');
             eraseCookie('username');
             eraseCookie('access_token');
+            window.location.href = '/';
             return null;
           }
 
@@ -278,7 +279,7 @@ export function dispatchPUT({
     const options = { method: 'PUT' };
 
     if (typeof params === 'object') {
-      options.body = FormUrlEncoded(params);
+      options.body = formurlencoded(params);
       options.contentType = 'application/x-www-form-urlencoded';
     }
 
@@ -337,7 +338,7 @@ export function dispatchDelete(type, path, params = {}, transform) {
     const options = { method: 'DELETE' };
 
     if (typeof params === 'object') {
-      options.body = FormUrlEncoded(params);
+      options.body = formurlencoded(params);
       options.contentType = 'application/x-www-form-urlencoded';
     }
 

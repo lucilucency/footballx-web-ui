@@ -6,9 +6,7 @@ import { ValidatorForm } from './FormValidator';
 import constants from '../components/constants';
 import { FullScreenDialog } from './FullScreenDialog';
 
-export {
-  Subheader,
-};
+export { Subheader };
 
 export const Container = styled.div`
   display: grid;

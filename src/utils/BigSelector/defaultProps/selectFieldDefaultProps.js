@@ -16,7 +16,7 @@ export default {
   checkedIcon: <CheckedIcon style={{ top: 'calc(50% - 12px)' }} />,
   children: [],
   disabled: false,
-  elementHeight: 36,
+  elementHeight: 64,
   hintTextAutocomplete: 'Type something',
   keepSearchOnSelect: false,
   menuCloseButton: null,

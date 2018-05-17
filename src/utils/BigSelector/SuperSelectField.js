@@ -13,9 +13,14 @@ import { selectFieldTypes } from './types';
 import { selectFieldDefaultProps } from './defaultProps';
 
 class SelectField extends Component {
-  constructor (props, context) {
+  constructor(props, context) {
     super(props, context);
-    const { children, value, multiple, showAutocompleteThreshold } = props;
+    const {
+      children,
+      value,
+      multiple,
+      showAutocompleteThreshold,
+    } = props;
     const itemsLength = getChildrenLength(children);
     this.state = {
       isOpen: false,
@@ -29,7 +34,7 @@ class SelectField extends Component {
     this.menuItems = [];
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!areEqual(nextProps.value, this.state.selectedItems)) {
       this.setState({ selectedItems: nextProps.value });
     }
@@ -42,7 +47,7 @@ class SelectField extends Component {
     }
   }
 
-  showAutocomplete (threshold = 0, itemsLength = 0) {
+  showAutocomplete(threshold = 0, itemsLength = 0) {
     if (typeof threshold === 'number') return itemsLength >= threshold;
     switch (threshold) {
       case 'always':
@@ -53,7 +58,7 @@ class SelectField extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // Potential problem with Popover ?
     // https://github.com/callemall/material-ui/blob/master/src/DropDownMenu/DropDownMenu.js#L237
     if (this.props.openImmediately) this.openMenu();
@@ -80,18 +85,18 @@ class SelectField extends Component {
   }
 
   // FIXME: both focusTextField and focusMenuItem don't really focus the targeted element, user must hit another key to trigger the actual focus... need to find a solution for a true direct focus
-  focusMenuItem (index) {
+  focusMenuItem(index) {
     const targetMenuItem = this.menuItems.find((item) => {
       return !!item && (index ? item.props.tabIndex === index : true);
     });
     if (targetMenuItem) targetMenuItem.applyFocusState('keyboard-focused');
   }
 
-  focusTextField () {
+  focusTextField() {
     this.state.isAutocompleteShown && this.searchTextField ? this.searchTextField.focus() : this.focusMenuItem();
   }
 
-  clearTextField (callback) {
+  clearTextField(callback) {
     this.props.keepSearchOnSelect
       ? typeof callback === 'function' && callback() // don't reset the autocomplete
       : this.setState({ searchText: '' }, callback);
@@ -143,7 +148,8 @@ class SelectField extends Component {
       } else if (type === 'optgroup') {
         const groupedItems = this.selectAllInGroup(child);
         return groupedItems.length ? nodes.concat(groupedItems) : nodes;
-      } else return nodes;
+      }
+      return nodes;
     }, []);
     this.setState({ selectedItems }, () => this.getSelected());
   };
@@ -153,13 +159,13 @@ class SelectField extends Component {
   /**
    * Menu methods
    */
-  handleMenuSelection = (selectedItem) => (event) => {
+  handleMenuSelection = selectedItem => (event) => {
     event.preventDefault();
     const { selectedItems } = this.state;
     if (this.props.multiple) {
-      const selectedItemExists = selectedItems.some((obj) => areEqual(obj.value, selectedItem.value));
+      const selectedItemExists = selectedItems.some(obj => areEqual(obj.value, selectedItem.value));
       const updatedValues = selectedItemExists
-        ? selectedItems.filter((obj) => !areEqual(obj.value, selectedItem.value))
+        ? selectedItems.filter(obj => !areEqual(obj.value, selectedItem.value))
         : selectedItems.concat(selectedItem);
       this.setState({ selectedItems: updatedValues }, () => this.getSelected());
       this.clearTextField(() => this.focusTextField());
@@ -226,7 +232,7 @@ class SelectField extends Component {
     }
   };
 
-  render () {
+  render() {
     const {
       anchorOrigin,
       autocompleteFilter,
@@ -297,7 +303,7 @@ class SelectField extends Component {
         return nodes;
       }
       const isSelected = Array.isArray(selectedItems)
-        ? selectedItems.some((obj) => areEqual(obj.value, childValue))
+        ? selectedItems.some(obj => areEqual(obj.value, childValue))
         : selectedItems ? selectedItems.value === childValue : false;
       const leftCheckbox = (multiple && checkPosition === 'left' && (isSelected ? checkedIcon : unCheckedIcon)) || null;
       const rightCheckbox =
@@ -431,7 +437,7 @@ class SelectField extends Component {
         >
           {this.state.isAutocompleteShown && (
             <TextField
-              ref={(ref) => (this.searchTextField = ref)}
+              ref={ref => (this.searchTextField = ref)}
               autoFocus
               hintText={hintTextAutocomplete}
               inputStyle={autocompleteStyle}
@@ -440,7 +446,7 @@ class SelectField extends Component {
               style={{ margin: '0 16px 5px', width: 'calc(100% - 32px)' }}
               underlineFocusStyle={autocompleteUnderlineFocusStyle}
               underlineStyle={autocompleteUnderlineStyle}
-              value={this.state.searchText || ""}
+              value={this.state.searchText || ''}
             />
           )}
 
@@ -456,7 +462,7 @@ class SelectField extends Component {
               </header>
             )}
 
-          <div ref={(ref) => (this.menu = ref)} onKeyDown={this.handleMenuKeyDown} style={menuStyle}>
+          <div ref={ref => (this.menu = ref)} onKeyDown={this.handleMenuKeyDown} style={menuStyle}>
             {menuItems.length ? (
               <InfiniteScroller
                 containerHeight={optionsContainerHeight}
@@ -465,6 +471,9 @@ class SelectField extends Component {
               >
                 {menuItems}
               </InfiniteScroller>
+              // <div>
+              //   {menuItems}
+              // </div>
             ) : (
               <ListItem
                 disabled

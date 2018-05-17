@@ -166,6 +166,7 @@ if (userID) {
 
 Amplitude.init('07108ecf4fba17b59856950d78ce36bb');
 Amplitude.setUserId(userID);
+
 Amplitude.logEvent('ENTER_WEB_APP');
 
 // ReactGA.initialize(process.env.REACT_APP_GA, {

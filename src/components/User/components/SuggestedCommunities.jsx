@@ -86,7 +86,7 @@ RequestLayer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  communities: state.app.suggestedCommunities.data,
+  communities: state.app.suggestedCommunities.data.slice(0, 5),
   loading: state.app.suggestedCommunities.loading,
   user: state.app.metadata.data.user,
 });

@@ -6,15 +6,17 @@ import PropTypes from 'prop-types';
 import {
   Step,
   Stepper,
-  StepButton,
+  StepLabel,
 } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+// import FlatButton from 'material-ui/FlatButton';
 import styled, { css } from 'styled-components';
+import { followTeam } from '../../../actions';
 import constants from '../../constants';
-import UpdateProfileNickname from './UpdateProfileNickname';
-import SuggestedCommunities from './SuggestedCommunities';
 import strings from '../../../lang';
+import UpdateProfileNickname from './UpdateProfileNickname';
+import UpdateProfileTeam from './UpdateProfileTeamSelector';
+import SuggestedCommunities from './SuggestedCommunities';
 
 const Overlay = styled.div`
   width: 100vw;
@@ -102,6 +104,10 @@ class HorizontalNonLinearStepper extends React.Component {
 
         break;
       case 1:
+        if (this.state.selectedTeam) {
+          this.props.followTeam(this.props.user.id, this.state.selectedTeam.id);
+        }
+
         this.setState({ stepIndex: stepIndex + 1 });
         break;
       default:
@@ -157,19 +163,19 @@ class HorizontalNonLinearStepper extends React.Component {
               }}
             >
               <Step>
-                <StepButton onClick={() => this.setState({ stepIndex: 0 })}>
+                <StepLabel>
                   {strings.label_set_nickname}
-                </StepButton>
+                </StepLabel>
               </Step>
               <Step>
-                <StepButton onClick={() => this.setState({ stepIndex: 1 })}>
+                <StepLabel>
                   {strings.label_choose_following_team}
-                </StepButton>
+                </StepLabel>
               </Step>
               <Step>
-                <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
+                <StepLabel>
                   {strings.label_choose_following_community}
-                </StepButton>
+                </StepLabel>
               </Step>
             </Stepper>
             <div style={contentStyle}>
@@ -190,26 +196,31 @@ class HorizontalNonLinearStepper extends React.Component {
               )}
               {stepIndex === 1 && (
                 <div>
-                  <h2>Cool!</h2>
+                  {/* <h2>Cool!</h2> */}
                   <p>{strings.hint_choose_following_team}</p>
+                  <UpdateProfileTeam
+                    onSelect={(resp) => {
+                      this.setState({
+                        selectedTeam: resp.value,
+                      });
+                    }}
+                  />
                 </div>
               )}
               {stepIndex === 2 && (
                 <div>
-                  <h2>Amazing!</h2>
-                  <p>{strings.hint_choose_following_community}</p>
+                  <h2>{strings.hint_choose_following_community_1}</h2>
+                  <p>{strings.hint_choose_following_community_2}</p>
                   <SuggestedCommunities />
                 </div>
               )}
               <div style={{ marginTop: '1em', marginBottom: '1em' }}>
-                {null && (
-                  <FlatButton
-                    label="Back"
-                    disabled={stepIndex === 0}
-                    onClick={this.handlePrev}
-                    style={{ marginRight: 12 }}
-                  />
-                )}
+                {/* <FlatButton
+                  label="Back"
+                  disabled={stepIndex === 0}
+                  onClick={this.handlePrev}
+                  style={{ marginRight: 12 }}
+                /> */}
                 {stepIndex !== 2 && <RaisedButton
                   label="Next"
                   disabled={!this.isAvailableToGo(stepIndex)}
@@ -233,6 +244,7 @@ class HorizontalNonLinearStepper extends React.Component {
 HorizontalNonLinearStepper.propTypes = {
   user: PropTypes.object,
   // clubs: PropTypes.object,
+  followTeam: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -240,4 +252,8 @@ const mapStateToProps = state => ({
   // clubs: state.app.metadata.data.clubs,
 });
 
-export default connect(mapStateToProps, null)(HorizontalNonLinearStepper);
+const mapDispatchToProps = dispatch => ({
+  followTeam: (userID, teamID) => dispatch(followTeam(userID, teamID)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HorizontalNonLinearStepper);

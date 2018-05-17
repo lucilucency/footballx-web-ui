@@ -2,19 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import clubsArr from 'fxconstants/build/clubsArr.json';
 
 import {
   Chip,
   Avatar,
 } from 'material-ui';
 import { bindAll, BigSelector } from '../../../utils';
-import { getSuggestedCommunities } from '../../../actions';
 import constants from '../../constants';
-import strings from '../../../lang';
 
 const initialState = {};
+const clubs = clubsArr.sort((a, b) => {
+  const aPoint = a.popularity || 0;
+  const bPoint = b.popularity || 0;
+  if (aPoint < bPoint) return 1;
+  if (aPoint > bPoint) return -1;
+  return 0;
+});
 
-class CommunitySelector extends React.Component {
+class TeamSelector extends React.Component {
   constructor(props) {
     super(props);
 
@@ -26,14 +32,10 @@ class CommunitySelector extends React.Component {
 
     this.state = {
       ...initialState,
-      selectedCommunities: {
+      selectedTeams: {
         value: null,
       },
     };
-  }
-
-  componentDidMount() {
-    this.props.getSuggestedCommunities();
   }
 
   onRequestDelete = (key, stateName) => () => {
@@ -50,13 +52,16 @@ class CommunitySelector extends React.Component {
     });
   };
 
-  handleCustomDisplaySelections = stateName => (callbackData) => {
+  handleCustomDisplaySelections = () => (callbackData) => {
     if (callbackData) {
       const { value, label } = callbackData;
       if (value) {
         return (
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <Chip style={{ margin: 5 }} onRequestDelete={this.onRequestDelete(0, stateName)}>
+            <Chip
+              style={{ margin: 5 }}
+              // onRequestDelete={this.onRequestDelete(0, stateName)}
+            >
               <Avatar
                 src={value.icon}
                 style={{
@@ -72,6 +77,7 @@ class CommunitySelector extends React.Component {
       }
     }
 
+
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         <Chip style={{ margin: 5, backgroundColor: constants.theme().surfaceColorPrimary }}>
@@ -83,16 +89,14 @@ class CommunitySelector extends React.Component {
               margin: '4px -4px 4px 4px',
             }}
           />
-          {strings.label_choose_community}
+          Team
         </Chip>
       </div>
     );
   };
 
   render() {
-    const { dsCm } = this.props;
-
-    const nodeList = dsCm.map((community) => {
+    const teamList = clubs && clubs.map((club, index) => {
       const menuItemStyle = {
         whiteSpace: 'normal',
         display: 'flex',
@@ -101,14 +105,14 @@ class CommunitySelector extends React.Component {
       };
 
       return (
-        <div key={community.id} value={community} label={`${community.name}`} style={menuItemStyle}>
+        <div key={index} value={club} label={`${club.name}`} style={menuItemStyle}>
           <div style={{ marginRight: 10 }}>
-            <span style={{ fontWeight: 'bold' }}>{community.name}</span>
+            <span style={{ fontWeight: 'bold' }}>{club.name}</span>
             <br />
-            <span style={{ fontSize: 12 }}>{community.c_followers} followers</span>
+            <span style={{ fontSize: 12 }}>{club.short_name}</span>
           </div>
           <Avatar
-            src={community.icon}
+            src={club.icon}
             // size={48}
           />
         </div>
@@ -118,50 +122,41 @@ class CommunitySelector extends React.Component {
     return (
       <BigSelector
         // floatingLabel="Choose a community"
-        name="selectedCommunities"
+        name="selectedTeams"
         // multiple
         keepSearchOnSelect
         showAutocompleteThreshold="always"
         // withResetSelectAllButtons
         checkPosition="left"
-        hintTextAutocomplete="Community"
+        hintTextAutocomplete="Team"
         hintText="Complex example"
         onChange={this.handleSelection}
-        value={this.state.selectedCommunities}
-        selectionsRenderer={this.handleCustomDisplaySelections('selectedCommunities')}
+        value={this.state.selectedTeams}
+        selectionsRenderer={this.handleCustomDisplaySelections('selectedTeams')}
         errorText={this.props.errorText}
         elementHeight={64}
         style={{
           width: 300,
           marginBottom: '1em',
           borderRadius: '3px',
-          backgroundColor: constants.theme().surfaceColorPrimary,
+          // backgroundColor: constants.theme().surfaceColorPrimary,
+          margin: 'auto',
         }}
       >
-        {nodeList}
+        {teamList}
       </BigSelector>
     );
   }
 }
 
-CommunitySelector.propTypes = {
+TeamSelector.propTypes = {
   onSelect: PropTypes.func.isRequired,
-  dsCm: PropTypes.array,
-
   errorText: PropTypes.string,
-  getSuggestedCommunities: PropTypes.func,
 };
 
-CommunitySelector.defaultProps = {
+TeamSelector.defaultProps = {
   errorText: '',
 };
 
-const mapStateToProps = state => ({
-  dsCm: state.app.suggestedCommunities.data,
-});
 
-const mapDispatchToProps = dispatch => ({
-  getSuggestedCommunities: () => dispatch(getSuggestedCommunities()),
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CommunitySelector));
+export default withRouter(connect()(TeamSelector));
