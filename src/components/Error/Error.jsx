@@ -27,8 +27,8 @@ const Error = ({ text, errors } = {}) => {
     errors.map((el, index) => <div key={index}>{el}</div>);
     return (
       <List>
-        {errors.map((r, index) => (<ListItem
-          key={index}
+        {errors.map(r => (<ListItem
+          key={r}
           primaryText={r}
           // eslint-disable-next-line no-nested-ternary
           leftIcon={<IconFail color={constants.colorRed} title={strings.form_general_fail} />}

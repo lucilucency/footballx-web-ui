@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { dispatchGet, dispatchDelete, dispatchGET, dispatchPOST, dispatchPUT } from './dispatchAction';
 import {
   parseCommentsInPost,

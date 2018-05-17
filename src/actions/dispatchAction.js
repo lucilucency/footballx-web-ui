@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import queryString from 'querystring';
 import update from 'react-addons-update';
 import { getCookie, eraseCookie } from '../utils';
@@ -7,83 +8,6 @@ const FormUrlEncoded = require('form-urlencoded');
 
 const FX_API = process.env.REACT_APP_API_HOST;
 const FX_VERSION = process.env.REACT_APP_VERSION;
-
-export function dispatchPost(type, path, params = {}, transform, payload) {
-  const host = FX_API;
-  const v = FX_VERSION;
-
-  return (dispatchAction) => {
-    const url = `${host}/${v}/${path}?${typeof params === 'string' ? params.substring(1) : ''}`;
-
-    const dispatchStart = () => ({
-      type: `REQUEST/${type}`,
-    });
-    const dispatchOK = payload => ({
-      type: `OK/${type}`,
-      payload,
-    });
-    const dispatchFail = error => ({
-      type: `FAIL/${type}`,
-      error,
-    });
-
-    const options = { method: 'POST' };
-    if (typeof params === 'object') {
-      options.body = FormUrlEncoded(params);
-      options.contentType = 'application/x-www-form-urlencoded';
-    }
-
-    const accessToken = getCookie('access_token');
-
-    const fetchDataWithRetry = (delay, tries, error) => {
-      if (tries < 1) {
-        return dispatchAction(dispatchFail(error));
-      }
-      return request
-        .post(url)
-        .send(options.body)
-        .set('Content-Type', options.contentType)
-        .set('Authorization', `Bearer ${accessToken}`)
-        .query({}) // query string
-        .then((res) => {
-          if (res.statusCode === 200) {
-            let dispatchData = JSON.parse(res.text);
-            if (transform) {
-              dispatchData = transform(dispatchData);
-            }
-            if (payload) {
-              if (Array.isArray(payload)) {
-                dispatchData = payload;
-              } else {
-                dispatchData = update(dispatchData, {
-                  $merge: payload,
-                });
-              }
-            }
-
-            return dispatchAction(dispatchOK(dispatchData));
-          }
-          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.error), delay);
-        })
-        .catch((err) => {
-          console.error(`Error in dispatchPost/${type}`);
-          if (err.message === 'Unauthorized') {
-            console.error('Unauthorized, logging out...');
-            eraseCookie('user_id');
-            eraseCookie('username');
-            eraseCookie('access_token');
-            // window.location.href = '/login';
-            return null;
-          }
-
-          return dispatchAction(dispatchFail(err.message));
-        });
-    };
-
-    dispatchAction(dispatchStart());
-    return fetchDataWithRetry(1000, 1);
-  };
-}
 
 export function dispatch({
   reducer,
@@ -389,65 +313,6 @@ export function dispatchPUT({
 
     dispatchAction(dispatchStart());
     return fetchDataWithRetry(retriesBreak, retries);
-  };
-}
-
-export function dispatchPut(type, path, params = {}, transform) {
-  const host = FX_API;
-  const v = FX_VERSION;
-  return (dispatchAction) => {
-    const url = `${host}/${v}/${path}?${typeof params === 'string' ? params.substring(1) : ''}`;
-
-    const dispatchStart = () => ({
-      type: `REQUEST/${type}`,
-    });
-    const dispatchOK = payload => ({
-      type: `OK/${type}`,
-      payload,
-    });
-    const dispatchFail = error => ({
-      type: `FAIL/${type}`,
-      error,
-    });
-
-    const options = { method: 'PUT' };
-
-
-    if (typeof params === 'object') {
-      options.body = FormUrlEncoded(params);
-      options.contentType = 'application/x-www-form-urlencoded';
-    }
-
-    const accessToken = getCookie('access_token');
-
-    const fetchDataWithRetry = (delay, tries, error) => {
-      if (tries < 1) {
-        return dispatchFail(error);
-      }
-      return request
-        .put(url)
-        .send(options.body)
-        .set('Content-Type', options.contentType)
-        .set('Authorization', `Bearer ${accessToken}`)
-        .then((res) => {
-          if (res.statusCode === 200) {
-            let dispatchData = JSON.parse(res.text);
-            if (transform) {
-              dispatchData = transform(dispatchData);
-            }
-
-            return dispatchAction(dispatchOK(dispatchData));
-          }
-          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, res.error), delay);
-        })
-        .catch((err) => {
-          console.error(`Error in dispatchPut/${type}`);
-          return dispatchAction(dispatchFail(err.message));
-        });
-    };
-
-    dispatchAction(dispatchStart());
-    return fetchDataWithRetry(1000, 1);
   };
 }
 

@@ -215,12 +215,12 @@ class CreateEditPost extends React.Component {
       });
 
       /* declare submit */
-      const promiseSubmit = submitData => new Promise((resolve) => {
+      const promiseSubmit = params => new Promise((resolve) => {
         if (mode === 'edit') {
-          resolve(that.props.defaultEditFunction(that.props.post.id, submitData));
+          resolve(that.props.defaultEditFunction(that.props.post.id, params));
         } else {
           resolve(that.props.defaultCreateFunction({
-            params: submitData,
+            params,
             payload: {
               xuser_avatar: this.props.user.avatar,
               xuser_nickname: this.props.user.nickname,
@@ -269,51 +269,46 @@ class CreateEditPost extends React.Component {
   }
 
   deletePost() {
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm('Are you sure you want to delete this post?')) {
-      this.setState({
-        submitResults: update(this.state.submitResults, {
-          show: { $set: true },
-        }),
-      }, () => {
-        const doSubmit = new Promise((resolve) => {
-          this.setState({
-            submitResults: update(this.state.submitResults, {
-              data: {
-                $push: [{
-                  submitAction: 'Deleting hotspot...',
-                  submitting: true,
-                }],
-              },
-            }),
-          });
-          resolve(this.props.defaultDeleteFunction(this.state.formData.post_id.value));
+    this.setState({
+      submitResults: update(this.state.submitResults, {
+        show: { $set: true },
+      }),
+    }, () => {
+      const doSubmit = new Promise((resolve) => {
+        this.setState({
+          submitResults: update(this.state.submitResults, {
+            data: {
+              $push: [{
+                submitAction: 'Deleting hotspot...',
+                submitting: true,
+              }],
+            },
+          }),
         });
+        resolve(this.props.defaultDeleteFunction(this.state.formData.post_id.value));
+      });
 
-        Promise.all([doSubmit]).then((results) => {
-          const resultsReport = [];
-          if (results[0].type.indexOf('OK') === 0) {
-            resultsReport.push({
-              submitAction: 'Delete post successfully',
-              submitting: false,
-            });
-          } else {
-            resultsReport.push({
-              submitAction: 'Delete post failed',
-              submitting: false,
-              error: results[0].error,
-            });
-          }
-          this.setState({
-            submitResults: update(this.state.submitResults, {
-              data: { $set: resultsReport },
-            }),
+      Promise.all([doSubmit]).then((results) => {
+        const resultsReport = [];
+        if (results[0].type.indexOf('OK') === 0) {
+          resultsReport.push({
+            submitAction: 'Delete post successfully',
+            submitting: false,
           });
+        } else {
+          resultsReport.push({
+            submitAction: 'Delete post failed',
+            submitting: false,
+            error: results[0].error,
+          });
+        }
+        this.setState({
+          submitResults: update(this.state.submitResults, {
+            data: { $set: resultsReport },
+          }),
         });
       });
-    } else {
-      // Do nothing!
-    }
+    });
   }
 
   renderTitleInput = () => (<TextValidator
@@ -341,6 +336,20 @@ class CreateEditPost extends React.Component {
     rows={4}
     rowsMax={10}
     fullWidth
+    autoComplete="off"
+    underlineShow={false}
+  />);
+
+  renderContentLinkInput = () => (<TextValidator
+    name="content"
+    type="text"
+    hintText={strings.hint_post_content_link}
+    onChange={e => this.setFormData('content', e.target.value)}
+    value={this.state.formData.content && this.state.formData.content}
+    hintStyle={{ top: 12 }}
+    fullWidth
+    validators={['required']}
+    errorMessages={[strings.err_is_required]}
     autoComplete="off"
     underlineShow={false}
   />);
@@ -400,20 +409,6 @@ class CreateEditPost extends React.Component {
       )}
     </Card>
   );
-
-  renderContentLinkInput = () => (<TextValidator
-    name="content"
-    type="text"
-    hintText={strings.hint_post_content_link}
-    onChange={e => this.updateContent(e.target.value)}
-    value={this.state.formData.content && this.state.formData.content}
-    hintStyle={{ top: 12 }}
-    fullWidth
-    validators={['required']}
-    errorMessages={[strings.err_is_required]}
-    autoComplete="off"
-    underlineShow={false}
-  />);
 
   render() {
     const {
