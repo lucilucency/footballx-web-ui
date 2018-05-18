@@ -61,7 +61,7 @@ class PostGrid extends React.Component {
       return (<ViewPostCompactBlank />);
     }
 
-    return (<ViewPostCompactBlank />);
+    return null;
   }
 
   render() {

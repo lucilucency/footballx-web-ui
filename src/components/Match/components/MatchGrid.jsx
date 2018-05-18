@@ -31,7 +31,7 @@ class PostGrid extends React.Component {
     this.props.getMatches();
   }
 
-  renderPostsGrid() {
+  renderGrid() {
     if (this.props.matches.length) {
       return this.props.matches.map(item => (
         <LazyLoad height={200} key={item.id || Date.now()}>
@@ -44,13 +44,13 @@ class PostGrid extends React.Component {
       return (<ViewMatchCompactBlank />);
     }
 
-    return (<ViewMatchCompactBlank />);
+    return null;
   }
 
   render() {
     return (
       <PostsGridStyled columns={this.columnCount}>
-        {this.renderPostsGrid()}
+        {this.renderGrid()}
       </PostsGridStyled>
     );
   }
