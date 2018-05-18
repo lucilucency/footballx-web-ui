@@ -45,11 +45,16 @@ class PostGrid extends React.Component {
 
   renderPostsGrid() {
     if (this.props.posts.length) {
-      return this.props.posts.map(item => (
-        <LazyLoad height={200} key={item.id || Date.now()}>
-          <ViewPostCompact data={item} isLoggedIn={this.props.isLoggedIn} />
-        </LazyLoad>
-      ));
+      return this.props.posts.map((item, index) => {
+        if (index > 5) {
+          return (
+            <LazyLoad height={200} key={item.id || Date.now()}>
+              <ViewPostCompact data={item} isLoggedIn={this.props.isLoggedIn} />
+            </LazyLoad>
+          );
+        }
+        return <ViewPostCompact key={item.id || Date.now()} data={item} isLoggedIn={this.props.isLoggedIn} />;
+      });
     }
 
     if (this.props.loading) {

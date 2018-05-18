@@ -9,8 +9,16 @@ import {
 } from './parser';
 import { getCookie, setCookie, eraseCookie } from '../utils';
 
+export const localUpdateReducer = (name, payload) => dispatch => dispatch({
+  type: `OK/EDIT/${name}`,
+  payload,
+});
+export const localSetReducer = (name, payload) => dispatch => dispatch({
+  type: `OK/${name}`,
+  payload,
+});
+
 // auth
-// export const login = (username, password) => dispatchAuth('auth', 'user/login', { username, password });
 export const loginFb = access_token => dispatchPOST({
   reducer: 'metadata',
   path: 'xuser/auth',
@@ -57,12 +65,11 @@ export const getMetadata = ({
   }
   dispatch(getDataStart(payload));
 };
-export const updateMetadata = user => dispatch => dispatch(({
+
+export const updateMetadata = payload => dispatch => dispatch({
   type: 'OK/EDIT/metadata',
-  payload: {
-    user,
-  },
-}));
+  payload,
+});
 export const updateUserProfile = (userID, params, payload) => dispatchPUT({
   reducer: 'EDIT/metadata',
   path: `xuser/${userID}`,
@@ -137,11 +144,12 @@ export const getPostComments = (postID, sortby, xuser_id) => dispatchGET({
   transform: parseCommentsInPost,
 });
 export const createComment = ({
-  reducer = 'ADD/comments',
-  reducerCallback = 'EDIT_ARR/posts',
   params,
   payload,
   payloadCallback,
+  /**/
+  reducer = 'ADD/comments',
+  reducerCallback = 'EDIT_ARR/posts',
 } = {}) => dispatchPOST({
   reducer,
   reducerCallback,
@@ -153,9 +161,10 @@ export const createComment = ({
 });
 
 export const changeVote = (target_id, vflag, {
+  payload,
+  /**/
   reducer = 'EDIT_ARR/posts',
   path = 'post/change-vote',
-  payload,
 } = {}) => dispatchPOST({
   reducer,
   path,
@@ -181,13 +190,53 @@ export const downVote = (target_id, params, type = 'post') => dispatch => Promis
   type === 'post' && dispatch(setPost(params.payload)),
 ]);
 
+// match
+export const getMatches = ({
+  params = {
+    // start_time,
+    // end_time,
+  },
+  /**/
+  reducer = 'matches',
+  path = 'matches/hot',
+} = {}) => dispatchGET({
+  reducer,
+  path,
+  params,
+  transform: (resp) => {
+    const { matches } = resp;
+
+    return matches.map((el) => {
+      const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
+      return {
+        ...el,
+        home: Number(clubs[0]),
+        away: Number(clubs[1]),
+      };
+    });
+  },
+});
+export const setMatch = payload => dispatch => dispatch(({
+  type: 'OK/match',
+  payload,
+}));
+export const getMatch = matchID => dispatchGET({
+  reducer: 'match',
+  path: `match/${matchID}`,
+  params: {
+    xuser_id: getCookie('user_id'),
+  },
+  transform: parsePost,
+});
+
 // user
 const changeFollow = (userID, {
-  reducer = 'EDIT/metadata',
-  path = `xuser/${userID}/change-follow`,
   target_id,
   target_type,
   action_type,
+  /**/
+  reducer = 'EDIT/metadata',
+  path = `xuser/${userID}/change-follow`,
 }) => dispatchPOST({
   version: 'v1',
   reducer,
@@ -221,6 +270,7 @@ export const unfollowCommunity = (userID, targetID) => changeFollow(userID, {
 const registerClub = (userID, {
   club_id,
   is_favorite,
+  /**/
   reducer = 'EDIT/metadata',
   path = `xuser/${userID}/club`,
 }) => dispatchPOST({

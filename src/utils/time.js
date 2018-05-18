@@ -2,8 +2,6 @@
 import strings from 'lang';
 import util from 'util';
 
-const moment = require('moment');
-
 const second = 1;
 const minute = second * 60;
 const hour = minute * 60;
@@ -138,15 +136,21 @@ export function toDateString(input) {
   const inputParse = isNaN(input) ? input : Number(input);
   return new Date(inputParse).toLocaleDateString(window.localStorage.getItem('localization') || 'en-US', {
     day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
+    month: 'short',
+    weekday: 'short',
+    // year: 'numeric',
   });
 }
 
 export function toTimeString(input) {
-  return moment(input).format('HH:mm');
-  // return new Date(Number(input)).toLocaleDateString(window.localStorage.getItem('localization') || 'en-US', {
-  //     minute: 'numeric',
-  //     hour: 'numeric',
-  // })
+  if (!input) {
+    return '';
+  }
+
+  const inputParse = Number(input) || input;
+  return new Date(inputParse).toLocaleTimeString(window.localStorage.getItem('localization') || 'en-US', {
+    minute: 'numeric',
+    hour: 'numeric',
+    hour12: false,
+  });
 }

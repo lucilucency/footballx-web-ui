@@ -16,6 +16,7 @@ export const Container = styled.div`
   
   @media only screen and (max-width: 660px) {
     grid-template-columns: 1fr;
+    padding: 0;
   }
 `;
 

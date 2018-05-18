@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import constants from '../../constants';
 
-const BlankTitle = styled.div`
+const ViewMatchCompactBlank = styled.div`
   @keyframes shine {
     to {
 			background-position:
@@ -18,7 +18,7 @@ const BlankTitle = styled.div`
 	
 	margin: auto;
 	width: 500px;
-	height: 2000px;
+	height: 400px;
 	background-color: ${constants.theme().surfaceColorPrimary};
   
   background-image:
@@ -55,4 +55,4 @@ const BlankTitle = styled.div`
   animation: shine 1s infinite ease-in-out;
 `;
 
-export default BlankTitle;
+export default ViewMatchCompactBlank;

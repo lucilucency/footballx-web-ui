@@ -89,6 +89,10 @@ const StyledBodyDiv = styled.div`
       margin-right: auto;
     }
   `};
+  
+  @media only screen and (max-width: 660px) {
+    padding: 1em 0px;
+  }
 `;
 
 class App extends React.Component {

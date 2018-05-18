@@ -71,8 +71,10 @@ class UpdateProfileNickname extends Component {
     // if (this.isValid()) {}
 
     // this.props.updateMetadata({
-    //   ...this.props.user,
-    //   username: this.state.formData.username,
+    //   user: {
+    //     ...this.props.user,
+    //     username: this.state.formData.username,
+    //   },
     // });
     this.props.updateUserProfile(this.props.user.id, {
       username: this.state.formData.username,
