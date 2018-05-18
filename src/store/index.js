@@ -22,14 +22,16 @@ const reducer = combineReducers({
 });
 /* eslint-disable no-underscore-dangle */
 // This enables the redux dev tools extension, or does nothing if not installed
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = process.env.REACT_APP_DEBUG === 'true' ? (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose) : compose;
 /* eslint-enable */
-const middleware = process.env.REACT_APP_DEBUG === 'true' ? applyMiddleware(thunkMiddleware, createLogger()) : applyMiddleware(thunkMiddleware);
+const middleware = [
+  thunkMiddleware,
+  process.env.REACT_APP_DEBUG === 'true' && createLogger()
+].filter(Boolean);
 export default createStore(
   reducer,
   composeEnhancers(
     createResponsiveStoreEnhancer(),
-    applyMiddleware(thunkMiddleware),
-    middleware,
+    applyMiddleware(...middleware),
   ),
 );
