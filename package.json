@@ -51,6 +51,7 @@
     "react-facebook": "^5.0.3",
     "react-helmet": "^5.2.0",
     "react-infinite": "^0.13.0",
+    "react-lazyload": "^2.3.0",
     "react-lifecycles-compat": "^3.0.4",
     "react-markdown": "^3.3.2",
     "react-redux": "^5.0.7",

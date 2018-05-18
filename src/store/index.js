@@ -26,7 +26,7 @@ const composeEnhancers = process.env.REACT_APP_DEBUG === 'true' ? (window.__REDU
 /* eslint-enable */
 const middleware = [
   thunkMiddleware,
-  process.env.REACT_APP_DEBUG === 'true' && createLogger()
+  process.env.REACT_APP_DEBUG === 'true' && createLogger(),
 ].filter(Boolean);
 export default createStore(
   reducer,

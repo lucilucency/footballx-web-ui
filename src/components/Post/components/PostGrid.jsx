@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
+import LazyLoad from 'react-lazyload';
 import { getMeFeeds, getPostsWorld } from '../../../actions/index';
 import { ViewPostCompact, ViewPostCompactBlank } from './index';
 // import constants from '../../constants';
@@ -24,6 +25,7 @@ const PostsGridStyled = styled.div`
   }
 `;
 
+
 class PostGrid extends React.Component {
   componentDidMount() {
     this.columnCount = 1;
@@ -43,7 +45,11 @@ class PostGrid extends React.Component {
 
   renderPostsGrid() {
     if (this.props.posts.length) {
-      return this.props.posts.map(item => <ViewPostCompact data={item} key={item.id || Date.now()} isLoggedIn={this.props.isLoggedIn} />);
+      return this.props.posts.map(item => (
+        <LazyLoad height={200} key={item.id || Date.now()}>
+          <ViewPostCompact data={item} isLoggedIn={this.props.isLoggedIn} />
+        </LazyLoad>
+      ));
     }
 
     if (this.props.loading) {
