@@ -17,7 +17,7 @@ const keyFrameExampleOne =
   }
 `;
 const FanFightStyled = styled.div`
-  padding: 0 1em;
+  padding: 1em 1em;
   display: flex;
 `;
 

@@ -5,17 +5,13 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   Card,
+  CardHeader,
   CardActions,
-  // CardHeader,
   CardMedia,
-  // CardTitle,
-  // CardText,
 } from 'material-ui';
 import FlatButton from 'material-ui/FlatButton';
 import styled from 'styled-components';
-import IconButton from 'material-ui/IconButton';
 import clubs from 'fxconstants/build/clubsObj.json';
-import { IconUpvote } from '../../Icons';
 import { hitVote } from '../../../actions';
 // import strings from '../../../lang';
 import { bindAll } from '../../../utils';
@@ -26,10 +22,8 @@ import ButtonShare from './ButtonShare';
 import Backdrop from './Backdrop';
 
 const ActionModule = styled.div`
-  display: flex; 
-  flex-direction: row;
-  margin-right: 5px;
-  justify-content: space-around;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr;  
 `;
 
 class ViewMatchCompactFull extends React.Component {
@@ -48,56 +42,16 @@ class ViewMatchCompactFull extends React.Component {
     bindAll([], this);
   }
 
-  hitVoteHome = (home, away, homeVotes, awayVotes) => {
-    if (this.props.isLoggedIn) {
-      this.props.hitVote(this.props.data.id, home, {
-        votes: {
-          [home]: homeVotes + 1,
-          [away]: awayVotes,
-        },
-      });
-    } else {
-      this.props.history.push({
-        pathname: '/sign_in',
-        state: {
-          from: {
-            pathname: `/m/${this.props.data.id}`,
-          },
-        },
-      });
-    }
-  };
-
-  hitVoteAway = (home, away, homeVotes, awayVotes) => {
-    if (this.props.isLoggedIn) {
-      this.props.hitVote(this.props.data.id, away, {
-        votes: {
-          [home]: homeVotes,
-          [away]: awayVotes + 1,
-        },
-      });
-    } else {
-      this.props.history.push({
-        pathname: '/sign_in',
-        state: {
-          from: {
-            pathname: `/m/${this.props.data.id}`,
-          },
-        },
-      });
-    }
-  };
-
   render() {
     const { data } = this.props;
 
-    const { home, away } = data;
+    const { home: homeID, away: awayID } = data;
     const homeVotes = data.votes && data.votes[data.home];
     const awayVotes = data.votes && data.votes[data.away];
-    const homeColor = (clubs[home] && clubs[home].home_color) || constants.redA200;
-    const awayColor = (clubs[away] && clubs[away].home_color) || constants.blueA200;
-    const homeName = clubs[home] && clubs[home].name;
-    const awayName = clubs[away] && clubs[away].name;
+    const home = clubs[homeID] || {};
+    const away = clubs[awayID] || {};
+    const homeColor = home.home_color || constants.redA200;
+    const awayColor = away.home_color || constants.blueA200;
     return (
       <Card
         key={data.id}
@@ -105,6 +59,15 @@ class ViewMatchCompactFull extends React.Component {
           // maxWidth: 900,
         }}
       >
+        <CardHeader
+          title="Thắng làm vua, thua ngậm mồm"
+          // subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
+          // avatar={data.community_icon}
+          // style={{ padding: '1em 1em 0.5em 1em' }}
+          textStyle={{
+            textTransform: 'uppercase',
+          }}
+        />
         <CardMedia
           style={{
             textAlign: 'center',
@@ -112,54 +75,26 @@ class ViewMatchCompactFull extends React.Component {
         >
           <div>
             <div>
-              <MatchVisualize
-                home={home}
-                away={away}
-                date={data.date}
-              />
               <FanFight
                 homeColor={homeColor}
                 awayColor={awayColor}
                 homeFan={homeVotes}
                 awayFan={awayVotes}
               />
-              <ActionModule>
-                <IconButton
-                  tooltip={`For ${homeName}`}
-                  tooltipPosition="top-center"
-                  onClick={() => this.hitVoteHome(home, away, homeVotes, awayVotes)}
-                  style={{
-                    width: 64,
-                    height: 64,
-                  }}
-                  iconStyle={{
-                    width: 36,
-                    height: 36,
-                  }}
-                >
-                  <IconUpvote color={constants.theme().buttonMute} hoverColor={homeColor} />
-                </IconButton>
-                <IconButton
-                  tooltip={`For ${awayName}`}
-                  tooltipPosition="top-center"
-                  onClick={() => this.hitVoteAway(home, away, homeVotes, awayVotes)}
-                  style={{
-                    width: 64,
-                    height: 64,
-                  }}
-                  iconStyle={{
-                    width: 36,
-                    height: 36,
-                  }}
-                >
-                  <IconUpvote color={constants.theme().buttonMute} hoverColor={awayColor} />
-                </IconButton>
-              </ActionModule>
+              <MatchVisualize
+                matchID={this.props.data.id}
+                home={home}
+                away={away}
+                homeVotes={homeVotes}
+                awayVotes={awayVotes}
+                date={data.date}
+                isLoggedIn={this.props.isLoggedIn}
+              />
             </div>
             <Backdrop
-              home={home}
+              home={homeID}
               homeVotes={homeVotes}
-              away={away}
+              away={awayID}
               awayVotes={awayVotes}
             />
           </div>
@@ -206,8 +141,8 @@ ViewMatchCompactFull.propTypes = {
 
   /**/
   // user: PropTypes.object,
-  history: PropTypes.object,
-  hitVote: PropTypes.func,
+  // history: PropTypes.object,
+  // hitVote: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
