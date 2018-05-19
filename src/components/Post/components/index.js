@@ -1,10 +1,10 @@
 import CreateEditPostForm from './CreateEditPostForm';
 import CreateEditPostFrame from './CreateEditPostFrame';
 import CreatePostButton from './ButtonCreatePost';
-import ViewPostCompact from './ViewPostCompact';
-import ViewPostCompactBlank from './ViewPostCompactBlank';
-import ViewPostFull from './ViewPostFull';
-import ViewPostFullFrame from './ViewPostFullFrame';
+import ViewPostCompact from './PostViewCompact';
+import ViewPostCompactBlank from './PostViewCompactBlank';
+import ViewPostFull from './PostViewFull';
+import ViewPostFullFrame from './PostViewFullFrame';
 import PostGrid from './PostGrid';
 
 export {

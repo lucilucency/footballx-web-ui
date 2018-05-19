@@ -7,15 +7,9 @@ import { getPostComments, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
 import constants from '../../constants';
-import ViewPostComments from './ViewPostComments';
+import ViewPostComments from './PostComments';
 import CreateComment from './CreateEditComment';
-import ButtonUpvote from './ButtonUpvote';
-import ButtonShare from './ButtonShare';
-
-const ActionModule = styled.div`
-  display: flex; 
-  flex-direction: row;
-`;
+import ButtonUpvote from './PostActions';
 
 const LinkCoverStyled = styled.span`
   color: ${constants.colorMutedLight};
@@ -80,8 +74,6 @@ class ViewPostFull extends React.Component {
             }}
             style={{
               paddingTop: 0,
-              // paddingBottom: 0,
-              // whiteSpace: 'pre-wrap',
               wordBreak: 'break-word',
             }}
           />
@@ -105,49 +97,20 @@ class ViewPostFull extends React.Component {
             color={constants.theme().textColorSecondary}
             style={{
               fontSize: constants.fontSizeMedium,
+              fontWeight: constants.fontWeightMedium,
               // whiteSpace: 'pre-wrap',
               wordBreak: 'break-word',
             }}
           >
             {item.content_type === 3 ? <a href={`${item.content}`} target="_blank">{item.content}</a> : item.content}
           </CardText>}
-          <CardActions
-            style={{
-              padding: '0 0',
-              display: 'flex',
-              flexDirection: 'row',
-              borderTop: `1px solid ${constants.grey50}`,
-              fontWeight: constants.fontWeightHeavy,
-              fontSize: constants.fontSizeSmall,
-            }}
-          >
+          <CardActions>
             <ButtonUpvote
               type="post"
-              isLoggedIn={this.props.isLoggedIn}
               data={this.props.data}
+              disableComment
+              isLoggedIn={this.props.isLoggedIn}
             />
-            <ActionModule>
-              <div
-                style={{
-                  marginTop: 4,
-                  lineHeight: '32px',
-                  height: 34,
-                  minWidth: 60,
-                }}
-              >
-                <span
-                  style={{
-                    paddingLeft: 5,
-                    paddingRight: 5,
-                  }}
-                >
-                  {item.c_comments ? `${item.c_comments} comments` : 'Comment'}
-                </span>
-              </div>
-            </ActionModule>
-            <ActionModule>
-              <ButtonShare clipboard={`${window.location.host}/p/${item.id}`} />
-            </ActionModule>
           </CardActions>
         </Card>
         {this.props.isLoggedIn && <CreateComment post={this.props.data} />}

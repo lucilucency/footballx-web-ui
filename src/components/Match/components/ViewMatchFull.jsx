@@ -128,6 +128,10 @@ class ViewMatchCompactFull extends React.Component {
                   tooltip={`For ${homeName}`}
                   tooltipPosition="top-center"
                   onClick={() => this.hitVoteHome(home, away, homeVotes, awayVotes)}
+                  style={{
+                    width: 64,
+                    height: 64,
+                  }}
                   iconStyle={{
                     width: 36,
                     height: 36,
@@ -139,6 +143,10 @@ class ViewMatchCompactFull extends React.Component {
                   tooltip={`For ${awayName}`}
                   tooltipPosition="top-center"
                   onClick={() => this.hitVoteAway(home, away, homeVotes, awayVotes)}
+                  style={{
+                    width: 64,
+                    height: 64,
+                  }}
                   iconStyle={{
                     width: 36,
                     height: 36,

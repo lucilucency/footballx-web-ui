@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Subheader } from 'material-ui';
-import ViewPostFull from './ViewPostFull';
+import ViewPostFull from './PostViewFull';
 import { Container, RightTray, SmallPaper } from '../../../utils';
 
 const ViewPostFullFrame = ({ isLoggedIn, postID, data }) => (
