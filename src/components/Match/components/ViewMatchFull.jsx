@@ -69,12 +69,23 @@ class ViewMatchCompactFull extends React.Component {
   };
 
   hitVoteAway = (home, away, homeVotes, awayVotes) => {
-    this.props.hitVote(this.props.data.id, away, {
-      votes: {
-        [home]: homeVotes,
-        [away]: awayVotes + 1,
-      },
-    });
+    if (this.props.isLoggedIn) {
+      this.props.hitVote(this.props.data.id, away, {
+        votes: {
+          [home]: homeVotes,
+          [away]: awayVotes + 1,
+        },
+      });
+    } else {
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: `/m/${this.props.data.id}`,
+          },
+        },
+      });
+    }
   };
 
   render() {
