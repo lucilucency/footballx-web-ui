@@ -32,6 +32,8 @@ class BurgerMenu extends React.Component {
   }
 
   componentDidMount() {
+    // this.props.toggleTray({ state: false });
+
     if (this.props.location.pathname === '/sign_in' || !this.props.greaterThanSmall) {
       this.props.toggleTray({ state: false });
     } else {

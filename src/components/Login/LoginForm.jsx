@@ -59,12 +59,8 @@ class LoginForm extends React.Component {
     this.props.loginFacebook(token).then((o, e) => {
       if (!e) {
         if (o.payload) {
-          // const data = o.payload;
-          // setCookie('access_token', data.access_token, 7);
-          // setCookie('user_id', data.user.id, 7);
-
-          that.props.history.push('/');
-          // window.location.href = '/';
+          const { from } = this.props.location.state || { from: { pathname: '/' } };
+          that.props.history.push(from.pathname);
         } else {
           that.setState({
             loginError: true,
@@ -126,6 +122,7 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
+  location: PropTypes.object,
   loginFacebook: PropTypes.func,
 };
 

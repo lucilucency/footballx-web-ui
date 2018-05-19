@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, FlatButton } from 'material-ui';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui';
 import { getPostComments, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
@@ -10,6 +10,7 @@ import constants from '../../constants';
 import ViewPostComments from './ViewPostComments';
 import CreateComment from './CreateEditComment';
 import ButtonUpvote from './ButtonUpvote';
+import ButtonShare from './ButtonShare';
 
 const ActionModule = styled.div`
   display: flex; 
@@ -145,23 +146,7 @@ class ViewPostFull extends React.Component {
               </div>
             </ActionModule>
             <ActionModule>
-              <FlatButton
-                target="_blank"
-                label="Share"
-                // icon={<IconShare color={constants.grey300} hoverColor={constants.blueA100} style={{}} />}
-                style={{
-                  marginTop: 2,
-                  lineHeight: '32px',
-                  height: 34,
-                  minWidth: 60,
-                }}
-                labelStyle={{
-                  fontSize: constants.fontSizeSmall,
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                  fontWeight: constants.fontWeightHeavy,
-                }}
-              />
+              <ButtonShare clipboard={`${window.location.host}/p/${item.id}`} />
             </ActionModule>
           </CardActions>
         </Card>

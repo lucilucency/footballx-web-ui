@@ -61,8 +61,8 @@ const FanFightView = ({
 );
 
 FanFightView.propTypes = {
-  homeColor: PropTypes.number,
-  awayColor: PropTypes.number,
+  homeColor: PropTypes.string,
+  awayColor: PropTypes.string,
   homeFan: PropTypes.number,
   awayFan: PropTypes.number,
 };

@@ -14,7 +14,7 @@ import { createComment as defaultCreateFn } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 
-class CreateEditPost extends React.Component {
+class CreateEditComment extends React.Component {
   static defaultProps = {
     mode: 'create',
     display: true,
@@ -34,7 +34,7 @@ class CreateEditPost extends React.Component {
 
   static initialState = ({
     formData: {
-      ...CreateEditPost.defaultFormData,
+      ...CreateEditComment.defaultFormData,
     },
     submitResults: {
       data: [],
@@ -46,7 +46,7 @@ class CreateEditPost extends React.Component {
     super(props);
 
     this.state = {
-      ...CreateEditPost.initialState,
+      ...CreateEditComment.initialState,
     };
     bindAll([
       'getFormData',
@@ -69,7 +69,7 @@ class CreateEditPost extends React.Component {
 
       const { data } = newProps;
       this.setState({
-        formData: mergeObject(CreateEditPost.defaultFormData, {
+        formData: mergeObject(CreateEditComment.defaultFormData, {
           comment_id: { value: data.id },
           title: data.title,
           content: data.content,
@@ -90,7 +90,7 @@ class CreateEditPost extends React.Component {
   }
 
   clearFormData() {
-    this.setState(CreateEditPost.initialState);
+    this.setState(CreateEditComment.initialState);
   }
 
   submit(e) {
@@ -140,7 +140,7 @@ class CreateEditPost extends React.Component {
           setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
           if (mode === 'create') {
             this.setState({
-              formData: CreateEditPost.defaultFormData,
+              formData: CreateEditComment.defaultFormData,
             }, () => {
               // this.contentInput.focus();
             });
@@ -329,7 +329,7 @@ const mapDispatchToProps = dispatch => ({
   defaultDeleteFunction: () => {},
 });
 
-CreateEditPost.propTypes = {
+CreateEditComment.propTypes = {
   mode: PropTypes.string,
   display: PropTypes.bool,
   toggle: PropTypes.bool,
@@ -345,4 +345,4 @@ CreateEditPost.propTypes = {
   defaultEditFunction: PropTypes.func,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditPost));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditComment));

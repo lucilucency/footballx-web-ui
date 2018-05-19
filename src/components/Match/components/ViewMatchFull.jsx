@@ -3,23 +3,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui';
+import {
+  Card,
+  CardActions,
+  // CardHeader,
+  CardMedia,
+  // CardTitle,
+  // CardText,
+} from 'material-ui';
 import FlatButton from 'material-ui/FlatButton';
 import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
 import clubs from 'fxconstants/build/clubsObj.json';
 import { IconUpvote } from '../../Icons';
 import { hitVote } from '../../../actions';
-import strings from '../../../lang';
-import { toDateTimeString, bindAll, ActiveLink, MutedLink } from '../../../utils';
+// import strings from '../../../lang';
+import { bindAll } from '../../../utils';
 import constants from '../../constants';
 import MatchVisualize from './MatchVisualize';
 import FanFight from './FanFight';
-
-const LinkCoverStyled = styled.span`
-  color: ${constants.colorMutedLight};
-  font-size: ${constants.fontSizeSmall};
-`;
+import ButtonShare from './ButtonShare';
 
 const ActionModule = styled.div`
   display: flex; 
@@ -45,12 +48,23 @@ class ViewMatchCompactFull extends React.Component {
   }
 
   hitVoteHome = (home, away, homeVotes, awayVotes) => {
-    this.props.hitVote(this.props.data.id, home, {
-      votes: {
-        [home]: homeVotes + 1,
-        [away]: awayVotes,
-      },
-    });
+    if (this.props.isLoggedIn) {
+      this.props.hitVote(this.props.data.id, home, {
+        votes: {
+          [home]: homeVotes + 1,
+          [away]: awayVotes,
+        },
+      });
+    } else {
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: `/m/${this.props.data.id}`,
+          },
+        },
+      });
+    }
   };
 
   hitVoteAway = (home, away, homeVotes, awayVotes) => {
@@ -64,19 +78,6 @@ class ViewMatchCompactFull extends React.Component {
 
   render() {
     const { data } = this.props;
-    const userLink = <MutedLink to={`/u/${data.xuser_id}`}>{data.xuser_username || data.xuser_nickname}</MutedLink>;
-    const postLink = (
-      <MutedLink
-        to={{
-          pathname: `/p/${data.id}`,
-          state: {
-            data,
-          },
-        }}
-      >
-        {toDateTimeString(data.created_at)}
-      </MutedLink>
-    );
 
     const { home, away } = data;
     const homeVotes = data.votes && data.votes[data.home];
@@ -89,27 +90,6 @@ class ViewMatchCompactFull extends React.Component {
       <Card
         key={data.id}
       >
-        {null && (
-          <CardHeader
-            title={<ActiveLink to={`/r/${data.community_link}`}>{data.community_name}</ActiveLink>}
-            subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
-            avatar={data.community_icon}
-            style={{ padding: '1em 1em 0.5em 1em' }}
-          />
-        )}
-        <CardTitle
-          title={data.title}
-          titleColor={constants.theme().textColorPrimary}
-          titleStyle={{
-            fontWeight: constants.fontWeightHeavy,
-            fontSize: constants.fontSizeBig,
-            lineHeight: 1.44,
-          }}
-          style={{
-            paddingTop: 0,
-            wordBreak: 'break-word',
-          }}
-        />
         <CardMedia
           style={{
             textAlign: 'center',
@@ -133,10 +113,9 @@ class ViewMatchCompactFull extends React.Component {
                   tooltip={`For ${homeName}`}
                   tooltipPosition="top-center"
                   onClick={() => this.hitVoteHome(home, away, homeVotes, awayVotes)}
-                  disabled={!this.props.isLoggedIn}
                   iconStyle={{
-                    width: 32,
-                    height: 32,
+                    width: 40,
+                    height: 40,
                   }}
                 >
                   <IconUpvote color={constants.theme().buttonMute} hoverColor={homeColor} />
@@ -145,10 +124,9 @@ class ViewMatchCompactFull extends React.Component {
                   tooltip={`For ${awayName}`}
                   tooltipPosition="top-center"
                   onClick={() => this.hitVoteAway(home, away, homeVotes, awayVotes)}
-                  disabled={!this.props.isLoggedIn}
                   iconStyle={{
-                    width: 32,
-                    height: 32,
+                    width: 40,
+                    height: 40,
                   }}
                 >
                   <IconUpvote color={constants.theme().buttonMute} hoverColor={awayColor} />
@@ -168,17 +146,6 @@ class ViewMatchCompactFull extends React.Component {
             />
           </div>
         </CardMedia>
-        {(data.content_type === 1 || data.content_type === 3) && (
-          <CardText
-            style={{
-              fontSize: constants.fontSizeMedium,
-              // whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-            }}
-          >
-            {data.content_type === 3 ? <a href={`${data.content}`} target="_blank">{data.content}</a> : data.content}
-          </CardText>
-        )}
         <CardActions
           style={{
             padding: '0 8px',
@@ -207,23 +174,7 @@ class ViewMatchCompactFull extends React.Component {
             />
           </ActionModule>
           <ActionModule>
-            <FlatButton
-              target="_blank"
-              label="Share"
-              // icon={<IconShare color={constants.theme().buttonMute} hoverColor={constants.blueA100} style={{}} />}
-              style={{
-                marginTop: 6,
-                lineHeight: '32px',
-                height: 34,
-                minWidth: 60,
-              }}
-              labelStyle={{
-                fontSize: constants.fontSizeSmall,
-                paddingLeft: 5,
-                paddingRight: 5,
-                fontWeight: constants.fontWeightHeavy,
-              }}
-            />
+            <ButtonShare clipboard={`${window.location.host}/p/${data.id}`} />
           </ActionModule>
         </CardActions>
       </Card>
@@ -236,11 +187,13 @@ ViewMatchCompactFull.propTypes = {
   isLoggedIn: PropTypes.bool,
 
   /**/
+  // user: PropTypes.object,
+  history: PropTypes.object,
   hitVote: PropTypes.func,
-  // history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
+  // user: state.app.metadata.data.user,
   browser: state.browser,
 });
 

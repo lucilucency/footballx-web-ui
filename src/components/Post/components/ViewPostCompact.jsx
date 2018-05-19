@@ -12,6 +12,7 @@ import strings from '../../../lang';
 import { toDateTimeString, bindAll, renderDialog, ActiveLink, MutedLink } from '../../../utils';
 import constants from '../../constants';
 import ViewPostFullFrame from './ViewPostFullFrame';
+import ButtonShare from './ButtonShare';
 
 const ImageWrapper = styled.div`
   text-align: center;
@@ -251,7 +252,6 @@ class ViewPostCompact extends React.Component {
             <FlatButton
               target="_blank"
               label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
-              // icon={<IconShare color={constants.theme().buttonMute} hoverColor={constants.blueA100} style={{}} />}
               style={{
                 marginTop: 6,
                 lineHeight: '32px',
@@ -268,23 +268,7 @@ class ViewPostCompact extends React.Component {
             />
           </ActionModule>
           <ActionModule>
-            <FlatButton
-              target="_blank"
-              label="Share"
-              // icon={<IconShare color={constants.theme().buttonMute} hoverColor={constants.blueA100} style={{}} />}
-              style={{
-                marginTop: 6,
-                lineHeight: '32px',
-                height: 34,
-                minWidth: 60,
-              }}
-              labelStyle={{
-                fontSize: constants.fontSizeSmall,
-                paddingLeft: 5,
-                paddingRight: 5,
-                fontWeight: constants.fontWeightHeavy,
-              }}
-            />
+            <ButtonShare clipboard={`${window.location.host}/p/${item.id}`} />
           </ActionModule>
         </CardActions>
         {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}

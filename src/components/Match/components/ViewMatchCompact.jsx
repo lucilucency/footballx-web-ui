@@ -15,6 +15,7 @@ import { toDateTimeString, bindAll, ActiveLink, MutedLink } from '../../../utils
 import constants from '../../constants';
 import MatchVisualize from './MatchVisualize';
 import FanFight from './FanFight';
+import ButtonShare from './ButtonShare';
 
 const LinkCoverStyled = styled.span`
   color: ${constants.colorMutedLight};
@@ -239,23 +240,7 @@ class ViewMatchCompact extends React.Component {
             />
           </ActionModule>
           <ActionModule>
-            <FlatButton
-              target="_blank"
-              label="Share"
-              // icon={<IconShare color={constants.theme().buttonMute} hoverColor={constants.blueA100} style={{}} />}
-              style={{
-                marginTop: 6,
-                lineHeight: '32px',
-                height: 34,
-                minWidth: 60,
-              }}
-              labelStyle={{
-                fontSize: constants.fontSizeSmall,
-                paddingLeft: 5,
-                paddingRight: 5,
-                fontWeight: constants.fontWeightHeavy,
-              }}
-            />
+            <ButtonShare clipboard={`${window.location.host}/p/${data.id}`} />
           </ActionModule>
         </CardActions>
       </Card>

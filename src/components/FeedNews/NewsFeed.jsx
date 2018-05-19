@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import Subheader from 'material-ui/Subheader';
 import { CreatePostButton, PostGrid } from '../Post/components';
-import { MatchGrid } from '../Match/components';
 import { SuggestedCommunities } from '../User/components';
 import { Container, RightTray, SmallPaper } from '../../utils';
 import strings from '../../lang';
@@ -19,10 +18,7 @@ class NewFeeds extends React.Component {
       <div>
         <Helmet title="News feed" />
         <Container browser={this.props.browser}>
-          <div>
-            <MatchGrid />
-            <PostGrid />
-          </div>
+          <PostGrid />
           <RightTray>
             {this.props.user && (
               <div data="page-welcome">
