@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
-import { upVote, downVote, setPost } from '../../../actions';
 
 const keyFrameExampleOne =
     color => keyframes`
@@ -18,7 +17,7 @@ const keyFrameExampleOne =
   }
 `;
 const FanFightStyled = styled.div`
-  padding: 1em;
+  padding: 0 1em;
   display: flex;
 `;
 
@@ -67,16 +66,5 @@ FanFightView.propTypes = {
   awayFan: PropTypes.number,
 };
 
-const mapStateToProps = state => ({
-  browser: state.browser,
-  data: state.app.post.data,
-});
-
-const mapDispatchToProps = dispatch => ({
-  upVote: (postID, params, type) => dispatch(upVote(postID, params, type)),
-  downVote: (postID, params, type) => dispatch(downVote(postID, params, type)),
-  setPost: payload => dispatch(setPost(payload)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(FanFightView);
+export default connect()(FanFightView);
 

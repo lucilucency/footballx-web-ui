@@ -8,6 +8,7 @@ import constants from '../../constants';
 import { toTimeString, toDateString } from '../../../utils';
 
 const MatchInfo = styled.div`
+  padding: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   

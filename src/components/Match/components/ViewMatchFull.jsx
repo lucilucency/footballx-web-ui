@@ -23,6 +23,7 @@ import constants from '../../constants';
 import MatchVisualize from './MatchVisualize';
 import FanFight from './FanFight';
 import ButtonShare from './ButtonShare';
+import Backdrop from './Backdrop';
 
 const ActionModule = styled.div`
   display: flex; 
@@ -89,6 +90,9 @@ class ViewMatchCompactFull extends React.Component {
     return (
       <Card
         key={data.id}
+        style={{
+          // maxWidth: 900,
+        }}
       >
         <CardMedia
           style={{
@@ -114,8 +118,8 @@ class ViewMatchCompactFull extends React.Component {
                   tooltipPosition="top-center"
                   onClick={() => this.hitVoteHome(home, away, homeVotes, awayVotes)}
                   iconStyle={{
-                    width: 40,
-                    height: 40,
+                    width: 36,
+                    height: 36,
                   }}
                 >
                   <IconUpvote color={constants.theme().buttonMute} hoverColor={homeColor} />
@@ -125,24 +129,19 @@ class ViewMatchCompactFull extends React.Component {
                   tooltipPosition="top-center"
                   onClick={() => this.hitVoteAway(home, away, homeVotes, awayVotes)}
                   iconStyle={{
-                    width: 40,
-                    height: 40,
+                    width: 36,
+                    height: 36,
                   }}
                 >
                   <IconUpvote color={constants.theme().buttonMute} hoverColor={awayColor} />
                 </IconButton>
               </ActionModule>
             </div>
-            <div
-              style={{
-                // position: 'absolute',
-                width: '100%',
-                paddingTop: '50%',
-                position: 'relative', /* If you want text inside of it */
-                background: 'url(/assets/images/vote_mu.png) scroll no-repeat center/cover',
-                opacity: 0.9,
-                filter: 'alpha(opacity=50)',
-              }}
+            <Backdrop
+              home={home}
+              homeVotes={homeVotes}
+              away={away}
+              awayVotes={awayVotes}
             />
           </div>
         </CardMedia>

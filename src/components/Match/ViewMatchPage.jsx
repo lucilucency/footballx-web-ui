@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { setMatch, getMatch, getMatchVotes } from '../../actions';
 import { ViewMatchFull } from './components';
+import { Container } from '../../utils';
+
 
 class PageViewMatch extends React.Component {
   componentDidMount() {
@@ -28,11 +30,19 @@ class PageViewMatch extends React.Component {
     return (
       <div>
         <Helmet title="Match" />
-        <ViewMatchFull
-          isLoggedIn={isLoggedIn}
-          matchID={matchID}
-          data={data}
-        />
+        <Container
+          columns="1fr"
+          style={{
+            maxWidth: 900,
+            margin: 'auto',
+          }}
+        >
+          <ViewMatchFull
+            isLoggedIn={isLoggedIn}
+            matchID={matchID}
+            data={data}
+          />
+        </Container>
       </div>
     );
   }

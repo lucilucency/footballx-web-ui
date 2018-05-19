@@ -13,7 +13,9 @@ export const Container = styled.div`
   grid-gap: 2em;
   padding: 1em;
   grid-template-columns: 2.5fr 1fr;
-  
+  ${props => props.columns && css`
+    grid-template-columns: ${props.columns};
+  `}
   @media only screen and (max-width: 660px) {
     grid-template-columns: 1fr;
     padding: 0;
