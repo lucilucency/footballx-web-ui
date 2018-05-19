@@ -10,7 +10,7 @@ import {
 import { getCookie, setCookie, eraseCookie } from '../utils';
 
 export const localUpdateReducer = (name, payload) => dispatch => dispatch({
-  type: `OK/EDIT/${name}`,
+  type: `OK/${name}`,
   payload,
 });
 export const localSetReducer = (name, payload) => dispatch => dispatch({
@@ -67,11 +67,11 @@ export const getMetadata = ({
 };
 
 export const updateMetadata = payload => dispatch => dispatch({
-  type: 'OK/EDIT/metadata',
+  type: 'OK/metadata',
   payload,
 });
 export const updateUserProfile = (userID, params, payload) => dispatchPUT({
-  reducer: 'EDIT/metadata',
+  reducer: 'metadata',
   path: `xuser/${userID}`,
   params,
   payload: {
@@ -117,7 +117,7 @@ export const createPost = ({ params, payload }) => dispatchPOST({
   transform: parsePostAfterCreate,
 });
 export const editPost = (id, params) => dispatchPUT({
-  reducer: 'EDIT/post',
+  reducer: 'post',
   path: `post/${id}`,
   params,
 });
@@ -191,18 +191,13 @@ export const downVote = (target_id, params, type = 'post') => dispatch => Promis
 ]);
 
 // match
-export const getMatches = ({
-  params = {
-    // start_time,
-    // end_time,
-  },
+export const getHotMatches = ({
   /**/
   reducer = 'matches',
   path = 'matches/hot',
 } = {}) => dispatchGET({
   reducer,
   path,
-  params,
   transform: (resp) => {
     const { matches } = resp;
 
@@ -223,10 +218,26 @@ export const setMatch = payload => dispatch => dispatch(({
 export const getMatch = matchID => dispatchGET({
   reducer: 'match',
   path: `match/${matchID}`,
-  params: {
-    xuser_id: getCookie('user_id'),
+  transform: (resp) => {
+    const el = resp.match;
+    const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
+    return {
+      ...el,
+      home: Number(clubs[0]),
+      away: Number(clubs[1]),
+    };
   },
-  transform: parsePost,
+});
+export const getMatchVotes = matchID => dispatchGET({
+  reducer: 'match',
+  path: `match/${matchID}/votes`,
+});
+export const hitVote = (matchID, teamID, payload) => dispatchPOST({
+  params: { club_id: teamID },
+  payload,
+  /**/
+  reducer: 'match',
+  path: `match/${matchID}/vote`,
 });
 
 // user
@@ -235,7 +246,7 @@ const changeFollow = (userID, {
   target_type,
   action_type,
   /**/
-  reducer = 'EDIT/metadata',
+  reducer = 'metadata',
   path = `xuser/${userID}/change-follow`,
 }) => dispatchPOST({
   version: 'v1',
@@ -271,7 +282,7 @@ const registerClub = (userID, {
   club_id,
   is_favorite,
   /**/
-  reducer = 'EDIT/metadata',
+  reducer = 'metadata',
   path = `xuser/${userID}/club`,
 }) => dispatchPOST({
   reducer,

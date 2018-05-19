@@ -134,7 +134,6 @@ export function dispatchPOST({
 
       return doRequest
         .send(formurlencoded(params))
-        .query({}) // query string
         .then((res) => {
           if (res.statusCode === 200) {
             let dispatchData = JSON.parse(res.text);
@@ -145,8 +144,8 @@ export function dispatchPOST({
               if (Array.isArray(payload)) {
                 dispatchData = payload;
               } else {
-                dispatchData = update(dispatchData, {
-                  $merge: payload,
+                dispatchData = update(payload, {
+                  $merge: dispatchData,
                 });
               }
             }

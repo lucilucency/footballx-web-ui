@@ -11,24 +11,14 @@ const MatchInfo = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   
-  //box-sizing: border-box;
-  //display: flex;
-  //justify-content: space-around;
-  //text-align: center;
-  //margin-bottom: 20px;
-  
   @media only screen and (max-width: 1023px) {
     flex-basis: 100%;
     max-width: 100%;
   }
-  
   .club-image {
-    //width: 128px;
-    //height: 128px;
     padding: 2px;
     //box-shadow: 0 0 3px ${constants.defaultPrimaryColor};
     background-color: rgba(255,255,255,0.1);
-    
     img {
       width: 128px;
       @media only screen and (max-width: 660px) {
@@ -47,25 +37,20 @@ const MatchInfo = styled.div`
     @media only screen and (max-width: 400px) {
       margin: 0 10px;
     }
-  
     & span {
       text-transform: uppercase;
       display: block;
     }
-  
     & .duration {
       font-size: 28px;
-  
       @media only screen and (max-width: 400px) {
         font-size: 24px;
       }
     }
-  
     & .ended {
       font-size: ${constants.fontSizeSmall};
       color: ${constants.colorMutedLight};
       margin-top: 3px;
-  
       & > div {
         display: inline-block;
       }
@@ -102,9 +87,9 @@ const MatchVisualize = ({
 );
 
 MatchVisualize.propTypes = {
-  home: PropTypes.number.isRequired,
-  away: PropTypes.number.isRequired,
-  date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  home: PropTypes.number,
+  away: PropTypes.number,
+  date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default MatchVisualize;

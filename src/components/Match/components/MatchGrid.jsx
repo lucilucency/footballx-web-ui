@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import LazyLoad from 'react-lazyload';
-import { getMatches } from '../../../actions/index';
+import { getHotMatches } from '../../../actions/index';
 import { ViewMatchCompact, ViewMatchCompactBlank } from './index';
 // import constants from '../../constants';
 
@@ -26,7 +26,7 @@ const PostsGridStyled = styled.div`
 `;
 
 
-class PostGrid extends React.Component {
+class MatchGrid extends React.Component {
   componentDidMount() {
     this.props.getMatches();
   }
@@ -34,7 +34,7 @@ class PostGrid extends React.Component {
   renderGrid() {
     if (this.props.matches.length) {
       return this.props.matches.map(item => (
-        <LazyLoad height={200} key={item.id || Date.now()}>
+        <LazyLoad height={200} key={item.id}>
           <ViewMatchCompact data={item} isLoggedIn={this.props.isLoggedIn} />
         </LazyLoad>
       ));
@@ -56,7 +56,7 @@ class PostGrid extends React.Component {
   }
 }
 
-PostGrid.propTypes = {
+MatchGrid.propTypes = {
   // sorting: PropTypes.string,
   // filter: PropTypes.string,
 
@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getMatches: () => dispatch(getMatches()),
+  getMatches: () => dispatch(getHotMatches()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostGrid);
+export default connect(mapStateToProps, mapDispatchToProps)(MatchGrid);

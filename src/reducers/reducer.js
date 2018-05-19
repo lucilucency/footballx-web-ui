@@ -14,12 +14,21 @@ export default (type, initialData) => (state = {
         error: null,
       };
     case `OK/${type}`:
-      return {
-        ...state,
-        loading: false,
-        data: action.payload,
-        error: null,
-      };
+      if (action.payload) {
+        return {
+          ...state,
+          loading: false,
+          data: update(state.data, { $merge: action.payload }),
+          error: null,
+        };
+      } else {
+        return {
+          ...state,
+          loading: false,
+          data: state.data,
+          error: null,
+        };
+      }
     case `FAIL/${type}`:
       return {
         ...state,
@@ -60,34 +69,34 @@ export default (type, initialData) => (state = {
       };
 
     /* edit action */
-    case `REQUEST/EDIT/${type}`:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-    case `OK/EDIT/${type}`:
-      if (action.payload) {
-        return {
-          ...state,
-          loading: false,
-          data: update(state.data, { $merge: action.payload }),
-          error: null,
-        };
-      } else {
-        return {
-          ...state,
-          loading: false,
-          data: state.data,
-          error: null,
-        };
-      }
-    case `FAIL/EDIT/${type}`:
-      return {
-        ...state,
-        loading: false,
-        error: action.error,
-      };
+    // case `REQUEST/EDIT/${type}`:
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //     error: null,
+    //   };
+    // case `OK/EDIT/${type}`:
+    //   if (action.payload) {
+    //     return {
+    //       ...state,
+    //       loading: false,
+    //       data: update(state.data, { $merge: action.payload }),
+    //       error: null,
+    //     };
+    //   } else {
+    //     return {
+    //       ...state,
+    //       loading: false,
+    //       data: state.data,
+    //       error: null,
+    //     };
+    //   }
+    // case `FAIL/EDIT/${type}`:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     error: action.error,
+    //   };
 
     case `REQUEST/EDIT_ARR/${type}`:
       return {

@@ -16,6 +16,7 @@ import Header from '../Header';
 import MyFeeds from '../FeedNews';
 import WorldFeeds from '../FeedPopular';
 import { PageCreatePost, PageViewPost } from '../Post';
+import { PageViewMatch } from '../Match';
 import { UpdateProfileStepper } from '../User';
 import constants from '../constants';
 import Login from '../Login';
@@ -128,6 +129,7 @@ class App extends React.Component {
             <Route exact path="/sign_in" component={Login} />
 
             <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
+            <Route exact path="/m/:id?/:info?/:subInfo?" component={PageViewMatch} />
             <Route exact path="/submit" component={PageCreatePost} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}

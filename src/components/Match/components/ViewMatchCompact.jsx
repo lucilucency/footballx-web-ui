@@ -9,11 +9,12 @@ import styled from 'styled-components';
 import IconButton from 'material-ui/IconButton';
 
 import { IconUpvote, IconDownvote } from '../../Icons';
-import { upVote, downVote } from '../../../actions';
+import { upVote, downVote, getMatchVotes } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, bindAll, ActiveLink, MutedLink } from '../../../utils';
 import constants from '../../constants';
 import MatchVisualize from './MatchVisualize';
+import FanFight from './FanFight';
 
 const LinkCoverStyled = styled.span`
   color: ${constants.colorMutedLight};
@@ -40,6 +41,10 @@ class ViewMatchCompact extends React.Component {
     };
 
     bindAll([], this);
+  }
+
+  componentDidMount() {
+    this.props.getMatchVotes(this.props.data.id);
   }
 
   upvote = () => {
@@ -148,14 +153,22 @@ class ViewMatchCompact extends React.Component {
             textAlign: 'center',
           }}
           onClick={() => {
-            // this.props.history.push(`/m/${this.props.data.id}`);
+            this.props.history.push(`/m/${this.props.data.id}`);
           }}
         >
-          <MatchVisualize
-            home={data.home}
-            away={data.away}
-            date={data.date}
-          />
+          <div>
+            <MatchVisualize
+              home={data.home}
+              away={data.away}
+              date={data.date}
+            />
+            <FanFight
+              home={data.home}
+              away={data.away}
+              homeFan={data.homeFan}
+              awayFan={data.awayFan}
+            />
+          </div>
         </CardMedia>
         {(data.content_type === 1 || data.content_type === 3) && (
           <CardText
@@ -222,7 +235,7 @@ class ViewMatchCompact extends React.Component {
                 paddingRight: 5,
                 fontWeight: constants.fontWeightHeavy,
               }}
-              // onClick={() => this.props.history.push(`/m/${this.props.data.id}`)}
+              onClick={() => this.props.history.push(`/m/${this.props.data.id}`)}
             />
           </ActionModule>
           <ActionModule>
@@ -257,8 +270,8 @@ ViewMatchCompact.propTypes = {
   /**/
   upVote: PropTypes.func,
   downVote: PropTypes.func,
-  // setPost: PropTypes.func,
-  // history: PropTypes.object,
+  getMatchVotes: PropTypes.func,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -268,7 +281,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   upVote: (postID, params) => dispatch(upVote(postID, params)),
   downVote: (postID, params) => dispatch(downVote(postID, params)),
-  // setPost: payload => dispatch(setPost(payload)),
+  getMatchVotes: matchID => dispatch(getMatchVotes(matchID)),
 });
 
 

@@ -16,6 +16,7 @@ export default combineReducers({
   comments: reducer('comments'),
 
   matches: reducer('matches'),
+  match: reducer('match', {}),
 
   announcement,
   tray,
