@@ -10,7 +10,7 @@ import {
 import { getCookie, setCookie, eraseCookie } from '../utils';
 
 export const localUpdateReducer = (name, payload) => dispatch => dispatch({
-  type: `OK/${name}`,
+  type: `OK/EDIT/${name}`,
   payload,
 });
 export const localSetReducer = (name, payload) => dispatch => dispatch({
@@ -67,11 +67,11 @@ export const getMetadata = ({
 };
 
 export const updateMetadata = payload => dispatch => dispatch({
-  type: 'OK/metadata',
+  type: 'OK/EDIT/metadata',
   payload,
 });
 export const updateUserProfile = (userID, params, payload) => dispatchPUT({
-  reducer: 'metadata',
+  reducer: 'EDIT/metadata',
   path: `xuser/${userID}`,
   params,
   payload: {
@@ -117,7 +117,7 @@ export const createPost = ({ params, payload }) => dispatchPOST({
   transform: parsePostAfterCreate,
 });
 export const editPost = (id, params) => dispatchPUT({
-  reducer: 'post',
+  reducer: 'EDIT/post',
   path: `post/${id}`,
   params,
 });
@@ -212,11 +212,11 @@ export const getHotMatches = ({
   },
 });
 export const setMatch = payload => dispatch => dispatch(({
-  type: 'OK/match',
+  type: 'OK/EDIT/match',
   payload,
 }));
 export const getMatch = matchID => dispatchGET({
-  reducer: 'match',
+  reducer: 'EDIT/match',
   path: `match/${matchID}`,
   transform: (resp) => {
     const el = resp.match;
@@ -229,14 +229,14 @@ export const getMatch = matchID => dispatchGET({
   },
 });
 export const getMatchVotes = matchID => dispatchGET({
-  reducer: 'match',
+  reducer: 'EDIT/match',
   path: `match/${matchID}/votes`,
 });
 export const hitVote = (matchID, teamID, payload) => dispatchPOST({
   params: { club_id: teamID },
   payload,
   /**/
-  reducer: 'match',
+  reducer: 'EDIT/match',
   path: `match/${matchID}/vote`,
 });
 
@@ -246,7 +246,7 @@ const changeFollow = (userID, {
   target_type,
   action_type,
   /**/
-  reducer = 'metadata',
+  reducer = 'EDIT/metadata',
   path = `xuser/${userID}/change-follow`,
 }) => dispatchPOST({
   version: 'v1',
@@ -282,7 +282,7 @@ const registerClub = (userID, {
   club_id,
   is_favorite,
   /**/
-  reducer = 'metadata',
+  reducer = 'EDIT/metadata',
   path = `xuser/${userID}/club`,
 }) => dispatchPOST({
   reducer,
