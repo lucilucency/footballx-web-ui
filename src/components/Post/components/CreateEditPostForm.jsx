@@ -57,6 +57,7 @@ class CreateEditPost extends React.Component {
     communities: {},
     selectedImage: null,
     selectedImageView: null,
+    selectedLink: '',
     isValid: false,
     error: [],
     showError: false,
@@ -143,13 +144,14 @@ class CreateEditPost extends React.Component {
     };
   }
 
-  setFormData = (state, value) => {
+  setFormData = (state, value, callback) => {
     this.setState({
       formData: update(this.state.formData, {
         [state]: { $set: value },
       }),
     }, () => {
       this.getFormError();
+      if (callback) callback();
     });
   };
 
@@ -330,7 +332,7 @@ class CreateEditPost extends React.Component {
     type="text"
     hintText={strings.hint_post_content}
     hintStyle={{ top: 12 }}
-    value={this.state.formData.content && this.state.formData.content}
+    value={this.state.formData.content}
     onChange={e => this.setFormData('content', e.target.value)}
     multiLine
     rows={4}
@@ -344,8 +346,8 @@ class CreateEditPost extends React.Component {
     name="content"
     type="text"
     hintText={strings.hint_post_content_link}
-    onChange={e => this.setFormData('content', e.target.value)}
-    value={this.state.formData.content && this.state.formData.content}
+    onChange={e => this.setFormData('selectedLink', e.target.value)}
+    value={this.state.formData.selectedLink}
     hintStyle={{ top: 12 }}
     fullWidth
     validators={['required']}

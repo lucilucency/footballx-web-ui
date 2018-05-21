@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { dispatchGet, dispatchDelete, dispatchGET, dispatchPOST, dispatchPUT } from './dispatchAction';
+import { dispatchDelete, dispatchGET, dispatchPOST, dispatchPUT } from './dispatchAction';
 import {
   parseCommentsInPost,
   parseCommentAfterCreate,
@@ -84,7 +84,11 @@ export const updateUserProfile = (userID, params, payload) => dispatchPUT({
 });
 
 // communities
-export const getSuggestedCommunities = () => dispatchGet('suggestedCommunities', 'communities/suggestion', {}, resp => resp.communities);
+export const getSuggestedCommunities = () => dispatchGET({
+  reducer: 'suggestedCommunities',
+  path: 'communities/suggestion',
+  transform: resp => resp.communities,
+});
 export const subscribeCommunity = (communityID, {
   reducer = 'subscribedCommunities',
   path = `community/${communityID}/subscribe`,
@@ -318,11 +322,15 @@ export const getSearchResultAndPros = query => dispatch => Promise.all([
   dispatch(getSearchCommunities(query)),
   // dispatch(getSearchUsers(query)),
 ]);
-export const getAnnouncement = merged => dispatchGet('announcement', 'search/issues', {
-  q: `repo:footballx/web type:pr base:production label:release merged:>${merged}`,
-  order: 'desc',
-  page: 1,
-  per_page: 1,
+export const getAnnouncement = merged => dispatchGET({
+  reducer: 'announcement',
+  path: 'search/issues',
+  params: {
+    q: `repo:footballx/web type:pr base:production label:release merged:>${merged}`,
+    order: 'desc',
+    page: 1,
+    per_page: 1,
+  },
 });
 
 export * from './ajax';

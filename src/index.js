@@ -166,7 +166,7 @@ if (userID) {
 }
 
 Amplitude.setUserId(userID);
-Amplitude.logEventWithTimestamp('Visit web');
+Amplitude.logEvent('Visit web');
 
 // ReactGA.initialize(process.env.REACT_APP_GA, {
 //   gaOptions: {

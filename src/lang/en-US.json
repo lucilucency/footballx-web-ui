@@ -58,6 +58,7 @@
   "err_empty_comment_content": "hmm... do you miss something?",
   "err_empty_community": "Don't forget selecting your community",
   "err_empty_image": "You need to select an image",
+  "err_empty_link": "Invalid link",
   "err_empty_title": "Set a cool title",
   "err_maximum": "Maximum %d",
   "err_maximum_fize_size": "Maximum file size: %d",

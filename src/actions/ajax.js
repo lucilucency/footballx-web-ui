@@ -8,7 +8,7 @@ const FX_API = process.env.REACT_APP_API_HOST;
 const FX_VERSION = process.env.REACT_APP_VERSION;
 
 // eslint-disable-next-line import/prefer-default-export
-export const ajaxGet = ({
+export const ajaxGET = ({
   auth = false,
   host = FX_API,
   version = FX_VERSION,
@@ -18,7 +18,7 @@ export const ajaxGet = ({
   retriesBreak = 3000,
   path,
   params = {},
-}) => {
+}, callback) => {
   const queryUrl = url || `${host}/${version}/${path}`;
   const queryUrlWithParams = `${queryUrl}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
 
@@ -26,7 +26,7 @@ export const ajaxGet = ({
     if (tries < 1) {
       console.error(error);
       console.error(`Error in ajaxGet/${path}`);
-      return false;
+      return null;
     }
 
     let doRequest = request
@@ -39,7 +39,13 @@ export const ajaxGet = ({
 
     return doRequest
       .query({}) // query string
-      .catch((err) => {
+      .end((err, res) => {
+        if (res.ok && res.text) {
+          /**/
+          if (callback) return callback(JSON.parse(res.text));
+          return JSON.parse(res.text);
+        }
+
         console.error(`Error in ajaxGet/${path}`);
         console.error(err);
         return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
