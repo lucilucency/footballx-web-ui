@@ -61,6 +61,7 @@ class ViewMatchCompactFull extends React.Component {
       >
         <CardHeader
           title="Thắng làm vua, thua ngậm mồm"
+          subtitle="Ai là người chiến thắng?"
           // subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
           // avatar={data.community_icon}
           // style={{ padding: '1em 1em 0.5em 1em' }}

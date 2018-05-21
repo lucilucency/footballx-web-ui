@@ -156,18 +156,17 @@ li {
 }
 `]);
 
-// Fetch metadata (used on all pages)
-// const userID = localStorage.getItem('user_id');
+/* init amplitude */
+Amplitude.init(process.env.REACT_APP_AMP);
+
 const userID = getCookie('user_id');
 if (userID) {
   store.dispatch(getMetadata());
   store.dispatch(refresh(userID));
 }
 
-Amplitude.init(process.env.REACT_APP_AMP);
 Amplitude.setUserId(userID);
-
-Amplitude.logEvent('ENTER_WEB_APP');
+Amplitude.logEventWithTimestamp('Visit web');
 
 // ReactGA.initialize(process.env.REACT_APP_GA, {
 //   gaOptions: {

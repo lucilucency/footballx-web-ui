@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Amplitude from 'react-amplitude';
 import {
   Step,
   Stepper,
@@ -87,6 +88,10 @@ class HorizontalNonLinearStepper extends React.Component {
     };
   }
 
+  componentDidMount() {
+    Amplitude.logEventWithTimestamp('Open signup');
+  }
+
   handleNext = () => {
     const { stepIndex } = this.state;
 
@@ -96,6 +101,7 @@ class HorizontalNonLinearStepper extends React.Component {
           this.triggerSubmitNickname(),
         ]).then(() => {
           if (this.props.user.username) {
+            Amplitude.logEventWithTimestamp('Set username');
             this.setState({
               stepIndex: stepIndex + 1,
             });
@@ -105,6 +111,7 @@ class HorizontalNonLinearStepper extends React.Component {
         break;
       case 1:
         if (this.state.selectedTeam) {
+          Amplitude.logEventWithTimestamp('Select team');
           this.props.followTeam(this.props.user.id, this.state.selectedTeam.id);
         }
 
@@ -123,6 +130,7 @@ class HorizontalNonLinearStepper extends React.Component {
   };
 
   handleFinish = () => {
+    Amplitude.logEventWithTimestamp('Follow community');
     this.setState({
       showBanner: false,
     });

@@ -165,8 +165,8 @@ MatchVisualize.propTypes = {
   matchID: PropTypes.number,
   home: PropTypes.object,
   away: PropTypes.object,
-  homeVotes: PropTypes.object,
-  awayVotes: PropTypes.object,
+  homeVotes: PropTypes.number,
+  awayVotes: PropTypes.number,
   date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   isLoggedIn: PropTypes.bool,
 
