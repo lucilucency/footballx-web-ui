@@ -156,8 +156,6 @@ li {
 }
 `]);
 
-/* init amplitude */
-Amplitude.init(process.env.REACT_APP_AMP);
 
 const userID = getCookie('user_id');
 if (userID) {
@@ -165,6 +163,9 @@ if (userID) {
   store.dispatch(refresh(userID));
 }
 
+
+/* init amplitude */
+Amplitude.init(process.env.REACT_APP_AMP);
 Amplitude.setUserId(userID);
 Amplitude.logEvent('Visit web');
 
