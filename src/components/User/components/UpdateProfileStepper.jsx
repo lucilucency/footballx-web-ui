@@ -89,7 +89,9 @@ class HorizontalNonLinearStepper extends React.Component {
   }
 
   componentDidMount() {
-    Amplitude.logEvent('Open signup');
+    if (this.state.showBanner) {
+      Amplitude.logEvent('Open signup');
+    }
   }
 
   handleNext = () => {
