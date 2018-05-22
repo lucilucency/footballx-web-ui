@@ -9,7 +9,7 @@ export const LinkCoverStyled = styled.span`
 export const LinkPreview = styled.div`
   display: grid;
   grid-gap: 1em;
-  > img {
+  img {
     float: left;
     max-width: 200px;
   }
