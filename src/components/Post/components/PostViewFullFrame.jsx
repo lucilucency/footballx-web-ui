@@ -35,8 +35,8 @@ const ViewPostFullFrame = ({ isLoggedIn, postID, data }) => (
 ViewPostFullFrame.propTypes = {
   // user: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  postID: PropTypes.bool,
-  data: PropTypes.bool,
+  postID: PropTypes.number,
+  data: PropTypes.object,
 };
 
 export default ViewPostFullFrame;

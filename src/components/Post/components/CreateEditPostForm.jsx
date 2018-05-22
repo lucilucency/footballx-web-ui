@@ -11,8 +11,13 @@ import {
 } from 'material-ui';
 import { Card, CardMedia, CardActions, CardText } from 'material-ui/Card';
 import styled from 'styled-components';
-
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToMarkdown from 'draftjs-to-markdown';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { format } from 'util';
+import clubs from 'fxconstants/build/clubsArr.json';
+
 import { IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
 import { bindAll, mergeObject, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
@@ -24,6 +29,14 @@ import CommunitySelector from './CommunitySelector';
 
 const MAX_SIZE = 1200000;
 const MAX_SIZE_MB = 1.2;
+
+const articleContent = {
+  lineHeight: '24px',
+  fontFamily: 'Open Sans',
+  fontStyle: 'normal',
+  color: '#555555',
+  fontSize: '14px',
+};
 
 const ButtonUpload = styled.button`
   box-sizing: border-box;
@@ -67,6 +80,7 @@ class CreateEditPost extends React.Component {
     formData: {
       ...CreateEditPost.defaultFormData,
     },
+    wysiwyg: EditorState.createEmpty(),
   });
 
   constructor(props) {
@@ -136,9 +150,11 @@ class CreateEditPost extends React.Component {
   getFormData() {
     const { formData } = this.state;
 
+    const { content } = formData;
+
     return {
       title: formData.title,
-      content: formData.content,
+      content,
       content_type: formData.content_type.value || 1,
       community_id: formData.communities.value.value.id,
     };
@@ -195,15 +211,15 @@ class CreateEditPost extends React.Component {
   doSubmit = () => {
     const that = this;
     const { mode } = this.props;
-    const { formData } = this.state;
     const submitData = this.getFormData();
-
-    /* flow: */
     /* close form => upload => update formData => submit => notify || catch exception */
+
+    /* close form */
+    this.close();
 
     /* declare upload */
     const promiseUpload = new Promise((resolve) => {
-      if (formData.content_type.value === 2) {
+      if (this.state.formData.content_type.value === 2) {
         ajaxUpload({
           file: this.state.formData.selectedImage,
         }, (respUpload) => {
@@ -213,12 +229,12 @@ class CreateEditPost extends React.Component {
             resolve(null);
           }
         });
-      } else if (formData.content_type.value === 3) {
+      } else if (this.state.formData.content_type.value === 3) {
         ajaxGET({
           url: 'https://api.linkpreview.net',
           params: {
             key: '5b03a9f4939b356336e5e035f42bac4fe711704c83833',
-            q: formData.selectedLink,
+            q: this.state.formData.selectedLink,
           },
         }, (respGetUrl) => {
           if (respGetUrl) {
@@ -227,8 +243,10 @@ class CreateEditPost extends React.Component {
             resolve(null);
           }
         });
+      } else if (this.state.formData.content_type.value === 1) {
+        resolve(draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent())));
       } else {
-        resolve(formData.content);
+        resolve(null);
       }
     });
     //
@@ -247,9 +265,6 @@ class CreateEditPost extends React.Component {
         }));
       }
     });
-
-    /* close form */
-    this.close();
 
     promiseUpload.then((newContent) => {
       if (newContent) {
@@ -292,9 +307,10 @@ class CreateEditPost extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    const { formData } = this.state;
+    // const data = this.getFormData();
+    // console.log('formData', data);
 
-    if (!formData.error.length) {
+    if (!this.state.formData.error.length) {
       this.doSubmit();
     }
   }
@@ -356,37 +372,122 @@ class CreateEditPost extends React.Component {
     errorMessages={[strings.err_is_required]}
   />);
 
-  renderContentTextInput = () => (<TextValidator
-    name="content"
-    type="text"
-    hintText={strings.hint_post_content}
-    hintStyle={{ top: 12 }}
-    value={this.state.formData.content}
-    onChange={e => this.setFormData('content', e.target.value)}
-    multiLine
-    rows={4}
-    rowsMax={10}
-    fullWidth
-    autoComplete="off"
-    underlineShow={false}
-  />);
+  renderContentTextInput = () => (
+    <TextValidator
+      name="content"
+      type="text"
+      hintText={strings.hint_post_content}
+      hintStyle={{ top: 12 }}
+      value={this.state.formData.content}
+      onChange={e => this.setFormData('content', e.target.value)}
+      multiLine
+      rows={4}
+      rowsMax={10}
+      fullWidth
+      autoComplete="off"
+      underlineShow={false}
+    />
+  );
 
-  renderContentLinkInput = () => (<TextValidator
-    name="content"
-    type="text"
-    hintText={strings.hint_post_content_link}
-    onChange={e => this.setFormData('selectedLink', e.target.value)}
-    value={this.state.formData.selectedLink}
-    hintStyle={{ top: 12 }}
-    fullWidth
-    validators={['required', 'isLink']}
-    errorMessages={[strings.err_is_required, 'Invalid URL']}
-    autoComplete="off"
-    underlineShow={false}
-  />);
+  onWysiwygChange = (wysiwyg) => {
+    this.setState({
+      wysiwyg,
+    });
+  };
+  renderRichTextInput = () => {
+    const suggestions = clubs ? clubs.map(club => ({
+      text: club.name,
+      value: club.name,
+      url: `/t/${club.id}`,
+    })) : [];
+
+    return (
+      <div
+        style={{
+
+        }}
+      >
+        <Editor
+          editorState={this.state.wysiwyg}
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          mention={{
+            separator: ' ',
+            trigger: '@',
+            suggestions,
+          }}
+          hashtag={{
+            separator: ' ',
+            trigger: '#',
+          }}
+          toolbar={{
+            options: ['inline', 'emoji'],
+            inline: {
+              options: ['bold', 'italic', 'underline'],
+            },
+          }}
+          onEditorStateChange={this.onWysiwygChange}
+          toolbarStyle={{
+            borderTop: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+          }}
+          wrapperStyle={{
+            borderTop: `1px solid ${constants.grey200}`,
+            borderLeft: `1px solid ${constants.grey200}`,
+            borderRight: `1px solid ${constants.grey200}`,
+            borderBottom: `1px solid ${constants.grey200}`,
+            borderRadius: 4,
+            padding: '0 0',
+          }}
+          editorStyle={{
+            padding: '0 20px',
+            minHeight: '200px',
+            ...articleContent,
+          }}
+        />
+      </div>
+    )
+  };
+
+  renderContentLinkInput = () => (
+    <div
+      style={{
+        backgroundColor: 'hsla(0,0%,100%,0)',
+        border: `1px solid ${constants.grey200}`,
+        borderRadius: 4,
+        padding: '0 10px',
+        marginBottom: 10,
+      }}
+    >
+      <TextValidator
+        name="content"
+        type="text"
+        hintText={strings.hint_post_content_link}
+        onChange={e => this.setFormData('selectedLink', e.target.value)}
+        value={this.state.formData.selectedLink}
+        hintStyle={{ top: 12 }}
+        fullWidth
+        validators={['required', 'isLink']}
+        errorMessages={[strings.err_is_required, 'Invalid URL']}
+        autoComplete="off"
+        underlineShow={false}
+      />
+    </div>
+  );
 
   renderContentImageInput = () => (
-    <Card style={{ position: 'relative', boxShadow: 'none' }}>
+    <Card
+      style={{
+        position: 'relative',
+        boxShadow: 'none',
+        backgroundColor: 'hsla(0,0%,100%,0)',
+        border: `1px solid ${constants.grey200}`,
+        borderRadius: 4,
+        padding: '0 10px',
+        marginBottom: 10,
+      }}
+    >
       <CardMedia
         style={{
           minHeight: 200,
@@ -540,16 +641,8 @@ class CreateEditPost extends React.Component {
             >
               {this.renderTitleInput()}
             </div>
-            <div
-              style={{
-                backgroundColor: 'hsla(0,0%,100%,0)',
-                border: `1px solid ${constants.grey200}`,
-                borderRadius: 4,
-                padding: '0 10px',
-                marginBottom: 10,
-              }}
-            >
-              {this.state.formData.content_type.value === 1 && this.renderContentTextInput()}
+            <div>
+              {this.state.formData.content_type.value === 1 && this.renderRichTextInput()}
               {this.state.formData.content_type.value === 2 && this.renderContentImageInput()}
               {this.state.formData.content_type.value === 3 && this.renderContentLinkInput()}
             </div>

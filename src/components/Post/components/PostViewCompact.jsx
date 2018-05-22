@@ -116,6 +116,7 @@ class ViewPostCompact extends React.Component {
             style={{
               fontSize: constants.fontSizeMedium,
               wordBreak: 'break-word',
+              whiteSpace: 'pre-wrap',
             }}
           >
             {item.content}
