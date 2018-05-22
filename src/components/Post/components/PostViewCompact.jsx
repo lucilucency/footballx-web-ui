@@ -43,7 +43,9 @@ class ViewPostCompact extends React.Component {
       <CardText>
         <LinkPreview hasImage={content.image}>
           <a href={content.url} target="_blank">{content.url}</a>
-          {content.image && <img src={content.image} alt="" style={{ maxWidth: 200 }} />}
+          {content.image && (
+            <a href={content.url} target="_blank"><img src={content.image} alt="" /></a>
+          )}
         </LinkPreview>
       </CardText>
     );

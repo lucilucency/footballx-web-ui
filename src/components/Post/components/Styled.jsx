@@ -11,10 +11,14 @@ export const LinkPreview = styled.div`
   grid-gap: 1em;
   > img {
     float: left;
+    max-width: 200px;
   }
   ${props => (props.hasImage ? css`grid-template-columns: 1fr 200px;` : css`grid-template-columns: 1fr;`)}
   @media only screen and (max-width: 660px) {
-    grid-template-columns: 1fr;
+    img {
+      max-width: 120px;
+    }
+    ${props => (props.hasImage ? css`grid-template-columns: 1fr 120px;` : css`grid-template-columns: 1fr;`)}
   }
 `;
 
