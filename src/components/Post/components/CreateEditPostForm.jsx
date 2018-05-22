@@ -447,7 +447,7 @@ class CreateEditPost extends React.Component {
           }}
         />
       </div>
-    )
+    );
   };
 
   renderContentLinkInput = () => (
