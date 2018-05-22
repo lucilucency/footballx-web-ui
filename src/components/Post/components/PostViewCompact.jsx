@@ -10,6 +10,14 @@ import constants from '../../constants';
 import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, LinkPreview } from './Styled';
 
+function IsJsonString(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
 
 class ViewPostCompact extends React.Component {
   static initialState = {
@@ -27,7 +35,9 @@ class ViewPostCompact extends React.Component {
   }
 
   renderLink = (contentSring) => {
-    const content = contentSring ? JSON.parse(contentSring) : {};
+    const content = IsJsonString(contentSring) ? JSON.parse(contentSring) : {
+      url: contentSring,
+    };
 
     return (
       <CardText>
