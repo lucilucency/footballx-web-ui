@@ -16,6 +16,9 @@ export const Container = styled.div`
   ${props => props.columns && css`
     grid-template-columns: ${props.columns};
   `}
+  @media only screen and (max-width: 1080px) {
+    grid-template-columns: 1fr;
+  }
   @media only screen and (max-width: 660px) {
     grid-template-columns: 1fr;
     padding: 0;

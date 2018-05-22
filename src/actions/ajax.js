@@ -2,7 +2,6 @@ import queryString from 'querystring';
 import { getCookie } from '../utils';
 
 const request = require('superagent');
-const FormUrlEncoded = require('form-urlencoded');
 
 const FX_API = process.env.REACT_APP_API_HOST;
 const FX_VERSION = process.env.REACT_APP_VERSION;
@@ -26,6 +25,7 @@ export const ajaxGET = ({
     if (tries < 1) {
       console.error(error);
       console.error(`Error in ajaxGet/${path}`);
+      if (callback) return callback(null);
       return null;
     }
 
@@ -38,14 +38,14 @@ export const ajaxGET = ({
     }
 
     return doRequest
-      .query({}) // query string
       .end((err, res) => {
-        if (res.ok && res.text) {
-          /**/
-          if (callback) return callback(JSON.parse(res.text));
-          return JSON.parse(res.text);
+        if (res) {
+          if (res.ok && res.text) {
+            if (callback) return callback(res.text);
+            return res.text;
+          }
+          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1), delay);
         }
-
         console.error(`Error in ajaxGet/${path}`);
         console.error(err);
         return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
@@ -55,60 +55,6 @@ export const ajaxGET = ({
   return fetchDataWithRetry(retriesBreak, retries);
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export const ajaxPost = (path, params = {}, host = `${FX_API}/${FX_VERSION}`) => {
-  const url = `${host}/${path}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
-  const accessToken = getCookie('access_token');
-
-  const fetchDataWithRetry = (delay, tries, error) => {
-    if (tries < 1) {
-      console.error(error);
-      console.error(`Error in ajaxGet/${path}`);
-      return false;
-    }
-    return request
-      .post(url)
-      .send(FormUrlEncoded(params))
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .query({}) // query string
-      .catch((err) => {
-        console.error(`Error in ajaxPost/${path}`);
-        console.error(err);
-        return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
-      });
-  };
-
-  return fetchDataWithRetry(3000, 3);
-};
-
-// eslint-disable-next-line import/prefer-default-export
-export const ajaxPut = (path, params = {}, host = `${FX_API}/${FX_VERSION}`) => {
-  const url = `${host}/${path}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
-  const accessToken = getCookie('access_token');
-
-  const fetchDataWithRetry = (delay, tries, error) => {
-    if (tries < 1) {
-      console.error(error);
-      console.error(`Error in ajaxGet/${path}`);
-      return false;
-    }
-    return request
-      .put(url)
-      .send(FormUrlEncoded(params))
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .query({}) // query string
-      .catch((err) => {
-        console.error(`Error in ajaxPost/${path}`);
-        console.error(err);
-        return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
-      });
-  };
-
-  return fetchDataWithRetry(3000, 3);
-};
-
 export const ajaxUpload = ({
   // auth = true,
   host = 'https://upload-api.ttab.me',
@@ -116,7 +62,7 @@ export const ajaxUpload = ({
   path = 'upload-image',
   params = {},
   file,
-}) => {
+}, callback) => {
   const url = `${host}/${version}/${path}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
   // const accessToken = getCookie('access_token');
 
@@ -127,20 +73,28 @@ export const ajaxUpload = ({
     if (tries < 1) {
       console.error(error);
       console.error(`Error in ajaxGet/${path}`);
-      return false;
+      if (callback) callback(null);
+      return null;
     }
     return request
       .post(url)
       .attach('file', file)
-      // .set('Content-Type', 'multipart/form-data')
-      // .set('Authorization', `Bearer ${accessToken}`)
-      // .set('Content-Type', false)
-      // .set('Process-Data', false)
-      // .send(formData)
-      .catch((err) => {
-        console.error(`Error in ajaxUpload/${path}`);
+      // .catch((err) => {
+      //   console.error(`Error in ajaxUpload/${path}`);
+      //   console.error(err);
+      //   return setTimeout(() => fetchDataWithRetry(delay, tries - 1, err), delay);
+      // });
+      .end((err, res) => {
+        if (res) {
+          if (res.ok && res.text) {
+            if (callback) return callback(res.text);
+            return res.text;
+          }
+          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1), delay);
+        }
+        console.error(`Error in ajaxGet/${path}`);
         console.error(err);
-        return setTimeout(() => fetchDataWithRetry(delay, tries - 1, err), delay);
+        return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
       });
   };
 

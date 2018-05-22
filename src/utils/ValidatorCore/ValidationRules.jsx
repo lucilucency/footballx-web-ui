@@ -46,6 +46,7 @@ const validations = {
   noSpace: value => validations.matchRegexp(value, /^\S+$/i),
 
   isString: value => !isEmpty(value) || typeof value === 'string' || value instanceof String,
+  isLink: value => validations.matchRegexp(value, /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/i),
   minStringLength: (value, length) => validations.isString(value) && value.length >= length,
   maxStringLength: (value, length) => validations.isString(value) && value.length <= length,
 };

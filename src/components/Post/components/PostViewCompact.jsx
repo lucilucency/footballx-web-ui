@@ -3,29 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui';
-import styled from 'styled-components';
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, ActiveLink, MutedLink } from '../../../utils';
 import constants from '../../constants';
 import PostActions from './PostActions';
+import { LinkCoverStyled, ImageCompact, ImageWrapper, LinkPreview } from './Styled';
 
-const ImageWrapper = styled.div`
-  text-align: center;
-  width: 100%;
-`;
-const Image = styled.img`
-  vertical-align: middle;
-  max-width: 100%;
-  max-height: 512px;
-  margin: 0 auto;
-  display: block;
-  position: relative;
-`;
-const LinkCoverStyled = styled.span`
-  color: ${constants.colorMutedLight};
-  font-size: ${constants.fontSizeSmall};
-`;
 
 class ViewPostCompact extends React.Component {
   static initialState = {
@@ -42,8 +26,24 @@ class ViewPostCompact extends React.Component {
     };
   }
 
+  renderLink = (contentSring) => {
+    const content = contentSring ? JSON.parse(contentSring) : {};
+
+    return (
+      <CardText>
+        <LinkPreview hasImage={content.image}>
+          <a href={content.url} target="_blank">{content.url}</a>
+          {content.image && <img src={content.image} alt="" style={{ maxWidth: 200 }} />}
+        </LinkPreview>
+      </CardText>
+    );
+  };
+
   render() {
     const item = this.props.data;
+    const isText = item.content_type === 1;
+    const isImage = item.content_type === 2;
+    const isLink = item.content_type === 3;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_username || item.xuser_nickname}</MutedLink>;
     const postLink = (
       <MutedLink
@@ -78,12 +78,11 @@ class ViewPostCompact extends React.Component {
           }}
           style={{
             paddingTop: 0,
-            // paddingBottom: 0,
-            // whiteSpace: 'pre-wrap',
+            paddingBottom: 0,
             wordBreak: 'break-word',
           }}
         />
-        {item.content_type === 2 &&
+        {isImage &&
         <CardMedia
           style={{
             overflow: 'hidden',
@@ -92,22 +91,22 @@ class ViewPostCompact extends React.Component {
           onClick={this.popupViewPostFull}
         >
           <ImageWrapper>
-            <Image
+            <ImageCompact
               src={item.content}
               alt=""
             />
           </ImageWrapper>
         </CardMedia>
         }
-        {(item.content_type === 1 || item.content_type === 3) && (
+        {isLink && this.renderLink(item.content)}
+        {isText && (
           <CardText
             style={{
               fontSize: constants.fontSizeMedium,
-              // whiteSpace: 'pre-wrap',
               wordBreak: 'break-word',
             }}
           >
-            {item.content_type === 3 ? <a href={`${item.content}`} target="_blank">{item.content}</a> : item.content}
+            {item.content}
           </CardText>
         )}
         <CardActions

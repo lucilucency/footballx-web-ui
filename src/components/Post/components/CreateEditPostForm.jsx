@@ -17,7 +17,7 @@ import { IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
 import { bindAll, mergeObject, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
 import constants from '../../constants';
-import { createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload, announce } from '../../../actions';
+import { ajaxGET, createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload, announce } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 import CommunitySelector from './CommunitySelector';
@@ -192,81 +192,110 @@ class CreateEditPost extends React.Component {
     }
   };
 
-  submit(e) {
-    e.preventDefault();
+  doSubmit = () => {
     const that = this;
     const { mode } = this.props;
     const { formData } = this.state;
+    const submitData = this.getFormData();
+
+    /* flow: */
+    /* close form => upload => update formData => submit => notify || catch exception */
+
+    /* declare upload */
+    const promiseUpload = new Promise((resolve) => {
+      if (formData.content_type.value === 2) {
+        ajaxUpload({
+          file: this.state.formData.selectedImage,
+        }, (respUpload) => {
+          if (respUpload) {
+            resolve(respUpload);
+          } else {
+            resolve(null);
+          }
+        });
+      } else if (formData.content_type.value === 3) {
+        ajaxGET({
+          url: 'https://api.linkpreview.net',
+          params: {
+            key: '5b03a9f4939b356336e5e035f42bac4fe711704c83833',
+            q: formData.selectedLink,
+          },
+        }, (respGetUrl) => {
+          if (respGetUrl) {
+            resolve(respGetUrl);
+          } else {
+            resolve(null);
+          }
+        });
+      } else {
+        resolve(formData.content);
+      }
+    });
+    //
+    /* declare submit */
+    const promiseSubmit = params => new Promise((resolve) => {
+      if (mode === 'edit') {
+        resolve(that.props.defaultEditFunction(that.props.post.id, params));
+      } else {
+        resolve(that.props.defaultCreateFunction({
+          params,
+          payload: {
+            xuser_avatar: this.props.user.avatar,
+            xuser_nickname: this.props.user.nickname,
+            xuser_id: this.props.user.id,
+          },
+        }));
+      }
+    });
+
+    /* close form */
+    this.close();
+
+    promiseUpload.then((newContent) => {
+      if (newContent) {
+        /* announce about post will be created */
+        // this.props.announce({
+        //   message: strings.announce_creating,
+        // });
+
+        promiseSubmit({ ...submitData, content: newContent }).then((respSubmit) => {
+          if (respSubmit.type && respSubmit.type.indexOf('OK') !== -1) {
+            this.props.announce({
+              message: strings.announce_create_post_success,
+              action: 'Check it now',
+              onActionClick: () => {
+                this.props.history.push(`/p/${respSubmit.payload.id}`);
+              },
+            });
+          } else {
+            this.props.announce({
+              message: strings.announce_create_post_fail,
+              action: 'Try again',
+              onActionClick: () => {
+                this.props.history.push('/submit');
+              },
+              autoHideDuration: 8000,
+            });
+          }
+        });
+      } else {
+        this.props.announce({
+          message: strings.announce_create_post_fail,
+          action: 'Try again',
+          onActionClick: () => {
+            this.props.history.push('/submit');
+          },
+        });
+      }
+    });
+  };
+
+  submit(e) {
+    e.preventDefault();
+    const { formData } = this.state;
 
     if (!formData.error.length) {
-      const submitData = this.getFormData();
-      /* close form => upload => update formData => submit => notify || catch exception */
-
-      /* declare upload */
-      const promiseUpload = new Promise((resolve) => {
-        if (formData.content_type.value === 2) {
-          resolve(ajaxUpload({
-            file: this.state.formData.selectedImage,
-          }));
-        } else {
-          resolve({
-            statusCode: 200,
-            text: submitData.content,
-          });
-        }
-      });
-
-      /* declare submit */
-      const promiseSubmit = params => new Promise((resolve) => {
-        if (mode === 'edit') {
-          resolve(that.props.defaultEditFunction(that.props.post.id, params));
-        } else {
-          resolve(that.props.defaultCreateFunction({
-            params,
-            payload: {
-              xuser_avatar: this.props.user.avatar,
-              xuser_nickname: this.props.user.nickname,
-              xuser_id: this.props.user.id,
-            },
-          }));
-        }
-      });
-
-      /* close form */
-      this.close();
-
-      promiseUpload.then((respUpload) => {
-        if (respUpload.statusCode === 200) {
-          promiseSubmit({ ...submitData, content: respUpload.text }).then((respSubmit) => {
-            if (respSubmit.type && respSubmit.type.indexOf('OK') !== -1) {
-              this.props.announce({
-                message: strings.announce_create_post_success,
-                action: 'Check it now',
-                onActionClick: () => {
-                  this.props.history.push(`/p/${respSubmit.payload.id}`);
-                },
-              });
-            } else {
-              this.props.announce({
-                message: strings.announce_create_post_fail,
-                action: 'Try again',
-                onActionClick: () => {
-                  this.props.history.push('/submit');
-                },
-                autoHideDuration: 8000,
-              });
-            }
-          });
-        } else {
-          this.props.announce({
-            message: strings.announce_create_post_fail,
-            action: 'Try again',
-            onActionClick: () => {
-              this.props.history.push('/submit');
-            },
-          });
-        }
-      });
+      this.doSubmit();
     }
   }
 
@@ -350,8 +379,8 @@ class CreateEditPost extends React.Component {
     value={this.state.formData.selectedLink}
     hintStyle={{ top: 12 }}
     fullWidth
-    validators={['required']}
-    errorMessages={[strings.err_is_required]}
+    validators={['required', 'isLink']}
+    errorMessages={[strings.err_is_required, 'Invalid URL']}
     autoComplete="off"
     underlineShow={false}
   />);

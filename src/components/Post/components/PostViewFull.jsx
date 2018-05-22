@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui';
 import { getPostComments, setPost } from '../../../actions';
 import strings from '../../../lang';
@@ -10,20 +9,7 @@ import constants from '../../constants';
 import ViewPostComments from './PostComments';
 import CreateComment from './CreateEditComment';
 import ButtonUpvote from './PostActions';
-
-const LinkCoverStyled = styled.span`
-  color: ${constants.colorMutedLight};
-  font-size: ${constants.fontSizeSmall};
-`;
-
-const ImageWrapper = styled.div`
-  text-align: center;
-  width: 100%;
-`;
-const Image = styled.img`
-  vertical-align: middle;
-  width: 100%;
-`;
+import { LinkCoverStyled, Image, ImageWrapper, LinkPreview } from './Styled';
 
 class ViewPostFull extends React.Component {
   static initialState = {
@@ -45,8 +31,27 @@ class ViewPostFull extends React.Component {
     this.props.getPostComments(this.props.postID || this.props.data.id, 'hot', getCookie('user_id'));
   }
 
+  renderLink = (contentSring) => {
+    const content = contentSring ? JSON.parse(contentSring) : {};
+
+
+    return (
+      <CardText>
+        <LinkPreview hasImage={content.image}>
+          <a href={content.url} target="_blank">{content.url}</a>
+          {content.image && (
+            <img src={content.image} alt="" style={{ maxWidth: 200 }} />
+          )}
+        </LinkPreview>
+      </CardText>
+    );
+  };
+
   render() {
     const item = this.props.data;
+    const isText = item.content_type === 1;
+    const isImage = item.content_type === 2;
+    const isLink = item.content_type === 3;
     const userLink = <MutedLink to={`/u/${item.xuser_id}`}>{item.xuser_username || item.xuser_nickname}</MutedLink>;
     const postLink = <MutedLink to={`/p/${item.id}`}>{toDateTimeString(item.created_at)}</MutedLink>;
 
@@ -77,7 +82,7 @@ class ViewPostFull extends React.Component {
               wordBreak: 'break-word',
             }}
           />
-          {item.content_type === 2 &&
+          {isImage &&
           <CardMedia
             style={{
               overflow: 'hidden',
@@ -92,7 +97,8 @@ class ViewPostFull extends React.Component {
               />
             </ImageWrapper>
           </CardMedia>}
-          {(item.content_type === 1 || item.content_type === 3) &&
+          {isLink && this.renderLink(item.content)}
+          {isText &&
           <CardText
             color={constants.theme().textColorSecondary}
             style={{
@@ -102,7 +108,7 @@ class ViewPostFull extends React.Component {
               wordBreak: 'break-word',
             }}
           >
-            {item.content_type === 3 ? <a href={`${item.content}`} target="_blank">{item.content}</a> : item.content}
+            {item.content}
           </CardText>}
           <CardActions>
             <ButtonUpvote

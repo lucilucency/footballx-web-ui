@@ -24,7 +24,7 @@ export function dispatch({
   };
 }
 
-export function dispatchPOST({
+export function dispatchPost({
   auth = true,
   host = FX_API,
   version = FX_VERSION,
@@ -115,7 +115,7 @@ export function dispatchPOST({
   };
 }
 
-export function dispatchGET({
+export function dispatchGet({
   auth = true,
   host = FX_API,
   version = FX_VERSION,
@@ -190,7 +190,7 @@ export function dispatchGET({
   };
 }
 
-export function dispatchPUT({
+export function dispatchPut({
   host = FX_API,
   version = FX_VERSION,
   reducer,

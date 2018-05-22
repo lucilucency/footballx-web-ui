@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { dispatchDelete, dispatchGET, dispatchPOST, dispatchPUT } from './dispatchAction';
+import { dispatchDelete, dispatchGet, dispatchPost, dispatchPut } from './dispatchAction';
 import {
   parseCommentsInPost,
   parseCommentAfterCreate,
@@ -19,7 +19,7 @@ export const localSetReducer = (name, payload) => dispatch => dispatch({
 });
 
 // auth
-export const loginFb = access_token => dispatchPOST({
+export const loginFb = access_token => dispatchPost({
   reducer: 'metadata',
   path: 'xuser/auth',
   params: { access_token },
@@ -29,7 +29,7 @@ export const loginFb = access_token => dispatchPOST({
     setCookie('username', resp.user.username, 7);
   },
 });
-export const refresh = xuser_id => dispatchGET({
+export const refresh = xuser_id => dispatchGet({
   reducer: 'metadata',
   path: `xuser/${xuser_id}/refesh`,
   params: { xuser_id },
@@ -70,7 +70,7 @@ export const updateMetadata = payload => dispatch => dispatch({
   type: 'OK/EDIT/metadata',
   payload,
 });
-export const updateUserProfile = (userID, params, payload) => dispatchPUT({
+export const updateUserProfile = (userID, params, payload) => dispatchPut({
   reducer: 'EDIT/metadata',
   path: `xuser/${userID}`,
   params,
@@ -84,7 +84,7 @@ export const updateUserProfile = (userID, params, payload) => dispatchPUT({
 });
 
 // communities
-export const getSuggestedCommunities = () => dispatchGET({
+export const getSuggestedCommunities = () => dispatchGet({
   reducer: 'suggestedCommunities',
   path: 'communities/suggestion',
   transform: resp => resp.communities,
@@ -92,9 +92,9 @@ export const getSuggestedCommunities = () => dispatchGET({
 export const subscribeCommunity = (communityID, {
   reducer = 'subscribedCommunities',
   path = `community/${communityID}/subscribe`,
-} = {}) => dispatchGET({ reducer, path });
+} = {}) => dispatchGet({ reducer, path });
 // post
-export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGET({
+export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGet({
   reducer: 'posts',
   path: 'posts/following',
   params: {
@@ -103,7 +103,7 @@ export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGET({
   },
   transform: parsePostInMeFeeds,
 });
-export const getPostsWorld = ({ sortby = 'new', xuser_id }) => dispatchGET({
+export const getPostsWorld = ({ sortby = 'new', xuser_id }) => dispatchGet({
   auth: false,
   reducer: 'posts',
   path: 'posts',
@@ -113,14 +113,14 @@ export const getPostsWorld = ({ sortby = 'new', xuser_id }) => dispatchGET({
   },
   transform: parsePostInMeFeeds,
 });
-export const createPost = ({ params, payload }) => dispatchPOST({
+export const createPost = ({ params, payload }) => dispatchPost({
   reducer: 'ADD/posts',
   path: 'post',
   params,
   payload,
   transform: parsePostAfterCreate,
 });
-export const editPost = (id, params) => dispatchPUT({
+export const editPost = (id, params) => dispatchPut({
   reducer: 'EDIT/post',
   path: `post/${id}`,
   params,
@@ -130,7 +130,7 @@ export const setPost = payload => dispatch => dispatch(({
   type: 'OK/post',
   payload,
 }));
-export const getPost = postID => dispatchGET({
+export const getPost = postID => dispatchGet({
   reducer: 'post',
   path: `post/${postID}`,
   params: {
@@ -138,7 +138,7 @@ export const getPost = postID => dispatchGET({
   },
   transform: parsePost,
 });
-export const getPostComments = (postID, sortby, xuser_id) => dispatchGET({
+export const getPostComments = (postID, sortby, xuser_id) => dispatchGet({
   reducer: 'comments',
   path: `post/${postID}/comments`,
   params: {
@@ -154,7 +154,7 @@ export const createComment = ({
   /**/
   reducer = 'ADD/comments',
   reducerCallback = 'EDIT_ARR/posts',
-} = {}) => dispatchPOST({
+} = {}) => dispatchPost({
   reducer,
   reducerCallback,
   path: 'post-comment',
@@ -169,7 +169,7 @@ export const changeVote = (target_id, vflag, {
   /**/
   reducer = 'EDIT_ARR/posts',
   path = 'post/change-vote',
-} = {}) => dispatchPOST({
+} = {}) => dispatchPost({
   reducer,
   path,
   params: {
@@ -199,7 +199,7 @@ export const getHotMatches = ({
   /**/
   reducer = 'matches',
   path = 'matches/hot',
-} = {}) => dispatchGET({
+} = {}) => dispatchGet({
   reducer,
   path,
   transform: (resp) => {
@@ -219,7 +219,7 @@ export const setMatch = payload => dispatch => dispatch(({
   type: 'OK/EDIT/match',
   payload,
 }));
-export const getMatch = matchID => dispatchGET({
+export const getMatch = matchID => dispatchGet({
   reducer: 'EDIT/match',
   path: `match/${matchID}`,
   transform: (resp) => {
@@ -232,11 +232,11 @@ export const getMatch = matchID => dispatchGET({
     };
   },
 });
-export const getMatchVotes = matchID => dispatchGET({
+export const getMatchVotes = matchID => dispatchGet({
   reducer: 'EDIT/match',
   path: `match/${matchID}/votes`,
 });
-export const hitVote = (matchID, teamID, payload) => dispatchPOST({
+export const hitVote = (matchID, teamID, payload) => dispatchPost({
   params: { club_id: teamID },
   payload,
   /**/
@@ -252,7 +252,7 @@ const changeFollow = (userID, {
   /**/
   reducer = 'EDIT/metadata',
   path = `xuser/${userID}/change-follow`,
-}) => dispatchPOST({
+}) => dispatchPost({
   version: 'v1',
   reducer,
   path,
@@ -288,7 +288,7 @@ const registerClub = (userID, {
   /**/
   reducer = 'EDIT/metadata',
   path = `xuser/${userID}/club`,
-}) => dispatchPOST({
+}) => dispatchPost({
   reducer,
   path,
   version: 'v1',
@@ -303,14 +303,14 @@ export const setSearchQuery = query => dispatch => dispatch(({
   type: 'QUERY/search',
   query,
 }));
-export const getSearchCommunities = query => dispatchGET({
+export const getSearchCommunities = query => dispatchGet({
   reducer: 'search',
   path: 'communities',
   params: {
     query,
   },
 });
-export const getSearchUsers = query => dispatchGET({
+export const getSearchUsers = query => dispatchGet({
   reducer: 'search',
   path: 'communities',
   params: {
@@ -322,7 +322,7 @@ export const getSearchResultAndPros = query => dispatch => Promise.all([
   dispatch(getSearchCommunities(query)),
   // dispatch(getSearchUsers(query)),
 ]);
-export const getAnnouncement = merged => dispatchGET({
+export const getAnnouncement = merged => dispatchGet({
   reducer: 'announcement',
   path: 'search/issues',
   params: {
