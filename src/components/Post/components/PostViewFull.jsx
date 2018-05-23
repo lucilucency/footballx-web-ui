@@ -34,13 +34,12 @@ class ViewPostFull extends React.Component {
   renderLink = (contentSring) => {
     const content = contentSring ? JSON.parse(contentSring) : {};
 
-
     return (
       <CardText>
         <LinkPreview hasImage={content.image}>
           <a href={content.url} target="_blank">{content.url}</a>
           {content.image && (
-            <img src={content.image} alt="" style={{ maxWidth: 200 }} />
+            <img src={content.image} alt="" />
           )}
         </LinkPreview>
       </CardText>
