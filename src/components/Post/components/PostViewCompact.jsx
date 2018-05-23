@@ -69,13 +69,30 @@ class ViewPostCompact extends React.Component {
         {toDateTimeString(item.created_at)}
       </MutedLink>
     );
+    const communityLink = (
+      <ActiveLink
+        to={{
+          pathname: `/r/${item.community_id}`,
+          state: {
+            data: {
+              id: item.community_id,
+              icon: item.community_icon,
+              link: item.community_link,
+              name: item.community_name,
+            },
+          },
+        }}
+      >
+        {item.community_name}
+      </ActiveLink>
+    );
 
     return (
       <Card
         key={item.id}
       >
         <CardHeader
-          title={<ActiveLink to={`/r/${item.community_link}`}>{item.community_name}</ActiveLink>}
+          title={communityLink}
           subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
           avatar={item.community_icon}
           style={{ padding: '1em 1em 0.5em 1em' }}

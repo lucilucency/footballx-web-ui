@@ -1,51 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled, { css } from 'styled-components';
 import LazyLoad from 'react-lazyload';
 import { getMeFeeds, getPostsWorld } from '../../../actions/index';
 import { ViewPostCompact, ViewPostCompactBlank } from './index';
 // import constants from '../../constants';
-
-const PostsGridStyled = styled.div`
-  max-width: 900px;
-  ${props => props.columns && css`
-    -moz-column-count: ${props.columns}; 
-    -webkit-column-count: ${props.columns}; 
-    column-count: ${props.columns};
-    -moz-column-gap: 1em;
-    -webkit-column-gap: 1em; 
-    column-gap: 1em;
-  `}
-  
-  > div {
-     display: inline-block;
-     margin-bottom: 1em;
-     width: 100%; 
-  }
-`;
-
+import { PostsGridStyled } from './Styled';
 
 class PostGrid extends React.Component {
   componentDidMount() {
     this.columnCount = 1;
-    if (!this.props.isLoggedIn) {
-      this.props.getWorldFeeds({ sortby: this.props.sorting });
-    } else if (this.props.filter === 'world') {
-      this.props.getWorldFeeds({ sortby: this.props.sorting, xuser_id: this.props.user.id });
-    } else if (this.props.token) {
-      this.props.getMeFeeds({
-        sorting: this.props.sorting,
-        xuser_id: this.props.user.id,
-      });
-    } else {
-      this.props.getWorldFeeds({ sortby: this.props.sorting });
+
+    switch (this.props.bound) {
+      case 'mine':
+        this.props.getMeFeeds({
+          sorting: this.props.sorting,
+          xuser_id: this.props.user.id,
+        });
+        break;
+      case 'all':
+        this.props.getWorldFeeds({
+          sortby: this.props.sorting,
+          xuser_id: this.props.user && this.props.user.id,
+        });
+        break;
+      case 'community':
+        this.props.getCommunityFeeds({
+          sortby: this.props.sorting,
+          xuser_id: this.props.user && this.props.user.id,
+        });
+        break;
+      default:
+        break;
     }
   }
 
   renderPostsGrid() {
     if (this.props.posts.length) {
-      return this.props.posts.map((item, index) => {
+      let { posts } = this.props;
+      if (this.props.bound === 'community') {
+        posts = posts.filter(el => el.community_id === this.props.communityID);
+      }
+
+      return posts.map((item, index) => {
         if (index > 5) {
           return (
             <LazyLoad height={200} key={item.id}>
@@ -56,17 +53,15 @@ class PostGrid extends React.Component {
         return <ViewPostCompact key={item.id} data={item} isLoggedIn={this.props.isLoggedIn} />;
       });
     }
-
     if (this.props.loading) {
       return (<ViewPostCompactBlank />);
     }
-
     return null;
   }
 
   render() {
     return (
-      <PostsGridStyled columns={this.columnCount}>
+      <PostsGridStyled columns={this.props.columns}>
         {this.renderPostsGrid()}
       </PostsGridStyled>
     );
@@ -74,23 +69,25 @@ class PostGrid extends React.Component {
 }
 
 PostGrid.propTypes = {
-  // filter: PropTypes.string,
+  bound: PropTypes.string,
+  columns: PropTypes.number,
   sorting: PropTypes.string,
-  filter: PropTypes.string,
+  communityID: PropTypes.number,
 
   /**/
+  user: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
   posts: PropTypes.array,
   loading: PropTypes.bool,
-  user: PropTypes.object,
   getMeFeeds: PropTypes.func,
   getWorldFeeds: PropTypes.func,
-  token: PropTypes.string,
-  isLoggedIn: PropTypes.bool,
-
+  getCommunityFeeds: PropTypes.func,
 };
 
 PostGrid.defaultProps = {
-  sorting: 'new',
+  bound: 'all', /* all, mine, community */
+  columns: 1,
+  sorting: 'new', /* new, hot, top, controversy */
 };
 
 const mapStateToProps = state => ({
@@ -104,6 +101,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getMeFeeds: ({ sortby, xuser_id }) => dispatch(getMeFeeds({ sortby, xuser_id })),
   getWorldFeeds: ({ sortby, xuser_id }) => dispatch(getPostsWorld({ sortby, xuser_id })),
+  getCommunityFeeds: ({ sortby, xuser_id }) => dispatch(getPostsWorld({ sortby, xuser_id })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostGrid);

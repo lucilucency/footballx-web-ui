@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem } from 'material-ui/List';
 import Home from 'material-ui/svg-icons/action/home';
@@ -32,6 +32,8 @@ class BurgerMenu extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getSuggestedCommunities();
+
     // this.props.toggleTray({ state: false });
 
     if (this.props.location.pathname === '/sign_in' || !this.props.greaterThanSmall) {
@@ -120,13 +122,15 @@ class BurgerMenu extends React.Component {
                   // />}
                   leftAvatar={<Avatar style={avatarStyle} src={item.icon} />}
                   innerDivStyle={innerDivStyle}
+                  onClick={() => {
+                    this.props.history.push(`/r/${item.id}`);
+                  }}
                 />
               ))}
             </List>
           ) : null}
           {this.props.user && (
             <List>
-              <Subheader>Misc</Subheader>
               <ListItem
                 primaryText="Light off"
                 rightToggle={<Toggle
@@ -172,6 +176,9 @@ BurgerMenu.propTypes = {
 
   announce: PropTypes.func,
   toggleTray: PropTypes.func,
+
+  history: PropTypes.func,
+  getSuggestedCommunities: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -187,4 +194,4 @@ const mapDispatchToProps = dispatch => ({
   getSuggestedCommunities: () => dispatch(getSuggestedCommunities()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BurgerMenu);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BurgerMenu));

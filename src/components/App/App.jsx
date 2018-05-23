@@ -13,8 +13,9 @@ import Announce from '../Announce';
 import Header from '../Header';
 // import Footer from '../Footer';
 // import Home from '../Home';
-import MyFeeds from '../FeedNews';
-import WorldFeeds from '../FeedPopular';
+import * as Community from '../Community';
+import * as Home from '../Home';
+import * as Popular from '../Popular';
 import { PageCreatePost, PageViewPost } from '../Post';
 import { PageViewMatch } from '../Match';
 import { UpdateProfileStepper } from '../User';
@@ -119,18 +120,33 @@ class App extends React.Component {
             titleTemplate={strings.title_template}
           />
           <Header params={params} location={location} />
-          { location.pathname !== '/popular' && this.props.user &&
-          <UpdateProfileStepper user={this.props.user} />}
+          { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
+          <Announce />
           <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
-            { location.pathname !== '/' && <Announce /> }
-            <Route exact path="/" component={this.props.user ? MyFeeds : WorldFeeds} />
-            <Route exact path="/home" component={MyFeeds} />
-            <Route exact path="/popular" component={WorldFeeds} />
+            <Route exact path="/" component={this.props.user ? Home.New : Popular.Top} />
+            <Route exact path="/popular" component={Popular.Hot} />
+
             <Route exact path="/sign_in" component={Login} />
 
-            <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
-            <Route exact path="/m/:id?/:info?/:subInfo?" component={PageViewMatch} />
             <Route exact path="/submit" component={PageCreatePost} />
+
+            <Route exact path="/new" component={Home.New} />
+            <Route exact path="/hot" component={Home.Hot} />
+            <Route exact path="/top" component={Home.Top} />
+            <Route exact path="/controversy" component={Home.Controversy} />
+            <Route exact path="/popular/new" component={Popular.New} />
+            <Route exact path="/popular/hot" component={Popular.Hot} />
+            <Route exact path="/popular/top" component={Popular.Top} />
+            <Route exact path="/popular/controversy" component={Popular.Controversy} />
+
+            <Route exact path="/r/:id?" component={Community.Hot} />
+            <Route exact path="/r/:id?/new" component={Community.New} />
+            <Route exact path="/r/:id?/hot" component={Community.Hot} />
+            <Route exact path="/r/:id?/top" component={Community.Top} />
+            <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
+
+            <Route exact path="/c/:id?/:info?/:subInfo?" component={PageViewPost} />
+            <Route exact path="/m/:id?/:info?/:subInfo?" component={PageViewMatch} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}
         </StyledDiv>

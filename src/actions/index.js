@@ -205,14 +205,14 @@ export const getHotMatches = ({
   transform: (resp) => {
     const { matches } = resp;
 
-    return matches.map((el) => {
+    return matches ? matches.map((el) => {
       const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
       return {
         ...el,
         home: Number(clubs[0]),
         away: Number(clubs[1]),
       };
-    });
+    }) : [];
   },
 });
 export const setMatch = payload => dispatch => dispatch(({
@@ -242,6 +242,19 @@ export const hitVote = (matchID, teamID, payload) => dispatchPost({
   /**/
   reducer: 'EDIT/match',
   path: `match/${matchID}/vote`,
+});
+
+// community
+export const setCommunity = payload => dispatch => dispatch(({
+  type: 'OK/community',
+  payload,
+}));
+export const getCommunity = postID => dispatchGet({
+  reducer: 'community',
+  path: `post/${postID}`,
+  params: {
+    xuser_id: getCookie('user_id'),
+  },
 });
 
 // user

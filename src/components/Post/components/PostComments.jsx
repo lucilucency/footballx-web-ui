@@ -33,14 +33,10 @@ class ViewPostComments extends React.Component {
               secondaryText={
                 <div>
                   <small>
-                    <ActiveLink to={`/user/${xuser.id}`}>{xuser.nickname}</ActiveLink> - <span>{fromNow(item.created_at)}</span>
+                    <ActiveLink to={`/user/${xuser.id}`}>{xuser.username || xuser.nickname}</ActiveLink> - <span>{fromNow(item.created_at)}</span>
                   </small>
                   <br />
-                  <div
-                    style={{
-                      color: 'rgb(28, 28, 28)',
-                    }}
-                  >
+                  <div>
                     {item.content}
                   </div>
                 </div>

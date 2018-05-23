@@ -40,3 +40,21 @@ export const ImageCompact = styled.img`
   display: block;
   position: relative;
 `;
+
+export const PostsGridStyled = styled.div`
+  max-width: 900px;
+  ${props => props.columns && css`
+    -moz-column-count: ${props.columns}; 
+    -webkit-column-count: ${props.columns}; 
+    column-count: ${props.columns};
+    -moz-column-gap: 1em;
+    -webkit-column-gap: 1em; 
+    column-gap: 1em;
+  `}
+  
+  > div {
+     display: inline-block;
+     margin-bottom: 1em;
+     width: 100%; 
+  }
+`;
