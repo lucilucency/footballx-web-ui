@@ -4,6 +4,7 @@ import Transition from 'react-transition-group/Transition';
 import AutoLockScrolling from 'material-ui/internal/AutoLockScrolling';
 import IconButton from 'material-ui/IconButton';
 import NavigationCloseIcon from 'material-ui/svg-icons/navigation/close';
+import styled from 'styled-components';
 import constants from '../../components/constants';
 
 const styles = {
@@ -46,6 +47,21 @@ const styles = {
   },
 };
 
+const Wrapper = styled.div`
+  margin: auto;
+  overflow-y: auto;
+  background: ${constants.theme().backgroundColor};
+  
+  width: 80%;
+  min-height: 100%;
+  
+  @media only screen and (max-width: 660px) {
+    width: 100%;
+    height: 80%;
+    min-height: 80%;
+  }
+`;
+
 const FullscreenDialogFrame = ({ children, open, style }) => (
   <Transition
     in={open}
@@ -61,17 +77,9 @@ const FullscreenDialogFrame = ({ children, open, style }) => (
         ...styles.transition[state],
       }}
       >
-        <div
-          style={{
-            width: '80%',
-            minHeight: '100%',
-            margin: 'auto',
-            overflowY: 'auto',
-            background: constants.theme().backgroundColor,
-          }}
-        >
+        <Wrapper>
           {children}
-        </div>
+        </Wrapper>
         <AutoLockScrolling lock={open} />
       </div>
     )}
@@ -128,8 +136,9 @@ export default function FullscreenDialog(props, { muiTheme }) {
       <IconButton
         onClick={onRequestClose}
         style={{
-          position: 'absolute',
+          position: 'fixed',
           right: 0,
+          top: 0,
         }}
       >
         {closeIcon}

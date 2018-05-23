@@ -13,16 +13,11 @@ import Toggle from 'material-ui/Toggle';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import Avatar from 'material-ui/Avatar';
 import Snackbar from 'material-ui/Snackbar';
 import { toggleTray, getSuggestedCommunities, announce } from '../../../actions';
 import constants from '../../constants';
-
-const StyledDrawer = styled(Drawer)`
-  //background-color: ${constants.theme().colorPrimary} !important;
-  background-color: white !important;
-`;
 
 class BurgerMenu extends React.Component {
   constructor(props) {
@@ -35,7 +30,6 @@ class BurgerMenu extends React.Component {
     this.props.getSuggestedCommunities();
 
     // this.props.toggleTray({ state: false });
-
     if (this.props.location.pathname === '/sign_in' || !this.props.greaterThanSmall) {
       this.props.toggleTray({ state: false });
     } else {
@@ -79,16 +73,19 @@ class BurgerMenu extends React.Component {
         <IconButton onClick={this.handleToggle}>
           <MenuIcon />
         </IconButton>
-        <StyledDrawer
-          // docked={false}
+        <Drawer
+          docked={this.props.greaterThanSmall}
           width={tray.width}
           open={tray.show}
-          // onRequestChange={open => this.setState({ open })}
+          onRequestChange={open => !this.props.greaterThanSmall && this.props.toggleTray({ state: open })}
           containerStyle={{
             height: 'calc(100% - 56px)',
             top: 56,
             boxShadow: 'rgba(0, 0, 0, 0.16) 0px 0px 0px, rgba(0, 0, 0, 0.23) 2px 2px 5px',
             overflowX: 'hidden',
+          }}
+          overlayStyle={{
+            opacity: 0,
           }}
         >
           <List>
@@ -150,7 +147,7 @@ class BurgerMenu extends React.Component {
               />
             </List>
           )}
-        </StyledDrawer>
+        </Drawer>
         <Snackbar
           open={this.props.announcement.open}
           message={this.props.announcement.message}
