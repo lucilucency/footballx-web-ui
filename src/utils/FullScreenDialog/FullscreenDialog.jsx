@@ -62,11 +62,14 @@ const Wrapper = styled.div`
   }
 `;
 
-const Overlay = styled.div`
-    
-`;
+const Overlay = styled.div``;
 
-const FullscreenDialogFrame = ({ children, open, style, onRequestClose }) => (
+const FullscreenDialogFrame = ({
+  children,
+  open,
+  style,
+  onRequestClose,
+}) => (
   <Transition
     in={open}
     timeout={{ exit: 225, enter: 225 }}
@@ -89,7 +92,7 @@ const FullscreenDialogFrame = ({ children, open, style, onRequestClose }) => (
             position: 'fixed',
             top: 0,
             left: 0,
-            zIndex: 0,
+            zIndex: -1,
           }}
           onClick={onRequestClose}
         />
