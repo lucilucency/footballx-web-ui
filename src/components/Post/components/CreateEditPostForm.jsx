@@ -437,7 +437,7 @@ class CreateEditPost extends React.Component {
             borderRadius: 4,
             padding: '0 0',
             display: 'flex',
-            flexDirection: 'column-reverse'
+            flexDirection: 'column-reverse',
           }}
           editorStyle={{
             padding: '0 20px',

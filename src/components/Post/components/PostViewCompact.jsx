@@ -10,7 +10,7 @@ import constants from '../../constants';
 import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, LinkPreview } from './Styled';
 
-const markdown = require('markdown').markdown;
+const { markdown } = require('markdown');
 
 function IsJsonString(str) {
   try {
