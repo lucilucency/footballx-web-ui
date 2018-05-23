@@ -62,7 +62,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const FullscreenDialogFrame = ({ children, open, style }) => (
+const Overlay = styled.div`
+    
+`;
+
+const FullscreenDialogFrame = ({ children, open, style, onRequestClose }) => (
   <Transition
     in={open}
     timeout={{ exit: 225, enter: 225 }}
@@ -71,12 +75,24 @@ const FullscreenDialogFrame = ({ children, open, style }) => (
     enter
   >
     {state => (
-      <div style={{
-        ...style,
-        ...styles.root,
-        ...styles.transition[state],
-      }}
+      <div
+        style={{
+          ...style,
+          ...styles.root,
+          ...styles.transition[state],
+        }}
       >
+        <Overlay
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            zIndex: 0,
+          }}
+          onClick={onRequestClose}
+        />
         <Wrapper>
           {children}
         </Wrapper>
@@ -90,6 +106,7 @@ FullscreenDialogFrame.propTypes = {
   children: PropTypes.node,
   open: PropTypes.bool.isRequired,
   style: PropTypes.object,
+  onRequestClose: PropTypes.func,
 };
 
 const getStyles = (props, theme) => {
@@ -132,6 +149,7 @@ export default function FullscreenDialog(props, { muiTheme }) {
     <FullscreenDialogFrame
       open={open}
       style={{ ...style, ...styles.root }}
+      onRequestClose={onRequestClose}
     >
       <IconButton
         onClick={onRequestClose}

@@ -174,7 +174,7 @@ BurgerMenu.propTypes = {
   announce: PropTypes.func,
   toggleTray: PropTypes.func,
 
-  history: PropTypes.func,
+  history: PropTypes.object,
   getSuggestedCommunities: PropTypes.func,
 };
 
