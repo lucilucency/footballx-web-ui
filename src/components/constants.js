@@ -25,11 +25,12 @@ const Constants = {
   fontWeightNormal: '400',
   fontWeightMedium: '500',
   fontWeightHeavy: '600',
-  fontSizeBig: '18px',
-  fontSizeCommon: '16px',
-  fontSizeMedium: '14px',
-  fontSizeSmall: '12px',
-  fontSizeTiny: '10px',
+  fontSizeHuge: '50px',
+  fontSizeBig: '37px',
+  fontSizeCommon: '21px',
+  fontSizeMedium: '16px',
+  fontSizeSmall: '14px',
+  fontSizeTiny: '12px',
   normalTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
   linearTransition: 'all 300ms linear',
   theme: () => {
@@ -78,7 +79,7 @@ const Constants = {
 
           colorPrimary: 'rgba(255, 255, 255, 1)',
           colorSecondary: 'rgba(255, 255, 255, 0.5)',
-          textColorPrimary: 'rgb(34, 34, 34)',
+          textColorPrimary: '#333333',
           textColorSecondary: 'rgb(70, 68, 68)',
 
           backgroundColor: '#eef2f5',
@@ -90,8 +91,8 @@ const Constants = {
           avatarBackgroundColor: materialColor.grey50,
           buttonMute: materialColor.grey400,
 
-          fontFamily: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
-          // fontFamily: 'font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;'
+          fontFamily: '"IBM Plex Sans", sans-serif',
+          fontFamilySecondary: 'Open Sans',
         };
         break;
       default:

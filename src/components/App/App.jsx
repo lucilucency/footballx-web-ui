@@ -8,25 +8,26 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import { Route } from 'react-router-dom';
+import Snackbar from 'material-ui/Snackbar';
+import { announce } from '../../actions';
 import strings from '../../lang';
 import Announce from '../Announce';
 import Header from '../Header';
-// import Footer from '../Footer';
-// import Home from '../Home';
+import { BurgerMenu } from '../BurgerMenu';
 import * as Community from '../Community';
 import * as Home from '../Home';
 import * as Popular from '../Popular';
 import { PageCreatePost, PageViewPost } from '../Post';
-import { PageViewMatch } from '../Match';
+import * as Match from '../Match';
 import { UpdateProfileStepper } from '../User';
 import constants from '../constants';
 import Login from '../Login';
 
-const muiTheme = {
+const overwritesTheme = {
   fontFamily: constants.theme().fontFamily,
   card: { fontWeight: constants.fontWeightNormal },
   cardText: {
-    color: constants.theme().textColorSecondary,
+    color: constants.theme().textColorPrimary,
   },
   cardTitle: {
 
@@ -84,13 +85,17 @@ const StyledBodyDiv = styled.div`
   margin-top: 56px;
   ${props => props.isTrayOpen && css`
     padding-left: ${props.trayWidth + 25}px;
-    
+    margin-left: auto;
+    margin-right: auto;
+  `};
+  
+  ${props => css`
     @media only screen and (min-width: ${props.trayWidth + 1080}px) {
-      width: 1080px;
+      max-width: 1080px;
       margin-left: auto;
       margin-right: auto;
     }
-  `};
+  `}
   
   @media only screen and (max-width: 660px) {
     padding: 1em 0px;
@@ -113,21 +118,20 @@ class App extends React.Component {
     const themeName = localStorage.getItem('theme') || 'light';
     const theme = themeName === 'light' ? lightBaseTheme : darkBaseTheme;
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(theme, muiTheme)}>
+      <MuiThemeProvider muiTheme={getMuiTheme(theme, overwritesTheme)}>
         <StyledDiv {...this.props}>
           <Helmet
             defaultTitle={strings.title_default}
             titleTemplate={strings.title_template}
           />
-          <Header params={params} location={location} />
-          { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
+
           <Announce />
+          <Header params={params} location={location} />
+          <BurgerMenu />
           <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             <Route exact path="/" component={this.props.user ? Home.New : Popular.Top} />
             <Route exact path="/popular" component={Popular.Hot} />
-
             <Route exact path="/sign_in" component={Login} />
-
             <Route exact path="/submit" component={PageCreatePost} />
 
             <Route exact path="/new" component={Home.New} />
@@ -138,6 +142,7 @@ class App extends React.Component {
             <Route exact path="/popular/hot" component={Popular.Hot} />
             <Route exact path="/popular/top" component={Popular.Top} />
             <Route exact path="/popular/controversy" component={Popular.Controversy} />
+            <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
 
             <Route exact path="/r/:id?" component={Community.Hot} />
             <Route exact path="/r/:id?/new" component={Community.New} />
@@ -145,11 +150,22 @@ class App extends React.Component {
             <Route exact path="/r/:id?/top" component={Community.Top} />
             <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
 
-            <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
-            <Route exact path="/m/:id?/:info?/:subInfo?" component={PageViewMatch} />
+            <Route exact path="/match" component={Match.Hot} />
+            <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.PageViewMatch} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}
         </StyledDiv>
+        { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
+        <Snackbar
+          open={this.props.announcement.open}
+          message={this.props.announcement.message}
+          action={this.props.announcement.action}
+          autoHideDuration={this.props.announcement.autoHideDuration}
+          onActionClick={this.props.announcement.onActionClick}
+          onRequestClose={() => {
+            this.props.announce({ open: false });
+          }}
+        />
       </MuiThemeProvider>
     );
   }
@@ -166,11 +182,19 @@ App.propTypes = {
     show: PropTypes.bool,
   }),
   user: PropTypes.object,
+
+  announcement: PropTypes.object,
+  announce: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   tray: state.app.tray,
   user: state.app.metadata.data.user,
+  announcement: state.app.announcement,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  announce: props => dispatch(announce(props)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

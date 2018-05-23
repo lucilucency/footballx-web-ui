@@ -9,7 +9,7 @@ import constants from '../../constants';
 import ViewPostComments from './PostComments';
 import CreateComment from './CreateEditComment';
 import ButtonUpvote from './PostActions';
-import { LinkCoverStyled, Image, ImageWrapper, LinkPreview } from './Styled';
+import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, styles } from './Styled';
 
 class ViewPostFull extends React.Component {
   static initialState = {
@@ -57,7 +57,6 @@ class ViewPostFull extends React.Component {
     return (
       <div>
         <Card
-          key={item.id}
           style={{
             boxShadow: 'none',
           }}
@@ -66,27 +65,17 @@ class ViewPostFull extends React.Component {
             title={<ActiveLink to={`/r/${item.community_link}`}>{item.community_name}</ActiveLink>}
             subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
             avatar={item.community_icon}
-            style={{ padding: '1em 1em 0.5em 1em' }}
+            style={styles.cardHeader.style}
           />
           <CardTitle
             title={item.title}
             titleColor={constants.theme().textColorPrimary}
-            titleStyle={{
-              fontWeight: constants.fontWeightHeavy,
-              fontSize: constants.fontSizeBig,
-              lineHeight: 1.44,
-            }}
-            style={{
-              paddingTop: 0,
-              wordBreak: 'break-word',
-            }}
+            titleStyle={styles.cardTitle.titleStyle}
+            style={styles.cardTitle.style}
           />
           {isImage &&
           <CardMedia
-            style={{
-              overflow: 'hidden',
-              textAlign: 'center',
-            }}
+            style={styles.cardMedia.style}
             onClick={this.popupViewPostFull}
           >
             <ImageWrapper>
@@ -100,12 +89,7 @@ class ViewPostFull extends React.Component {
           {isText &&
           <CardText
             color={constants.theme().textColorSecondary}
-            style={{
-              fontSize: constants.fontSizeMedium,
-              fontWeight: constants.fontWeightMedium,
-              // whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-            }}
+            style={styles.cardText.style}
           >
             {item.content}
           </CardText>}

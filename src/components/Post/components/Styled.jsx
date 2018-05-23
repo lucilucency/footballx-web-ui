@@ -1,6 +1,44 @@
 import styled, { css } from 'styled-components';
 import constants from '../../constants';
 
+/* Card */
+export const styles = {
+  cardHeader: {
+    style: { padding: '1em 1em 0.5em 1em' },
+  },
+  cardMedia: {
+    style: {
+      overflow: 'hidden',
+      textAlign: 'center',
+    },
+  },
+  cardText: {
+    style: {
+      fontSize: constants.fontSizeSmall,
+      fontWeight: 'normal',
+      wordBreak: 'break-word',
+      whiteSpace: 'pre-wrap',
+    },
+  },
+  cardActions: {
+    style: {
+      padding: '0 0',
+    },
+  },
+  cardTitle: {
+    titleStyle: {
+      fontWeight: 'bold',
+      fontSize: constants.fontSizeMedium,
+      lineHeight: '23px',
+    },
+    style: {
+      paddingTop: 0,
+      paddingBottom: 0,
+      wordBreak: 'break-word',
+    },
+  },
+};
+
 export const LinkCoverStyled = styled.span`
   color: ${constants.colorMutedLight};
   font-size: ${constants.fontSizeSmall};
@@ -29,11 +67,13 @@ export const ImageWrapper = styled.div`
 
 export const Image = styled.img`
   vertical-align: middle;
-  width: 100%;
+  max-width: 100%;
+  min-width: 50%;
 `;
 
 export const ImageCompact = styled.img`
   vertical-align: middle;
+  min-width: 50%;
   max-width: 100%;
   max-height: 512px;
   margin: 0 auto;

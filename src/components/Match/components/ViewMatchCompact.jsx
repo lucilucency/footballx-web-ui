@@ -12,7 +12,6 @@ import { upVote, downVote, getMatchVotes } from '../../../actions';
 import { bindAll } from '../../../utils';
 import constants from '../../constants';
 import MatchVisualize from './MatchVisualize';
-// import FanFight from './FanFight';
 import ButtonShare from './ButtonShare';
 
 const ActionModule = styled.div`

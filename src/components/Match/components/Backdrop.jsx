@@ -7,13 +7,15 @@ import styled, { css } from 'styled-components';
 const backdrops = {
   19: '/assets/images/backdrops/mu.png',
   5: '/assets/images/backdrops/chelsea.png',
+  28: '/assets/images/backdrops/real.png',
+  4: '/assets/images/backdrops/liv.png',
 };
 
 const BackdropStyled = styled.div`
   width: 100%;
   max-width: 900px;
   margin: auto;
-  padding-top: 62.5%;
+  padding-top: 56.25%;
   position: relative;
   opacity: 0.9;
   filter: alpha(opacity=50);

@@ -56,6 +56,7 @@ export const getMetadata = ({
   if (access_token && user_id) {
     payload = {
       access_token,
+      following: {},
       user: {
         id: user_id,
         nickname,

@@ -2,22 +2,22 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { PostGrid } from '../Post/components/index';
+import { MatchGrid } from '../Match/components';
 import { Container } from '../../utils/index';
 import RightTrayComponent from './RightBar';
 
-class HomeHot extends React.Component {
+class NewFeeds extends React.Component {
   componentDidMount() {
-
+    // console.log('in popular/hot');
   }
 
   render() {
     return (
       <div>
-        <Helmet title="News feed" />
+        <Helmet title="Hot" />
         <Container>
-          <PostGrid
-            bound="mine"
+          <MatchGrid
+            bound="all"
             sorting="hot"
           />
           <RightTrayComponent />
@@ -27,7 +27,7 @@ class HomeHot extends React.Component {
   }
 }
 
-HomeHot.propTypes = {
+NewFeeds.propTypes = {
 };
 
 // const mapStateToProps = state => ({
@@ -35,4 +35,4 @@ HomeHot.propTypes = {
 //   loading: state.app.posts.loading,
 // });
 
-export default connect(null, null)(HomeHot);
+export default connect(null, null)(NewFeeds);

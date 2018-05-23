@@ -5,7 +5,7 @@ import tray from './tray';
 import announcement from './announcement';
 
 export default combineReducers({
-  metadata: reducer('metadata'),
+  metadata: reducer('metadata', {}),
   records: reducer('records'),
   // announcement: reducer('announcement'),
 

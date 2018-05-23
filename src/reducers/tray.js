@@ -1,6 +1,6 @@
 const initialFormState = {
   show: true,
-  width: 210,
+  width: 241,
 };
 
 export default (state = initialFormState, action) => {

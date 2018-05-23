@@ -1,4 +1,7 @@
-/* eslint-disable import/prefer-default-export */
 import PageViewMatch from './ViewMatchPage';
+import Hot from './Hot';
 
-export { PageViewMatch };
+export {
+  Hot,
+  PageViewMatch,
+};

@@ -24,7 +24,7 @@ const PostActionStyled = styled.div`
   }
 `;
 
-class ButtonUpvote extends React.Component {
+class PostActions extends React.Component {
   static initialState = {
     openDialog: false,
     dialogConstruct: {},
@@ -34,7 +34,7 @@ class ButtonUpvote extends React.Component {
     super(props);
 
     this.state = {
-      ...ButtonUpvote.initialState,
+      ...PostActions.initialState,
     };
 
     bindAll([
@@ -233,7 +233,7 @@ class ButtonUpvote extends React.Component {
   }
 }
 
-ButtonUpvote.propTypes = {
+PostActions.propTypes = {
   type: PropTypes.string.isRequired, /* post, comment */
   data: PropTypes.object,
   disableComment: PropTypes.bool,
@@ -255,5 +255,5 @@ const mapDispatchToProps = dispatch => ({
   setPost: payload => dispatch(setPost(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonUpvote);
+export default connect(mapStateToProps, mapDispatchToProps)(PostActions);
 

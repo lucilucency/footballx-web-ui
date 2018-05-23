@@ -8,9 +8,12 @@ import strings from '../../../lang';
 import { toDateTimeString, ActiveLink, MutedLink } from '../../../utils';
 import constants from '../../constants';
 import PostActions from './PostActions';
-import { LinkCoverStyled, ImageCompact, ImageWrapper, LinkPreview } from './Styled';
+import { LinkCoverStyled, ImageCompact, ImageWrapper, LinkPreview, styles } from './Styled';
 
-const { markdown } = require('markdown');
+const markdown = require('markdown-it')({
+  html: true,
+  linkify: true,
+});
 
 function IsJsonString(str) {
   try {
@@ -90,35 +93,22 @@ class ViewPostCompact extends React.Component {
     );
 
     return (
-      <Card
-        key={item.id}
-      >
+      <Card>
         <CardHeader
           title={communityLink}
           subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
           avatar={item.community_icon}
-          style={{ padding: '1em 1em 0.5em 1em' }}
+          style={styles.cardHeader.style}
         />
         <CardTitle
           title={item.title}
           titleColor={constants.theme().textColorPrimary}
-          titleStyle={{
-            fontWeight: constants.fontWeightHeavy,
-            fontSize: constants.fontSizeBig,
-            lineHeight: 1.44,
-          }}
-          style={{
-            paddingTop: 0,
-            paddingBottom: 0,
-            wordBreak: 'break-word',
-          }}
+          titleStyle={styles.cardTitle.titleStyle}
+          style={styles.cardTitle.style}
         />
         {isImage &&
         <CardMedia
-          style={{
-            overflow: 'hidden',
-            textAlign: 'center',
-          }}
+          style={styles.cardMedia.style}
           onClick={this.popupViewPostFull}
         >
           <ImageWrapper>
@@ -131,21 +121,11 @@ class ViewPostCompact extends React.Component {
         }
         {isLink && this.renderLink(item.content)}
         {isText && (
-          <CardText
-            style={{
-              fontSize: constants.fontSizeMedium,
-              wordBreak: 'break-word',
-              whiteSpace: 'pre-wrap',
-            }}
-          >
-            <div dangerouslySetInnerHTML={{ __html: markdown.toHTML(item.content) }} />
+          <CardText style={styles.cardText.style}>
+            <div dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
           </CardText>
         )}
-        <CardActions
-          style={{
-            padding: '0 0',
-          }}
-        >
+        <CardActions style={styles.cardActions.style}>
           <PostActions
             type="post"
             data={this.props.data}

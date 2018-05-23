@@ -3,7 +3,7 @@ import CreateEditPostFrame from './CreateEditPostFrame';
 import CreatePostButton from './ButtonCreatePost';
 import ViewPostCompact from './PostViewCompact';
 import ViewPostCompactBlank from './PostGridBlank';
-import ViewPostFull from './PostViewFull';
+import ViewPostFull from './PostView';
 import ViewPostFullFrame from './PostViewFullFrame';
 import PostGrid from './PostGrid';
 

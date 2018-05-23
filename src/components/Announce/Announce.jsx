@@ -83,7 +83,7 @@ const Announce = ({
         backgroundColor={constants.colorBlue}
         href={link}
         target="_blank"
-        label={strings.announce_github_more}
+        label={strings.announce_creating}
       />
     </aside>
     <aside>
@@ -175,7 +175,7 @@ const mapStateToProps = () =>
       //   body: 'Lorem ipsum dolor sit amet',
       //   number: 2,
       //   html_url: '//google.com',
-      // }]
+      // }],
     },
   });
 

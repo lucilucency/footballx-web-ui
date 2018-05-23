@@ -16,7 +16,7 @@ import constants from '../constants';
 import AccountWidget from './AccountWidget';
 import SearchForm from '../Search/SearchForm';
 import AppLogo from '../App/AppLogo';
-import BurgerMenu from './BurgerMenu';
+import { BurgerButton } from '../BurgerMenu';
 import Logout from './Logout';
 
 const getHeaderLinks = user => [
@@ -25,8 +25,6 @@ const getHeaderLinks = user => [
   // <Link key={strings.header_explorer} to="/explorer">{strings.header_explorer}</Link>,
   // <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
 ].filter(o => o);
-
-const burgerLinks = [];
 
 const VerticalAlignToolbar = styled(ToolbarGroup)`
   display: flex;
@@ -107,19 +105,12 @@ const LinkRouterStyled = styled(Link)`
   }
 `;
 
-const LogoGroup = ({ greaterThanSmall, location }) => (
+const LogoGroup = () => (
   <VerticalAlignToolbar>
-    <BurgerMenu menuItems={burgerLinks} greaterThanSmall={greaterThanSmall} location={location} />
+    <BurgerButton />
     <AppLogo style={{ marginRight: 18 }} size="24" />
   </VerticalAlignToolbar>
 );
-
-LogoGroup.propTypes = {
-  greaterThanSmall: PropTypes.bool,
-  location: PropTypes.shape({
-    key: PropTypes.string,
-  }),
-};
 
 const HeaderLink = ({ user }) => (
   <VerticalAlignToolbar>

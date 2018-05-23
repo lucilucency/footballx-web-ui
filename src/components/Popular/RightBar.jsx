@@ -7,19 +7,17 @@ import { SuggestedCommunities } from '../User/components/index';
 import { RightTray, SmallPaper } from '../../utils/index';
 import strings from '../../lang/index';
 
-const RightTrayComponent = (props) => {
+const PopularRightBar = (props) => {
   const { user } = props;
   return (
     <RightTray>
-      {user && (
-        <div data="page-welcome">
-          <SmallPaper>
-            <Subheader>Home</Subheader>
-            <p>{strings.paragraph_home_desc}</p>
-            <CreatePostButton />
-          </SmallPaper>
-        </div>
-      )}
+      <div data="page-welcome">
+        <SmallPaper>
+          <p>Popular</p>
+          <p>{strings.paragraph_popular_desc}</p>
+          {user && <CreatePostButton />}
+        </SmallPaper>
+      </div>
       {null && (
         <div data="ads">
           <SmallPaper>
@@ -39,7 +37,7 @@ const RightTrayComponent = (props) => {
   );
 };
 
-RightTrayComponent.propTypes = {
+PopularRightBar.propTypes = {
   user: PropTypes.object,
 };
 
@@ -47,4 +45,4 @@ const mapStateToProps = state => ({
   user: state.app.metadata.data.user || {},
 });
 
-export default connect(mapStateToProps, null)(RightTrayComponent);
+export default connect(mapStateToProps, null)(PopularRightBar);
