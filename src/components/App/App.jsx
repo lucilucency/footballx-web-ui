@@ -145,7 +145,7 @@ class App extends React.Component {
             <Route exact path="/r/:id?/top" component={Community.Top} />
             <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
 
-            <Route exact path="/c/:id?/:info?/:subInfo?" component={PageViewPost} />
+            <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
             <Route exact path="/m/:id?/:info?/:subInfo?" component={PageViewMatch} />
           </StyledBodyDiv>
           {/* <Footer location={location} width={width} /> */}
