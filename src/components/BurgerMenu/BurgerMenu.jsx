@@ -140,7 +140,7 @@ BurgerMenu.propTypes = {
 const mapStateToProps = state => ({
   greaterThanSmall: state.browser.greaterThan.small,
   tray: state.app.tray,
-  communities: state.app.metadata.data.following ? (state.app.metadata.data.following.communities) : [],
+  communities: state.app.metadata.data.following ? (state.app.metadata.data.following.communities || []) : [],
   user: state.app.metadata.data.user,
 });
 

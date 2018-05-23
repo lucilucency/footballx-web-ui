@@ -124,7 +124,6 @@ class App extends React.Component {
             defaultTitle={strings.title_default}
             titleTemplate={strings.title_template}
           />
-
           <Announce />
           <Header params={params} location={location} />
           <BurgerMenu />
@@ -153,19 +152,18 @@ class App extends React.Component {
             <Route exact path="/match" component={Match.Hot} />
             <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.PageViewMatch} />
           </StyledBodyDiv>
-          {/* <Footer location={location} width={width} /> */}
+          { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
+          <Snackbar
+            open={this.props.announcement.open}
+            message={this.props.announcement.message}
+            action={this.props.announcement.action}
+            autoHideDuration={this.props.announcement.autoHideDuration}
+            onActionClick={this.props.announcement.onActionClick}
+            onRequestClose={() => {
+              this.props.announce({ open: false });
+            }}
+          />
         </StyledDiv>
-        { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
-        <Snackbar
-          open={this.props.announcement.open}
-          message={this.props.announcement.message}
-          action={this.props.announcement.action}
-          autoHideDuration={this.props.announcement.autoHideDuration}
-          onActionClick={this.props.announcement.onActionClick}
-          onRequestClose={() => {
-            this.props.announce({ open: false });
-          }}
-        />
       </MuiThemeProvider>
     );
   }
