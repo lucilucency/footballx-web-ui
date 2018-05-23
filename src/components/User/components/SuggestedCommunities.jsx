@@ -28,7 +28,7 @@ class RequestLayer extends React.Component {
 
   render() {
     let { suggestedCommunities } = this.props;
-    suggestedCommunities = suggestedCommunities.filter(el => !this.isFollowed(el.id));
+    suggestedCommunities = suggestedCommunities.filter(el => !this.isFollowed(el.id)).slice(0, 5);
 
     const rightIconStyle = {
       height: '24px',
@@ -79,7 +79,7 @@ const mapStateToProps = state => ({
   suggestedCommunities: state.app.suggestedCommunities.data,
   loading: state.app.suggestedCommunities.loading,
   user: state.app.metadata.data.user,
-  followedCommunities: state.app.metadata.data.following && state.app.metadata.data.following.communities,
+  followedCommunities: (state.app.metadata.data.following && state.app.metadata.data.following.communities) ? state.app.metadata.data.following.communities : [],
 });
 
 const mapDispatchToProps = dispatch => ({

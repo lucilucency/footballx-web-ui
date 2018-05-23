@@ -81,6 +81,13 @@ export const ImageCompact = styled.img`
   position: relative;
 `;
 
+export const TextWrapper = styled.div`
+  img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+`;
+
 export const PostsGridStyled = styled.div`
   max-width: 900px;
   ${props => props.columns && css`

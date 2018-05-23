@@ -8,7 +8,7 @@ import strings from '../../../lang';
 import { toDateTimeString, ActiveLink, MutedLink } from '../../../utils';
 import constants from '../../constants';
 import PostActions from './PostActions';
-import { LinkCoverStyled, ImageCompact, ImageWrapper, LinkPreview, styles } from './Styled';
+import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview, styles } from './Styled';
 
 const markdown = require('markdown-it')({
   html: true,
@@ -122,7 +122,7 @@ class ViewPostCompact extends React.Component {
         {isLink && this.renderLink(item.content)}
         {isText && (
           <CardText style={styles.cardText.style}>
-            <div dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
+            <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
           </CardText>
         )}
         <CardActions style={styles.cardActions.style}>
