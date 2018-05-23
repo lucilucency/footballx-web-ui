@@ -402,11 +402,7 @@ class CreateEditPost extends React.Component {
     })) : [];
 
     return (
-      <div
-        style={{
-
-        }}
-      >
+      <div>
         <Editor
           editorState={this.state.wysiwyg}
           wrapperClassName="demo-wrapper"
@@ -421,16 +417,17 @@ class CreateEditPost extends React.Component {
             trigger: '#',
           }}
           toolbar={{
-            options: ['inline', 'emoji'],
+            options: ['emoji'],
             inline: {
               options: ['bold', 'italic', 'underline'],
             },
           }}
           onEditorStateChange={this.onWysiwygChange}
           toolbarStyle={{
-            borderTop: 'none',
+            borderBottom: 'none',
             borderLeft: 'none',
             borderRight: 'none',
+            marginBottom: 0,
           }}
           wrapperStyle={{
             borderTop: `1px solid ${constants.grey200}`,
@@ -439,6 +436,8 @@ class CreateEditPost extends React.Component {
             borderBottom: `1px solid ${constants.grey200}`,
             borderRadius: 4,
             padding: '0 0',
+            display: 'flex',
+            flexDirection: 'column-reverse'
           }}
           editorStyle={{
             padding: '0 20px',

@@ -10,6 +10,8 @@ import constants from '../../constants';
 import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, LinkPreview } from './Styled';
 
+const markdown = require('markdown').markdown;
+
 function IsJsonString(str) {
   try {
     JSON.parse(str);
@@ -136,7 +138,7 @@ class ViewPostCompact extends React.Component {
               whiteSpace: 'pre-wrap',
             }}
           >
-            {item.content}
+            <div dangerouslySetInnerHTML={{ __html: markdown.toHTML(item.content) }} />
           </CardText>
         )}
         <CardActions
