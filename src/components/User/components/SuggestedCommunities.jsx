@@ -24,9 +24,7 @@ class RequestLayer extends React.Component {
     this.props.unsubscribe(this.props.user.id, communityID);
   };
 
-  isFollowed = (communityID) => {
-    return this.props.followedCommunities.find(el => el.id === communityID);
-  };
+  isFollowed = communityID => this.props.followedCommunities.find(el => el.id === communityID);
 
   render() {
     let { suggestedCommunities } = this.props;

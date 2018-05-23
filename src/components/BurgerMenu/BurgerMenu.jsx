@@ -6,14 +6,9 @@ import Drawer from 'material-ui/Drawer';
 import List, { ListItem } from 'material-ui/List';
 import Home from 'material-ui/svg-icons/action/home';
 import IconPopular from 'material-ui/svg-icons/action/trending-up';
-// import ActionFavorite from 'material-ui/svg-icons/toggle/star';
-// import Checkbox from 'material-ui/Checkbox';
 
 import Toggle from 'material-ui/Toggle';
 import Subheader from 'material-ui/Subheader';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui/svg-icons/navigation/menu';
-// import styled from 'styled-components';
 import Avatar from 'material-ui/Avatar';
 import { toggleTray, getSuggestedCommunities } from '../../actions/index';
 import constants from '../constants';
