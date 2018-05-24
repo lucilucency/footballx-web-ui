@@ -31,12 +31,12 @@ body {
 }
 
 a {
-  color: ${constants.theme().linkColorPrimary};
+  color: ${constants.theme().linkColor};
   text-decoration: none;
   transition: ${constants.normalTransition};
 
   &:hover {
-    color: color(${constants.theme().linkColorPrimary} lightness(-33%));
+    color: color(${constants.theme().linkColor} lightness(-33%));
   }
 }
 
@@ -150,7 +150,7 @@ li {
   &::before {
     border-style: solid;
     border-width: 0 6px 3px 6px;
-    border-color: transparent transparent ${constants.theme().almostColor} transparent;
+    border-color: transparent transparent ${constants.theme().backgroundColor} transparent;
     bottom: -3px;
   }
 }

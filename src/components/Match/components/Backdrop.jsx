@@ -13,7 +13,7 @@ const backdrops = {
 
 const BackdropStyled = styled.div`
   width: 100%;
-  max-width: 900px;
+  max-width: 992px;
   margin: auto;
   padding-top: 56.25%;
   position: relative;

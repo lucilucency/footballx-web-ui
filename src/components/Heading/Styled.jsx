@@ -19,7 +19,7 @@ export const StyledDiv = styled.div`
     text-decoration: none;
 
     &:hover {
-      color: ${constants.theme().linkColorPrimary};
+      color: ${constants.theme().linkColor};
     }
   }
 

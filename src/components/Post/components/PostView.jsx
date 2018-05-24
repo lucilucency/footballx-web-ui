@@ -9,7 +9,12 @@ import constants from '../../constants';
 import ViewPostComments from './PostComments';
 import CreateComment from './CreateEditComment';
 import ButtonUpvote from './PostActions';
-import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, styles } from './Styled';
+import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, TextWrapper, styles } from './Styled';
+
+const markdown = require('markdown-it')({
+  html: true,
+  linkify: true,
+});
 
 class ViewPostFull extends React.Component {
   static initialState = {
@@ -91,7 +96,7 @@ class ViewPostFull extends React.Component {
             color={constants.theme().textColorSecondary}
             style={styles.cardText.style}
           >
-            {item.content}
+            <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
           </CardText>}
           <CardActions>
             <ButtonUpvote

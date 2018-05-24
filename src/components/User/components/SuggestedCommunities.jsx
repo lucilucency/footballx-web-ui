@@ -36,7 +36,7 @@ class RequestLayer extends React.Component {
     };
 
     return (
-      <List>
+      <List style={{ textAlign: 'left' }}>
         {suggestedCommunities.map(item => (
           <ListItem
             key={item.id}

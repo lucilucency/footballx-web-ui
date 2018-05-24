@@ -8,7 +8,7 @@ import { ViewMatchCompact, ViewMatchCompactBlank } from './index';
 // import constants from '../../constants';
 
 const PostsGridStyled = styled.div`
-  max-width: 900px;
+  //max-width: 900px;
   ${props => props.columns && css`
     -moz-column-count: ${props.columns}; 
     -webkit-column-count: ${props.columns}; 

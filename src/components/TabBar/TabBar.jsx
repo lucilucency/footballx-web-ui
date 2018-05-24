@@ -46,7 +46,7 @@ const StyledSection = styled.section`
 
   & .chosen {
     display: inline-block;
-    border-color: ${constants.theme().linkColorPrimary};
+    border-color: ${constants.theme().linkColor};
     color: color(${constants.colorMuted} lightness(85%));
   }
 `;

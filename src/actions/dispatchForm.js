@@ -1,7 +1,16 @@
 export const toggleTray = (props = {}) => {
   const { state, width } = props;
   return ({
-    type: 'TRAY',
+    type: 'TRAY/TOGGLE',
+    state,
+    width,
+  });
+};
+
+export const setTray = (props = {}) => {
+  const { state, width } = props;
+  return ({
+    type: 'TRAY/SET',
     state,
     width,
   });

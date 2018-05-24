@@ -50,6 +50,9 @@ class Dropdown extends Component {
           onClick={this.handleTouchTap}
           open={open}
           {...buttonProps}
+          style={{
+            padding: 0,
+          }}
         />
         <Popover
           autoCloseWhenOffScreen={false}

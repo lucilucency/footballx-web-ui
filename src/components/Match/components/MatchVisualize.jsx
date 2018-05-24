@@ -25,7 +25,7 @@ const MatchInfo = styled.div`
     background-color: rgba(255,255,255,0.1);
     img {
       width: 128px;
-      @media only screen and (max-width: 660px) {
+      @media only screen and (max-width: 768px) {
         width: 72px;
         height: 72px;
       }
@@ -105,8 +105,21 @@ class MatchVisualize extends React.Component {
 
   render() {
     const {
-      home, away, homeVotes, awayVotes, date,
+      home, away, homeVotes, awayVotes, date, greaterThan,
     } = this.props;
+    const styles = {};
+    if (greaterThan.medium) {
+      styles.iconButton = {
+        style: { width: 128, height: 128 },
+        iconStyle: { width: 108, height: 108 },
+      };
+    } else {
+      styles.iconButton = {
+        style: { width: 96, height: 96 },
+        iconStyle: { width: 72, height: 72 },
+      };
+    }
+
     return (
       <MatchInfo>
         <div className="club-image">
@@ -114,14 +127,8 @@ class MatchVisualize extends React.Component {
             tooltip={`For ${home.name}`}
             tooltipPosition="top-center"
             onClick={() => this.hitVoteHome(home.id, away.id, homeVotes, awayVotes)}
-            style={{
-              width: 128,
-              height: 128,
-            }}
-            iconStyle={{
-              width: 96,
-              height: 96,
-            }}
+            style={styles.iconButton.style}
+            iconStyle={styles.iconButton.iconStyle}
           >
             <img src={home.icon} alt="" />
           </IconButton>
@@ -143,14 +150,8 @@ class MatchVisualize extends React.Component {
             tooltip={`For ${away.name}`}
             tooltipPosition="top-center"
             onClick={() => this.hitVoteAway(home.id, away.id, homeVotes, awayVotes)}
-            style={{
-              width: 128,
-              height: 128,
-            }}
-            iconStyle={{
-              width: 96,
-              height: 96,
-            }}
+            style={styles.iconButton.style}
+            iconStyle={styles.iconButton.iconStyle}
           >
             <img src={away.icon} alt="" />
           </IconButton>
@@ -173,10 +174,15 @@ MatchVisualize.propTypes = {
   /**/
   hitVote: PropTypes.func,
   history: PropTypes.object,
+  greaterThan: PropTypes.object,
 };
+
+const mapStateToProps = state => ({
+  greaterThan: state.browser.greaterThan,
+});
 
 const mapDispatchToProps = dispatch => ({
   hitVote: (matchID, teamID, payload) => dispatch(hitVote(matchID, teamID, payload)),
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(MatchVisualize));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MatchVisualize));

@@ -31,6 +31,8 @@ const Constants = {
   fontSizeMedium: '16px',
   fontSizeSmall: '14px',
   fontSizeTiny: '12px',
+  lineHeightMedium: '21px',
+  lineHeightSmall: '18px',
   normalTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
   linearTransition: 'all 300ms linear',
   theme: () => {
@@ -39,55 +41,44 @@ const Constants = {
     switch (themeName) {
       case 'dark':
         theme = {
-          color: materialColor.black,
-          lightColor: materialColor.lightBlack,
-          darkColor: materialColor.darkBlack,
-          almostColor: 'rgba(0, 0, 0, 0.9)',
-          fullColor: materialColor.fullBlack,
-
-          colorPrimary: 'rgba(0, 0, 0, 0.6)',
-          colorSecondary: '#fff',
+          backgroundColor: '#2d2c43',
+          surfaceColorPrimary: 'rgb(46, 47, 64)',
           textColorPrimary: 'rgb(245, 245, 245)',
+          textColorPrimary1: '#222222',
+          textColorPrimary2: '#555555',
+          textColorPrimary3: '#777777',
+          textColorPrimary4: '#999999',
+
+
+          backgroundColorSecondary: 'linear-gradient(135deg, rgb(46, 45, 69), rgb(28, 33, 39))',
+          surfaceColorSecondary: 'rgb(39, 39, 58)',
           textColorSecondary: '#212020',
 
-          backgroundColor: 'rgb(25, 32, 35)',
-          backgroundColorSecondary: 'linear-gradient(135deg, rgb(46, 45, 69), rgb(28, 33, 39))',
-          surfaceColorPrimary: 'rgb(46, 47, 64)',
-          surfaceColorSecondary: 'rgb(39, 39, 58)',
           dividerColor: 'rgb(52, 50, 50)',
-          linkColorPrimary: '#6BF',
+          linkColor: '#6BF',
           avatarBackgroundColor: 'rgba(255, 255, 255, 0.1)',
           buttonMute: materialColor.grey400,
 
-          fontFamily: `
-          -apple-system, BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto, "Droid Sans",
-          Ubuntu, Cantarell,
-          "Fira Sans",
-          Helvetica, Arial, sans-serif`,
+          fontFamily: '"IBM Plex Sans", sans-serif',
+          fontFamilySecondary: 'Open Sans',
         };
         break;
       case 'light':
         theme = {
-          color: materialColor.white,
-          lightColor: materialColor.lightWhite,
-          darkColor: materialColor.darkWhite,
-          almostColor: '#fff',
-          fullColor: materialColor.fullWhite,
-
-
-          colorPrimary: 'rgba(255, 255, 255, 1)',
-          colorSecondary: 'rgba(255, 255, 255, 0.5)',
-          textColorPrimary: '#333333',
-          textColorSecondary: 'rgb(70, 68, 68)',
-
-          backgroundColor: '#eef2f5',
-          backgroundColorSecondary: '#eef2f5', /* root background-image */
+          backgroundColor: '#F7F7F7',
           surfaceColorPrimary: '#fff',
-          surfaceColorSecondary: '#fff', /* header */
+          textColorPrimary: '#222222',
+          textColorPrimary2: '#555555',
+          textColorPrimary3: '#777777',
+          textColorPrimary4: '#999999',
+
+          backgroundColorSecondary: '#eef2f5', /* root background-image */
+          surfaceColorSecondary: '#249A23', /* header */
+          textColorSecondary: '#FFFFFF',
+          textColorSecondary2: 'rgba(255, 255, 255, 0.6)',
+
+          linkColor: '#6BF',
           dividerColor: 'rgb(224, 224, 224)',
-          linkColorPrimary: '#6BF',
           avatarBackgroundColor: materialColor.grey50,
           buttonMute: materialColor.grey400,
 
@@ -103,23 +94,20 @@ const Constants = {
           almostColor: '#fff',
           fullColor: materialColor.fullWhite,
 
-
-          colorPrimary: 'rgba(0, 0, 0, 0.3)',
-          colorSecondary: '#fff',
-          textColorPrimary: 'rgb(28, 28, 28)',
-          textColorSecondary: '#F5F5F5',
+          textColorPrimary: '#333333',
+          textColorSecondary: 'rgb(70, 68, 68)',
 
           backgroundColor: '#eef2f5',
+          backgroundColorSecondary: '#eef2f5', /* root background-image */
           surfaceColorPrimary: '#fff',
-          surfaceColorSecondary: '#fff',
-          dividerColor: 'rgb(52, 50, 50)',
-          linkColorPrimary: '#6BF',
+          surfaceColorSecondary: '#fff', /* header */
+          dividerColor: 'rgb(224, 224, 224)',
+          linkColor: '#6BF',
+          avatarBackgroundColor: materialColor.grey50,
+          buttonMute: materialColor.grey400,
 
-          fontFamily: `Noto Sans KR,Noto Sans,
-          Helvetica,
-          Arial,
-          Malgun Gothic,
-          sans-serif`,
+          fontFamily: '"IBM Plex Sans", sans-serif',
+          fontFamilySecondary: 'Open Sans',
         };
     }
 

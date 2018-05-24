@@ -1,4 +1,3 @@
-/* eslint-disable no-trailing-spaces,react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -19,12 +18,10 @@ import AppLogo from '../App/AppLogo';
 import { BurgerButton } from '../BurgerMenu';
 import Logout from './Logout';
 
-const getHeaderLinks = user => [
-  user && <Link key={strings.header_home} to="/">{strings.header_home}</Link>,
-  // <Link key={strings.header_all} to="/all">{strings.header_all}</Link>,
-  // <Link key={strings.header_explorer} to="/explorer">{strings.header_explorer}</Link>,
-  // <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
-].filter(o => o);
+const getHeaderLinks = () => [
+  <Link key={strings.header_home} to="/">{strings.header_home}</Link>,
+  <Link key={strings.header_matches} to="/match">{strings.header_matches}</Link>,
+].filter(Boolean);
 
 const VerticalAlignToolbar = styled(ToolbarGroup)`
   display: flex;
@@ -51,17 +48,19 @@ const TabContainer = styled.div`
   justify-content: center;
 `;
 
-const ToolbarHeader = styled(Toolbar)`
+const HeaderStyled = styled(Toolbar)`
   position: fixed;
   width: 100%;
   z-index: 1000;
   background-color: ${constants.theme().surfaceColorSecondary} !important;
+  color: ${constants.theme().textColorSecondary};
+  
   padding: 8px !important;
   & a {
-    color: ${constants.theme().textColorPrimary};
+    color: ${constants.theme().textColorSecondary};
 
     &:hover {
-      color: ${constants.theme().textColorPrimary};
+      color: ${constants.theme().textColorSecondary};
       opacity: 0.6;
     }
   }
@@ -108,7 +107,7 @@ const LinkRouterStyled = styled(Link)`
 const LogoGroup = () => (
   <VerticalAlignToolbar>
     <BurgerButton />
-    <AppLogo style={{ marginRight: 18 }} size="24" />
+    <AppLogo style={{ marginRight: 18 }} size={24} />
   </VerticalAlignToolbar>
 );
 
@@ -127,18 +126,18 @@ HeaderLink.propTypes = {
   user: PropTypes.object,
 };
 
-const SearchGroup = () => (
+const Search = () => (
   <VerticalAlignToolbar style={{ marginLeft: 20 }}>
-    <ActionSearch style={{ marginRight: 6, opacity: '.6' }} />
+    <ActionSearch style={{ marginRight: 6, opacity: '.6', color: constants.theme().textColorSecondary }} />
     <SearchForm />
   </VerticalAlignToolbar>
 );
 
-const SettingsGroup = ({ user }) => (
+const UserSettings = ({ user }) => (
   <VerticalAlignDropdown
     Button={IconButton}
     buttonProps={{
-      children: user.avatar ? <Avatar src={user.avatar} size={24} /> : <ActionSettings />,
+      children: user.avatar ? <Avatar src={user.avatar} size={40} /> : <ActionSettings />,
     }}
   >
     {null && <LocalizationMenu />}
@@ -158,24 +157,22 @@ const SettingsGroup = ({ user }) => (
   </VerticalAlignDropdown>
 );
 
-SettingsGroup.propTypes = {
+UserSettings.propTypes = {
   user: PropTypes.shape({}),
 };
 
 const Header = ({ location, greaterThanSmall, user }) => (
-  <div>
-    <ToolbarHeader>
-      <VerticalAlignDiv>
-        <LogoGroup greaterThanSmall={greaterThanSmall} location={location} />
-        {null && <HeaderLink user={user} />}
-        {greaterThanSmall && <SearchGroup />}
-      </VerticalAlignDiv>
-      <VerticalAlignDiv >
-        <AccountWidget greaterThanSmall={greaterThanSmall} />
-        {user && <SettingsGroup user={user} />}
-      </VerticalAlignDiv>
-    </ToolbarHeader>
-  </div>
+  <HeaderStyled>
+    <VerticalAlignDiv>
+      <LogoGroup greaterThanSmall={greaterThanSmall} location={location} />
+      <HeaderLink user={user} />
+      {greaterThanSmall && <Search />}
+    </VerticalAlignDiv>
+    <VerticalAlignDiv >
+      {null && <AccountWidget greaterThanSmall={greaterThanSmall} />}
+      {user && <UserSettings user={user} />}
+    </VerticalAlignDiv>
+  </HeaderStyled>
 );
 
 Header.propTypes = {

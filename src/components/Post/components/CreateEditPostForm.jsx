@@ -215,7 +215,7 @@ class CreateEditPost extends React.Component {
     /* close form => upload => update formData => submit => notify || catch exception */
 
     /* close form */
-    this.close();
+    // setTimeout(this.close, 500);
 
     /* declare upload */
     const promiseUpload = new Promise((resolve) => {

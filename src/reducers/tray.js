@@ -5,12 +5,19 @@ const initialFormState = {
 
 export default (state = initialFormState, action) => {
   switch (action.type) {
-    case 'TRAY':
+    case 'TRAY/TOGGLE':
       return {
         ...state,
-        show: action.state || !state.show,
+        show: !state.show,
         width: action.width || initialFormState.width,
       };
+    case 'TRAY/SET':
+      return {
+        ...state,
+        show: action.state,
+        width: action.width || initialFormState.width,
+      };
+
     default:
       return state;
   }

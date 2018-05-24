@@ -10,8 +10,10 @@ import IconPopular from 'material-ui/svg-icons/action/trending-up';
 import Toggle from 'material-ui/Toggle';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
-import { toggleTray, getSuggestedCommunities } from '../../actions/index';
+import { setTray, getSuggestedCommunities } from '../../actions/index';
 import constants from '../constants';
+
+const notNeedMe = ['/sign_in', '/match'];
 
 class BurgerMenu extends React.Component {
   constructor(props) {
@@ -20,16 +22,28 @@ class BurgerMenu extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.toggleTray({ state: false });
-    if (window.location.pathname === '/sign_in' || !this.props.greaterThanSmall) {
-      this.props.toggleTray({ state: false });
+    // this.props.setTray({ state: false });
+    if (notNeedMe.indexOf(this.props.location.pathname) !== -1 || !this.props.greaterThanSmall) {
+      this.props.setTray({ state: false });
     } else {
-      this.props.toggleTray({ state: true });
+      this.props.setTray({ state: true });
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.location.pathname !== this.props.location.pathname || props.greaterThanSmall !== this.props.greaterThanSmall) {
+      if (!props.greaterThanSmall) {
+        this.props.setTray({ state: false });
+      } else if (notNeedMe.indexOf(props.location.pathname) !== -1) {
+        this.props.setTray({ state: false });
+      } else {
+        this.props.setTray({ state: true });
+      }
     }
   }
 
   handleToggle() {
-    this.props.toggleTray();
+    this.props.setTray();
   }
 
   render() {
@@ -53,7 +67,7 @@ class BurgerMenu extends React.Component {
         docked={this.props.greaterThanSmall}
         width={tray.width}
         open={tray.show}
-        onRequestChange={open => !this.props.greaterThanSmall && this.props.toggleTray({ state: open })}
+        onRequestChange={open => !this.props.greaterThanSmall && this.props.setTray({ state: open })}
         containerStyle={{
           height: 'calc(100vh - 56px)',
           top: 56,
@@ -78,12 +92,12 @@ class BurgerMenu extends React.Component {
             containerElement={<Link to="/popular" />}
             innerDivStyle={innerDivStyle}
           />
-          <ListItem
-            primaryText="Match"
-            leftIcon={<IconPopular size={24} color={constants.redA200} />}
-            containerElement={<Link to="/match" />}
-            innerDivStyle={innerDivStyle}
-          />
+          {/* <ListItem */}
+          {/* primaryText="Match" */}
+          {/* leftIcon={<IconPopular size={24} color={constants.redA200} />} */}
+          {/* containerElement={<Link to="/match" />} */}
+          {/* innerDivStyle={innerDivStyle} */}
+          {/* /> */}
         </List>
         {this.props.user && this.props.communities.length ? (
           <List>
@@ -130,11 +144,11 @@ class BurgerMenu extends React.Component {
 BurgerMenu.propTypes = {
   greaterThanSmall: PropTypes.bool,
   history: PropTypes.object,
+  location: PropTypes.object,
   user: PropTypes.object,
-
   communities: PropTypes.array,
   tray: PropTypes.object,
-  toggleTray: PropTypes.func,
+  setTray: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -145,7 +159,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleTray: props => dispatch(toggleTray(props)),
+  setTray: props => dispatch(setTray(props)),
   getSuggestedCommunities: () => dispatch(getSuggestedCommunities()),
 });
 

@@ -52,7 +52,7 @@ export const LinkPreview = styled.div`
     max-width: 200px;
   }
   ${props => (props.hasImage ? css`grid-template-columns: 1fr 200px;` : css`grid-template-columns: 1fr;`)}
-  @media only screen and (max-width: 660px) {
+  @media only screen and (max-width: 768px) {
     img {
       max-width: 120px;
     }
@@ -89,7 +89,7 @@ export const TextWrapper = styled.div`
 `;
 
 export const PostsGridStyled = styled.div`
-  max-width: 900px;
+  text-align: left;
   ${props => props.columns && css`
     -moz-column-count: ${props.columns}; 
     -webkit-column-count: ${props.columns}; 

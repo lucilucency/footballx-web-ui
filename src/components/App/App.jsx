@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
@@ -70,34 +70,31 @@ const StyledDiv = styled.div`
   height: 100%;
   min-height: 100vh;
   left: ${props => (props.open ? '256px' : '0px')};
-  
-  ${props => (props.location.pathname === '/home' ? css`
-    // background-image: url('/assets/images/home-background.png');
-    background-position: center top;
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;background-size: cover;
-  ` : css``)}
 `;
 
-const StyledBodyDiv = styled.div`
+const BODY = styled.div`
   padding: 25px;
   flex-grow: 1;
   margin-top: 56px;
+  text-align: center;
   ${props => props.isTrayOpen && css`
     padding-left: ${props.trayWidth + 25}px;
-    margin-left: auto;
-    margin-right: auto;
+    //margin-left: auto;
+    //margin-right: auto;
   `};
-  
+`;
+
+const CONTENT = styled.div`
+  display: inline;
   ${props => css`
-    @media only screen and (min-width: ${props.trayWidth + 1080}px) {
-      max-width: 1080px;
-      margin-left: auto;
-      margin-right: auto;
+    @media only screen and (min-width: ${props.trayWidth + 1200}px) {
+      max-width: 1200px;
+      //margin-left: auto;
+      //margin-right: auto;
     }
   `}
   
-  @media only screen and (max-width: 660px) {
+  @media only screen and (max-width: 768px) {
     padding: 1em 0px;
   }
 `;
@@ -115,10 +112,10 @@ class App extends React.Component {
       // width,
       location,
     } = this.props;
-    const themeName = localStorage.getItem('theme') || 'light';
-    const theme = themeName === 'light' ? lightBaseTheme : darkBaseTheme;
+    // const themeName = localStorage.getItem('theme') || 'light';
+    // const theme = themeName === 'light' ? lightBaseTheme : darkBaseTheme;
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(theme, overwritesTheme)}>
+      <MuiThemeProvider muiTheme={getMuiTheme(overwritesTheme)}>
         <StyledDiv {...this.props}>
           <Helmet
             defaultTitle={strings.title_default}
@@ -127,31 +124,33 @@ class App extends React.Component {
           <Announce />
           <Header params={params} location={location} />
           <BurgerMenu />
-          <StyledBodyDiv {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
-            <Route exact path="/" component={this.props.user ? Home.New : Popular.Top} />
-            <Route exact path="/popular" component={Popular.Hot} />
-            <Route exact path="/sign_in" component={Login} />
-            <Route exact path="/submit" component={PageCreatePost} />
+          <BODY {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
+            <CONTENT isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
+              <Route exact path="/" component={this.props.user ? Home.New : Popular.Top} />
+              <Route exact path="/popular" component={Popular.Hot} />
+              <Route exact path="/sign_in" component={Login} />
+              <Route exact path="/submit" component={PageCreatePost} />
 
-            <Route exact path="/new" component={Home.New} />
-            <Route exact path="/hot" component={Home.Hot} />
-            <Route exact path="/top" component={Home.Top} />
-            <Route exact path="/controversy" component={Home.Controversy} />
-            <Route exact path="/popular/new" component={Popular.New} />
-            <Route exact path="/popular/hot" component={Popular.Hot} />
-            <Route exact path="/popular/top" component={Popular.Top} />
-            <Route exact path="/popular/controversy" component={Popular.Controversy} />
-            <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
+              <Route exact path="/new" component={Home.New} />
+              <Route exact path="/hot" component={Home.Hot} />
+              <Route exact path="/top" component={Home.Top} />
+              <Route exact path="/controversy" component={Home.Controversy} />
+              <Route exact path="/popular/new" component={Popular.New} />
+              <Route exact path="/popular/hot" component={Popular.Hot} />
+              <Route exact path="/popular/top" component={Popular.Top} />
+              <Route exact path="/popular/controversy" component={Popular.Controversy} />
+              <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
 
-            <Route exact path="/r/:id?" component={Community.Hot} />
-            <Route exact path="/r/:id?/new" component={Community.New} />
-            <Route exact path="/r/:id?/hot" component={Community.Hot} />
-            <Route exact path="/r/:id?/top" component={Community.Top} />
-            <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
+              <Route exact path="/r/:id?" component={Community.Hot} />
+              <Route exact path="/r/:id?/new" component={Community.New} />
+              <Route exact path="/r/:id?/hot" component={Community.Hot} />
+              <Route exact path="/r/:id?/top" component={Community.Top} />
+              <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
 
-            <Route exact path="/match" component={Match.Hot} />
-            <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.PageViewMatch} />
-          </StyledBodyDiv>
+              <Route exact path="/match" component={Match.Hot} />
+              <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.PageViewMatch} />
+            </CONTENT>
+          </BODY>
           { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
           <Snackbar
             open={this.props.announcement.open}

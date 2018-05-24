@@ -56,7 +56,7 @@ const AdBannerDiv = styled.div`
   display: flex;
   justify-content: center;
   
-  @media only screen and (max-width: 660px) {
+  @media only screen and (max-width: 768px) {
     width: 100vw;
     left: 0;
   }

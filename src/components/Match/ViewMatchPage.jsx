@@ -33,7 +33,7 @@ class PageViewMatch extends React.Component {
         <Container
           columns="1fr"
           style={{
-            maxWidth: 900,
+            maxWidth: 992,
             margin: 'auto',
           }}
         >

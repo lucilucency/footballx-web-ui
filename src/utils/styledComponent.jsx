@@ -12,14 +12,14 @@ export const Container = styled.div`
   display: grid;
   grid-gap: 2em;
   padding: 1em;
-  grid-template-columns: 2.5fr 1fr;
+  grid-template-columns: 1fr 300px;
   ${props => props.columns && css`
     grid-template-columns: ${props.columns};
   `}
-  @media only screen and (max-width: 1080px) {
+  @media only screen and (max-width: 1200px) {
     grid-template-columns: 1fr;
   }
-  @media only screen and (max-width: 660px) {
+  @media only screen and (max-width: 768px) {
     grid-template-columns: 1fr;
     padding: 0;
   }

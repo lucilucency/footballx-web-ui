@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import { toggleTray } from '../../actions/index';
+import constants from '../constants';
 
-class BurgerMenu extends React.Component {
+class BurgerButton extends React.Component {
   constructor(props) {
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
@@ -17,14 +18,14 @@ class BurgerMenu extends React.Component {
 
   render() {
     return (
-      <IconButton onClick={this.handleToggle}>
+      <IconButton onClick={this.handleToggle} iconStyle={{ color: constants.theme().textColorSecondary }}>
         <MenuIcon />
       </IconButton>
     );
   }
 }
 
-BurgerMenu.propTypes = {
+BurgerButton.propTypes = {
   toggleTray: PropTypes.func,
 };
 
@@ -32,4 +33,4 @@ const mapDispatchToProps = dispatch => ({
   toggleTray: props => dispatch(toggleTray(props)),
 });
 
-export default connect(null, mapDispatchToProps)(BurgerMenu);
+export default connect(null, mapDispatchToProps)(BurgerButton);

@@ -25,22 +25,20 @@ const AppLogo = ({ size }) => (
     <span style={{ fontSize: size, verticalAlign: 'middle' }}>
       {strings.app_name}
     </span>
-    {null && (
-      <IconFootballX
-        style={{
-          width: 1.45 * size,
-          height: 1.5 * size,
-          verticalAlign: 'middle',
-          backgroundColor: constants.theme().backgroundColor,
-          borderRadius: 1.5 * size,
-        }}
-      />
-    )}
+    <IconFootballX
+      style={{
+        width: 1.45 * size,
+        height: 1.5 * size,
+        verticalAlign: 'middle',
+        backgroundColor: 'transparent',
+        borderRadius: 1.5 * size,
+      }}
+    />
   </StyledLink>
 );
 
 AppLogo.propTypes = {
-  size: PropTypes.string,
+  size: PropTypes.number,
 };
 
 export default AppLogo;

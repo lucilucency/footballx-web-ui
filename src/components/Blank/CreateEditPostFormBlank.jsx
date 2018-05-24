@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import constants from '../../constants';
+import constants from '../constants';
 
-const ViewMatchCompactBlank = styled.div`
+const CrreateEditPostFormBlank = styled.div`
   @keyframes shine {
     to {
 			background-position:
@@ -17,8 +17,8 @@ const ViewMatchCompactBlank = styled.div`
   }
 	
 	margin: auto;
-	width: 500px;
-	height: 400px;
+	width: 100%;
+	height: 2000px;
 	background-color: ${constants.theme().surfaceColorPrimary};
   
   background-image:
@@ -36,11 +36,11 @@ const ViewMatchCompactBlank = styled.div`
     70px calc(200px + 1em), /* circle */
     50px calc(200px + 1em), /* highlight */
     50px calc(200px + 1em),
-    300px calc(200px + 1em),
     250px calc(200px + 1em),
-    450px calc(200px + 1em),
-    450px calc(200px + 1em),
-    500px calc(200px + 1em);
+    250px calc(200px + 1em),
+    calc(100% - 2em) calc(200px + 1em),
+    calc(100% - 2em) calc(200px + 1em),
+    100% calc(200px + 1em);
 
   background-position:
     0 0, /* circle */
@@ -55,4 +55,4 @@ const ViewMatchCompactBlank = styled.div`
   animation: shine 1s infinite ease-in-out;
 `;
 
-export default ViewMatchCompactBlank;
+export default CrreateEditPostFormBlank;
