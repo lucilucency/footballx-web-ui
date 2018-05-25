@@ -145,11 +145,6 @@ class PostActions extends React.Component {
               width: 20,
               height: 20,
             }}
-            style={{
-              // width: 40,
-              // height: 40,
-              // padding: 5,
-            }}
           >
             <IconUpvote color={item.vflag === 1 ? constants.blueA100 : constants.theme().buttonMute} hoverColor={constants.blueA100} />
           </IconButton>
@@ -162,11 +157,6 @@ class PostActions extends React.Component {
             iconStyle={{
               width: 20,
               height: 20,
-            }}
-            style={{
-              // width: 40,
-              // height: 40,
-              // padding: 5,
             }}
           >
             <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.theme().buttonMute} hoverColor={constants.redA100} />
@@ -208,8 +198,7 @@ class PostActions extends React.Component {
             clipboard={`${window.location.host}/p/${item.id}`}
             child={(
               <FlatButton
-                target="_blank"
-                label={strings.label_share}
+                label={strings.label_share_post}
                 style={{
                   // marginTop: 6,
                   // lineHeight: '32px',

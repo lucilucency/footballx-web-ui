@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -8,8 +9,9 @@ import { IconUpvote, IconDownvote } from '../../Icons';
 import { upVote, downVote, setPost } from '../../../actions';
 import constants from '../../constants';
 import ButtonShare from './ButtonShare';
+import strings from '../../../lang';
 
-const PostActionStyled = styled.div`
+const MatchActionStyled = styled.div`
   padding: 0 0;
   display: table;
   border-top: ${`1px solid ${constants.grey50}`};
@@ -112,7 +114,7 @@ class PostActions extends React.Component {
 
     return (
       <div>
-        <PostActionStyled>
+        <MatchActionStyled>
           <IconButton
             tooltip="Upvote"
             tooltipPosition="top-center"
@@ -177,15 +179,16 @@ class PostActions extends React.Component {
                   fontWeight: 'inherit',
                   fontSize: 'inherit',
                 }}
+                onClick={() => this.props.history.push(`/m/${item.id}`)}
               />
             )}
           </div>
           <ButtonShare
-            clipboard={`${window.location.host}/p/${item.id}`}
+            clipboard={`${window.location.host}/m/${item.id}`}
             child={(
               <FlatButton
                 target="_blank"
-                label="Share"
+                label={strings.label_share_match}
                 style={{
                   // marginTop: 6,
                   // lineHeight: '32px',
@@ -202,7 +205,7 @@ class PostActions extends React.Component {
               />
             )}
           />
-        </PostActionStyled>
+        </MatchActionStyled>
         {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}
       </div>
     );
@@ -214,6 +217,7 @@ PostActions.propTypes = {
   data: PropTypes.object,
   disableComment: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  history: PropTypes.object,
 
   /**/
   upVote: PropTypes.func,
@@ -230,5 +234,5 @@ const mapDispatchToProps = dispatch => ({
   setPost: payload => dispatch(setPost(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostActions);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostActions));
 

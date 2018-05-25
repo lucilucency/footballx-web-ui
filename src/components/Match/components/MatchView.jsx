@@ -8,8 +8,6 @@ import {
   CardActions,
   CardMedia,
 } from 'material-ui';
-import FlatButton from 'material-ui/FlatButton';
-import styled from 'styled-components';
 import clubs from 'fxconstants/build/clubsObj.json';
 import { hitVote, getMatchComments } from '../../../actions';
 import strings from '../../../lang';
@@ -17,15 +15,10 @@ import { bindAll, getCookie } from '../../../utils';
 import constants from '../../constants';
 import MatchVisualize from './MatchVisualize';
 import FanFight from './FanFight';
-import ButtonShare from './ButtonShare';
 import Backdrop from './Backdrop';
 import CreateComment from './CreateEditMatchComment';
 import ViewComments from './MatchComments';
-
-const ActionModule = styled.div`
-  display: grid; 
-  grid-template-columns: 1fr 1fr 1fr;  
-`;
+import MatchActions from './MatchActions';
 
 class ViewMatchCompactFull extends React.Component {
   static initialState = {
@@ -125,27 +118,12 @@ class ViewMatchCompactFull extends React.Component {
               fontWeight: constants.fontWeightHeavy,
             }}
           >
-            <ActionModule>
-              <FlatButton
-                target="_blank"
-                label={data.c_comments ? `${data.c_comments} comments` : 'Comment'}
-                style={{
-                  marginTop: 6,
-                  lineHeight: '32px',
-                  height: 34,
-                  minWidth: 60,
-                }}
-                labelStyle={{
-                  fontSize: constants.fontSizeSmall,
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                  fontWeight: constants.fontWeightHeavy,
-                }}
-              />
-            </ActionModule>
-            <ActionModule>
-              <ButtonShare clipboard={`${window.location.host}/p/${data.id}`} />
-            </ActionModule>
+            <MatchActions
+              type="post"
+              data={this.props.data}
+              disableComment
+              isLoggedIn={this.props.isLoggedIn}
+            />
           </CardActions>
         </Card>
         {this.props.isLoggedIn && <CreateComment post={this.props.data} />}

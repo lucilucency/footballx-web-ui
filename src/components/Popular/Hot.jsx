@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import { PostGrid } from '../Post/components/index';
 import { Container } from '../../utils/index';
 import RightTrayComponent from './RightBar';
+import { MatchGrid } from '../Match/components';
 
 class NewFeeds extends React.Component {
   componentDidMount() {
@@ -16,10 +17,16 @@ class NewFeeds extends React.Component {
       <div>
         <Helmet title="Hot" />
         <Container>
-          <PostGrid
-            bound="all"
-            sorting="hot"
-          />
+          <div>
+            <MatchGrid
+              bound="all"
+              sorting="hot"
+            />
+            <PostGrid
+              bound="all"
+              sorting="hot"
+            />
+          </div>
           <RightTrayComponent />
         </Container>
       </div>

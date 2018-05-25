@@ -4,21 +4,13 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Card, CardActions, CardMedia, CardTitle } from 'material-ui';
-import FlatButton from 'material-ui/FlatButton';
-import styled from 'styled-components';
 import clubs from 'fxconstants/build/clubsObj.json';
 import { upVote, downVote, getMatchVotes } from '../../../actions';
-// import strings from '../../../lang';
 import { bindAll } from '../../../utils';
 import constants from '../../constants';
 import MatchVisualize from './MatchVisualize';
-import ButtonShare from './ButtonShare';
+import MatchActions from './MatchActions';
 
-const ActionModule = styled.div`
-  display: flex; 
-  flex-direction: row;
-  margin-right: 5px;
-`;
 
 class ViewMatchCompact extends React.Component {
   static initialState = {
@@ -152,28 +144,12 @@ class ViewMatchCompact extends React.Component {
             fontWeight: constants.fontWeightHeavy,
           }}
         >
-          <ActionModule>
-            <FlatButton
-              target="_blank"
-              label={data.c_comments ? `${data.c_comments} comments` : 'Comment'}
-              style={{
-                marginTop: 6,
-                lineHeight: '32px',
-                height: 34,
-                minWidth: 60,
-              }}
-              labelStyle={{
-                fontSize: constants.fontSizeSmall,
-                paddingLeft: 5,
-                paddingRight: 5,
-                fontWeight: constants.fontWeightHeavy,
-              }}
-              onClick={() => this.props.history.push(`/m/${this.props.data.id}`)}
-            />
-          </ActionModule>
-          <ActionModule>
-            <ButtonShare clipboard={`${window.location.host}/p/${data.id}`} />
-          </ActionModule>
+          <MatchActions
+            type="post"
+            data={this.props.data}
+            disableComment={false}
+            isLoggedIn={this.props.isLoggedIn}
+          />
         </CardActions>
       </Card>
     );

@@ -8,7 +8,7 @@ import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../uti
 import constants from '../../constants';
 import ViewPostComments from './PostComments';
 import CreateComment from './CreateEditPostComment';
-import ButtonUpvote from './PostActions';
+import PostActions from './PostActions';
 import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, TextWrapper, styles } from './Styled';
 
 const markdown = require('markdown-it')({
@@ -100,7 +100,7 @@ class ViewPostFull extends React.Component {
             <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
           </CardText>}
           <CardActions>
-            <ButtonUpvote
+            <PostActions
               type="post"
               data={this.props.data}
               disableComment

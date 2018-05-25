@@ -83,7 +83,8 @@ const Constants = {
           avatarBackgroundColor: materialColor.grey50,
           buttonMute: materialColor.grey400,
 
-          fontFamily: '"IBM Plex Sans", sans-serif',
+          // fontFamily: '"IBM Plex Sans", sans-serif',
+          fontFamily: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
           fontFamilySecondary: 'Open Sans',
         };
         break;
