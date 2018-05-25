@@ -91,8 +91,8 @@ const AccountWidget = ({
         <Link to="/submit">
           <RaisedButton
             labelStyle={{ color: constants.theme().textColorSecondary, fontSize: '14px' }}
-            style={{ border: '1px solid', borderColor: constants.theme().textColorSecondary }}
-            // buttonStyle={{ height: 32 }}
+            style={{ marginRight: 10, border: '1px solid', borderColor: constants.theme().textColorSecondary }}
+            buttonStyle={{ height: '32px', lineHeight: '32px' }}
             label="CREATE POST"
             backgroundColor={constants.theme().surfaceColorSecondary}
           />

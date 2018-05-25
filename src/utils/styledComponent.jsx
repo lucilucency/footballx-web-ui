@@ -23,6 +23,10 @@ export const Container = styled.div`
     grid-template-columns: 1fr;
     padding: 0;
   }
+  
+  > div {
+    max-width: 100vw;
+  }
 `;
 
 export const RightTray = styled.div`

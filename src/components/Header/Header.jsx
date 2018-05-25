@@ -41,8 +41,8 @@ const VerticalAlignDiv = styled.div`
   justify-content: center;
   
   > div {
-    padding-left: 1em;
-    padding-right: 1em;
+    //padding-left: 1em;
+    //padding-right: 1em;
   }
 `;
 
