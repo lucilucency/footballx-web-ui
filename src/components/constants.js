@@ -68,9 +68,10 @@ const Constants = {
           backgroundColor: '#F7F7F7',
           surfaceColorPrimary: '#fff',
           textColorPrimary: '#222222',
-          textColorPrimary2: '#555555',
-          textColorPrimary3: '#777777',
-          textColorPrimary4: '#999999',
+          textColorPrimary2: '#333333',
+          textColorPrimary3: '#555555',
+          textColorPrimary4: '#777777',
+          textColorPrimary5: '#999999',
 
           backgroundColorSecondary: '#eef2f5', /* root background-image */
           surfaceColorSecondary: '#249A23', /* header */

@@ -14,10 +14,12 @@ export const styles = {
   },
   cardText: {
     style: {
-      fontSize: constants.fontSizeSmall,
       fontWeight: 'normal',
       wordBreak: 'break-word',
       whiteSpace: 'pre-wrap',
+      fontSize: constants.fontSizeSmall,
+      fontFamily: constants.theme().fontFamilySecondary,
+      color: constants.theme().textColorPrimary3,
     },
   },
   cardActions: {
