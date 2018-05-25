@@ -73,7 +73,7 @@ class BurgerMenu extends React.Component {
           top: 56,
           boxShadow: 'rgba(0, 0, 0, 0.16) 0px 0px 0px, rgba(0, 0, 0, 0.23) 2px 2px 5px',
           overflowX: 'hidden',
-          zIndex: 1,
+          zIndex: 1300,
         }}
         overlayStyle={{
           opacity: 0,
