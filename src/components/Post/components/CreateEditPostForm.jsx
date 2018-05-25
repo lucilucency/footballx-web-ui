@@ -215,7 +215,7 @@ class CreateEditPost extends React.Component {
     /* close form => upload => update formData => submit => notify || catch exception */
 
     /* close form */
-    // setTimeout(this.close, 500);
+    setTimeout(this.close, 250);
 
     /* declare upload */
     const promiseUpload = new Promise((resolve) => {
@@ -372,23 +372,6 @@ class CreateEditPost extends React.Component {
     errorMessages={[strings.err_is_required]}
   />);
 
-  renderContentTextInput = () => (
-    <TextValidator
-      name="content"
-      type="text"
-      hintText={strings.hint_post_content}
-      hintStyle={{ top: 12 }}
-      value={this.state.formData.content}
-      onChange={e => this.setFormData('content', e.target.value)}
-      multiLine
-      rows={4}
-      rowsMax={10}
-      fullWidth
-      autoComplete="off"
-      underlineShow={false}
-    />
-  );
-
   onWysiwygChange = (wysiwyg) => {
     this.setState({
       wysiwyg,
@@ -403,10 +386,19 @@ class CreateEditPost extends React.Component {
 
     return (
       <div>
+        {/* <textarea */}
+        {/* cols={80} */}
+        {/* rows={10} */}
+        {/* disabled */}
+        {/* value={this.state.wysiwyg && draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent()))} */}
+        {/* /> */}
         <Editor
-          editorState={this.state.wysiwyg}
+          // editorState={this.state.wysiwyg}
+          rawContentState={this.state.wysiwyg}
+          stripPastedStyles
           wrapperClassName="demo-wrapper"
           editorClassName="demo-editor"
+          onEditorStateChange={this.onWysiwygChange}
           mention={{
             separator: ' ',
             trigger: '@',
@@ -422,7 +414,6 @@ class CreateEditPost extends React.Component {
               options: ['bold', 'italic', 'underline'],
             },
           }}
-          onEditorStateChange={this.onWysiwygChange}
           toolbarStyle={{
             borderBottom: 'none',
             borderLeft: 'none',
@@ -441,7 +432,7 @@ class CreateEditPost extends React.Component {
           }}
           editorStyle={{
             padding: '0 20px',
-            minHeight: '200px',
+            minHeight: '250px',
             ...articleContent,
           }}
         />
