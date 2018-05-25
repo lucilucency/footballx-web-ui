@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Subheader } from 'material-ui';
 import ViewPostFull from './PostView';
 import { Container, RightTray, SmallPaper } from '../../../utils';
+import strings from '../../../lang';
 
 const ViewPostFullFrame = ({ isLoggedIn, postID, data }) => (
   <Container>
@@ -16,8 +17,7 @@ const ViewPostFullFrame = ({ isLoggedIn, postID, data }) => (
         <SmallPaper>
           <p>Posting to FootballX</p>
           <p>
-            The best posts on Footballx for you, pulled from the most active communities on Reddit.
-            Check here to see the most shared, upvoted, and commented content on the internet.
+            {strings.paragraph_post_desc}
           </p>
         </SmallPaper>
       </div>

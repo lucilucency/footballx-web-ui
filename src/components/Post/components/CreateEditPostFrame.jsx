@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Subheader } from 'material-ui';
 import CreateEditPostForm from './CreateEditPostForm';
 import { Container, RightTray, SmallPaper } from '../../../utils';
+import strings from '../../../lang';
 
 const PageCreatePost = ({ callback }) => (
   <Container>
@@ -13,8 +14,7 @@ const PageCreatePost = ({ callback }) => (
         <SmallPaper>
           <p>Posting to FootballX</p>
           <p>
-            The best posts on Footballx for you, pulled from the most active communities on Reddit.
-            Check here to see the most shared, upvoted, and commented content on the internet.
+            {strings.paragraph_post_desc}
           </p>
         </SmallPaper>
       </div>

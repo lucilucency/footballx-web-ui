@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import { PostGrid } from '../Post/components/index';
 import { Container } from '../../utils/index';
 import RightTrayComponent from './RightBar';
+import { MatchGrid } from '../Match/components';
 
 class HomeNew extends React.Component {
   componentDidMount() {
@@ -16,10 +17,16 @@ class HomeNew extends React.Component {
       <div>
         <Helmet title="News feed" />
         <Container>
-          <PostGrid
-            bound="mine"
-            sorting="new"
-          />
+          <div>
+            <MatchGrid
+              bound="all"
+              sorting="hot"
+            />
+            <PostGrid
+              bound="mine"
+              sorting="new"
+            />
+          </div>
           <RightTrayComponent />
         </Container>
       </div>

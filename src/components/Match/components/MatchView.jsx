@@ -12,7 +12,7 @@ import FlatButton from 'material-ui/FlatButton';
 import styled from 'styled-components';
 import clubs from 'fxconstants/build/clubsObj.json';
 import { hitVote, getMatchComments } from '../../../actions';
-// import strings from '../../../lang';
+import strings from '../../../lang';
 import { bindAll, getCookie } from '../../../utils';
 import constants from '../../constants';
 import MatchVisualize from './MatchVisualize';
@@ -66,12 +66,10 @@ class ViewMatchCompactFull extends React.Component {
           }}
         >
           <CardHeader
-            title="Thắng làm vua, thua ngậm mồm"
-            subtitle="Ai là người chiến thắng?"
-            // subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
-            // avatar={data.community_icon}
-            // style={{ padding: '1em 1em 0.5em 1em' }}
+            title={strings.paragraph_match_title}
+            style={{ textAlign: 'center' }}
             textStyle={{
+              padding: 0,
               textTransform: 'uppercase',
             }}
           />
@@ -98,6 +96,17 @@ class ViewMatchCompactFull extends React.Component {
                   isLoggedIn={this.props.isLoggedIn}
                   pumping
                 />
+              </div>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr',
+                  padding: 20,
+                }}
+              >
+                <div>ĐÔ</div>
+                <div>hay..</div>
+                <div>LA</div>
               </div>
               <Backdrop
                 home={homeID}

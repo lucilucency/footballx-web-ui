@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,6 +9,7 @@ import { upVote, downVote, setPost } from '../../../actions';
 import constants from '../../constants';
 import ButtonShare from './ButtonShare';
 import ViewPostFullFrame from './PostViewFullFrame';
+import strings from '../.././../lang';
 
 const PostActionStyled = styled.div`
   padding: 0 0;
@@ -209,7 +209,7 @@ class PostActions extends React.Component {
             child={(
               <FlatButton
                 target="_blank"
-                label="Share"
+                label={strings.label_share}
                 style={{
                   // marginTop: 6,
                   // lineHeight: '32px',

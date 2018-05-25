@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { announce } from '../../../actions';
+import strings from '../../../lang';
 
 const ButtonShare = ({ clipboard, announceFn, child }) => (
   <CopyToClipboard
     text={clipboard}
     onCopy={() => {
       announceFn({
-        message: 'Copied to clipboard!',
+        message: strings.announce_copied,
       });
     }}
   >

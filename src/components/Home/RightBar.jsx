@@ -14,7 +14,7 @@ const HomeRightBar = (props) => {
       {user && (
         <div data="page-welcome">
           <SmallPaper>
-            <Subheader>Home</Subheader>
+            <p>{strings.paragraph_home_title}</p>
             <p>{strings.paragraph_home_desc}</p>
             <CreatePostButton />
           </SmallPaper>
