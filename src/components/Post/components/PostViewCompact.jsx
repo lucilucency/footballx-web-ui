@@ -121,7 +121,10 @@ class ViewPostCompact extends React.Component {
         }
         {isLink && this.renderLink(item.content)}
         {isText && (
-          <CardText style={styles.cardText.style}>
+          <CardText
+            color={constants.theme().textColorSecondary}
+            style={styles.cardText.style}
+          >
             <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
           </CardText>
         )}

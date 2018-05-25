@@ -64,6 +64,7 @@ class ViewPostFull extends React.Component {
         <Card
           style={{
             boxShadow: 'none',
+            textAlign: 'left',
           }}
         >
           <CardHeader
