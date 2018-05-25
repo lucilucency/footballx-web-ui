@@ -128,7 +128,7 @@ class App extends React.Component {
           { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
           <BODY {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             <CONTENT isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
-              <Route exact path="/" component={this.props.user ? Home.New : Popular.Top} />
+              <Route exact path="/" component={this.props.user ? Home.New : Popular.Hot} />
               <Route exact path="/popular" component={Popular.Hot} />
               <Route exact path="/sign_in" component={Login} />
               <Route exact path="/submit" component={PageCreatePost} />
