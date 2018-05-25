@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FlatButton, IconButton } from 'material-ui';
+import { FlatButton, IconButton, RaisedButton } from 'material-ui';
 import IconCreatePost from 'material-ui/svg-icons/editor/border-color';
 import constants from '../constants';
 import strings from '../../lang/index';
@@ -67,7 +67,7 @@ const Styled = styled.div`
 `;
 
 const AccountWidget = ({
-  loading, user, style,
+  loading, user, style, greaterThanSmall,
 }) => {
   const renderUser = () => {
     if (!user) {
@@ -86,9 +86,19 @@ const AccountWidget = ({
       return <Spinner size={20} />;
     }
 
-    // if (greaterThanSmall) {
-    //   return <LoggedInUser style={style} user={user} greaterThanSmall={greaterThanSmall} />;
-    // }
+    if (greaterThanSmall) {
+      return (
+        <Link to="/submit">
+          <RaisedButton
+            labelStyle={{ color: constants.theme().textColorSecondary, fontSize: '14px' }}
+            style={{ border: '1px solid', borderColor: constants.theme().textColorSecondary }}
+            // buttonStyle={{ height: 32 }}
+            label="CREATE POST"
+            backgroundColor={constants.theme().surfaceColorSecondary}
+          />
+        </Link>
+      );
+    }
 
     return (
       <Link style={style} to="/submit">
@@ -111,7 +121,7 @@ AccountWidget.propTypes = {
   // error: PropTypes.string,
   user: PropTypes.shape({}),
   style: PropTypes.string,
-  // greaterThanSmall: PropTypes.bool,
+  greaterThanSmall: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {

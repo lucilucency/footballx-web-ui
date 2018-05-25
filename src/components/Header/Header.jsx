@@ -39,6 +39,11 @@ const VerticalAlignDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  > div {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
 `;
 
 const TabContainer = styled.div`
@@ -54,6 +59,7 @@ const HeaderStyled = styled(Toolbar)`
   z-index: 1000;
   background-color: ${constants.theme().surfaceColorSecondary} !important;
   color: ${constants.theme().textColorSecondary};
+  font-family: ${constants.theme().fontFamily};  
   
   padding: 8px !important;
   & a {
@@ -140,7 +146,7 @@ const UserSettings = ({ user }) => (
   <VerticalAlignDropdown
     Button={IconButton}
     buttonProps={{
-      children: user.avatar ? <Avatar src={user.avatar} size={40} /> : <ActionSettings />,
+      children: user.avatar ? <Avatar src={user.avatar} size={36} /> : <ActionSettings />,
     }}
   >
     {null && <LocalizationMenu />}

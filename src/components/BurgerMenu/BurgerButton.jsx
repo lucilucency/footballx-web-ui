@@ -29,7 +29,11 @@ class BurgerButton extends React.Component {
 
   render() {
     return (
-      <IconButton onClick={this.handleToggle} style={{ padding: 0 }} iconStyle={{ color: constants.theme().textColorSecondary, width: 40, height: 40 }}>
+      <IconButton
+        onClick={this.handleToggle}
+        style={{ padding: 0 }}
+        iconStyle={{ color: constants.theme().textColorSecondary, width: 36, height: 36 }}
+      >
         <FxPNG clicked={this.state.isChecked} />
       </IconButton>
     );
