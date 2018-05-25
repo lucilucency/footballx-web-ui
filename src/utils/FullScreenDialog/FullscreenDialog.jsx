@@ -7,7 +7,7 @@ import NavigationCloseIcon from 'material-ui/svg-icons/navigation/close';
 import styled from 'styled-components';
 import constants from '../../components/constants';
 
-const styles = {
+const baseStyles = {
   root: {
     width: '100vw',
     height: '100vh',
@@ -81,8 +81,8 @@ const FullscreenDialogFrame = ({
       <div
         style={{
           ...style,
-          ...styles.root,
-          ...styles.transition[state],
+          ...baseStyles.root,
+          ...baseStyles.transition[state],
         }}
       >
         <Overlay

@@ -7,11 +7,11 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { announce } from '../../../actions';
 import constants from '../../constants';
 
-const ButtonShare = ({ clipboard, announce }) => (
+const ButtonShare = ({ clipboard, announceFn }) => (
   <CopyToClipboard
     text={clipboard}
     onCopy={() => {
-      announce({
+      announceFn({
         message: 'Copied to clipboard!',
       });
     }}
@@ -37,12 +37,12 @@ const ButtonShare = ({ clipboard, announce }) => (
 
 ButtonShare.propTypes = {
   clipboard: PropTypes.string,
-  announce: PropTypes.func,
+  announceFn: PropTypes.func,
   /**/
 };
 
 const mapDispatchToProps = dispatch => ({
-  announce: props => dispatch(announce(props)),
+  announceFn: props => dispatch(announce(props)),
 });
 
 export default connect(null, mapDispatchToProps)(ButtonShare);

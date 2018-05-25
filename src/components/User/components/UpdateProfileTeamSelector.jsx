@@ -96,7 +96,7 @@ class TeamSelector extends React.Component {
   };
 
   render() {
-    const teamList = clubs && clubs.map((club, index) => {
+    const teamList = clubs && clubs.map((club) => {
       const menuItemStyle = {
         whiteSpace: 'normal',
         display: 'flex',
@@ -105,7 +105,7 @@ class TeamSelector extends React.Component {
       };
 
       return (
-        <div key={index} value={club} label={`${club.name}`} style={menuItemStyle}>
+        <div key={club.id} value={club} label={`${club.name}`} style={menuItemStyle}>
           <div style={{ marginRight: 10 }}>
             <span style={{ fontWeight: 'bold' }}>{club.name}</span>
             <br />

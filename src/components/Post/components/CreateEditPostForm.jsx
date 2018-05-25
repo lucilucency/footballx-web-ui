@@ -160,6 +160,12 @@ class CreateEditPost extends React.Component {
     };
   }
 
+  onWysiwygChange = (wysiwyg) => {
+    this.setState({
+      wysiwyg,
+    });
+  };
+
   setFormData = (state, value, callback) => {
     this.setState({
       formData: update(this.state.formData, {
@@ -372,11 +378,6 @@ class CreateEditPost extends React.Component {
     errorMessages={[strings.err_is_required]}
   />);
 
-  onWysiwygChange = (wysiwyg) => {
-    this.setState({
-      wysiwyg,
-    });
-  };
   renderRichTextInput = () => {
     const suggestions = clubs ? clubs.map(club => ({
       text: club.name,

@@ -24,7 +24,7 @@ const styles = {
 
 const Error = ({ text, errors } = {}) => {
   if (errors) {
-    errors.map((el, index) => <div key={index}>{el}</div>);
+    errors.map(el => <div key={el}>{el}</div>);
     return (
       <List>
         {errors.map(r => (<ListItem

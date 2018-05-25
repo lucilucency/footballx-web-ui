@@ -41,6 +41,6 @@ module.exports = {
     ],
     "react/sort-comp": [1],
     //remove the following once new component lifecycles are implemented
-    "camelcase": 1
+    "camelcase": 0
   },
 };
