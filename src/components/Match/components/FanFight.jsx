@@ -47,7 +47,7 @@ const FanFightView = ({
   awayFan,
   homeColor,
   awayColor,
-}) => (
+}) => homeFan + awayFan > 0 && (
   <FanFightStyled>
     <Fan color={homeColor} text="right" weight={homeFan}>
       {homeFan}

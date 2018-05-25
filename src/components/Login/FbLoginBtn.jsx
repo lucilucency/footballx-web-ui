@@ -1,3 +1,4 @@
+/* global FB */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -31,15 +32,36 @@ class FbLoginBtn extends Component {
     // });
     // document.body.appendChild(scriptTag);
 
-    self.FB = window.FB;
-    self.FB.Event.subscribe('auth.statusChange', self.onStatusChange.bind(self));
+    // self.FB = window.FB;
+    // self.FB && self.FB.Event.subscribe('auth.statusChange', self.onStatusChange.bind(self));
+
+    window.fbAsyncInit = () => {
+      FB.init({
+        appId: '1800262673561624',
+        cookie: true,
+        xfbml: true,
+        version: 'v3.0',
+      });
+      FB.Event.subscribe('auth.statusChange', self.onStatusChange.bind(self));
+    };
+
+    let localize = localStorage.getItem('localization') || 'en-US';
+    localize = localize.replace('-', '_');
+
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+      let js = d.getElementsByTagName(s)[0];
+      const fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = `//connect.facebook.net/${localize}/sdk.js`;
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
   }
 
   onStatusChange(response) {
     if (response.status === 'connected') {
       const { accessToken } = response.authResponse;
-      // I have a afterLogin optional callback
-      // which takes care of ads landing, invitation or any other custom behavior
       this.onSuccess(accessToken, this.props.afterLogin);
     } else {
       this.onFailure();
