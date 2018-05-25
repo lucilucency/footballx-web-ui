@@ -7,7 +7,7 @@ import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
 import constants from '../../constants';
 import ViewPostComments from './PostComments';
-import CreateComment from './CreateEditComment';
+import CreateComment from './CreateEditPostComment';
 import ButtonUpvote from './PostActions';
 import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, TextWrapper, styles } from './Styled';
 

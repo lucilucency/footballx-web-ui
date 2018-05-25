@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FlatButton, IconButton } from 'material-ui';
 import IconCreatePost from 'material-ui/svg-icons/editor/border-color';
-import constants from '../../constants';
-import strings from '../../../lang/index';
-import Spinner from '../../Spinner/index';
+import constants from '../constants';
+import strings from '../../lang/index';
+import Spinner from '../Spinner/index';
 
 const StyledFlatButton = styled(FlatButton)`
  min-width: 30px !important;
@@ -67,7 +67,7 @@ const Styled = styled.div`
 `;
 
 const AccountWidget = ({
-  loading, user, style, greaterThanSmall,
+  loading, user, style,
 }) => {
   const renderUser = () => {
     if (!user) {
@@ -86,9 +86,9 @@ const AccountWidget = ({
       return <Spinner size={20} />;
     }
 
-    if (greaterThanSmall) {
-      return <LoggedInUser style={style} user={user} greaterThanSmall={greaterThanSmall} />;
-    }
+    // if (greaterThanSmall) {
+    //   return <LoggedInUser style={style} user={user} greaterThanSmall={greaterThanSmall} />;
+    // }
 
     return (
       <Link style={style} to="/submit">
@@ -111,7 +111,7 @@ AccountWidget.propTypes = {
   // error: PropTypes.string,
   user: PropTypes.shape({}),
   style: PropTypes.string,
-  greaterThanSmall: PropTypes.bool,
+  // greaterThanSmall: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {

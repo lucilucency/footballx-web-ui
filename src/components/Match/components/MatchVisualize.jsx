@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import Clubs from 'fxconstants/build/clubsObj.json';
 import IconButton from 'material-ui/IconButton';
@@ -9,6 +9,24 @@ import { hitVote } from '../../../actions';
 import constants from '../../constants';
 // import strings from '../../../lang';
 import { toTimeString, toDateString } from '../../../utils';
+
+const beatHeart = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(1.05);
+  }
+  60% {
+    transform: scale(1.085);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+`;
 
 const MatchInfo = styled.div`
   padding: 1em;
@@ -21,8 +39,10 @@ const MatchInfo = styled.div`
   }
   .club-image {
     padding: 2px;
-    //box-shadow: 0 0 3px ${constants.defaultPrimaryColor};
     background-color: rgba(255,255,255,0.1);
+    ${props => props.pumping && css`
+      animation: .85s infinite ${beatHeart};
+    `}
     img {
       width: 128px;
       @media only screen and (max-width: 768px) {
@@ -121,7 +141,7 @@ class MatchVisualize extends React.Component {
     }
 
     return (
-      <MatchInfo>
+      <MatchInfo pumping={this.props.pumping}>
         <div className="club-image">
           <IconButton
             tooltip={`For ${home.name}`}
@@ -129,6 +149,7 @@ class MatchVisualize extends React.Component {
             onClick={() => this.hitVoteHome(home.id, away.id, homeVotes, awayVotes)}
             style={styles.iconButton.style}
             iconStyle={styles.iconButton.iconStyle}
+            touch
           >
             <img src={home.icon} alt="" />
           </IconButton>
@@ -152,6 +173,7 @@ class MatchVisualize extends React.Component {
             onClick={() => this.hitVoteAway(home.id, away.id, homeVotes, awayVotes)}
             style={styles.iconButton.style}
             iconStyle={styles.iconButton.iconStyle}
+            touch
           >
             <img src={away.icon} alt="" />
           </IconButton>
@@ -169,6 +191,7 @@ MatchVisualize.propTypes = {
   homeVotes: PropTypes.number,
   awayVotes: PropTypes.number,
   date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  pumping: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
 
   /**/

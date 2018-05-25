@@ -12,4 +12,6 @@ export const parseCommentsInPost = (data) => {
   });
 };
 
-export const parseCommentAfterCreate = data => data.post;
+export const parseCommentAfterCommentInPost = data => data.post;
+
+export const parseCommentAfterCommentInMatch = data => data.comment;

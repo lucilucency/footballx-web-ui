@@ -77,6 +77,7 @@ const BODY = styled.div`
   flex-grow: 1;
   margin-top: 56px;
   text-align: center;
+  transition: 250ms all ease;
   ${props => props.isTrayOpen && css`
     padding-left: ${props.trayWidth + 25}px;
     //margin-left: auto;
@@ -124,6 +125,7 @@ class App extends React.Component {
           <Announce />
           <Header params={params} location={location} />
           <BurgerMenu />
+          { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
           <BODY {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             <CONTENT isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
               <Route exact path="/" component={this.props.user ? Home.New : Popular.Top} />
@@ -151,7 +153,6 @@ class App extends React.Component {
               <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.PageViewMatch} />
             </CONTENT>
           </BODY>
-          { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
           <Snackbar
             open={this.props.announcement.open}
             message={this.props.announcement.message}

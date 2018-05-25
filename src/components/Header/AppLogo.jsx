@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import constants from '../constants';
-import strings from '../../lang';
-import { IconFootballX } from '../Icons';
+// import strings from '../../lang/index';
+import { FxPNG } from '../Icons/index';
 
 const StyledLink = styled(Link)`
   font-weight: ${constants.fontWeightMedium};
   color: ${constants.theme().textColorPrimary};
   text-transform: uppercase;
   //background-color: ${constants.theme().backgroundColor};
-  display: inline-block;
+  display: inline-flex;
   vertical-align: middle;
   
   &:hover {
@@ -20,25 +20,17 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const AppLogo = ({ size }) => (
+const AppLogo = () => (
   <StyledLink to="/">
-    <span style={{ fontSize: size, verticalAlign: 'middle' }}>
+    {/* <span style={{ fontSize: size, verticalAlign: 'middle' }}>
       {strings.app_name}
-    </span>
-    <IconFootballX
-      style={{
-        width: 1.45 * size,
-        height: 1.5 * size,
-        verticalAlign: 'middle',
-        backgroundColor: 'transparent',
-        borderRadius: 1.5 * size,
-      }}
-    />
+    </span> */}
+    <FxPNG />
   </StyledLink>
 );
 
 AppLogo.propTypes = {
-  size: PropTypes.number,
+  // size: PropTypes.number,
 };
 
 export default AppLogo;

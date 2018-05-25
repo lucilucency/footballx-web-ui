@@ -1,12 +1,6 @@
 /* eslint-disable camelcase */
 import { dispatchDelete, dispatchGet, dispatchPost, dispatchPut } from './dispatchAction';
-import {
-  parseCommentsInPost,
-  parseCommentAfterCreate,
-  parsePost,
-  parsePostAfterCreate,
-  parsePostInMeFeeds,
-} from './parser';
+import * as parser from './parser';
 import { getCookie, setCookie, eraseCookie } from '../utils';
 
 export const localUpdateReducer = (name, payload) => dispatch => dispatch({
@@ -102,7 +96,7 @@ export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGet({
     sortby,
     xuser_id,
   },
-  transform: parsePostInMeFeeds,
+  transform: parser.parsePostInMeFeeds,
 });
 export const getPostsWorld = ({ sortby = 'new', xuser_id }) => dispatchGet({
   auth: false,
@@ -112,14 +106,14 @@ export const getPostsWorld = ({ sortby = 'new', xuser_id }) => dispatchGet({
     sortby,
     xuser_id,
   },
-  transform: parsePostInMeFeeds,
+  transform: parser.parsePostInMeFeeds,
 });
 export const createPost = ({ params, payload }) => dispatchPost({
   reducer: 'ADD/posts',
   path: 'post',
   params,
   payload,
-  transform: parsePostAfterCreate,
+  transform: parser.parsePostAfterCreate,
 });
 export const editPost = (id, params) => dispatchPut({
   reducer: 'EDIT/post',
@@ -137,7 +131,7 @@ export const getPost = postID => dispatchGet({
   params: {
     xuser_id: getCookie('user_id'),
   },
-  transform: parsePost,
+  transform: parser.parsePost,
 });
 export const getPostComments = (postID, sortby, xuser_id) => dispatchGet({
   reducer: 'comments',
@@ -146,9 +140,9 @@ export const getPostComments = (postID, sortby, xuser_id) => dispatchGet({
     sortby,
     xuser_id,
   },
-  transform: parseCommentsInPost,
+  transform: parser.parseCommentsInPost,
 });
-export const createComment = ({
+export const createPostComment = ({
   params,
   payload,
   payloadCallback,
@@ -161,7 +155,7 @@ export const createComment = ({
   path: 'post-comment',
   params,
   payload,
-  transform: parseCommentAfterCreate,
+  transform: parser.parseCommentAfterCommentInPost,
   payloadCallback,
 });
 
@@ -243,6 +237,31 @@ export const hitVote = (matchID, teamID, payload) => dispatchPost({
   /**/
   reducer: 'EDIT/match',
   path: `match/${matchID}/vote`,
+});
+export const getMatchComments = (postID, sortby, xuser_id) => dispatchGet({
+  reducer: 'comments',
+  path: `match/${postID}/comments`,
+  params: {
+    sortby,
+    xuser_id,
+  },
+  transform: parser.parseCommentsInPost,
+});
+export const createMatchComment = (matchID, {
+  params,
+  payload,
+  payloadCallback,
+  /**/
+  reducer = 'ADD/comments',
+  reducerCallback = 'EDIT_ARR/matches',
+} = {}) => dispatchPost({
+  reducer,
+  reducerCallback,
+  path: `match/${matchID}/comment`,
+  params,
+  payload,
+  transform: parser.parseCommentAfterCommentInMatch,
+  payloadCallback,
 });
 
 // community

@@ -1,11 +1,11 @@
-import ViewMatchCompact from './ViewMatchCompact';
+import ViewMatchCompact from './MatchViewCompact';
 import ViewMatchCompactBlank from '../../Blank/MatchGridBlank';
-import ViewMatchFull from './ViewMatchFull';
+import ViewMatch from './MatchView';
 import MatchGrid from './MatchGrid';
 
 export {
+  ViewMatch,
   ViewMatchCompact,
   ViewMatchCompactBlank,
-  ViewMatchFull,
   MatchGrid,
 };

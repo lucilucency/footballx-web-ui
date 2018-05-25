@@ -10,7 +10,7 @@ import {
 import constants from '../../constants';
 import strings from '../../../lang';
 import { bindAll, mergeObject, FormWrapper, TextValidator } from '../../../utils';
-import { createComment as defaultCreateFn } from '../../../actions';
+import { createPostComment as defaultCreateFn } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 
@@ -116,7 +116,7 @@ class CreateEditComment extends React.Component {
         });
         const submitData = this.getFormData();
         if (mode === 'edit') {
-          resolve(this.props.defaultEditFunction(this.props.data.id, submitData));
+          resolve(this.props.defaultEditFunction(this.props.post.id, submitData));
         } else {
           resolve(this.props.defaultCreateFunction({
             params: {
@@ -330,14 +330,14 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CreateEditComment.propTypes = {
+  post: PropTypes.object.isRequired,
+  // data: PropTypes.object, /* comment's data */
+
   mode: PropTypes.string,
   display: PropTypes.bool,
   toggle: PropTypes.bool,
   popup: PropTypes.bool,
-
-  post: PropTypes.object.isRequired,
-  data: PropTypes.object,
-  /* function */
+  /**/
   user: PropTypes.object,
   loading: PropTypes.bool,
   defaultDeleteFunction: PropTypes.func,

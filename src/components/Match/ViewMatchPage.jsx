@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { setMatch, getMatch, getMatchVotes } from '../../actions';
-import { ViewMatchFull } from './components';
+import { ViewMatch } from './components';
 import { Container } from '../../utils';
 
 
@@ -37,7 +37,7 @@ class PageViewMatch extends React.Component {
             margin: 'auto',
           }}
         >
-          <ViewMatchFull
+          <ViewMatch
             isLoggedIn={isLoggedIn}
             matchID={matchID}
             data={data}

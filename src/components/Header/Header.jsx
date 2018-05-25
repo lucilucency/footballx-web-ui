@@ -14,7 +14,7 @@ import Dropdown from '../Header/Dropdown';
 import constants from '../constants';
 import AccountWidget from './AccountWidget';
 import SearchForm from '../Search/SearchForm';
-import AppLogo from '../App/AppLogo';
+// import AppLogo from './AppLogo';
 import { BurgerButton } from '../BurgerMenu';
 import Logout from './Logout';
 
@@ -107,9 +107,12 @@ const LinkRouterStyled = styled(Link)`
 const LogoGroup = () => (
   <VerticalAlignToolbar>
     <BurgerButton />
-    <AppLogo style={{ marginRight: 18 }} size={24} />
+    {/* {greaterThanSmall && <AppLogo style={{ marginRight: 18 }} size={24} />} */}
   </VerticalAlignToolbar>
 );
+LogoGroup.propTypes = {
+  // greaterThanSmall: PropTypes.bool,
+};
 
 const HeaderLink = ({ user }) => (
   <VerticalAlignToolbar>
@@ -169,7 +172,7 @@ const Header = ({ location, greaterThanSmall, user }) => (
       {greaterThanSmall && <Search />}
     </VerticalAlignDiv>
     <VerticalAlignDiv >
-      {null && <AccountWidget greaterThanSmall={greaterThanSmall} />}
+      <AccountWidget greaterThanSmall={greaterThanSmall} />
       {user && <UserSettings user={user} />}
     </VerticalAlignDiv>
   </HeaderStyled>

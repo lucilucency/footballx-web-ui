@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import constants from '../constants';
 
-const ViewMatchCompactBlank = styled.div`
+const BlankTitle = styled.div`
   @keyframes shine {
     to {
 			background-position:
+			  100% 0, /* hightlight */
 				0 0,
-				100% 0,
 				calc(40px + 2em) 1em,
 				calc(40px + 2em) 40px,
 				1em 80px,
@@ -17,13 +17,13 @@ const ViewMatchCompactBlank = styled.div`
   }
 	
 	margin: auto;
-	width: 500px;
-	height: 400px;
+	width: 100%;
+	height: 430px;
 	background-color: ${constants.theme().surfaceColorPrimary};
   
   background-image:
+    linear-gradient( 90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100% ),
     radial-gradient( circle 20px at calc(20px + 1em) calc(20px + 1em), lightgray 99%, transparent 0 ),
-    linear-gradient( 90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80% ),
     linear-gradient( lightgray 15px, transparent 0 ),
     linear-gradient( lightgray 14px, transparent 0 ),
     linear-gradient( lightgray 18px, transparent 0 ),
@@ -33,18 +33,18 @@ const ViewMatchCompactBlank = styled.div`
 
   background-repeat: repeat-y;
   background-size:
-    70px calc(200px + 1em), /* circle */
     50px calc(200px + 1em), /* highlight */
+    70px calc(200px + 1em), /* circle */
     50px calc(200px + 1em),
-    300px calc(200px + 1em),
     250px calc(200px + 1em),
-    450px calc(200px + 1em),
-    450px calc(200px + 1em),
-    500px calc(200px + 1em);
+    350px calc(200px + 1em),
+    calc(100% - 2em) calc(200px + 1em),
+    calc(100% - 2em) calc(200px + 1em),
+    100% calc(200px + 1em);
 
   background-position:
-    0 0, /* circle */
     0 0, /* highlight */
+    0 0, /* circle */
     calc(40px + 2em) 1em,
     calc(40px + 2em) 40px,
     1em 80px,
@@ -52,7 +52,7 @@ const ViewMatchCompactBlank = styled.div`
     1em 160px,
     0 200px;
 
-  animation: shine 1s infinite ease-in-out;
+  animation: shine 0.5s infinite ease-in-out;
 `;
 
-export default ViewMatchCompactBlank;
+export default BlankTitle;
