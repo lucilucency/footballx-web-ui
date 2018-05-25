@@ -124,7 +124,7 @@ class ViewPostCompact extends React.Component {
           <CardText
             color={constants.theme().textColorSecondary}
             style={styles.cardText.style}
-          x>
+          >
             <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
           </CardText>
         )}
