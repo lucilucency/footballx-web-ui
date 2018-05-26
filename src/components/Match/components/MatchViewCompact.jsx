@@ -101,6 +101,7 @@ class ViewMatchCompact extends React.Component {
     const awayVotes = data.votes && data.votes[data.away];
     const home = clubs[homeID] || {};
     const away = clubs[awayID] || {};
+    const winner = homeVotes > awayVotes ? home : away;
     const homeColor = home.home_color || constants.redA200;
     const awayColor = away.home_color || constants.blueA200;
 
@@ -108,46 +109,49 @@ class ViewMatchCompact extends React.Component {
       <Card
         key={data.id}
       >
-        <CardTitle
-          title={data.title}
-          titleColor={constants.theme().textColorPrimary}
-          titleStyle={{
-            fontWeight: constants.fontWeightHeavy,
-            fontSize: constants.fontSizeBig,
-            lineHeight: 1.44,
-          }}
-          style={{
-            paddingTop: 0,
-            // paddingBottom: 0,
-            // whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
-          }}
-        />
         <CardMedia
           style={{
             textAlign: 'center',
+            overflow: 'hidden',
+            textColor: constants.theme().textColorSecondary,
           }}
           onClick={() => {
             this.props.history.push(`/m/${this.props.data.id}`);
           }}
         >
           <div>
-            <MatchVisualize
-              disabled
-              matchID={this.props.data.id}
-              home={home}
-              away={away}
-              homeVotes={homeVotes}
-              awayVotes={awayVotes}
-              date={data.date}
-              isLoggedIn={this.props.isLoggedIn}
+            <div
+              style={{
+                backgroundImage: 'url(/assets/images/backdrops/stadium.jpg)',
+                backgroundColor: 'black',
+                backgroundSize: 'cover',
+                display: 'block',
+                height: 300,
+                width: '100%',
+                position: 'absolute',
+                // filter: 'blur(2px)',
+                zIndex: 0,
+              }}
             />
-            <FanFight
-              homeColor={homeColor}
-              awayColor={awayColor}
-              homeFan={homeVotes}
-              awayFan={awayVotes}
-            />
+            <div>
+              <MatchVisualize
+                disabled
+                matchID={this.props.data.id}
+                home={home}
+                away={away}
+                homeVotes={homeVotes}
+                awayVotes={awayVotes}
+                date={data.date}
+                isLoggedIn={this.props.isLoggedIn}
+              />
+              <FanFight
+                homeColor={homeColor}
+                awayColor={awayColor}
+                homeFan={homeVotes}
+                awayFan={awayVotes}
+                winner={winner.name}
+              />
+            </div>
           </div>
         </CardMedia>
         {/* <CardActions

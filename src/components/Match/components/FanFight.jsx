@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
+import constants from '../../constants';
 
 const nhapnhay = color => keyframes`
   0% {
@@ -14,6 +15,15 @@ const nhapnhay = color => keyframes`
     filter: drop-shadow(0 0 2px ${color});
   }
 `;
+
+const Styled = styled.div`
+  color: ${constants.theme().textColorSecondary}
+  
+  h5 {
+    position: relative;
+  }
+`;
+
 const FanFightStyled = styled.div`
   padding: 1em 1em;
   display: flex;
@@ -46,20 +56,25 @@ const FanFightView = ({
   awayFan,
   homeColor,
   awayColor,
+  winner,
 }) => homeFan + awayFan > 0 && (
-  <FanFightStyled>
-    <Fan color={homeColor} text="right" weight={homeFan}>
-      {homeFan}
-    </Fan>
-    <Fan color={awayColor} text="left" weight={awayFan}>
-      {awayFan}
-    </Fan>
-  </FanFightStyled>
+  <Styled>
+    <FanFightStyled>
+      <Fan color={homeColor} text="right" weight={homeFan}>
+        {homeFan}
+      </Fan>
+      <Fan color={awayColor} text="left" weight={awayFan}>
+        {awayFan}
+      </Fan>
+    </FanFightStyled>
+    {winner && <h5>Fan fight: {winner} Win</h5>}
+  </Styled>
 );
 
 FanFightView.propTypes = {
   homeColor: PropTypes.string,
   awayColor: PropTypes.string,
+  winner: PropTypes.string,
   homeFan: PropTypes.number,
   awayFan: PropTypes.number,
 };

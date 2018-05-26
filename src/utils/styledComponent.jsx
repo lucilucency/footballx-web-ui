@@ -10,8 +10,8 @@ export { Subheader };
 
 export const Container = styled.div`
   display: grid;
-  grid-gap: 2em;
-  padding: 1em;
+  grid-gap: 24px;
+  padding: 24px;
   grid-template-columns: 1fr 300px;
   ${props => props.columns && css`
     grid-template-columns: ${props.columns};
@@ -21,7 +21,7 @@ export const Container = styled.div`
   }
   @media only screen and (max-width: 768px) {
     grid-template-columns: 1fr;
-    padding: 0;
+    padding: 12px 0;
   }
   
   > div {

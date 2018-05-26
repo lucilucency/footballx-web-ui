@@ -73,7 +73,7 @@ const StyledDiv = styled.div`
 `;
 
 const BODY = styled.div`
-   padding: 25px;
+   //padding: 25px;
   flex-grow: 1;
   margin-top: 56px;
   text-align: center;

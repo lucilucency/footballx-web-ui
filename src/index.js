@@ -82,6 +82,14 @@ li {
   }
 }
 
+h1 { font-size: 50px; line-height: 65px; }
+h2 { font-size: 37px; line-height: 48px; }
+h3 { font-size: 28px; line-height: 36px; }
+h4 { font-size: 21px; line-height: 27px; }
+h5 { font-size: 16px; line-height: 21px; }
+h6 { font-size: 14px; line-height: 18px; }
+h7 { font-size: 12px; line-height: 16px; }
+
 [data-hint] {
   &::before,
   &::after {

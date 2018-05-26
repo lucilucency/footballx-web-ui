@@ -32,6 +32,7 @@ const MatchInfo = styled.div`
   padding: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  color: ${constants.theme().textColorSecondary}
   
   @media only screen and (max-width: 1023px) {
     flex-basis: 100%;
@@ -57,6 +58,7 @@ const MatchInfo = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    z-index: 1;
   
     @media only screen and (max-width: 400px) {
       margin: 0 10px;
@@ -161,9 +163,6 @@ class MatchVisualize extends React.Component {
           <div>{Clubs[home] && Clubs[home].name}</div>
         </div>
         <div className="info">
-          {/* <span style={{ fontSize: constants.fontSizeMedium }}> */}
-          {/* {date * 1000 < Date.now() ? strings.match_ended : strings.match_ongoing} */}
-          {/* </span> */}
           <span className="duration">
             {toTimeString(date * 1000)}
           </span>
