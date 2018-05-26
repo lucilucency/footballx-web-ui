@@ -133,6 +133,7 @@ class ViewMatchCompact extends React.Component {
         >
           <div>
             <MatchVisualize
+              disabled
               matchID={this.props.data.id}
               home={home}
               away={away}

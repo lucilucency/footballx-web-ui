@@ -59,8 +59,9 @@ class LoginForm extends React.Component {
     this.props.loginFacebook(token).then((o, e) => {
       if (!e) {
         if (o.payload) {
-          const { from } = this.props.location.state || { from: { pathname: '/' } };
-          that.props.history.push(from.pathname);
+          // const { from } = this.props.location.state || { from: { pathname: '/' } };
+          // that.props.history.push(from.pathname);
+          that.props.history.push(localStorage.getItem('previousPage'));
         } else {
           that.setState({
             loginError: true,
@@ -94,7 +95,6 @@ class LoginForm extends React.Component {
           onFailure={(err) => {
             console.warn('err', err);
           }}
-          // afterLogin={}
         />
         <OrLine>or</OrLine>
         <form>
@@ -122,7 +122,7 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
-  location: PropTypes.object,
+  // location: PropTypes.object,
   loginFacebook: PropTypes.func,
 };
 

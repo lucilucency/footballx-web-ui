@@ -92,14 +92,16 @@ class MatchVisualize extends React.Component {
         },
       });
     } else {
-      this.props.history.push({
-        pathname: '/sign_in',
-        state: {
-          from: {
-            pathname: `/m/${this.props.matchID}`,
-          },
-        },
-      });
+      // this.props.history.push({
+      //   pathname: '/sign_in',
+      //   state: {
+      //     from: {
+      //       pathname: `/m/${this.props.matchID}`,
+      //     },
+      //   },
+      // });
+      localStorage.setItem('previousPage', `/m/${this.props.matchID}`);
+      window.location.href = '/sign_in';
     }
   };
 
@@ -112,20 +114,22 @@ class MatchVisualize extends React.Component {
         },
       });
     } else {
-      this.props.history.push({
-        pathname: '/sign_in',
-        state: {
-          from: {
-            pathname: `/m/${this.props.matchID}`,
-          },
-        },
-      });
+      // this.props.history.push({
+      //   pathname: '/sign_in',
+      //   state: {
+      //     from: {
+      //       pathname: `/m/${this.props.matchID}`,
+      //     },
+      //   },
+      // });
+      localStorage.setItem('previousPage', `/m/${this.props.matchID}`);
+      window.location.href = '/sign_in';
     }
   };
 
   render() {
     const {
-      home, away, homeVotes, awayVotes, date, greaterThan,
+      home, away, homeVotes, awayVotes, date, greaterThan, disabled = false,
     } = this.props;
     const styles = {};
     if (greaterThan.medium) {
@@ -144,6 +148,7 @@ class MatchVisualize extends React.Component {
       <MatchInfo pumping={this.props.pumping}>
         <div className="club-image">
           <IconButton
+            disabled={disabled}
             tooltip={`For ${home.name}`}
             tooltipPosition="top-center"
             onClick={() => this.hitVoteHome(home.id, away.id, homeVotes, awayVotes)}
@@ -168,6 +173,7 @@ class MatchVisualize extends React.Component {
         </div>
         <div className="club-image">
           <IconButton
+            disabled={disabled}
             tooltip={`For ${away.name}`}
             tooltipPosition="top-center"
             onClick={() => this.hitVoteAway(home.id, away.id, homeVotes, awayVotes)}
@@ -185,6 +191,7 @@ class MatchVisualize extends React.Component {
 }
 
 MatchVisualize.propTypes = {
+  disabled: PropTypes.bool,
   matchID: PropTypes.number,
   home: PropTypes.object,
   away: PropTypes.object,
@@ -196,7 +203,7 @@ MatchVisualize.propTypes = {
 
   /**/
   hitVote: PropTypes.func,
-  history: PropTypes.object,
+  // history: PropTypes.object,
   greaterThan: PropTypes.object,
 };
 
