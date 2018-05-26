@@ -38,28 +38,28 @@ LoggedInUser.propTypes = {
   style: PropTypes.object,
 };
 
-const IconButtonLink = styled(Link)`
-  padding: 0 !important;
-  height: auto !important;
-  width: auto !important;
-  vertical-align: middle;
-  line-height: 56px;
-
-  & svg:hover {
-    opacity: 1;
-  }
-
-  &[data-hint-position="bottom"] {
-    &::before {
-      bottom: -9px;
-      left: 8px;
-    }
-
-    &::after {
-      margin-top: 9px;
-    }
-  }
-`;
+// const IconButtonLink = styled(Link)`
+//   padding: 0 !important;
+//   height: auto !important;
+//   width: auto !important;
+//   vertical-align: middle;
+//   line-height: 56px;
+//
+//   & svg:hover {
+//     opacity: 1;
+//   }
+//
+//   &[data-hint-position="bottom"] {
+//     &::before {
+//       bottom: -9px;
+//       left: 8px;
+//     }
+//
+//     &::after {
+//       margin-top: 9px;
+//     }
+//   }
+// `;
 
 const Button = styled.div`
   cursor: pointer;
@@ -72,7 +72,7 @@ const Button = styled.div`
   & svg:hover {
     opacity: 1;
   }
-`
+`;
 
 const Styled = styled.div`
   display: flex;

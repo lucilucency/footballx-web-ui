@@ -1,14 +1,14 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui';
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
-import { toDateTimeString, ActiveLink, MutedLink } from '../../../utils';
+import { toDateTimeString, ActiveLink, MutedLink, bindAll, renderDialog } from '../../../utils';
 import constants from '../../constants';
 import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview, styles } from './Styled';
+import ViewPostFullFrame from './PostViewFullFrame';
 
 const markdown = require('markdown-it')({
   html: true,
@@ -28,7 +28,6 @@ class ViewPostCompact extends React.Component {
   static initialState = {
     openDialog: false,
     dialogConstruct: {},
-    leagues: [],
   };
 
   constructor(props) {
@@ -37,6 +36,12 @@ class ViewPostCompact extends React.Component {
     this.state = {
       ...ViewPostCompact.initialState,
     };
+
+    bindAll([
+      'handleOpenDialog',
+      'handleCloseDialog',
+      'popupViewPostFull',
+    ], this);
   }
 
   renderLink = (contentSring) => {
@@ -55,6 +60,34 @@ class ViewPostCompact extends React.Component {
       </CardText>
     );
   };
+
+  handleOpenDialog() {
+    this.setState({ openDialog: true });
+  }
+
+  handleCloseDialog() {
+    this.setState({ openDialog: false, dialogConstruct: {} });
+  }
+
+  popupViewPostFull() {
+    this.props.setPost(this.props.data);
+    this.setState({
+      dialogConstruct: {
+        view: (
+          <ViewPostFullFrame
+            isLoggedIn={this.props.isLoggedIn}
+          />
+        ),
+        repositionOnUpdate: false,
+        autoDetectWindowHeight: false,
+        modal: false,
+        open: true,
+        fullScreen: true,
+      },
+    }, () => {
+      this.handleOpenDialog();
+    });
+  }
 
   render() {
     const item = this.props.data;
@@ -136,6 +169,7 @@ class ViewPostCompact extends React.Component {
             isLoggedIn={this.props.isLoggedIn}
           />
         </CardActions>
+        {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}
       </Card>
     );
   }
@@ -144,6 +178,7 @@ class ViewPostCompact extends React.Component {
 ViewPostCompact.propTypes = {
   data: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
+  setPost: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

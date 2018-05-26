@@ -10,6 +10,7 @@ export const styles = {
     style: {
       overflow: 'hidden',
       textAlign: 'center',
+      cursor: 'pointer',
     },
   },
   cardText: {
