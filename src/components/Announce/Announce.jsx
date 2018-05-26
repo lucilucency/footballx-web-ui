@@ -171,8 +171,8 @@ const mapStateToProps = () =>
     loading: false,
     data: {
       // items: [{
-      //   title: 'New version available',
-      //   body: 'Lorem ipsum dolor sit amet',
+      //   title: 'Bạn ủng hộ đội bóng nào?',
+      //   body: 'Click vào logo đội bóng bạn ủng hộ ',
       //   number: 2,
       //   html_url: '//google.com',
       // }],

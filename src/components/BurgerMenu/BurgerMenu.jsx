@@ -15,6 +15,16 @@ import constants from '../constants';
 
 const notNeedMe = ['/sign_in', '/match'];
 
+function doYouNeedMe(text) {
+  if (notNeedMe.indexOf(text) !== -1) {
+    return false;
+  }
+  if (text.indexOf('/m/') === -1) {
+    return false;
+  }
+  return true;
+}
+
 class BurgerMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +33,7 @@ class BurgerMenu extends React.Component {
 
   componentDidMount() {
     // this.props.setTray({ state: false });
-    if (notNeedMe.indexOf(this.props.location.pathname) !== -1 || !this.props.greaterThanSmall) {
+    if (doYouNeedMe(this.props.location.pathname) || !this.props.greaterThanSmall) {
       this.props.setTray({ state: false });
     } else {
       this.props.setTray({ state: true });
@@ -34,7 +44,7 @@ class BurgerMenu extends React.Component {
     if (props.location.pathname !== this.props.location.pathname || props.greaterThanSmall !== this.props.greaterThanSmall) {
       if (!props.greaterThanSmall) {
         this.props.setTray({ state: false });
-      } else if (notNeedMe.indexOf(props.location.pathname) !== -1) {
+      } else if (doYouNeedMe(props.location.pathname)) {
         this.props.setTray({ state: false });
       } else {
         this.props.setTray({ state: true });

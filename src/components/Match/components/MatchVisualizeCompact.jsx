@@ -32,7 +32,7 @@ const MatchInfo = styled.div`
   padding: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  color: ${constants.theme().textColorPrimary}
+  color: ${constants.theme().textColorSecondary}
   
   @media only screen and (max-width: 1023px) {
     flex-basis: 100%;
@@ -84,7 +84,7 @@ const MatchInfo = styled.div`
   }
 `;
 
-class MatchVisualize extends React.Component {
+class MatchVisualizeCompact extends React.Component {
   hitVoteHome = (home, away, homeVotes, awayVotes) => {
     if (this.props.isLoggedIn) {
       this.props.hitVote(this.props.matchID, home, {
@@ -189,7 +189,7 @@ class MatchVisualize extends React.Component {
   }
 }
 
-MatchVisualize.propTypes = {
+MatchVisualizeCompact.propTypes = {
   disabled: PropTypes.bool,
   matchID: PropTypes.number,
   home: PropTypes.object,
@@ -214,4 +214,4 @@ const mapDispatchToProps = dispatch => ({
   hitVote: (matchID, teamID, payload) => dispatch(hitVote(matchID, teamID, payload)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MatchVisualize));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MatchVisualizeCompact));

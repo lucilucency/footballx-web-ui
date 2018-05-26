@@ -122,11 +122,11 @@ class App extends React.Component {
             defaultTitle={strings.title_default}
             titleTemplate={strings.title_template}
           />
-          <Announce />
           <Header params={params} location={location} />
           <BurgerMenu />
           { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
           <BODY {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
+            <Announce />
             <CONTENT isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
               <Route exact path="/" component={this.props.user ? Home.New : Popular.Hot} />
               <Route exact path="/popular" component={Popular.Hot} />

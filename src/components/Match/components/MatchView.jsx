@@ -9,7 +9,7 @@ import {
   CardMedia,
 } from 'material-ui';
 import clubs from 'fxconstants/build/clubsObj.json';
-import { hitVote, getMatchComments } from '../../../actions';
+import { hitVote, getMatchComments, announce } from '../../../actions';
 import strings from '../../../lang';
 import { bindAll, getCookie } from '../../../utils';
 import constants from '../../constants';
@@ -37,6 +37,9 @@ class ViewMatchCompactFull extends React.Component {
   }
 
   componentDidMount() {
+    this.props.announce({
+      message: strings.announce_match_vote,
+    });
     this.props.getMatchComments(this.props.matchID || this.props.data.id, 'hot', getCookie('user_id'));
   }
 
@@ -156,6 +159,7 @@ ViewMatchCompactFull.propTypes = {
   // user: PropTypes.object,
   comments: PropTypes.array,
   getMatchComments: PropTypes.func,
+  announce: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -167,6 +171,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   hitVote: (matchID, teamID, payload) => dispatch(hitVote(matchID, teamID, payload)),
   getMatchComments: (postID, sortby, xuser_id) => dispatch(getMatchComments(postID, sortby, xuser_id)),
+  announce: props => dispatch(announce(props)),
 });
 
 

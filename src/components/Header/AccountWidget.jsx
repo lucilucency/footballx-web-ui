@@ -61,6 +61,19 @@ const IconButtonLink = styled(Link)`
   }
 `;
 
+const Button = styled.div`
+  cursor: pointer;
+  padding: 0 !important;
+  height: auto !important;
+  width: auto !important;
+  vertical-align: middle;
+  line-height: 56px;
+
+  & svg:hover {
+    opacity: 1;
+  }
+`
+
 const Styled = styled.div`
   display: flex;
   flex-direction: row-reverse;
@@ -73,9 +86,13 @@ const AccountWidget = ({
     if (!user) {
       if (!loading) {
         return (
-          <IconButtonLink to="/sign_in">
+          <Button
+            onClick={() => {
+              window.location.href = '/sign_in';
+            }}
+          >
             {strings.app_login}
-          </IconButtonLink>
+          </Button>
         );
       } else if (loading) {
         return <Spinner size={20} />;

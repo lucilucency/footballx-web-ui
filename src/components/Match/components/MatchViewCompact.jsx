@@ -8,7 +8,7 @@ import clubs from 'fxconstants/build/clubsObj.json';
 import { upVote, downVote, getMatchVotes, updateMatch } from '../../../actions';
 import { bindAll } from '../../../utils';
 import constants from '../../constants';
-import MatchVisualize from './MatchVisualize';
+import MatchVisualizeCompact from './MatchVisualizeCompact';
 import FanFight from './FanFight';
 // import MatchActions from './MatchActions';
 
@@ -114,6 +114,7 @@ class ViewMatchCompact extends React.Component {
             textAlign: 'center',
             overflow: 'hidden',
             textColor: constants.theme().textColorSecondary,
+            cursor: 'pointer',
           }}
           onClick={() => {
             this.props.history.push(`/m/${this.props.data.id}`);
@@ -134,7 +135,7 @@ class ViewMatchCompact extends React.Component {
               }}
             />
             <div>
-              <MatchVisualize
+              <MatchVisualizeCompact
                 disabled
                 matchID={this.props.data.id}
                 home={home}
