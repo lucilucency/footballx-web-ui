@@ -45,8 +45,8 @@ class FbLoginBtn extends Component {
       FB.Event.subscribe('auth.statusChange', self.onStatusChange.bind(self));
     };
 
-    let localize = localStorage.getItem('localization') || 'en-US';
-    localize = localize.replace('-', '_');
+    // let localize = localStorage.getItem('localization') || 'en-US';
+    // localize = localize.replace('-', '_');
 
     // Load the SDK asynchronously
     (function (d, s, id) {
@@ -54,8 +54,8 @@ class FbLoginBtn extends Component {
       const fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
-      js.src = `//connect.facebook.net/${localize}/sdk.js`;
-      fjs.parentNode.insertBefore(js, fjs);
+      js.src = '//connect.facebook.net/en_US/sdk.js';
+      fjs && fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   }
 

@@ -46,7 +46,7 @@ class ViewPostComments extends React.Component {
                 </div>
               }
               disabled
-              secondaryTextLines={10}
+              secondaryTextLines={2}
               innerDivStyle={{
                 paddingTop: 0,
                 paddingBottom: 5,
