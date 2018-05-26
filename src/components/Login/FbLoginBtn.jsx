@@ -1,6 +1,18 @@
 /* global FB */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const Styled = styled.div`
+  background: #4267b2;
+  border-radius: 5px;
+  color: white;
+  height: 40px;
+  text-align: center;
+  width: 250px;
+  margin: auto;
+  line-height: 40px;
+`;
 
 class FbLoginBtn extends Component {
   constructor(props) {
@@ -42,7 +54,21 @@ class FbLoginBtn extends Component {
         xfbml: true,
         version: 'v3.0',
       });
-      FB.Event.subscribe('auth.statusChange', self.onStatusChange.bind(self));
+      FB.Event.subscribe('auth.statusChange', (resp) => {
+        console.warn('auth.statusChange', resp);
+        self.onStatusChange.bind(self);
+      });
+      FB.Event.subscribe('auth.authResponseChange', (resp) => {
+        console.warn('auth.authResponseChange', resp);
+        self.onStatusChange.bind(self);
+      });
+
+      function finished_rendering() {
+        const spinner = document.getElementById('spinner');
+        spinner.removeAttribute('style');
+        spinner.removeChild(spinner.childNodes[0]);
+      }
+      FB.Event.subscribe('xfbml.render', finished_rendering);
     };
 
     // let localize = localStorage.getItem('localization') || 'en-US';
@@ -55,7 +81,7 @@ class FbLoginBtn extends Component {
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
       js.src = '//connect.facebook.net/en_US/sdk.js';
-      fjs && fjs.parentNode.insertBefore(js, fjs);
+      if (fjs) fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   }
 
@@ -70,17 +96,20 @@ class FbLoginBtn extends Component {
 
   render() {
     return (
-      <div
-        className="fb-login-button"
-        data-max-rows="1"
-        data-size="large"
-        data-button-type="login_with"
-        data-show-faces="false"
-        data-auto-logout-link="false"
-        data-use-continue-as="true"
-        data-scope={this.props.dataScope}
-        data-width={this.props.width}
-      />
+      <Styled id="spinner">
+        Loading...
+        <div
+          className="fb-login-button"
+          data-max-rows="1"
+          data-size="large"
+          data-button-type="login_with"
+          data-show-faces="false"
+          data-auto-logout-link="false"
+          data-use-continue-as="true"
+          data-scope={this.props.dataScope}
+          data-width={this.props.width}
+        />
+      </Styled>
     );
   }
 }
