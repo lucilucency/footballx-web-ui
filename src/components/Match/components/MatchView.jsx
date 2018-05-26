@@ -22,8 +22,7 @@ import MatchActions from './MatchActions';
 
 class ViewMatchCompactFull extends React.Component {
   static initialState = {
-    dialogConstruct: {},
-    leagues: [],
+    openLive: false,
   };
 
   constructor(props) {
@@ -104,25 +103,30 @@ class ViewMatchCompactFull extends React.Component {
                 <div>hay..</div>
                 <div>LA</div>
               </div>
-              <Backdrop
-                home={homeID}
-                homeVotes={homeVotes}
-                away={awayID}
-                awayVotes={awayVotes}
-              />
-              {/* <iframe
-                src="//iframe.dacast.com/b/111717/c/472596"
-                width="590"
-                height="431"
-                frameBorder="0"
-                scrolling="no"
-                allow="autoplay"
-                allowFullScreen
-                webkitAllowFullScreen
-                mozAllowFullScreen
-                oAllowFullScreen
-                msAllowFullScreen
-              /> */}
+              {!this.state.openLive && (
+                <Backdrop
+                  home={homeID}
+                  homeVotes={homeVotes}
+                  away={awayID}
+                  awayVotes={awayVotes}
+                />
+              )}
+              {this.state.openLive && (
+                <iframe
+                  title={this.props.data.id}
+                  src="//iframe.dacast.com/b/111717/c/472596"
+                  width="590"
+                  height="431"
+                  frameBorder="0"
+                  scrolling="no"
+                  allow="autoplay"
+                  allowFullScreen
+                  webkitAllowFullScreen
+                  mozAllowFullScreen
+                  oAllowFullScreen
+                  msAllowFullScreen
+                />
+              )}
             </div>
           </CardMedia>
           <CardActions
@@ -140,6 +144,9 @@ class ViewMatchCompactFull extends React.Component {
               disableComment
               isLoggedIn={this.props.isLoggedIn}
               count={this.props.comments.length}
+              onClickOpenLive={() => {
+                this.setState({ openLive: !this.state.openLive });
+              }}
             />
           </CardActions>
         </Card>

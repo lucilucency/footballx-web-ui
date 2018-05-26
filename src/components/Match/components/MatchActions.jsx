@@ -7,6 +7,7 @@ import {
   // IconButton,
   FlatButton,
 } from 'material-ui';
+import IconLive from 'material-ui/svg-icons/notification/live-tv';
 import { bindAll, renderDialog } from '../../../utils';
 // import { IconUpvote, IconDownvote } from '../../Icons';
 import { upVote, downVote, setPost } from '../../../actions';
@@ -20,6 +21,7 @@ const MatchActionStyled = styled.div`
   border-top: ${`1px solid ${constants.grey50}`};
   font-weight: ${constants.fontWeightHeavy};
   font-size: ${constants.fontSizeSmall};
+  font-family: ${constants.theme().fontFamily};
   
   > * {
     display: table-cell;
@@ -169,6 +171,16 @@ class PostActions extends React.Component {
               />
             )}
           />
+          <FlatButton
+            target="_blank"
+            label={strings.label_live_stream}
+            icon={<IconLive style={{ width: 18, height: 18 }} />}
+            labelStyle={{
+              fontWeight: 'inherit',
+              fontSize: 'inherit',
+            }}
+            onClick={this.props.onClickOpenLive}
+          />
         </MatchActionStyled>
         {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}
       </div>
@@ -182,11 +194,12 @@ PostActions.propTypes = {
   data: PropTypes.object,
   disableComment: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
-  history: PropTypes.object,
+  onClickOpenLive: PropTypes.func,
 
   /**/
   upVote: PropTypes.func,
   downVote: PropTypes.func,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
