@@ -103,25 +103,6 @@ class CreateEditPost extends React.Component {
     Amplitude.logEvent('Enter create post');
   }
 
-  // componentWillReceiveProps(newProps) {
-  //   if (newProps.mode === 'edit' && newProps.post && newProps.id) {
-  //     const getType = () => {
-  //       const find = newProps.dsPostType.find(o => o.value === Number(newProps.hotspot.type));
-  //       return find ? find.text : '';
-  //     };
-  //
-  //     const { post } = newProps;
-  //     this.setState({
-  //       formData: mergeObject(CreateEditPost.defaultFormData, {
-  //         post_id: { value: post.id },
-  //         title: post.title,
-  //         content: post.content,
-  //         content_type: { value: post.type, text: getType() },
-  //       }),
-  //     });
-  //   }
-  // }
-
   getFormError() {
     const { formData } = this.state;
     const err = [];

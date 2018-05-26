@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { IconButton, FlatButton } from 'material-ui';
+import Amplitude from 'react-amplitude';
+
 import { bindAll, renderDialog } from '../../../utils';
 import { IconUpvote, IconDownvote } from '../../Icons';
 import { upVote, downVote, setPost } from '../../../actions';
@@ -46,6 +49,7 @@ class PostActions extends React.Component {
 
   upvote = () => {
     if (this.props.isLoggedIn) {
+      Amplitude.logEvent('Upvote post');
       let { c_ups = 0, c_downs = 0, vflag = 0 } = this.props.data;
       if (vflag === 1) {
         vflag = 0;
@@ -69,11 +73,15 @@ class PostActions extends React.Component {
       this.props.upVote(this.props.data.id, {
         payload,
       }, this.props.type);
+    } else {
+      localStorage.setItem('previousPage', `/p/${this.props.data.id}`);
+      window.location.href = '/sign_in';
     }
   };
 
   downVote = () => {
     if (this.props.isLoggedIn) {
+      Amplitude.logEvent('Downvote post');
       let { c_ups = 0, c_downs = 0, vflag = 0 } = this.props.data;
       if (vflag === 1) {
         vflag = -1;
@@ -97,6 +105,10 @@ class PostActions extends React.Component {
       this.props.downVote(this.props.data.id, {
         payload,
       }, this.props.type);
+    } else {
+      localStorage.setItem('previousPage', `/p/${this.props.data.id}`);
+      // this.props.history.push('/sign_in');
+      window.location.href = '/sign_in';
     }
   };
 
@@ -140,7 +152,7 @@ class PostActions extends React.Component {
             tooltip="Upvote"
             tooltipPosition="top-center"
             onClick={this.upvote}
-            disabled={!this.props.isLoggedIn}
+            // disabled={!this.props.isLoggedIn}
             iconStyle={{
               width: 20,
               height: 20,
@@ -153,7 +165,7 @@ class PostActions extends React.Component {
             tooltip="Downvote"
             tooltipPosition="top-center"
             onClick={this.downVote}
-            disabled={!this.props.isLoggedIn}
+            // disabled={!this.props.isLoggedIn}
             iconStyle={{
               width: 20,
               height: 20,
@@ -232,6 +244,7 @@ PostActions.propTypes = {
   upVote: PropTypes.func,
   downVote: PropTypes.func,
   setPost: PropTypes.func,
+  // history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -244,5 +257,5 @@ const mapDispatchToProps = dispatch => ({
   setPost: payload => dispatch(setPost(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostActions);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostActions));
 

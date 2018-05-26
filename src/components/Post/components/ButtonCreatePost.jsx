@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { RaisedButton } from 'material-ui';
 import strings from '../../../lang';
@@ -36,19 +36,24 @@ class CreateEditPostButton extends React.Component {
   }
 
   popupCreatePost() {
-    this.setState({
-      dialogConstruct: {
-        view: (
-          <CreateEditPostFrame
-            callback={this.handleCloseDialog}
-          />
-        ),
-        modal: true,
-        fullScreen: true,
-      },
-    }, () => {
-      this.handleOpenDialog();
-    });
+    if (this.props.isLoggedIn) {
+      this.setState({
+        dialogConstruct: {
+          view: (
+            <CreateEditPostFrame
+              callback={this.handleCloseDialog}
+            />
+          ),
+          modal: true,
+          fullScreen: true,
+        },
+      }, () => {
+        this.handleOpenDialog();
+      });
+    } else {
+      localStorage.setItem('previousPage', '/submit');
+      window.location.href = '/sign_in';
+    }
   }
 
   render() {
@@ -69,7 +74,7 @@ class CreateEditPostButton extends React.Component {
 
 CreateEditPostButton.propTypes = {
   // browser: PropTypes.object,
-  // user: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
 };
 
 export default connect()(CreateEditPostButton);

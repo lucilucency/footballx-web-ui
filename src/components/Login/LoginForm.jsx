@@ -61,7 +61,8 @@ class LoginForm extends React.Component {
         if (o.payload) {
           // const { from } = this.props.location.state || { from: { pathname: '/' } };
           // that.props.history.push(from.pathname);
-          that.props.history.push(localStorage.getItem('previousPage'));
+          const goTo = localStorage.getItem('previousPage') || '/';
+          that.props.history.push(goTo);
         } else {
           that.setState({
             loginError: true,
