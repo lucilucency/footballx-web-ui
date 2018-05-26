@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui';
+import Amplitude from 'react-amplitude';
+
 import { getPostComments, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
@@ -34,21 +36,25 @@ class ViewPostFull extends React.Component {
 
   componentDidMount() {
     this.props.getPostComments(this.props.postID || this.props.data.id, 'hot', getCookie('user_id'));
+    Amplitude.logEvent('View post detail');
   }
 
-  renderLink = (contentSring) => {
-    const content = contentSring ? JSON.parse(contentSring) : {};
-
-    return (
-      <CardText>
-        <LinkPreview hasImage={content.image}>
-          <a href={content.url} target="_blank">{content.url}</a>
-          {content.image && (
-            <img src={content.image} alt="" />
-          )}
-        </LinkPreview>
-      </CardText>
-    );
+  renderLink = (contentSring = {}) => {
+    try {
+      const content = contentSring ? JSON.parse(contentSring) : {};
+      return (
+        <CardText>
+          <LinkPreview hasImage={content.image}>
+            <a href={content.url} target="_blank">{content.url}</a>
+            {content.image && (
+              <img src={content.image} alt="" />
+            )}
+          </LinkPreview>
+        </CardText>
+      );
+    } catch (e) {
+      return null;
+    }
   };
 
   render() {

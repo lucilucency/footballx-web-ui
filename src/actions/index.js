@@ -210,10 +210,14 @@ export const getHotMatches = ({
     }) : [];
   },
 });
-export const setMatch = payload => dispatch => dispatch(({
+export const updateMatch = payload => dispatch => dispatch({
+  type: 'OK/EDIT_ARR/matches',
+  payload,
+});
+export const setMatch = payload => dispatch => dispatch({
   type: 'OK/EDIT/match',
   payload,
-}));
+});
 export const getMatch = matchID => dispatchGet({
   reducer: 'EDIT/match',
   path: `match/${matchID}`,
@@ -227,9 +231,10 @@ export const getMatch = matchID => dispatchGet({
     };
   },
 });
-export const getMatchVotes = matchID => dispatchGet({
+export const getMatchVotes = (matchID, callback) => dispatchGet({
   reducer: 'EDIT/match',
   path: `match/${matchID}/votes`,
+  callback,
 });
 export const hitVote = (matchID, teamID, payload) => dispatchPost({
   params: { club_id: teamID },

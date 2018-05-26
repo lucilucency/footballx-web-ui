@@ -17,10 +17,11 @@ import draftToMarkdown from 'draftjs-to-markdown';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { format } from 'util';
 import clubs from 'fxconstants/build/clubsArr.json';
+import Amplitude from 'react-amplitude';
 
 import { IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
-import { bindAll, mergeObject, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
+import { bindAll, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
 import constants from '../../constants';
 import { ajaxGET, createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload, announce } from '../../../actions';
 import Error from '../../Error/index';
@@ -98,24 +99,28 @@ class CreateEditPost extends React.Component {
     ], this);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.mode === 'edit' && newProps.post && newProps.id) {
-      const getType = () => {
-        const find = newProps.dsPostType.find(o => o.value === Number(newProps.hotspot.type));
-        return find ? find.text : '';
-      };
-
-      const { post } = newProps;
-      this.setState({
-        formData: mergeObject(CreateEditPost.defaultFormData, {
-          post_id: { value: post.id },
-          title: post.title,
-          content: post.content,
-          content_type: { value: post.type, text: getType() },
-        }),
-      });
-    }
+  componentDidMount() {
+    Amplitude.logEvent('Enter create post');
   }
+
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.mode === 'edit' && newProps.post && newProps.id) {
+  //     const getType = () => {
+  //       const find = newProps.dsPostType.find(o => o.value === Number(newProps.hotspot.type));
+  //       return find ? find.text : '';
+  //     };
+  //
+  //     const { post } = newProps;
+  //     this.setState({
+  //       formData: mergeObject(CreateEditPost.defaultFormData, {
+  //         post_id: { value: post.id },
+  //         title: post.title,
+  //         content: post.content,
+  //         content_type: { value: post.type, text: getType() },
+  //       }),
+  //     });
+  //   }
+  // }
 
   getFormError() {
     const { formData } = this.state;
@@ -222,6 +227,7 @@ class CreateEditPost extends React.Component {
 
     /* close form */
     setTimeout(this.close, 250);
+    Amplitude.logEvent('Create post');
 
     /* declare upload */
     const promiseUpload = new Promise((resolve) => {
@@ -387,12 +393,12 @@ class CreateEditPost extends React.Component {
 
     return (
       <div>
-        {/* <textarea */}
-        {/* cols={80} */}
-        {/* rows={10} */}
-        {/* disabled */}
-        {/* value={this.state.wysiwyg && draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent()))} */}
-        {/* /> */}
+        {/* <textarea
+         cols={80}
+         rows={10}
+         disabled
+         value={this.state.wysiwyg && draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent()))}
+         /> */}
         <Editor
           // editorState={this.state.wysiwyg}
           rawContentState={this.state.wysiwyg}
@@ -400,6 +406,7 @@ class CreateEditPost extends React.Component {
           wrapperClassName="demo-wrapper"
           editorClassName="demo-editor"
           onEditorStateChange={this.onWysiwygChange}
+          placeholder={strings.hint_post_content_text}
           mention={{
             separator: ' ',
             trigger: '@',

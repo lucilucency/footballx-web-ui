@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import Amplitude from 'react-amplitude';
 import { setMatch, getMatch, getMatchVotes } from '../../actions';
 import { ViewMatch } from './components';
 import { Container } from '../../utils';
@@ -17,6 +18,8 @@ class PageViewMatch extends React.Component {
       this.props.getMatch(this.props.match.params.id);
       this.props.getMatchVotes(this.props.match.params.id);
     }
+
+    Amplitude.logEvent('View match');
   }
 
   render() {

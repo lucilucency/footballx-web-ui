@@ -3,13 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardMedia, CardTitle } from 'material-ui';
+import { Card, CardMedia, CardTitle } from 'material-ui';
 import clubs from 'fxconstants/build/clubsObj.json';
-import { upVote, downVote, getMatchVotes } from '../../../actions';
+import { upVote, downVote, getMatchVotes, updateMatch } from '../../../actions';
 import { bindAll } from '../../../utils';
 import constants from '../../constants';
 import MatchVisualize from './MatchVisualize';
-import MatchActions from './MatchActions';
+import FanFight from './FanFight';
+// import MatchActions from './MatchActions';
 
 
 class ViewMatchCompact extends React.Component {
@@ -29,7 +30,12 @@ class ViewMatchCompact extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getMatchVotes(this.props.data.id);
+    this.props.getMatchVotes(this.props.data.id, (resp) => {
+      this.props.updateMatch({
+        ...this.props.data,
+        ...resp,
+      });
+    });
   }
 
   upvote = () => {
@@ -95,6 +101,8 @@ class ViewMatchCompact extends React.Component {
     const awayVotes = data.votes && data.votes[data.away];
     const home = clubs[homeID] || {};
     const away = clubs[awayID] || {};
+    const homeColor = home.home_color || constants.redA200;
+    const awayColor = away.home_color || constants.blueA200;
 
     return (
       <Card
@@ -133,9 +141,15 @@ class ViewMatchCompact extends React.Component {
               date={data.date}
               isLoggedIn={this.props.isLoggedIn}
             />
+            <FanFight
+              homeColor={homeColor}
+              awayColor={awayColor}
+              homeFan={homeVotes}
+              awayFan={awayVotes}
+            />
           </div>
         </CardMedia>
-        <CardActions
+        {/* <CardActions
           style={{
             padding: '0 8px',
             display: 'flex',
@@ -150,7 +164,7 @@ class ViewMatchCompact extends React.Component {
             disableComment={false}
             isLoggedIn={this.props.isLoggedIn}
           />
-        </CardActions>
+        </CardActions> */}
       </Card>
     );
   }
@@ -164,6 +178,7 @@ ViewMatchCompact.propTypes = {
   upVote: PropTypes.func,
   downVote: PropTypes.func,
   getMatchVotes: PropTypes.func,
+  updateMatch: PropTypes.func,
   history: PropTypes.object,
 };
 
@@ -174,7 +189,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   upVote: (postID, params) => dispatch(upVote(postID, params)),
   downVote: (postID, params) => dispatch(downVote(postID, params)),
-  getMatchVotes: matchID => dispatch(getMatchVotes(matchID)),
+  getMatchVotes: (matchID, args) => dispatch(getMatchVotes(matchID, args)),
+  updateMatch: payload => dispatch(updateMatch(payload)),
 });
 
 

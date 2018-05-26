@@ -107,6 +107,19 @@ class ViewMatchCompactFull extends React.Component {
                 away={awayID}
                 awayVotes={awayVotes}
               />
+              {/* <iframe
+                src="//iframe.dacast.com/b/111717/c/472596"
+                width="590"
+                height="431"
+                frameBorder="0"
+                scrolling="no"
+                allow="autoplay"
+                allowFullScreen
+                webkitAllowFullScreen
+                mozAllowFullScreen
+                oAllowFullScreen
+                msAllowFullScreen
+              /> */}
             </div>
           </CardMedia>
           <CardActions
@@ -123,6 +136,7 @@ class ViewMatchCompactFull extends React.Component {
               data={this.props.data}
               disableComment
               isLoggedIn={this.props.isLoggedIn}
+              count={this.props.comments.length}
             />
           </CardActions>
         </Card>

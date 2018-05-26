@@ -3,9 +3,12 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { IconButton, FlatButton } from 'material-ui';
+import {
+  // IconButton,
+  FlatButton,
+} from 'material-ui';
 import { bindAll, renderDialog } from '../../../utils';
-import { IconUpvote, IconDownvote } from '../../Icons';
+// import { IconUpvote, IconDownvote } from '../../Icons';
 import { upVote, downVote, setPost } from '../../../actions';
 import constants from '../../constants';
 import ButtonShare from './ButtonShare';
@@ -109,13 +112,13 @@ class PostActions extends React.Component {
 
   render() {
     const item = this.props.data;
-    const ups = item.c_ups || 0;
-    const downs = item.c_downs || 0;
+    // const ups = item.c_ups || 0;
+    // const downs = item.c_downs || 0;
 
     return (
       <div>
         <MatchActionStyled>
-          <IconButton
+          {/* <IconButton
             tooltip="Upvote"
             tooltipPosition="top-center"
             onClick={this.upvote}
@@ -123,11 +126,6 @@ class PostActions extends React.Component {
             iconStyle={{
               width: 20,
               height: 20,
-            }}
-            style={{
-              // width: 40,
-              // height: 40,
-              // padding: 5,
             }}
           >
             <IconUpvote color={item.vflag === 1 ? constants.blueA100 : constants.theme().buttonMute} hoverColor={constants.blueA100} />
@@ -142,43 +140,18 @@ class PostActions extends React.Component {
               width: 20,
               height: 20,
             }}
-            style={{
-              // width: 40,
-              // height: 40,
-              // padding: 5,
-            }}
           >
             <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.theme().buttonMute} hoverColor={constants.redA100} />
-          </IconButton>
+          </IconButton> */}
           <div>
             {this.props.disableComment ? (
-              <div
-                style={{
-                  // marginTop: 4,
-                  // lineHeight: '32px',
-                  // height: 34,
-                  // minWidth: 60,
-                }}
-              >
-                {item.c_comments ? `${item.c_comments} comments` : 'Comment'}
+              <div>
+                {this.props.count ? `${this.props.count} comments` : 'Comment'}
               </div>
             ) : (
               <FlatButton
                 target="_blank"
-                label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
-                style={{
-                  // marginTop: 6,
-                  // lineHeight: '32px',
-                  // height: 34,
-                  // minWidth: 60,
-                }}
-                labelStyle={{
-                  // fontSize: constants.fontSizeSmall,
-                  // paddingLeft: 5,
-                  // paddingRight: 5,
-                  fontWeight: 'inherit',
-                  fontSize: 'inherit',
-                }}
+                label={this.props.count ? `${this.props.count} comments` : 'Comment'}
                 onClick={() => this.props.history.push(`/m/${item.id}`)}
               />
             )}
@@ -189,16 +162,7 @@ class PostActions extends React.Component {
               <FlatButton
                 target="_blank"
                 label={strings.label_share_match}
-                style={{
-                  // marginTop: 6,
-                  // lineHeight: '32px',
-                  // height: 34,
-                  // minWidth: 60,
-                }}
                 labelStyle={{
-                  // fontSize: constants.fontSizeSmall,
-                  // paddingLeft: 5,
-                  // paddingRight: 5,
                   fontWeight: 'inherit',
                   fontSize: 'inherit',
                 }}
@@ -214,6 +178,7 @@ class PostActions extends React.Component {
 
 PostActions.propTypes = {
   type: PropTypes.string.isRequired, /* post, comment */
+  count: PropTypes.number, /* comment numbers */
   data: PropTypes.object,
   disableComment: PropTypes.bool,
   isLoggedIn: PropTypes.bool,

@@ -162,9 +162,9 @@ class HorizontalNonLinearStepper extends React.Component {
         <Overlay show={this.state.showBanner} />
         <AdBannerDiv show={this.state.showBanner}>
           <div>
-            <h3>{strings.paragraph_update_profile_hi}</h3>
+            {/* <h3>{strings.paragraph_update_profile_hi}</h3> */}
             <p>
-              {strings.paragraph_update_profile_welcome} <br />
+              {/* {strings.paragraph_update_profile_welcome} <br /> */}
               {strings.paragraph_update_profile_introduce}
             </p>
             <Stepper
@@ -221,7 +221,7 @@ class HorizontalNonLinearStepper extends React.Component {
               )}
               {stepIndex === 2 && (
                 <div>
-                  <h2>{strings.hint_choose_following_community_1}</h2>
+                  {/* <h2>{strings.hint_choose_following_community_1}</h2> */}
                   <p>{strings.hint_choose_following_community_2}</p>
                   <SuggestedCommunities />
                 </div>
