@@ -20,7 +20,7 @@ import CreateComment from './CreateEditMatchComment';
 import ViewComments from './MatchComments';
 import MatchActions from './MatchActions';
 
-class ViewMatchCompactFull extends React.Component {
+class MatchView extends React.Component {
   static initialState = {
     openLive: false,
   };
@@ -29,7 +29,7 @@ class ViewMatchCompactFull extends React.Component {
     super(props);
 
     this.state = {
-      ...ViewMatchCompactFull.initialState,
+      ...MatchView.initialState,
     };
 
     bindAll([], this);
@@ -157,7 +157,7 @@ class ViewMatchCompactFull extends React.Component {
   }
 }
 
-ViewMatchCompactFull.propTypes = {
+MatchView.propTypes = {
   data: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
   matchID: PropTypes.number,
@@ -182,4 +182,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewMatchCompactFull));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MatchView));

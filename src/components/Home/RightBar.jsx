@@ -8,15 +8,15 @@ import { RightTray, SmallPaper } from '../../utils/index';
 import strings from '../../lang/index';
 
 const HomeRightBar = (props) => {
-  const { user } = props;
+  const { isLoggedIn } = props;
   return (
     <RightTray>
-      {user && (
+      {isLoggedIn && (
         <div data="page-welcome">
           <SmallPaper>
             <p>{strings.paragraph_home_title}</p>
             <p>{strings.paragraph_home_desc}</p>
-            <CreatePostButton />
+            <CreatePostButton isLoggedIn={isLoggedIn} />
           </SmallPaper>
         </div>
       )}
@@ -27,7 +27,7 @@ const HomeRightBar = (props) => {
           </SmallPaper>
         </div>
       )}
-      {user && (
+      {isLoggedIn && (
         <div data="suggested-communities">
           <SmallPaper>
             <Subheader>{strings.label_suggested_community}</Subheader>
@@ -40,11 +40,11 @@ const HomeRightBar = (props) => {
 };
 
 HomeRightBar.propTypes = {
-  user: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  user: state.app.metadata.data.user || {},
+  isLoggedIn: Boolean(state.app.metadata.data.user),
 });
 
 export default connect(mapStateToProps, null)(HomeRightBar);
