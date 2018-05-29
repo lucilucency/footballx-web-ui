@@ -20,6 +20,7 @@ export const styles = {
   },
   cardMedia: {
     style: {
+      paddingTop: '1em',
       overflow: 'hidden',
       textAlign: 'center',
       cursor: 'pointer',

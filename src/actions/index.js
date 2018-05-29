@@ -98,7 +98,7 @@ export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGet({
   },
   transform: parser.parsePostInMeFeeds,
 });
-export const getPostsWorld = ({ sortby = 'new', xuser_id }) => dispatchGet({
+export const getPostsWorld = ({ sortby, xuser_id }) => dispatchGet({
   auth: false,
   reducer: 'posts',
   path: 'posts',

@@ -253,6 +253,7 @@ class CreateEditPost extends React.Component {
           payload: {
             xuser_avatar: this.props.user.avatar,
             xuser_nickname: this.props.user.nickname,
+            xuser_username: this.props.user.username,
             xuser_id: this.props.user.id,
           },
         }));
