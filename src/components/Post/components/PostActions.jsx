@@ -7,7 +7,7 @@ import { IconButton, FlatButton } from 'material-ui';
 import Amplitude from 'react-amplitude';
 
 import { bindAll, renderDialog } from '../../../utils';
-import { IconUpvote, IconDownvote } from '../../Icons';
+import { IconUpvote, IconDownvote, IconShare } from '../../Icons';
 import { upVote, downVote, setPost } from '../../../actions';
 import constants from '../../constants';
 import ButtonShare from './ButtonShare';
@@ -211,6 +211,7 @@ class PostActions extends React.Component {
             child={(
               <FlatButton
                 label={strings.label_share_post}
+                icon={<IconShare />}
                 style={{
                   // marginTop: 6,
                   // lineHeight: '32px',

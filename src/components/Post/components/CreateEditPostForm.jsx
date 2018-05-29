@@ -361,6 +361,9 @@ class CreateEditPost extends React.Component {
     autoComplete="off"
     underlineShow={false}
     value={this.state.formData.title}
+    multiLine
+    rows={1}
+    rowsMax={4}
     validators={['required']}
     errorMessages={[strings.err_is_required]}
   />);
