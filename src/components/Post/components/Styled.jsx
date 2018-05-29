@@ -1,47 +1,6 @@
 import styled, { css } from 'styled-components';
 import constants from '../../constants';
 
-/* Card */
-export const styles = {
-  cardHeader: {
-    style: { padding: '1em 1em 0.5em 1em' },
-  },
-  cardMedia: {
-    style: {
-      overflow: 'hidden',
-      textAlign: 'center',
-      cursor: 'pointer',
-    },
-  },
-  cardText: {
-    style: {
-      fontWeight: 'normal',
-      wordBreak: 'break-word',
-      whiteSpace: 'pre-wrap',
-      fontSize: constants.fontSizeSmall,
-      fontFamily: constants.theme().fontFamilySecondary,
-      color: constants.theme().textColorPrimary3,
-    },
-  },
-  cardActions: {
-    style: {
-      padding: '0 0',
-    },
-  },
-  cardTitle: {
-    titleStyle: {
-      fontWeight: 'bold',
-      fontSize: constants.fontSizeMedium,
-      lineHeight: '23px',
-    },
-    style: {
-      paddingTop: 0,
-      paddingBottom: 0,
-      wordBreak: 'break-word',
-    },
-  },
-};
-
 export const LinkCoverStyled = styled.span`
   color: ${constants.colorMutedLight};
   font-size: ${constants.fontSizeSmall};

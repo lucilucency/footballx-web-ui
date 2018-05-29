@@ -6,12 +6,12 @@ import Amplitude from 'react-amplitude';
 
 import { getPostComments, setPost } from '../../../actions';
 import strings from '../../../lang';
-import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
+import { toDateTimeString, getCookie, MutedLink, ActiveLink, styles } from '../../../utils';
 import constants from '../../constants';
 import ViewPostComments from './PostComments';
 import CreateComment from './CreateEditPostComment';
 import PostActions from './PostActions';
-import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, TextWrapper, styles } from './Styled';
+import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, TextWrapper } from './Styled';
 
 const markdown = require('markdown-it')({
   html: true,

@@ -287,6 +287,7 @@ const changeFollow = (userID, {
   target_id,
   target_type,
   action_type,
+  payload,
   /**/
   reducer = 'EDIT/metadata',
   path = `xuser/${userID}/change-follow`,
@@ -299,6 +300,7 @@ const changeFollow = (userID, {
     target_type,
     action: action_type,
   },
+  payload,
 });
 export const followUser = (userID, targetID) => changeFollow(userID, {
   target_id: targetID,
@@ -310,15 +312,17 @@ export const unfollowUser = (userID, targetID) => changeFollow(userID, {
   target_type: 'xuser',
   action_type: 'unfollow',
 });
-export const followCommunity = (userID, targetID) => changeFollow(userID, {
+export const followCommunity = (userID, targetID, payload) => changeFollow(userID, {
   target_id: targetID,
   target_type: 'community',
   action_type: 'follow',
+  payload,
 });
-export const unfollowCommunity = (userID, targetID) => changeFollow(userID, {
+export const unfollowCommunity = (userID, targetID, payload) => changeFollow(userID, {
   target_id: targetID,
   target_type: 'community',
   action_type: 'unfollow',
+  payload,
 });
 const registerClub = (userID, {
   club_id,

@@ -40,7 +40,7 @@ const testChild = [
   <div key='0' value='1'>Test Child</div>
 ]
 
-describe('Default states, styles, and behaviors', () => {
+describe('Default states, style, and behaviors', () => {
   it('renders without crashing', () => {
     const root = document.createElement('div')
     render(

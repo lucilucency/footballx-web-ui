@@ -16,7 +16,7 @@ import { getCookie } from './utils';
 // import registerServiceWorker from './registerServiceWorker';
 import { unregister } from './registerServiceWorker';
 
-// Inject global styles
+// Inject global style
 injectGlobal([`
 body {
   background-color: initial;
@@ -88,7 +88,9 @@ h3 { font-size: 28px; line-height: 36px; }
 h4 { font-size: 21px; line-height: 27px; }
 h5 { font-size: 16px; line-height: 21px; }
 h6 { font-size: 14px; line-height: 18px; }
-h7 { font-size: 12px; line-height: 16px; }
+h7 { font-size: 12px; line-height: 16px; display: block; }
+
+
 
 [data-hint] {
   &::before,

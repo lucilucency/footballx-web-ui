@@ -6,7 +6,7 @@ import { ValidatorForm } from './FormValidator';
 import constants from '../components/constants';
 import { FullScreenDialog } from './FullScreenDialog';
 
-export { Subheader };
+export { Subheader, Paper };
 
 export const Container = styled.div`
   display: grid;
@@ -36,18 +36,10 @@ export const RightTray = styled.div`
     width: 100%;
   }
   
-  > div[data='page-welcome'] {
-    //padding-top: calc(75% + 40px);
-  }
+  //> div[data='page-welcome'] {
+  //  padding-top: calc(75% + 40px);
+  //}
 `;
-
-export const SmallPaper = styled(Paper)`
-  display: grid;
-  font-size: ${constants.fontSizeSmall};
-  
-  padding: 10px;
-`;
-
 
 export const FormWrapper = styled(ValidatorForm)`
   background-color: ${constants.theme().surfaceColorPrimary};

@@ -49,7 +49,6 @@ const Constants = {
           textColorPrimary3: '#777777',
           textColorPrimary4: '#999999',
 
-
           backgroundColorSecondary: 'linear-gradient(135deg, rgb(46, 45, 69), rgb(28, 33, 39))',
           surfaceColorSecondary: 'rgb(39, 39, 58)',
           textColorSecondary: '#212020',
@@ -83,8 +82,8 @@ const Constants = {
           avatarBackgroundColor: materialColor.grey50,
           buttonMute: materialColor.grey400,
 
-          // fontFamily: 'IBM Plex Sans',
-          fontFamily: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
+          fontFamily: 'IBM Plex Sans',
+          // fontFamily: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
           fontFamilySecondary: 'Open Sans',
         };
         break;

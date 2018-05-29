@@ -57,19 +57,27 @@ class BurgerMenu extends React.Component {
   }
 
   render() {
-    const innerDivStyle = {
-      marginLeft: 3,
-      paddingLeft: '44px',
-      fontSize: constants.fontSizeSmall,
-    };
-
     const { tray } = this.props;
-    const labelStyle = {
-      maxWidth: tray.width - 80,
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      textTransform: 'none !important',
-      whiteSpace: 'nowrap',
+
+    const styles = {
+      subheader: {
+        style: { fontSize: constants.fontSizeTiny },
+      },
+      listItem: {
+        primaryTextStyle: {
+          maxWidth: tray.width - 80,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          textTransform: 'none !important',
+          whiteSpace: 'nowrap',
+          fontWeight: constants.fontWeightMedium,
+        },
+        innerDivStyle: {
+          marginLeft: 3,
+          paddingLeft: '44px',
+          fontSize: constants.fontSizeSmall,
+        },
+      },
     };
 
     return (
@@ -81,7 +89,8 @@ class BurgerMenu extends React.Component {
         containerStyle={{
           height: 'calc(100vh - 56px)',
           top: 56,
-          boxShadow: 'rgba(0, 0, 0, 0.16) 0px 0px 0px, rgba(0, 0, 0, 0.23) 2px 2px 5px',
+          // boxShadow: 'rgba(0, 0, 0, 0.16) 0px 0px 0px, rgba(0, 0, 0, 0.23) 2px 2px 5px',
+          boxShadow: 'none',
           overflowX: 'hidden',
           zIndex: 1300,
         }}
@@ -90,37 +99,42 @@ class BurgerMenu extends React.Component {
         }}
       >
         <List>
-          <Subheader>FEED</Subheader>
+          <Subheader style={styles.subheader.style}>FEED</Subheader>
           {this.props.user && <ListItem
             primaryText="Home"
             leftIcon={<Home size={24} color={constants.blueA200} />}
             containerElement={<Link to="/" />}
-            innerDivStyle={innerDivStyle}
+            innerDivStyle={styles.listItem.innerDivStyle}
           />}
           <ListItem
             primaryText="Popular"
             leftIcon={<IconPopular size={24} color={constants.greenA200} />}
             containerElement={<Link to="/popular" />}
-            innerDivStyle={innerDivStyle}
+            innerDivStyle={styles.listItem.innerDivStyle}
           />
-          {/* <ListItem */}
-          {/* primaryText="Match" */}
-          {/* leftIcon={<IconPopular size={24} color={constants.redA200} />} */}
-          {/* containerElement={<Link to="/match" />} */}
-          {/* innerDivStyle={innerDivStyle} */}
-          {/* /> */}
         </List>
         {this.props.user && this.props.communities.length ? (
           <List>
-            <Subheader>YOUR COMMUNITIES</Subheader>
+            <Subheader style={styles.subheader.style}>YOUR COMMUNITIES</Subheader>
             {this.props.communities.map(item => (
               <ListItem
                 key={item.id}
-                primaryText={<div style={labelStyle}>{item.name}</div>}
+                primaryText={<div style={styles.listItem.primaryTextStyle}>{item.name}</div>}
                 leftIcon={<Avatar size={24} src={item.icon} />}
-                innerDivStyle={innerDivStyle}
+                innerDivStyle={styles.listItem.innerDivStyle}
                 onClick={() => {
-                  this.props.history.push(`/r/${item.id}`);
+                  this.props.history.push({
+                    pathname: `/r/${item.id}`,
+                    state: {
+                      data: {
+                        id: item.id,
+                        icon: item.icon,
+                        link: item.link,
+                        name: item.name,
+                        isFollowing: true,
+                      },
+                    },
+                  });
                 }}
               />
             ))}

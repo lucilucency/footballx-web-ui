@@ -88,6 +88,7 @@ const AccountWidget = ({
         return (
           <Button
             onClick={() => {
+              localStorage.setItem('previousPage', window.location.pathname);
               window.location.href = '/sign_in';
             }}
           >

@@ -5,7 +5,7 @@ const chai = require('chai');
 const sinonChai = require('sinon-chai');
 const chaiEnzyme = require('chai-enzyme');
 const dirtyChai = require('dirty-chai');
-const ignore = require('ignore-styles');
+const ignore = require('ignore-style');
 const jsdom = require('jsdom').jsdom;
 
 babelRegister({

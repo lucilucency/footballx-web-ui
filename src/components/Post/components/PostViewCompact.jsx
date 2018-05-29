@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui';
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
-import { toDateTimeString, ActiveLink, MutedLink, bindAll, renderDialog } from '../../../utils';
+import { toDateTimeString, ActiveLink, MutedLink, bindAll, renderDialog, styles } from '../../../utils';
 import constants from '../../constants';
 import PostActions from './PostActions';
-import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview, styles } from './Styled';
+import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview } from './Styled';
 import ViewPostFullFrame from './PostViewFullFrame';
 
 const markdown = require('markdown-it')({
@@ -15,7 +15,7 @@ const markdown = require('markdown-it')({
   linkify: true,
 });
 
-function IsJsonString(str) {
+function isJsonString(str) {
   try {
     JSON.parse(str);
   } catch (e) {
@@ -45,7 +45,7 @@ class ViewPostCompact extends React.Component {
   }
 
   renderLink = (contentSring) => {
-    const content = IsJsonString(contentSring) ? JSON.parse(contentSring) : {
+    const content = isJsonString(contentSring) ? JSON.parse(contentSring) : {
       url: contentSring,
     };
 
@@ -107,6 +107,8 @@ class ViewPostCompact extends React.Component {
         {toDateTimeString(item.created_at)}
       </MutedLink>
     );
+    const followingCommunityIDs = this.props.followingCommunities.map(el => el.id);
+    const isFollowing = communityID => followingCommunityIDs.indexOf(communityID) !== -1;
     const communityLink = (
       <ActiveLink
         to={{
@@ -117,6 +119,7 @@ class ViewPostCompact extends React.Component {
               icon: item.community_icon,
               link: item.community_link,
               name: item.community_name,
+              isFollowing: isFollowing(item.community_id),
             },
           },
         }}
@@ -126,7 +129,7 @@ class ViewPostCompact extends React.Component {
     );
 
     return (
-      <Card>
+      <Card style={styles.card.style}>
         <CardHeader
           title={communityLink}
           subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
@@ -179,10 +182,12 @@ ViewPostCompact.propTypes = {
   data: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
   setPost: PropTypes.func,
+  followingCommunities: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
   browser: state.browser,
+  followingCommunities: state.app.metadata.data.following ? (state.app.metadata.data.following.communities || []) : [],
 });
 
 const mapDispatchToProps = dispatch => ({

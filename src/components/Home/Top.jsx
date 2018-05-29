@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { PostGrid } from '../Post/components/index';
 import { Container } from '../../utils/index';
-import RightTrayComponent from './RightBar';
+import RightTrayComponent from './HomeRightBar';
 
 class HomeTop extends React.Component {
   componentDidMount() {

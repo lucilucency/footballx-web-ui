@@ -11,27 +11,16 @@ const PopularRightBar = (props) => {
   const { user } = props;
   return (
     <RightTray>
-      <div data="page-welcome">
-        <SmallPaper>
-          <p>Popular</p>
-          <p>{strings.paragraph_popular_desc}</p>
-          {user && <CreatePostButton />}
-        </SmallPaper>
-      </div>
-      {null && (
-        <div data="ads">
-          <SmallPaper>
-            <Subheader>Ads</Subheader>
-          </SmallPaper>
-        </div>
-      )}
+      <SmallPaper>
+        <p>Popular</p>
+        <p>{strings.paragraph_popular_desc}</p>
+        {user && <CreatePostButton />}
+      </SmallPaper>
       {user && (
-        <div data="suggested-communities">
-          <SmallPaper>
-            <Subheader>{strings.label_suggested_community}</Subheader>
-            <SuggestedCommunities />
-          </SmallPaper>
-        </div>
+        <SmallPaper>
+          <Subheader>{strings.label_suggested_community}</Subheader>
+          <SuggestedCommunities />
+        </SmallPaper>
       )}
     </RightTray>
   );

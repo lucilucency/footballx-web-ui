@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import { setCommunity, getCommunity } from '../../actions';
 import { PostGrid } from '../Post/components/index';
 import { Container } from '../../utils/index';
-import RightComponent from './RightComponent';
+import RightComponent from './CommunityRightBar';
 
 class CommunityControversy extends React.Component {
   componentDidMount() {

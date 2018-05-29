@@ -181,7 +181,7 @@ FullscreenDialog.propTypes = {
    */
   closeIcon: PropTypes.node,
   /**
-   * Overrides the inline-styles of the dialog's children container.
+   * Overrides the inline-style of the dialog's children container.
    */
   containerStyle: PropTypes.object,
   /**
@@ -193,7 +193,7 @@ FullscreenDialog.propTypes = {
    */
   open: PropTypes.bool.isRequired,
   /**
-   * Overrides the inline-styles of the dialog's root element.
+   * Overrides the inline-style of the dialog's root element.
    */
   style: PropTypes.object,
 };
@@ -201,7 +201,7 @@ FullscreenDialog.propTypes = {
 FullscreenDialog.defaultProps = {
   appBarZDepth: 1,
   closeIcon: <NavigationCloseIcon color="#696b6f" hoverColor="white" />,
-  // closeIcon: <p style={{...styles.closeButton, fontSize: '12px'}}>Close</p>,
+  // closeIcon: <p style={{...style.closeButton, fontSize: '12px'}}>Close</p>,
   immersive: false,
 };
 

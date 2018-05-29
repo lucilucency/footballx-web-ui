@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import { setCommunity, getCommunity } from '../../actions';
 import { PostGrid } from '../Post/components/index';
 import { Container } from '../../utils/index';
-import RightComponent from './RightComponent';
+import RightBar from './CommunityRightBar';
 
 class CommunityNew extends React.Component {
   componentDidMount() {
@@ -32,7 +32,7 @@ class CommunityNew extends React.Component {
             sorting="new"
             communityID={communityID}
           />
-          <RightComponent
+          <RightBar
             data={data}
           />
         </Container>

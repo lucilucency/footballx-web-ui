@@ -5,17 +5,28 @@ import Helmet from 'react-helmet';
 import { setCommunity, getCommunity } from '../../actions';
 import { PostGrid } from '../Post/components/index';
 import { Container } from '../../utils/index';
-import RightComponent from './RightComponent';
+import RightComponent from './CommunityRightBar';
+
+const propsLoadData = (props) => {
+  const { location } = props;
+
+  if (location.state && location.state.data) {
+    props.setCommunity(location.state.data);
+  } else if (props.match.params.id && Number(props.match.params.id)) {
+    props.getCommunity(props.match.params.id);
+  } else {
+    props.history.push('/');
+  }
+};
 
 class CommunityHot extends React.Component {
   componentDidMount() {
-    const { location } = this.props;
-    if (location.state && location.state.data) {
-      this.props.setCommunity(location.state.data);
-    } else if (this.props.match.params.id && Number(this.props.match.params.id)) {
-      this.props.getCommunity(this.props.match.params.id);
-    } else {
-      this.props.history.push('/');
+    propsLoadData(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.location.pathname !== this.props.location.pathname) {
+      propsLoadData(props);
     }
   }
 
@@ -32,9 +43,7 @@ class CommunityHot extends React.Component {
             sorting="hot"
             communityID={communityID}
           />
-          <RightComponent
-            data={data}
-          />
+          <RightComponent data={data} />
         </Container>
       </div>
     );
@@ -45,12 +54,9 @@ CommunityHot.propTypes = {
   browser: PropTypes.object,
 
   match: PropTypes.object,
-  history: PropTypes.object,
   location: PropTypes.object,
 
   data: PropTypes.object,
-  setCommunity: PropTypes.func,
-  getCommunity: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

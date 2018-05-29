@@ -16,19 +16,29 @@ class RequestLayer extends React.Component {
     }
   }
 
-  doSubscribe = (communityID) => {
-    this.props.subscribe(this.props.user.id, communityID);
+  doSubscribe = (community) => {
+    this.props.subscribe(this.props.user.id, community.id, {
+      following: {
+        ...this.props.following,
+        communities: [...this.props.following.communities, community],
+      },
+    });
   };
 
-  unSubscribe = (communityID) => {
-    this.props.unsubscribe(this.props.user.id, communityID);
+  unSubscribe = (community) => {
+    this.props.unsubscribe(this.props.user.id, community.id, {
+      following: {
+        ...this.props.following,
+        communities: this.props.following.communities.filter(el => el.id !== community.id),
+      },
+    });
   };
 
-  isFollowed = communityID => this.props.followedCommunities.find(el => el.id === communityID);
+  isFollowing = communityID => this.props.following && this.props.following.communities && this.props.following.communities.find(el => el.id === communityID);
 
   render() {
     let { suggestedCommunities } = this.props;
-    suggestedCommunities = suggestedCommunities.filter(el => !this.isFollowed(el.id)).slice(0, 5);
+    suggestedCommunities = suggestedCommunities.filter(el => !this.isFollowing(el.id)).slice(0, 5);
 
     const rightIconStyle = {
       height: '24px',
@@ -47,9 +57,9 @@ class RequestLayer extends React.Component {
               uncheckedIcon={<IconFollowCommunity style={{ ...rightIconStyle, fill: 'transparent' }} />}
               onCheck={(e, isChecked) => {
                 if (isChecked) {
-                  this.doSubscribe(item.id);
+                  this.doSubscribe(item);
                 } else {
-                  this.unSubscribe(item.id);
+                  this.unSubscribe(item);
                 }
               }}
             />}
@@ -72,20 +82,20 @@ RequestLayer.propTypes = {
 
   subscribe: PropTypes.func,
   unsubscribe: PropTypes.func,
-  followedCommunities: PropTypes.array,
+  following: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   suggestedCommunities: state.app.suggestedCommunities.data,
   loading: state.app.suggestedCommunities.loading,
   user: state.app.metadata.data.user,
-  followedCommunities: (state.app.metadata.data.following && state.app.metadata.data.following.communities) ? state.app.metadata.data.following.communities : [],
+  following: state.app.metadata.data.following,
 });
 
 const mapDispatchToProps = dispatch => ({
   getSuggestedCommunities: () => dispatch(getSuggestedCommunities()),
-  subscribe: (userID, communityID) => dispatch(followCommunity(userID, communityID)),
-  unsubscribe: (userID, communityID) => dispatch(unfollowCommunity(userID, communityID)),
+  subscribe: (userID, communityID, payload) => dispatch(followCommunity(userID, communityID, payload)),
+  unsubscribe: (userID, communityID, payload) => dispatch(unfollowCommunity(userID, communityID, payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestLayer);

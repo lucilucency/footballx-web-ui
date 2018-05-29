@@ -182,19 +182,19 @@ if (process.env.NODE_ENV !== 'production') {
      */
     visible: PropTypes.bool,
     /**
-     * Override the inline-styles of the root element.
+     * Override the inline-style of the root element.
      */
     style: PropTypes.object,
     /**
-     * Override the inline-styles of the [TextField](http://www.material-ui.com/v0.18.6/#/components/text-field) element.
+     * Override the inline-style of the [TextField](http://www.material-ui.com/v0.18.6/#/components/text-field) element.
      */
     textFieldStyle: PropTypes.object,
     /**
-     * Override the inline-styles of the [IconButton](http://www.material-ui.com/v0.18.6/#/components/icon-button) element.
+     * Override the inline-style of the [IconButton](http://www.material-ui.com/v0.18.6/#/components/icon-button) element.
      */
     visibilityButtonStyle: PropTypes.object,
     /**
-     * Override the inline-styles of the [SvgIcon](http://www.material-ui.com/v0.18.6/#/components/svg-icon) element used for the visibility icon.
+     * Override the inline-style of the [SvgIcon](http://www.material-ui.com/v0.18.6/#/components/svg-icon) element used for the visibility icon.
      */
     visibilityIconStyle: PropTypes.object,
   };
