@@ -29,7 +29,7 @@ const CrreateEditPostFormBlank = styled.div`
     linear-gradient( lightgray 18px, transparent 0 ),
     linear-gradient( lightgray 14px, transparent 0 ),
     linear-gradient( lightgray 14px, transparent 0 ),
-    linear-gradient( ${constants.theme().backgroundColor} 1em, transparent 0 );
+    linear-gradient( ${constants.theme().backgroundColorPrimary} 1em, transparent 0 );
 
   background-repeat: repeat-y;
   background-size:

@@ -41,7 +41,7 @@ const Constants = {
     switch (themeName) {
       case 'dark':
         theme = {
-          backgroundColor: '#2d2c43',
+          backgroundColorPrimary: '#2d2c43',
           surfaceColorPrimary: 'rgb(46, 47, 64)',
           textColorPrimary: 'rgb(245, 245, 245)',
           textColorPrimary1: '#222222',
@@ -64,11 +64,11 @@ const Constants = {
         break;
       case 'light':
         theme = {
-          positiveColor: materialColor.greenA200,
-          negativeColor: materialColor.redA200,
-          neutralColor: materialColor.grey400,
+          positiveColor: materialColor.green500,
+          negativeColor: materialColor.red500,
+          neutralColor: materialColor.grey500,
 
-          backgroundColor: '#F7F7F7',
+          backgroundColorPrimary: '#F7F7F7',
           surfaceColorPrimary: '#fff',
           textColorPrimary: '#222222',
           textColorPrimary2: '#333333',
@@ -103,7 +103,7 @@ const Constants = {
           textColorPrimary: '#333333',
           textColorSecondary: 'rgb(70, 68, 68)',
 
-          backgroundColor: '#eef2f5',
+          backgroundColorPrimary: '#eef2f5',
           backgroundColorSecondary: '#eef2f5', /* root background-image */
           surfaceColorPrimary: '#fff',
           surfaceColorSecondary: '#fff', /* header */

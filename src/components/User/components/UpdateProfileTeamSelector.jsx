@@ -80,7 +80,7 @@ class TeamSelector extends React.Component {
 
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <Chip style={{ margin: 5, backgroundColor: constants.theme().surfaceColorPrimary }}>
+        <Chip style={{ margin: 5, backgroundColorPrimary: constants.theme().surfaceColorPrimary }}>
           <Avatar
             src={null}
             style={{

@@ -50,7 +50,7 @@ const baseStyles = {
 const Wrapper = styled.div`
   margin: auto;
   overflow-y: auto;
-  background: ${constants.theme().backgroundColor};
+  background: ${constants.theme().backgroundColorPrimary};
   
   width: 80%;
   min-height: 100%;
@@ -129,7 +129,7 @@ const getStyles = (props, theme) => {
   };
 
   if (props.immersive) {
-    styles.appBar.background = constants.theme().backgroundColor;
+    styles.appBar.background = constants.theme().backgroundColorPrimary;
     styles.appBar.position = 'absolute';
   }
 

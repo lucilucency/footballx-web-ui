@@ -48,7 +48,7 @@ li {
   height: 100%;
   overflow-x: hidden;
   min-height: 100vh;
-  background-color: ${constants.theme().backgroundColor};
+  background-color: ${constants.theme().backgroundColorPrimary};
   background-image: ${constants.theme().backgroundColorSecondary};
   color: ${constants.theme().textColorPrimary};
 }
@@ -60,7 +60,7 @@ li {
 [data-id="tooltip"] {
   padding: 8px 12px !important;
   border-radius: 2px !important;
-  background-color: ${constants.theme().backgroundColor} !important;
+  background-color: ${constants.theme().backgroundColorPrimary} !important;
   color: ${constants.theme().textColorPrimary} !important;
   white-space: pre-wrap;
   line-height: 1.5 !important;
@@ -112,7 +112,7 @@ h1, h2, h3, h4, h5, h6, h7 {
 
   &::after {
     content: attr(data-hint);
-    background-color: ${constants.theme().backgroundColor};
+    background-color: ${constants.theme().backgroundColorPrimary};
     color: ${constants.theme().textColorPrimary};
     border-radius: 2px;
     padding: 5px 8px;
@@ -147,7 +147,7 @@ h1, h2, h3, h4, h5, h6, h7 {
   &::before {
     border-style: solid;
     border-width: 3px 6px 0 6px;
-    border-color: ${constants.theme().backgroundColor};
+    border-color: ${constants.theme().backgroundColorPrimary};
     top: -3px;
   }
 }
@@ -162,7 +162,7 @@ h1, h2, h3, h4, h5, h6, h7 {
   &::before {
     border-style: solid;
     border-width: 0 6px 3px 6px;
-    border-color: transparent transparent ${constants.theme().backgroundColor} transparent;
+    border-color: transparent transparent ${constants.theme().backgroundColorPrimary} transparent;
     bottom: -3px;
   }
 }

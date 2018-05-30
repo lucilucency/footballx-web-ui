@@ -18,12 +18,17 @@ const PostActionStyled = styled.div`
   padding: 0 0;
   display: table;
   border-top: ${`1px solid ${constants.grey50}`};
-  font-weight: ${constants.fontWeightHeavy};
+  font-weight: ${constants.fontWeightMedium};
   font-size: ${constants.fontSizeSmall};
+  color: ${constants.theme().neutralColor};
   
   > * {
     display: table-cell;
     vertical-align: middle;
+  }
+  
+  span {
+    color: ${constants.theme().neutralColor};
   }
 `;
 
@@ -182,7 +187,7 @@ class PostActions extends React.Component {
               <FlatButton
                 target="_blank"
                 label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
-                icon={<IconComment />}
+                icon={<IconComment style={{ marginTop: -5 }} color={constants.theme().neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
                   fontWeight: 'inherit',
@@ -197,7 +202,7 @@ class PostActions extends React.Component {
             child={(
               <FlatButton
                 label={strings.label_share_post}
-                icon={<IconShare />}
+                icon={<IconShare color={constants.theme().neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
                   fontWeight: 'inherit',

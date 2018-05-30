@@ -32,7 +32,7 @@ class ViewPostComments extends React.Component {
         innerDivStyle={{
           paddingTop: '1em',
           paddingBottom: 5,
-          backgroundColor: constants.theme().surfaceColorPrimary,
+          backgroundColorPrimary: constants.theme().surfaceColorPrimary,
         }}
         style={{
           borderLeft: '1px dashed blue',

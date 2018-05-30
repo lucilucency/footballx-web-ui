@@ -10,7 +10,7 @@ const StyledLink = styled(Link)`
   font-weight: ${constants.fontWeightMedium};
   color: ${constants.theme().textColorPrimary};
   text-transform: uppercase;
-  //background-color: ${constants.theme().backgroundColor};
+  //background-color: ${constants.theme().backgroundColorPrimary};
   display: inline-flex;
   vertical-align: middle;
   

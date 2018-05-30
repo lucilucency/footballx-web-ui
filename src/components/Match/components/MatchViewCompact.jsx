@@ -124,7 +124,7 @@ class ViewMatchCompact extends React.Component {
             <div
               style={{
                 backgroundImage: 'url(/assets/images/backdrops/stadium.jpg)',
-                backgroundColor: 'black',
+                backgroundColorPrimary: 'black',
                 backgroundSize: 'cover',
                 display: 'block',
                 height: 300,

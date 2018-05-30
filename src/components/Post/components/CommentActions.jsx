@@ -150,7 +150,7 @@ class CommentActions extends React.Component {
             <FlatButton
               target="_blank"
               label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
-              icon={<IconComment style={{ marginTop: -5 }} />}
+              icon={<IconComment style={{ marginTop: -5 }} color={constants.theme().neutralColor} />}
               labelPosition="after"
               labelStyle={{
                 fontWeight: 'inherit',
@@ -164,7 +164,7 @@ class CommentActions extends React.Component {
             child={(
               <FlatButton
                 label={strings.label_share_post}
-                icon={<IconShare />}
+                icon={<IconShare color={constants.theme().neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
                   fontWeight: 'inherit',
