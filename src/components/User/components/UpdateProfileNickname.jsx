@@ -119,7 +119,7 @@ class UpdateProfileNickname extends Component {
             <div>
               <div
                 style={{
-                  backgroundColorPrimary: 'hsla(0,0%,100%,0)',
+                  backgroundColor: 'hsla(0,0%,100%,0)',
                   border: `1px solid ${constants.grey200}`,
                   borderRadius: 4,
                   padding: '0 10px',
@@ -143,7 +143,7 @@ class UpdateProfileNickname extends Component {
               {null && (
                 <div
                   style={{
-                    backgroundColorPrimary: 'hsla(0,0%,100%,0)',
+                    backgroundColor: 'hsla(0,0%,100%,0)',
                     border: `1px solid ${constants.grey200}`,
                     borderRadius: 4,
                     padding: '0 10px',

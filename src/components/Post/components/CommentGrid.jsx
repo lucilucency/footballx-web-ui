@@ -23,22 +23,18 @@ class ViewPostComments extends React.Component {
     });
   };
 
-  renderComment = (item) => {
+  renderComment = (item, insideTheNest) => {
     const { xuser = {} } = item;
     return (
       <ListItem
         key={item.id}
         disabled
-        innerDivStyle={{
-          paddingTop: '1em',
-          paddingBottom: 5,
-          backgroundColorPrimary: constants.theme().surfaceColorPrimary,
-        }}
         style={{
-          borderLeft: '1px dashed blue',
-          marginLeft: 8,
-          marginTop: 8,
+          marginTop: insideTheNest ? 0 : 8,
           paddingBottom: 0,
+          borderLeft: `1px solid ${constants.theme().neutralColorVariant1}`,
+          marginLeft: 8,
+          backgroundColor: constants.theme().surfaceColorPrimary,
         }}
         initiallyOpen
         primaryText={
@@ -52,9 +48,9 @@ class ViewPostComments extends React.Component {
           </div>
         }
         secondaryText={<CommentActions data={item} type="comment" isLoggedIn={this.props.isLoggedIn} />}
-        nestedItems={item.comments && item.comments.map(el => this.renderComment(el))}
+        nestedItems={item.comments && item.comments.map(el => this.renderComment(el, true))}
         nestedListStyle={{
-          borderLeft: '1px dashed blue',
+          borderLeft: `1px solid ${constants.theme().neutralColorVariant1}`,
           marginLeft: 8,
         }}
       />
@@ -64,7 +60,7 @@ class ViewPostComments extends React.Component {
   render() {
     const { comments } = this.props;
     return (
-      <List style={{ textAlign: 'left' }}>
+      <List style={{ textAlign: 'left', paddingTop: 0 }}>
         {comments.map(item => this.renderComment(item))}
       </List>
     );

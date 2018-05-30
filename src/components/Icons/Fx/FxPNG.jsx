@@ -29,7 +29,7 @@ const FxPNG = ({ clicked, style }) => (
       backgroundSize: '80%',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
-      backgroundColorPrimary: '#051433',
+      backgroundColor: '#051433',
       borderRadius: '40px',
     }}
   />

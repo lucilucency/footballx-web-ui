@@ -40,7 +40,7 @@ const overwritesTheme = {
   raisedButton: { fontWeight: constants.fontWeightNormal },
   flatButton: { fontWeight: constants.fontWeightNormal },
   inkBar: {
-    backgroundColorPrimary: constants.colorBlue,
+    backgroundColor: constants.colorBlue,
   },
   palette: {
     textColor: constants.theme().textColorPrimary,
@@ -49,7 +49,7 @@ const overwritesTheme = {
     borderColor: constants.theme().dividerColor,
   },
   tabs: {
-    backgroundColorPrimary: constants.theme().surfaceColorPrimary,
+    backgroundColor: constants.theme().surfaceColorPrimary,
     textColor: constants.theme().textColorPrimary,
     selectedTextColor: constants.theme().textColorPrimary,
   },
@@ -58,7 +58,7 @@ const overwritesTheme = {
     textTransform: 'none',
   },
   avatar: {
-    backgroundColorPrimary: constants.theme().avatarBackgroundColor,
+    backgroundColor: constants.theme().avatarBackgroundColor,
   },
 };
 

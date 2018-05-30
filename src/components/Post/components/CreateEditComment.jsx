@@ -268,7 +268,7 @@ class CreateEditComment extends React.Component {
 
         <div
           style={{
-            backgroundColorPrimary: 'hsla(0,0%,100%,0)',
+            backgroundColor: 'hsla(0,0%,100%,0)',
             border: `1px solid ${constants.grey200}`,
             borderRadius: 2,
             padding: '0 10px',

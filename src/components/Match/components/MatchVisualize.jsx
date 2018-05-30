@@ -45,9 +45,9 @@ const MatchInfo = styled.div`
       animation: .85s infinite ${beatHeart};
     `}
     img {
-      width: 128px;
+      height: 128px;
       @media only screen and (max-width: 768px) {
-        width: 72px;
+        //width: 72px;
         height: 72px;
       }
     }
@@ -136,13 +136,13 @@ class MatchVisualize extends React.Component {
     const styles = {};
     if (greaterThan.medium) {
       styles.iconButton = {
-        style: { width: 128, height: 128 },
-        iconStyle: { width: 108, height: 108 },
+        style: { height: 128, width: 'auto' },
+        iconStyle: { height: 108, width: 'auto' },
       };
     } else {
       styles.iconButton = {
-        style: { width: 96, height: 96 },
-        iconStyle: { width: 72, height: 72 },
+        style: { height: 96, width: 'auto' },
+        iconStyle: { height: 72, width: 'auto' },
       };
     }
 

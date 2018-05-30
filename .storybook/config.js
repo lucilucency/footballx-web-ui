@@ -15,7 +15,7 @@ const muiTheme = {
   raisedButton: { fontWeight: constants.fontWeightNormal },
   flatButton: { fontWeight: constants.fontWeightNormal },
   inkBar: {
-    backgroundColorPrimary: constants.colorBlue,
+    backgroundColor: constants.colorBlue,
   },
   palette: {
     textColor: constants.theme().textColorPrimary,
@@ -24,7 +24,7 @@ const muiTheme = {
     borderColor: constants.theme().dividerColor,
   },
   tabs: {
-    backgroundColorPrimary: constants.theme().surfaceColorPrimary,
+    backgroundColor: constants.theme().surfaceColorPrimary,
     textColor: constants.theme().textColorPrimary,
     selectedTextColor: constants.theme().textColorPrimary,
   },

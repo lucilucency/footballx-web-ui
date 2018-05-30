@@ -74,7 +74,7 @@ class CommunitySelector extends React.Component {
 
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <Chip style={{ margin: 5, backgroundColorPrimary: constants.theme().surfaceColorPrimary }}>
+        <Chip style={{ margin: 5, backgroundColor: constants.theme().surfaceColorPrimary }}>
           <Avatar
             src={null}
             style={{
@@ -135,7 +135,7 @@ class CommunitySelector extends React.Component {
           width: 300,
           marginBottom: '1em',
           borderRadius: '3px',
-          backgroundColorPrimary: constants.theme().surfaceColorPrimary,
+          backgroundColor: constants.theme().surfaceColorPrimary,
         }}
       >
         {nodeList}

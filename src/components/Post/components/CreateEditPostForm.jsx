@@ -436,7 +436,7 @@ class CreateEditPost extends React.Component {
   renderContentLinkInput = () => (
     <div
       style={{
-        backgroundColorPrimary: 'hsla(0,0%,100%,0)',
+        backgroundColor: 'hsla(0,0%,100%,0)',
         border: `1px solid ${constants.grey200}`,
         borderRadius: 4,
         padding: '0 10px',
@@ -464,7 +464,7 @@ class CreateEditPost extends React.Component {
       style={{
         position: 'relative',
         boxShadow: 'none',
-        backgroundColorPrimary: 'hsla(0,0%,100%,0)',
+        backgroundColor: 'hsla(0,0%,100%,0)',
         border: `1px solid ${constants.grey200}`,
         borderRadius: 4,
         padding: '0 10px',
@@ -615,7 +615,7 @@ class CreateEditPost extends React.Component {
           <div>
             <div
               style={{
-                backgroundColorPrimary: 'hsla(0,0%,100%,0)',
+                backgroundColor: 'hsla(0,0%,100%,0)',
                 border: `1px solid ${constants.grey200}`,
                 borderRadius: 4,
                 padding: '0 10px',
