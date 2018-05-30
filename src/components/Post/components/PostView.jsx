@@ -8,8 +8,8 @@ import { getPostComments, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink, styles } from '../../../utils';
 import constants from '../../constants';
-import ViewPostComments from './PostComments';
-import CreateComment from './CreateEditPostComment';
+import ViewPostComments from './CommentGrid';
+import CreateComment from './CreateEditComment';
 import PostActions from './PostActions';
 import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, TextWrapper } from './Styled';
 
@@ -115,7 +115,7 @@ class ViewPostFull extends React.Component {
           </CardActions>
         </Card>
         {this.props.isLoggedIn && <CreateComment post={this.props.data} />}
-        <ViewPostComments comments={this.props.comments} isLoggedIn={this.props.isLoggedIn} />
+        <ViewPostComments isLoggedIn={this.props.isLoggedIn} />
       </div>
     );
   }
@@ -128,7 +128,6 @@ ViewPostFull.propTypes = {
   isLoggedIn: PropTypes.bool,
 
   /**/
-  comments: PropTypes.array,
   getPostComments: PropTypes.func,
 };
 

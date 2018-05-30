@@ -10,7 +10,7 @@ import {
 import constants from '../../constants';
 import strings from '../../../lang';
 import { bindAll, mergeObject, FormWrapper, TextValidator } from '../../../utils';
-import { createPostComment as defaultCreateFn } from '../../../actions';
+import { createPostComment } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 
@@ -89,82 +89,59 @@ class CreateEditComment extends React.Component {
     };
   }
 
-  clearFormData() {
-    this.setState(CreateEditComment.initialState);
-  }
-
   submit(e) {
     e.preventDefault();
-
     const { mode } = this.props;
-
-    this.setState({
-      submitResults: update(this.state.submitResults, {
-        show: { $set: true },
-      }),
-    }, () => {
-      const doSubmit = new Promise((resolve) => {
-        this.setState({
-          submitResults: update(this.state.submitResults, {
-            data: {
-              $push: [{
-                submitAction: mode === 'edit' ? 'Updating comment' : 'Creating comment',
-                submitting: true,
-              }],
-            },
-          }),
-        });
-        const submitData = this.getFormData();
-        if (mode === 'edit') {
-          resolve(this.props.defaultEditFunction(this.props.post.id, submitData));
-        } else {
-          resolve(this.props.defaultCreateFunction({
-            params: {
-              ...submitData,
-              target_id: this.props.post.id,
-            },
-            payload: {
-              xuser: this.props.user,
-            },
-            payloadCallback: {
-              ...this.props.post,
-              c_comments: (this.props.post.c_comments || 0) + 1,
-            },
-          }));
-        }
+    const doSubmit = new Promise((resolve) => {
+      this.setState({
+        submitResults: update(this.state.submitResults, {
+          data: {
+            $push: [{
+              submitAction: mode === 'edit' ? 'Updating comment' : 'Creating comment',
+              submitting: true,
+            }],
+          },
+        }),
       });
+      const submitData = this.getFormData();
+      if (mode === 'edit') {
+        /* resolve edit function */
+      } else {
+        resolve(this.props.createComment({
+          params: {
+            ...submitData,
+            target_id: this.props.post.id,
+          },
+          payload: {
+            xuser: this.props.user,
+          },
+          payloadCallback: {
+            ...this.props.post,
+            c_comments: (this.props.post.c_comments || 0) + 1,
+          },
+          reducer: 'ADD/comments',
+          reducerCallback: 'EDIT_ARR/posts',
+        }));
+      }
+    });
 
-      Promise.all([doSubmit]).then((results) => {
-        const resultsReport = [];
-        if (results[0].type.indexOf('OK') === 0) {
-          setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
-          if (mode === 'create') {
-            this.setState({
-              formData: CreateEditComment.defaultFormData,
-            }, () => {
-              // this.contentInput.focus();
-            });
-          }
-        } else {
-          resultsReport.push({
-            submitAction: mode === 'edit' ? 'Update post failed' : 'Create post failed',
-            submitting: false,
-            error: results[0].error,
+    Promise.all([doSubmit]).then((results) => {
+      if (results[0].type.indexOf('OK') === 0) {
+        setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
+        if (mode === 'create') {
+          this.setState({
+            formData: CreateEditComment.defaultFormData,
           });
         }
-
-        this.setState({
-          submitResults: update(this.state.submitResults, {
-            data: { $set: resultsReport },
-          }),
-        });
-      });
+      } else {
+        /* announce about fail */
+      }
     });
   }
 
   deleteComment() {
     // eslint-disable-next-line no-restricted-globals
-    if (confirm('Are you sure you want to delete this post?')) {
+    if (confirm('Are you sure you want to delete this comment?')) {
       this.setState({
         submitResults: update(this.state.submitResults, {
           show: { $set: true },
@@ -175,7 +152,7 @@ class CreateEditComment extends React.Component {
             submitResults: update(this.state.submitResults, {
               data: {
                 $push: [{
-                  submitAction: 'Deleting hotspot...',
+                  submitAction: 'Deleting comment...',
                   submitting: true,
                 }],
               },
@@ -232,7 +209,7 @@ class CreateEditComment extends React.Component {
       name="comment_content"
       key="content"
       type="text"
-      hintText={this.props.post.c_comments ? strings.hint_comment : 'Be the first one bark here'}
+      hintText={strings.hint_comment}
       hintStyle={{ top: 12 }}
       onChange={e => this.setState({
         formData: update(this.state.formData, {
@@ -324,15 +301,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  defaultCreateFunction: data => dispatch(defaultCreateFn(data)),
+  createComment: args => dispatch(createPostComment(args)),
   defaultEditFunction: () => {},
   defaultDeleteFunction: () => {},
 });
 
 CreateEditComment.propTypes = {
   post: PropTypes.object.isRequired,
-  // data: PropTypes.object, /* comment's data */
-
+  // data: PropTypes.object, /* comment's data for editing */
   mode: PropTypes.string,
   display: PropTypes.bool,
   toggle: PropTypes.bool,
@@ -341,8 +317,7 @@ CreateEditComment.propTypes = {
   user: PropTypes.object,
   loading: PropTypes.bool,
   defaultDeleteFunction: PropTypes.func,
-  defaultCreateFunction: PropTypes.func,
-  defaultEditFunction: PropTypes.func,
+  createComment: PropTypes.func,
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditComment));

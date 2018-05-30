@@ -147,8 +147,8 @@ export const createPostComment = ({
   payload,
   payloadCallback,
   /**/
-  reducer = 'ADD/comments',
-  reducerCallback = 'EDIT_ARR/posts',
+  reducer,
+  reducerCallback,
 } = {}) => dispatchPost({
   reducer,
   reducerCallback,

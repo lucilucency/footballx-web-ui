@@ -30,12 +30,12 @@ export const ImageWrapper = styled.div`
 export const Image = styled.img`
   vertical-align: middle;
   max-width: 100%;
-  min-width: 50%;
+  //min-width: 50%;
 `;
 
 export const ImageCompact = styled.img`
   vertical-align: middle;
-  min-width: 50%;
+  //min-width: 50%;
   max-width: 100%;
   max-height: 512px;
   margin: 0 auto;

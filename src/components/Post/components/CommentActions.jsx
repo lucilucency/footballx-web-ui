@@ -5,16 +5,14 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { IconButton, FlatButton } from 'material-ui';
 import Amplitude from 'react-amplitude';
-
-import { bindAll, renderDialog } from '../../../utils';
+import strings from '../.././../lang';
 import { IconUpvote, IconDownvote, IconComment, IconShare } from '../../Icons';
-import { upVote, downVote, setPost } from '../../../actions';
+import { upVote, downVote } from '../../../actions';
 import constants from '../../constants';
 import ButtonShare from './ButtonShare';
-import ViewPostFullFrame from './PostViewFullFrame';
-import strings from '../.././../lang';
+import CreateEditComment from './CreateEditComment';
 
-const PostActionStyled = styled.div`
+const Styled = styled.div`
   padding: 0 0;
   display: table;
   border-top: ${`1px solid ${constants.grey50}`};
@@ -27,29 +25,22 @@ const PostActionStyled = styled.div`
   }
 `;
 
-class PostActions extends React.Component {
+class CommentActions extends React.Component {
   static initialState = {
-    openDialog: false,
-    dialogConstruct: {},
+    showCommentBox: false,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      ...PostActions.initialState,
+      ...CommentActions.initialState,
     };
-
-    bindAll([
-      'handleOpenDialog',
-      'handleCloseDialog',
-      'popupViewPostFull',
-    ], this);
   }
 
   upvote = () => {
     if (this.props.isLoggedIn) {
-      Amplitude.logEvent('Upvote post');
+      Amplitude.logEvent('Upvote comment');
       let { c_ups = 0, c_downs = 0, vflag = 0 } = this.props.data;
       if (vflag === 1) {
         vflag = 0;
@@ -81,7 +72,7 @@ class PostActions extends React.Component {
 
   downVote = () => {
     if (this.props.isLoggedIn) {
-      Amplitude.logEvent('Downvote post');
+      Amplitude.logEvent('Downvote comment');
       let { c_ups = 0, c_downs = 0, vflag = 0 } = this.props.data;
       if (vflag === 1) {
         vflag = -1;
@@ -112,33 +103,11 @@ class PostActions extends React.Component {
     }
   };
 
-  handleOpenDialog() {
-    this.setState({ openDialog: true });
-  }
-
-  handleCloseDialog() {
-    this.setState({ openDialog: false, dialogConstruct: {} });
-  }
-
-  popupViewPostFull() {
-    this.props.setPost(this.props.data);
+  toggleCommentBox = () => {
     this.setState({
-      dialogConstruct: {
-        view: (
-          <ViewPostFullFrame
-            isLoggedIn={this.props.isLoggedIn}
-          />
-        ),
-        repositionOnUpdate: false,
-        autoDetectWindowHeight: false,
-        modal: false,
-        open: true,
-        fullScreen: true,
-      },
-    }, () => {
-      this.handleOpenDialog();
+      showCommentBox: !this.state.showCommentBox,
     });
-  }
+  };
 
   render() {
     const item = this.props.data;
@@ -147,7 +116,7 @@ class PostActions extends React.Component {
 
     return (
       <div>
-        <PostActionStyled>
+        <Styled>
           <IconButton
             tooltip="Upvote"
             tooltipPosition="top-center"
@@ -173,25 +142,23 @@ class PostActions extends React.Component {
           >
             <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.theme().buttonMute} hoverColor={constants.redA100} />
           </IconButton>
-          <div>
-            {this.props.disableComment ? (
-              <div>
-                {item.c_comments ? `${item.c_comments} comments` : 'Comment'}
-              </div>
-            ) : (
-              <FlatButton
-                target="_blank"
-                label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
-                icon={<IconComment />}
-                labelPosition="after"
-                labelStyle={{
-                  fontWeight: 'inherit',
-                  fontSize: 'inherit',
-                }}
-                onClick={this.popupViewPostFull}
-              />
-            )}
-          </div>
+          {this.props.disableComment ? (
+            <div>
+              {item.c_comments ? `${item.c_comments} comments` : 'Comment'}
+            </div>
+          ) : (
+            <FlatButton
+              target="_blank"
+              label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
+              icon={<IconComment style={{ marginTop: -5 }} />}
+              labelPosition="after"
+              labelStyle={{
+                fontWeight: 'inherit',
+                fontSize: 'inherit',
+              }}
+              onClick={this.toggleCommentBox}
+            />
+          )}
           <ButtonShare
             clipboard={`${window.location.host}/p/${item.id}`}
             child={(
@@ -206,14 +173,14 @@ class PostActions extends React.Component {
               />
             )}
           />
-        </PostActionStyled>
-        {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}
+        </Styled>
+        {this.state.showCommentBox && <CreateEditComment post={this.props.data} />}
       </div>
     );
   }
 }
 
-PostActions.propTypes = {
+CommentActions.propTypes = {
   type: PropTypes.string.isRequired, /* post, comment */
   data: PropTypes.object,
   disableComment: PropTypes.bool,
@@ -222,7 +189,6 @@ PostActions.propTypes = {
   /**/
   upVote: PropTypes.func,
   downVote: PropTypes.func,
-  setPost: PropTypes.func,
   // history: PropTypes.object,
 };
 
@@ -233,8 +199,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   upVote: (postID, params, type) => dispatch(upVote(postID, params, type)),
   downVote: (postID, params, type) => dispatch(downVote(postID, params, type)),
-  setPost: payload => dispatch(setPost(payload)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostActions));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CommentActions));
 
