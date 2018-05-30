@@ -64,6 +64,10 @@ const Constants = {
         break;
       case 'light':
         theme = {
+          positiveColor: materialColor.greenA200,
+          negativeColor: materialColor.redA200,
+          neutralColor: materialColor.grey400,
+
           backgroundColor: '#F7F7F7',
           surfaceColorPrimary: '#fff',
           textColorPrimary: '#222222',

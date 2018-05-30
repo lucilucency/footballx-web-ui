@@ -127,7 +127,7 @@ class CommentActions extends React.Component {
               height: 20,
             }}
           >
-            <IconUpvote color={item.vflag === 1 ? constants.blueA100 : constants.theme().buttonMute} hoverColor={constants.blueA100} />
+            <IconUpvote color={item.vflag === 1 ? constants.theme().positiveColor : constants.theme().buttonMute} hoverColor={constants.theme().positiveColor} />
           </IconButton>
           <span style={{ display: 'table-cell', verticalAlign: 'middle' }}>{ups - downs}</span>
           <IconButton
@@ -140,7 +140,7 @@ class CommentActions extends React.Component {
               height: 20,
             }}
           >
-            <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.theme().buttonMute} hoverColor={constants.redA100} />
+            <IconDownvote color={item.vflag === -1 ? constants.theme().negativeColor : constants.theme().buttonMute} hoverColor={constants.theme().negativeColor} />
           </IconButton>
           {this.props.disableComment ? (
             <div>
