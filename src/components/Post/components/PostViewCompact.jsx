@@ -10,10 +10,24 @@ import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview } from './Styled';
 import ViewPostFullFrame from './PostViewFullFrame';
 
+const CONTENT_MAX_LEN = 1000;
+
 const markdown = require('markdown-it')({
   html: true,
   linkify: true,
 });
+
+const wrapTextReadMore = (text, callback) => {
+  if (!text) { return ''; }
+  if (text.length < CONTENT_MAX_LEN) return <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(text) }} />;
+
+  return (
+    <div>
+      <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(text.slice(0, CONTENT_MAX_LEN)) }} />
+      <a href="" onClick={callback}>{strings.label_read_more}</a>
+    </div>
+  );
+};
 
 function isJsonString(str) {
   try {
@@ -69,7 +83,8 @@ class ViewPostCompact extends React.Component {
     this.setState({ openDialog: false, dialogConstruct: {} });
   }
 
-  popupViewPostFull() {
+  popupViewPostFull(e) {
+    e.preventDefault();
     this.props.setPost(this.props.data);
     this.setState({
       dialogConstruct: {
@@ -161,7 +176,7 @@ class ViewPostCompact extends React.Component {
             color={constants.theme().textColorSecondary}
             style={styles.cardText.style}
           >
-            <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
+            {wrapTextReadMore(item.content, this.popupViewPostFull)}
           </CardText>
         )}
         <CardActions style={styles.cardActions.style}>
