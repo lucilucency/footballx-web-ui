@@ -162,6 +162,11 @@ class PostActions extends React.Component {
               width: 20,
               height: 20,
             }}
+            style={{
+              width: 32,
+              paddingLeft: 0,
+              paddingRight: 0,
+            }}
           >
             <IconUpvote color={item.vflag === 1 ? constants.theme().positiveColor : constants.theme().neutralColor} hoverColor={constants.positiveColor} />
           </IconButton>
@@ -175,21 +180,28 @@ class PostActions extends React.Component {
               width: 20,
               height: 20,
             }}
+            style={{
+              width: 32,
+              paddingLeft: 0,
+              paddingRight: 0,
+            }}
           >
             <IconDownvote color={item.vflag === -1 ? constants.theme().negativeColor : constants.theme().neutralColor} hoverColor={constants.theme().negativeColor} />
           </IconButton>
           <div>
             {this.props.disableComment ? (
-              <div>
-                {item.c_comments ? `${item.c_comments} comments` : 'Comment'}
+              <div style={{ display: 'block' }}>
+                <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={constants.theme().neutralColor} />
+                <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{item.c_comments || 0}</span>
               </div>
             ) : (
               <FlatButton
                 target="_blank"
-                label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
+                label={item.c_comments || strings.label_comment}
                 icon={<IconComment style={{ marginTop: -5 }} color={constants.theme().neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
+                  paddingLeft: 5,
                   fontWeight: 'inherit',
                   fontSize: 'inherit',
                 }}
@@ -205,6 +217,7 @@ class PostActions extends React.Component {
                 icon={<IconShare color={constants.theme().neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
+                  paddingLeft: 0,
                   fontWeight: 'inherit',
                   fontSize: 'inherit',
                 }}

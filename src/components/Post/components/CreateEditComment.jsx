@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -9,8 +10,8 @@ import {
 } from 'material-ui';
 import constants from '../../constants';
 import strings from '../../../lang';
-import { bindAll, mergeObject, FormWrapper, TextValidator } from '../../../utils';
-import { createPostComment } from '../../../actions';
+import { bindAll, FormWrapper, TextValidator } from '../../../utils';
+import { commentInPost } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 
@@ -52,7 +53,7 @@ class CreateEditComment extends React.Component {
       'getFormData',
       'submit',
       'deleteComment',
-      'closeDialog',
+      'close',
     ], this);
   }
 
@@ -60,22 +61,22 @@ class CreateEditComment extends React.Component {
     // this.contentInput.focus();
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.mode === 'edit' && newProps.data && newProps.data.id) {
-      const getType = () => {
-        const find = newProps.dsPostType.find(o => o.value === Number(newProps.data.content_type));
-        return find ? find.text : '';
-      };
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.mode === 'edit' && newProps.data && newProps.data.id) {
+  //     const { data } = newProps;
+  //     this.setState({
+  //       formData: mergeObject(CreateEditComment.defaultFormData, {
+  //         comment_id: { value: data.id },
+  //         title: data.title,
+  //         content: data.content,
+  //       }),
+  //     });
+  //   }
+  // }
 
-      const { data } = newProps;
-      this.setState({
-        formData: mergeObject(CreateEditComment.defaultFormData, {
-          comment_id: { value: data.id },
-          title: data.title,
-          content: data.content,
-          content_type: { value: data.type, text: getType() },
-        }),
-      });
+  close() {
+    if (this.props.callback) {
+      this.props.callback();
     }
   }
 
@@ -89,49 +90,65 @@ class CreateEditComment extends React.Component {
     };
   }
 
+  getPayload = (submitData) => {
+    const pushItUp = (comments) => {
+      comments.forEach((el) => {
+        el.comments = el.comments || [];
+        if (el.id === this.props.target.id) {
+          el.comments.push(submitData);
+        } else {
+          pushItUp(el.comments);
+        }
+      });
+    };
+    return pushItUp(this.props.comments);
+  };
+
   submit(e) {
     e.preventDefault();
     const { mode } = this.props;
-    const doSubmit = new Promise((resolve) => {
-      this.setState({
-        submitResults: update(this.state.submitResults, {
-          data: {
-            $push: [{
-              submitAction: mode === 'edit' ? 'Updating comment' : 'Creating comment',
-              submitting: true,
-            }],
-          },
-        }),
-      });
-      const submitData = this.getFormData();
+    const submitData = this.getFormData();
+
+    const promiseSubmit = () => new Promise((resolve) => {
       if (mode === 'edit') {
         /* resolve edit function */
       } else {
+        let reducer = 'ADD/comments';
+        let payload = { xuser: this.props.user };
+        if (this.props.target.post_type && this.props.target.post_type === 'comment') {
+          reducer = 'EDIT/comments';
+          payload = this.getPayload({
+            ...submitData,
+            xuser: this.props.user,
+          });
+        }
+
         resolve(this.props.createComment({
           params: {
             ...submitData,
-            target_id: this.props.post.id,
+            target_id: this.props.target.id,
           },
-          payload: {
-            xuser: this.props.user,
-          },
-          payloadCallback: {
-            ...this.props.post,
-            c_comments: (this.props.post.c_comments || 0) + 1,
-          },
-          reducer: 'ADD/comments',
-          reducerCallback: 'EDIT_ARR/posts',
+          reducer,
+          payload,
+          reducerCallback: ['EDIT/post', 'EDIT_ARR/posts'],
+          payloadCallback: [{
+            ...this.props.target,
+            c_comments: (this.props.target.c_comments || 0) + 1,
+          }, {
+            ...this.props.target,
+            c_comments: (this.props.target.c_comments || 0) + 1,
+          }],
         }));
       }
     });
 
-    Promise.all([doSubmit]).then((results) => {
-      if (results[0].type.indexOf('OK') === 0) {
+    promiseSubmit().then((results) => {
+      if (results.type.indexOf('OK') === 0) {
         setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
         if (mode === 'create') {
           this.setState({
             formData: CreateEditComment.defaultFormData,
-          });
+          }, this.close);
         }
       } else {
         /* announce about fail */
@@ -187,13 +204,20 @@ class CreateEditComment extends React.Component {
     }
   }
 
-  closeDialog() {
+  getFormError = () => {
+    // return false;
+  };
+
+  updateFormData = (state, value, callback) => {
     this.setState({
-      submitResults: update(this.state.submitResults, {
-        show: { $set: false },
+      formData: update(this.state.formData, {
+        [state]: { $set: value },
       }),
+    }, () => {
+      this.getFormError();
+      if (callback) callback();
     });
-  }
+  };
 
   render() {
     const {
@@ -211,11 +235,7 @@ class CreateEditComment extends React.Component {
       type="text"
       hintText={strings.hint_comment}
       hintStyle={{ top: 12 }}
-      onChange={e => this.setState({
-        formData: update(this.state.formData, {
-          content: { $set: e.target.value },
-        }),
-      })}
+      onChange={e => this.updateFormData('content', e.target.value)}
       multiLine
       rows={4}
       rowsMax={10}
@@ -261,6 +281,7 @@ class CreateEditComment extends React.Component {
         data-popup={popup}
         data-display={display}
         onSubmit={this.submit}
+        // onSubmit={this.getPayload}
         // onError={errors => console.log(errors)}
       >
         {loading && <Spinner />}
@@ -287,37 +308,30 @@ class CreateEditComment extends React.Component {
 
 const mapStateToProps = state => ({
   currentQueryString: window.location.search,
-  dsPostType: [{
-    text: strings.enum_post_type_1,
-    value: 1,
-  }, {
-    text: strings.enum_post_type_2,
-    value: 2,
-  }, {
-    text: strings.enum_post_type_3,
-    value: 3,
-  }],
   user: state.app.metadata.data.user,
+  comments: state.app.comments.data,
 });
 
 const mapDispatchToProps = dispatch => ({
-  createComment: args => dispatch(createPostComment(args)),
+  createComment: args => dispatch(commentInPost(args)),
   defaultEditFunction: () => {},
   defaultDeleteFunction: () => {},
 });
 
 CreateEditComment.propTypes = {
-  post: PropTypes.object.isRequired,
+  target: PropTypes.object.isRequired,
   // data: PropTypes.object, /* comment's data for editing */
   mode: PropTypes.string,
   display: PropTypes.bool,
   toggle: PropTypes.bool,
   popup: PropTypes.bool,
+  callback: PropTypes.func,
   /**/
   user: PropTypes.object,
   loading: PropTypes.bool,
   defaultDeleteFunction: PropTypes.func,
   createComment: PropTypes.func,
+  comments: PropTypes.array,
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditComment));

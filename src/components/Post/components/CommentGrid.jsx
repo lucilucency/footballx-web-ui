@@ -59,6 +59,7 @@ class ViewPostComments extends React.Component {
 
   render() {
     const { comments } = this.props;
+
     return (
       <List style={{ textAlign: 'left', paddingTop: 0 }}>
         {comments.map(item => this.renderComment(item))}

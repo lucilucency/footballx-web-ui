@@ -99,9 +99,9 @@ class MatchView extends React.Component {
                   padding: 20,
                 }}
               >
-                <div>ĐÔ</div>
-                <div>hay..</div>
-                <div>LA</div>
+                <div>{home.name}</div>
+                <div>Or</div>
+                <div>{away.name}</div>
               </div>
               {!this.state.openLive && (
                 <Backdrop
@@ -119,12 +119,12 @@ class MatchView extends React.Component {
                   height="431"
                   frameBorder="0"
                   scrolling="no"
-                  allow="autoplay"
+                  // allow="autoplay"
                   allowFullScreen
-                  webkitAllowFullScreen
-                  mozAllowFullScreen
-                  oAllowFullScreen
-                  msAllowFullScreen
+                  // webkitAllowFullScreen
+                  // mozAllowFullScreen
+                  // oAllowFullScreen
+                  // msAllowFullScreen
                 />
               )}
             </div>

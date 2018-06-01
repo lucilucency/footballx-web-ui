@@ -90,7 +90,7 @@ h5 { font-size: 16px; line-height: 21px; }
 h6 { font-size: 14px; line-height: 18px; }
 h7 { font-size: 12px; line-height: 16px; display: block; }
 h1, h2, h3, h4, h5, h6, h7 {
-  -webkit-margin-before: 1.5em; -webkit-margin-after: 1.5em; 
+  -webkit-margin-before: 1em; -webkit-margin-after: 1em; 
 }
 
 

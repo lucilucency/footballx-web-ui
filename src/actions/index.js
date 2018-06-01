@@ -133,7 +133,7 @@ export const getPost = postID => dispatchGet({
   },
   transform: parser.parsePost,
 });
-export const getPostComments = (postID, sortby, xuser_id) => dispatchGet({
+export const getCommentsInPost = (postID, sortby, xuser_id) => dispatchGet({
   reducer: 'comments',
   path: `post/${postID}/comments`,
   params: {
@@ -142,11 +142,11 @@ export const getPostComments = (postID, sortby, xuser_id) => dispatchGet({
   },
   transform: parser.parseCommentsInPost,
 });
-export const createPostComment = ({
+export const commentInPost = ({
   params,
+  /**/
   payload,
   payloadCallback,
-  /**/
   reducer,
   reducerCallback,
 } = {}) => dispatchPost({

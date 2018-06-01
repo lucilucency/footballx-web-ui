@@ -16,13 +16,22 @@ const Styled = styled.div`
   padding: 0 0;
   display: table;
   border-top: ${`1px solid ${constants.grey50}`};
-  font-weight: ${constants.fontWeightHeavy};
+  font-weight: ${constants.fontWeightMedium};
   font-size: ${constants.fontSizeSmall};
   
   > * {
     display: table-cell;
     vertical-align: middle;
   }
+  
+  span {
+    color: ${constants.theme().neutralColor};
+  }
+  
+  //button {
+  //  height: 40px;
+  //  padding: 0;
+  //}
 `;
 
 class CommentActions extends React.Component {
@@ -127,7 +136,7 @@ class CommentActions extends React.Component {
               height: 20,
             }}
           >
-            <IconUpvote color={item.vflag === 1 ? constants.theme().positiveColor : constants.theme().buttonMute} hoverColor={constants.theme().positiveColor} />
+            <IconUpvote color={item.vflag === 1 ? constants.theme().positiveColor : constants.theme().neutralColor} hoverColor={constants.theme().positiveColor} />
           </IconButton>
           <span style={{ display: 'table-cell', verticalAlign: 'middle' }}>{ups - downs}</span>
           <IconButton
@@ -140,19 +149,21 @@ class CommentActions extends React.Component {
               height: 20,
             }}
           >
-            <IconDownvote color={item.vflag === -1 ? constants.theme().negativeColor : constants.theme().buttonMute} hoverColor={constants.theme().negativeColor} />
+            <IconDownvote color={item.vflag === -1 ? constants.theme().negativeColor : constants.theme().neutralColor} hoverColor={constants.theme().negativeColor} />
           </IconButton>
           {this.props.disableComment ? (
-            <div>
-              {item.c_comments ? `${item.c_comments} comments` : 'Comment'}
+            <div style={{ display: 'block' }}>
+              <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={constants.theme().neutralColor} />
+              <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{item.c_comments ? `${item.c_comments} comments` : 'Comment'}</span>
             </div>
           ) : (
             <FlatButton
               target="_blank"
-              label={item.c_comments ? `${item.c_comments} comments` : 'Comment'}
+              label={item.c_comments || 0}
               icon={<IconComment style={{ marginTop: -5 }} color={constants.theme().neutralColor} />}
               labelPosition="after"
               labelStyle={{
+                paddingLeft: 5,
                 fontWeight: 'inherit',
                 fontSize: 'inherit',
               }}
@@ -167,6 +178,7 @@ class CommentActions extends React.Component {
                 icon={<IconShare color={constants.theme().neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
+                  paddingLeft: 0,
                   fontWeight: 'inherit',
                   fontSize: 'inherit',
                 }}
@@ -174,7 +186,7 @@ class CommentActions extends React.Component {
             )}
           />
         </Styled>
-        {this.state.showCommentBox && <CreateEditComment post={this.props.data} />}
+        {this.state.showCommentBox && <CreateEditComment target={this.props.data} callback={this.toggleCommentBox} />}
       </div>
     );
   }

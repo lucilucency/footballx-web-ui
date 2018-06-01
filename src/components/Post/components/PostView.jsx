@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui';
 import Amplitude from 'react-amplitude';
 
-import { getPostComments, setPost } from '../../../actions';
+import { getCommentsInPost, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink, styles } from '../../../utils';
 import constants from '../../constants';
@@ -114,7 +114,7 @@ class ViewPostFull extends React.Component {
             />
           </CardActions>
         </Card>
-        {this.props.isLoggedIn && <CreateComment post={this.props.data} />}
+        {this.props.isLoggedIn && <CreateComment target={this.props.data} />}
         <ViewPostComments isLoggedIn={this.props.isLoggedIn} />
       </div>
     );
@@ -137,7 +137,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getPostComments: (postID, sortby, xuser_id) => dispatch(getPostComments(postID, sortby, xuser_id)),
+  getPostComments: (postID, sortby, xuser_id) => dispatch(getCommentsInPost(postID, sortby, xuser_id)),
   setPost: payload => dispatch(setPost(payload)),
 });
 

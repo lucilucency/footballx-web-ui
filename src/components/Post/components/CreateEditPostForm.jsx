@@ -301,8 +301,6 @@ class CreateEditPost extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    // const data = this.getFormData();
-    // console.log('formData', data);
 
     if (!this.state.formData.error.length) {
       this.doSubmit();

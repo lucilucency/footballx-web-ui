@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow */
+/* eslint-disable no-shadow,no-param-reassign */
 import queryString from 'querystring';
 import update from 'react-addons-update';
 import formurlencoded from 'form-urlencoded';
@@ -41,6 +41,10 @@ export function dispatchPost({
   callback,
 }) {
   return (dispatchAction) => {
+    if (typeof reducerCallback === 'string') {
+      reducerCallback = [reducerCallback];
+      payloadCallback = [payloadCallback];
+    }
     const url = `${host}/${version}/${path}?${typeof params === 'string' ? params.substring(1) : ''}`;
 
     const dispatchStart = () => ({
@@ -48,10 +52,6 @@ export function dispatchPost({
     });
     const dispatchOK = payload => ({
       type: `OK/${reducer}`,
-      payload,
-    });
-    const dispatchCallbackOK = payload => ({
-      type: `OK/${reducerCallback}`,
       payload,
     });
     const dispatchFail = error => ({
@@ -91,8 +91,11 @@ export function dispatchPost({
               }
             }
             if (callback) callback(dispatchData);
-            if (reducerCallback) {
-              dispatchAction(dispatchCallbackOK(payloadCallback));
+            if (reducerCallback && reducerCallback.length) {
+              reducerCallback.forEach((el, index) => dispatchAction({
+                type: `OK/${el}`,
+                payload: payloadCallback[index],
+              }));
             }
             return dispatchAction(dispatchOK(dispatchData));
           }
