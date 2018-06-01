@@ -18,7 +18,7 @@ class PostGrid extends React.Component {
       case 'mine':
         this.props.getMeFeeds({
           sortby: this.props.sorting,
-          xuser_id: this.props.user.id,
+          xuser_id: this.props.user && this.props.user.id,
         });
         break;
       case 'all':

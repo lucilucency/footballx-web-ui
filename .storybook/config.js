@@ -21,7 +21,6 @@ const muiTheme = {
     textColor: constants.theme().textColorPrimary,
     primary1Color: constants.colorBlue,
     canvasColor: constants.theme().surfaceColorPrimary,
-    borderColor: constants.theme().dividerColor,
   },
   tabs: {
     backgroundColor: constants.theme().surfaceColorPrimary,

@@ -37,6 +37,7 @@ a {
 
   &:hover {
     color: color(${constants.theme().linkColor} lightness(-33%));
+    opacity: 0.6;
   }
 }
 

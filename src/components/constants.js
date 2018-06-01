@@ -41,9 +41,15 @@ const Constants = {
     switch (themeName) {
       case 'dark':
         theme = {
+          positiveColor: materialColor.green500,
+          negativeColor: materialColor.red500,
+          disableColor: materialColor.grey400,
+          neutralColor: materialColor.grey500,
+          neutralColorVariant1: materialColor.grey300,
+
           backgroundColorPrimary: '#2d2c43',
           surfaceColorPrimary: 'rgb(46, 47, 64)',
-          textColorPrimary: 'rgb(245, 245, 245)',
+          textColorPrimary: materialColor.fullWhite,
           textColorPrimary1: '#222222',
           textColorPrimary2: '#555555',
           textColorPrimary3: '#777777',
@@ -51,12 +57,11 @@ const Constants = {
 
           backgroundColorSecondary: 'linear-gradient(135deg, rgb(46, 45, 69), rgb(28, 33, 39))',
           surfaceColorSecondary: 'rgb(39, 39, 58)',
-          textColorSecondary: '#212020',
+          textColorSecondary: materialColor.grey200,
 
-          dividerColor: 'rgb(52, 50, 50)',
+          borderColor: 'rgb(52, 50, 50)',
           linkColor: '#6BF',
           avatarBackgroundColor: 'rgba(255, 255, 255, 0.1)',
-          buttonMute: materialColor.grey400,
 
           fontFamily: '"IBM Plex Sans", sans-serif',
           fontFamilySecondary: 'Open Sans',
@@ -66,6 +71,7 @@ const Constants = {
         theme = {
           positiveColor: materialColor.green500,
           negativeColor: materialColor.red500,
+          disableColor: materialColor.grey400,
           neutralColor: materialColor.grey500,
           neutralColorVariant1: materialColor.grey300,
 
@@ -76,6 +82,12 @@ const Constants = {
           textColorPrimary3: '#555555',
           textColorPrimary4: '#777777',
           textColorPrimary5: '#999999',
+          // primary1Color: '',
+          // primary2Color: '',
+          // primary3Color: '',
+          // accent1Color: '',
+          // accent2Color: '',
+          // accent3Color: '',
 
           backgroundColorSecondary: '#eef2f5', /* root background-image */
           surfaceColorSecondary: '#249A23', /* header */
@@ -83,9 +95,8 @@ const Constants = {
           textColorSecondary2: 'rgba(255, 255, 255, 0.6)',
 
           linkColor: '#6BF',
-          dividerColor: 'rgb(224, 224, 224)',
+          borderColor: 'rgb(224, 224, 224)',
           avatarBackgroundColor: materialColor.grey50,
-          buttonMute: materialColor.grey400,
 
           // fontFamily: 'IBM Plex Sans',
           fontFamily: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
@@ -108,10 +119,10 @@ const Constants = {
           backgroundColorSecondary: '#eef2f5', /* root background-image */
           surfaceColorPrimary: '#fff',
           surfaceColorSecondary: '#fff', /* header */
-          dividerColor: 'rgb(224, 224, 224)',
+          borderColor: 'rgb(224, 224, 224)',
           linkColor: '#6BF',
           avatarBackgroundColor: materialColor.grey50,
-          buttonMute: materialColor.grey400,
+          disableColor: materialColor.grey400,
 
           fontFamily: '"IBM Plex Sans", sans-serif',
           fontFamilySecondary: 'Open Sans',

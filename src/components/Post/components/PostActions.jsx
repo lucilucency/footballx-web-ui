@@ -10,7 +10,7 @@ import { bindAll, renderDialog } from '../../../utils';
 import { IconUpvote, IconDownvote, IconComment, IconShare } from '../../Icons';
 import { upVote, downVote, setPost } from '../../../actions';
 import constants from '../../constants';
-import ButtonShare from './ButtonShare';
+import ButtonShare from '../../../utils/ButtonShare';
 import ViewPostFullFrame from './PostViewFullFrame';
 import strings from '../.././../lang';
 

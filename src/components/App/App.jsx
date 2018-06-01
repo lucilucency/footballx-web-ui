@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import darkBaseTheme from 'material-ui/style/baseThemes/darkBaseTheme';
-// import lightBaseTheme from 'material-ui/style/baseThemes/lightBaseTheme';
+// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
@@ -19,6 +19,7 @@ import * as Home from '../Home';
 import * as Popular from '../Popular';
 import { PageCreatePost, PageViewPost } from '../Post';
 import * as Match from '../Match';
+import * as League from '../League';
 import { UpdateProfileStepper } from '../User';
 import constants from '../constants';
 import Login from '../Login';
@@ -44,9 +45,10 @@ const overwritesTheme = {
   },
   palette: {
     textColor: constants.theme().textColorPrimary,
-    primary1Color: constants.colorBlue,
+    secondaryTextColor: constants.theme().textColorPrimary2,
     canvasColor: constants.theme().surfaceColorPrimary,
-    borderColor: constants.theme().dividerColor,
+    alternateTextColor: constants.theme().surfaceColorPrimary,
+    borderColor: constants.theme().borderColor,
   },
   tabs: {
     backgroundColor: constants.theme().surfaceColorPrimary,
@@ -149,8 +151,12 @@ class App extends React.Component {
               <Route exact path="/r/:id?/top" component={Community.Top} />
               <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
 
-              <Route exact path="/match" component={Match.Hot} />
+              <Route exact path="/match/hot" component={Match.Hot} />
               <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.PageViewMatch} />
+
+              <Route exact path="/l/:id" component={League.LeageView} />
+              {/* <Route exact path="/l/:id/matches" component={League.Matches} /> */}
+              {/* <Route exact path="/l/:id/table" component={League.Table} /> */}
             </CONTENT>
           </BODY>
           <Snackbar

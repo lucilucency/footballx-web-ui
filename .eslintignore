@@ -4,3 +4,4 @@ src/utils/FormValidator
 src/utils/ValidatorCore
 src/utils/BigSelector
 src/utils/FacebookLogin
+dev/updateFxconstants.js

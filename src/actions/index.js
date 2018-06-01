@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase,radix */
 import { dispatchDelete, dispatchGet, dispatchPost, dispatchPut } from './dispatchAction';
 import * as parser from './parser';
 import { getCookie, setCookie, eraseCookie } from '../utils';
@@ -279,6 +279,30 @@ export const getCommunity = postID => dispatchGet({
   path: `post/${postID}`,
   params: {
     xuser_id: getCookie('user_id'),
+  },
+});
+
+// league
+export const getLeagueMatches = (leagueID, { start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000 } = {}) => dispatchGet({
+  reducer: 'matches',
+  path: 'matches',
+  params: {
+    start_time,
+    end_time,
+  },
+  transform: (resp) => {
+    const leagueMatch = resp.filter(el => el.league_id === leagueID);
+    return leagueMatch && leagueMatch.map((el) => {
+      const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
+      const goals = el.cache_goals ? el.cache_goals.split(',') : [];
+      return {
+        ...el,
+        home: Number(clubs[0]),
+        homeGoal: Number(goals[0]),
+        away: Number(clubs[1]),
+        awayGoal: Number(goals[1]),
+      };
+    });
   },
 });
 

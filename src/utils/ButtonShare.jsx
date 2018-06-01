@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { announce } from '../../../actions';
-import strings from '../../../lang';
+import { announce } from '../actions/index';
+import strings from '../lang/index';
 
 const ButtonShare = ({ clipboard, announceFn, child }) => (
   <CopyToClipboard
