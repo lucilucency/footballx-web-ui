@@ -62,7 +62,7 @@ class MatchGrid extends React.Component {
                   </LazyLoad>
                 );
               }
-              return <MatchViewCompact key={item.id} data={item} isLoggedIn={isLoggedIn} />
+              return <MatchViewCompact key={item.id} data={item} isLoggedIn={isLoggedIn} />;
             })}
           </div>
         ));
@@ -73,7 +73,7 @@ class MatchGrid extends React.Component {
             <LazyLoad height={200} key={item.id}>
               <MatchViewCompact data={item} isLoggedIn={isLoggedIn} />
             </LazyLoad>
-          )
+          );
         }
         return <MatchViewCompact key={item.id} data={item} isLoggedIn={isLoggedIn} />;
       });
