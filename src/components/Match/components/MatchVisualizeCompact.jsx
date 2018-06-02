@@ -5,7 +5,6 @@ import styled, {
 // css
 } from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import Clubs from 'fxconstants/build/clubsObj.json';
 import IconButton from 'material-ui/IconButton';
 import constants from '../../constants';
 // import strings from '../../lang';
