@@ -7,7 +7,8 @@ import constants from '../constants';
 const StyledMain = styled.main`
   position: relative;
   margin: 10px 0 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.19);
+  background-color: ${constants.theme().surfaceColorPrimary};
+  border-bottom: 1px solid ${constants.theme().borderColor};
 `;
 const StyledSection = styled.section`
   display: flex;
@@ -19,19 +20,19 @@ const StyledSection = styled.section`
     /* Tab */
     text-align: center;
     font-weight: ${constants.fontWeightLight};
-    font-size: 14px;
+    font-size: ${constants.fontSizeSmall};
     color: ${constants.theme().textColorPrimary};
-    padding: 10px 12px 16px;
-    border-bottom: 2px solid transparent;
+    padding: 14px 12px 10px;
+    border-bottom: 4px solid transparent;
     flex-grow: 1;
 
     &:hover {
-      color: ${constants.colorMutedLight};
+      color: color(${constants.theme().textColorPrimary} lightness(85%));
     }
 
     &[disabled] {
       pointer-events: none;
-      color: ${constants.colorMuted};
+      color: ${constants.theme().disabledColor};
     }
 
     &[hidden] {
@@ -46,8 +47,8 @@ const StyledSection = styled.section`
 
   & .chosen {
     display: inline-block;
-    border-color: ${constants.theme().linkColor};
-    color: color(${constants.colorMuted} lightness(85%));
+    border-color: ${constants.theme().positiveColor};
+    color: color(${constants.theme().textColorPrimary} lightness(85%));
   }
 `;
 

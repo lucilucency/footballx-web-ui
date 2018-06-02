@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
+// import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 // import ReactMarkdown from 'react-markdown';
-import strings from '../../lang';
+// import strings from '../../lang';
 // import { getAnnouncement } from '../../actions';
 import constants from '../constants';
 import Counter from './Counter';
@@ -76,7 +76,7 @@ const StyledDiv = styled.div`
 const Announce = ({
   title, body,
   // onClick,
-  link,
+  // link,
 }) => (
   <StyledDiv>
     <main>
@@ -84,14 +84,14 @@ const Announce = ({
       {/* {body && <ReactMarkdown source={body} />} */}
       {body && body}
     </main>
-    <aside>
+    {/* <aside>
       <RaisedButton
         backgroundColor={constants.colorBlue}
         href={link}
         target="_blank"
         label={strings.announce_play_game}
       />
-    </aside>
+    </aside> */}
     {/* <aside>
       <RaisedButton
         backgroundColor={constants.colorBlue}
@@ -104,9 +104,9 @@ const Announce = ({
 
 Announce.propTypes = {
   title: PropTypes.string,
-  body: PropTypes.string,
+  body: PropTypes.node,
   // onClick: PropTypes.func,
-  link: PropTypes.string,
+  // link: PropTypes.string,
 };
 
 class AnnounceComponent extends React.Component {

@@ -49,6 +49,7 @@ export const styles = {
       lineHeight: '23px',
     },
     style: {
+      textAlign: 'left',
       paddingTop: 0,
       paddingBottom: 0,
       wordBreak: 'break-word',

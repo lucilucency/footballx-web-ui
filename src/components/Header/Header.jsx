@@ -15,7 +15,7 @@ import UserSettings from './UserSettings';
 
 const getHeaderLinks = () => [
   <Link key={strings.header_home} to="/">{strings.header_home}</Link>,
-  <Link key={strings.header_matches} to="/match">{strings.header_matches}</Link>,
+  <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
 ].filter(Boolean);
 
 const VerticalAlignToolbar = styled(ToolbarGroup)`

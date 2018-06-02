@@ -43,7 +43,7 @@ const Constants = {
         theme = {
           positiveColor: materialColor.green500,
           negativeColor: materialColor.red500,
-          disableColor: materialColor.grey400,
+          disabledColor: materialColor.grey400,
           neutralColor: materialColor.grey500,
           neutralColorVariant1: materialColor.grey300,
 
@@ -71,7 +71,7 @@ const Constants = {
         theme = {
           positiveColor: materialColor.green500,
           negativeColor: materialColor.red500,
-          disableColor: materialColor.grey400,
+          disabledColor: materialColor.grey400,
           neutralColor: materialColor.grey500,
           neutralColorVariant1: materialColor.grey300,
 
@@ -122,7 +122,7 @@ const Constants = {
           borderColor: 'rgb(224, 224, 224)',
           linkColor: '#6BF',
           avatarBackgroundColor: materialColor.grey50,
-          disableColor: materialColor.grey400,
+          disabledColor: materialColor.grey400,
 
           fontFamily: '"IBM Plex Sans", sans-serif',
           fontFamilySecondary: 'Open Sans',

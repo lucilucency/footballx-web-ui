@@ -1,19 +1,17 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Card, CardMedia } from 'material-ui';
+import { Card, CardMedia, CardTitle } from 'material-ui';
 import clubs from '../../../fxconstants/clubsObj.json';
 // import { upVote, downVote, updateMatch } from '../../../actions/index';
-import { bindAll } from '../../../utils/index';
+import { styles } from '../../../utils/index';
 import constants from '../../constants';
 import MatchVisualizeCompact from './MatchVisualizeCompact';
-
+import leaguesObj from '../../../fxconstants/leaguesObj.json';
 
 class MatchViewCompact extends React.Component {
   static initialState = {
-    dialogConstruct: {},
     leagues: [],
   };
 
@@ -23,8 +21,6 @@ class MatchViewCompact extends React.Component {
     this.state = {
       ...MatchViewCompact.initialState,
     };
-
-    bindAll([], this);
   }
 
   componentDidMount() {
@@ -39,8 +35,21 @@ class MatchViewCompact extends React.Component {
 
     return (
       <Card
-        key={data.id}
+        style={{
+          ...styles.card.style,
+          padding: 8,
+          marginBottom: 8,
+        }}
       >
+        <CardTitle
+          style={{
+            ...styles.cardTitle.style,
+            borderBottom: `1px solid ${constants.theme().borderColor}`,
+          }}
+        >
+          <img src={leaguesObj[data.league_id] && leaguesObj[data.league_id].icon} alt="" height={18} />
+          {leaguesObj[data.league_id] && leaguesObj[data.league_id].name}
+        </CardTitle>
         <CardMedia
           style={{
             textAlign: 'center',

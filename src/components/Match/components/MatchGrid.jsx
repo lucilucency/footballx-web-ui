@@ -1,48 +1,75 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import LazyLoad from 'react-lazyload';
 import MatchViewCompact from './MatchViewCompact';
 import { MatchGridBlank } from '../../Blank';
-// import constants from '../../constants';
+import constants from '../../constants';
+import { getMatches } from '../../../actions';
+
+const getData = (props) => {
+  props.getMatches({
+    start_time: props.start_time,
+    end_time: props.end_time,
+  });
+};
 
 const PostsGridStyled = styled.div`
-  // ${props => props.columns && css`
-  //   -moz-column-count: ${props.columns}; 
-  //   -webkit-column-count: ${props.columns}; 
-  //   column-count: ${props.columns};
-  //   -moz-column-gap: 1em;
-  //   -webkit-column-gap: 1em; 
-  //   column-gap: 1em;
-  // `}
-  //
-  // > div {
-  //    display: inline-block;
-  //    margin-bottom: 1em;
-  //    width: 100%; 
-  // }
+  // background-color: ${constants.theme().surfaceColorPrimary};
+  
+  .league-preview {
+    padding: 0 1em;
+    display: flex;
+    flex-direction: row;
+  }
 `;
 
 
 class MatchGrid extends React.Component {
   componentDidMount() {
-    // this.props.getMatches();
+    getData(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.start_time !== this.props.start_time || props.end_time !== this.props.end_time) {
+      getData(props);
+    }
   }
 
   renderGrid() {
-    if (this.props.matches.length) {
-      return this.props.matches.map(item => (
-        <div>
-          <LazyLoad height={100} key={item.id}>
-            <MatchViewCompact data={item} isLoggedIn={this.props.isLoggedIn} />
-          </LazyLoad>
-          {/* <MatchViewCompact data={item} isLoggedIn={this.props.isLoggedIn} /> */}
-        </div>
+    const {
+      loading, isLoggedIn, grouped, matches,
+    } = this.props;
+    if (matches.length) {
+      if (grouped) {
+        const leagues = {};
+        matches.forEach((match) => {
+          if (leagues[match.league_id]) {
+            leagues[match.league_id].push(match);
+          } else {
+            leagues[match.league_id] = [match];
+          }
+        });
+
+        return Object.keys(leagues).map(key => (
+          <div key={key}>
+            {leagues[key].map(item => (
+              <LazyLoad height={100} key={item.id}>
+                <MatchViewCompact data={item} isLoggedIn={isLoggedIn} />
+              </LazyLoad>
+            ))}
+          </div>
+        ));
+      }
+      return matches.map(item => (
+        <LazyLoad height={100} key={item.id}>
+          <MatchViewCompact data={item} isLoggedIn={isLoggedIn} />
+        </LazyLoad>
       ));
     }
 
-    if (this.props.loading) {
+    if (loading) {
       return (<MatchGridBlank />);
     }
 
@@ -59,7 +86,9 @@ class MatchGrid extends React.Component {
 }
 
 MatchGrid.propTypes = {
-  // grouped: PropTypes.bool,
+  start_time: PropTypes.number,
+  end_time: PropTypes.number,
+  grouped: PropTypes.bool,
   // sorting: PropTypes.string,
   // filter: PropTypes.string,
 
@@ -77,4 +106,8 @@ const mapStateToProps = state => ({
   loading: state.app.matches.loading,
 });
 
-export default connect(mapStateToProps)(MatchGrid);
+const mapDispatchToProps = dispatch => ({
+  getMatches: args => dispatch(getMatches(args)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MatchGrid);

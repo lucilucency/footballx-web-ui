@@ -8,24 +8,15 @@ import { withRouter } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import constants from '../../constants';
 // import strings from '../../lang';
-import { toTimeString, toDateString } from '../../../utils/index';
+import { toTimeString } from '../../../utils/index';
 
 const Styled = styled.div`
-  padding: 1em;
+  padding: 8px;
   color: ${constants.theme().textColorPrimary}
-`;
-const Date = styled.div`
-  text-align: left;
-  font-size: ${constants.fontSizeSmall};
-  margin-top: 3px;
-  & > div {
-    display: inline-block;
-  }
 `;
 const MatchInfo = styled.div`
   display: grid;
   grid-template-columns: 1fr 100px 1fr;
-  
   
   @media only screen and (max-width: 1023px) {
     flex-basis: 100%;
@@ -76,7 +67,7 @@ const MatchInfo = styled.div`
 
 const MatchVisualizeCompact = (props) => {
   const {
-    home, away, date, greaterThan, disabled = false,
+    home, away, date, greaterThan,
   } = props;
   const styles = {};
   if (greaterThan.medium) {
@@ -93,15 +84,14 @@ const MatchVisualizeCompact = (props) => {
 
   return (
     <Styled>
-      <Date>
+      {/* <Date>
         {toDateString(date * 1000)}
-      </Date>
-      <MatchInfo pumping={props.pumping}>
+      </Date> */}
+      <MatchInfo>
         <div className="club-image left">
           <div>{home.name}</div>
           <IconButton
-            disabled={disabled}
-            tooltip={!disabled && `For ${home.name}`}
+            tooltip={home.name}
             tooltipPosition="top-center"
             style={styles.iconButton.style}
             iconStyle={styles.iconButton.iconStyle}
@@ -117,8 +107,7 @@ const MatchVisualizeCompact = (props) => {
         </div>
         <div className="club-image right">
           <IconButton
-            disabled={disabled}
-            tooltip={!disabled && `For ${away.name}`}
+            tooltip={away.name}
             tooltipPosition="top-center"
             style={styles.iconButton.style}
             iconStyle={styles.iconButton.iconStyle}
@@ -134,11 +123,9 @@ const MatchVisualizeCompact = (props) => {
 };
 
 MatchVisualizeCompact.propTypes = {
-  disabled: PropTypes.bool,
   home: PropTypes.object,
   away: PropTypes.object,
   date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  pumping: PropTypes.bool,
 
   /**/
   // history: PropTypes.object,
