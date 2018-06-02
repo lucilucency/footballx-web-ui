@@ -1,7 +1,7 @@
 import PageViewMatch from './ViewMatchPage';
-import Hot from './Hot';
+import HotMatch from './HotMatch';
 
 export {
-  Hot,
+  HotMatch,
   PageViewMatch,
 };

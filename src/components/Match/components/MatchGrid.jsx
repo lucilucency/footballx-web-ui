@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
-// import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazyload';
 import MatchViewCompact from './MatchViewCompact';
 import { MatchGridBlank } from '../../Blank';
 // import constants from '../../constants';
@@ -34,10 +34,10 @@ class MatchGrid extends React.Component {
     if (this.props.matches.length) {
       return this.props.matches.map(item => (
         <div>
-          {/* <LazyLoad height={1000} key={item.id}>
+          <LazyLoad height={100} key={item.id}>
             <MatchViewCompact data={item} isLoggedIn={this.props.isLoggedIn} />
-          </LazyLoad> */}
-          <MatchViewCompact data={item} isLoggedIn={this.props.isLoggedIn} />
+          </LazyLoad>
+          {/* <MatchViewCompact data={item} isLoggedIn={this.props.isLoggedIn} /> */}
         </div>
       ));
     }

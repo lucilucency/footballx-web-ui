@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { HotMatchGrid } from '../Match/components';
 import { Container } from '../../utils/index';
-import RightTrayComponent from './RightBar';
 
 class NewFeeds extends React.Component {
   componentDidMount() {
@@ -20,7 +19,6 @@ class NewFeeds extends React.Component {
             bound="all"
             sorting="hot"
           />
-          <RightTrayComponent />
         </Container>
       </div>
     );

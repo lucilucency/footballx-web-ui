@@ -151,7 +151,7 @@ class App extends React.Component {
               <Route exact path="/r/:id?/top" component={Community.Top} />
               <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
 
-              <Route exact path="/match/hot" component={Match.Hot} />
+              <Route exact path="/match/hot" component={Match.HotMatch} />
               <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.PageViewMatch} />
 
               <Route exact path="/l/:id" component={League.LeageView} />

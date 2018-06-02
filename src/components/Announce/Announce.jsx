@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import ReactMarkdown from 'react-markdown';
+// import ReactMarkdown from 'react-markdown';
 import strings from '../../lang';
 // import { getAnnouncement } from '../../actions';
 import constants from '../constants';
+import Counter from './Counter';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -22,6 +23,7 @@ const StyledDiv = styled.div`
 
   & main {
     flex-grow: 1;
+    text-align: left;
 
     & > div,
     & a,
@@ -76,7 +78,8 @@ const Announce = ({
   <StyledDiv>
     <main>
       <h4>{title}</h4>
-      {body && <ReactMarkdown source={body} />}
+      {/* {body && <ReactMarkdown source={body} />} */}
+      {body && body}
     </main>
     <aside>
       <RaisedButton
@@ -115,14 +118,6 @@ class AnnounceComponent extends React.Component {
         localStorage.setItem('dismiss', value);
       }
       this.setState({ dismissed: true });
-    };
-
-    this.getDate = (days) => {
-      const msPerDay = 24 * 60 * 60 * 1000;
-
-      const date = new Date(new Date() - (msPerDay * days));
-
-      return date.toISOString().split('T')[0];
     };
   }
 
@@ -170,12 +165,12 @@ const mapStateToProps = () =>
     error: null,
     loading: false,
     data: {
-      // items: [{
-      //   title: 'Bạn ủng hộ đội bóng nào?',
-      //   body: 'Click vào logo đội bóng bạn ủng hộ ',
-      //   number: 2,
-      //   html_url: '//google.com',
-      // }],
+      items: [{
+        title: 'RUSSIA 2018',
+        body: <Counter to={1528970400} />,
+        number: 2,
+        html_url: '//google.com',
+      }],
     },
   });
 
