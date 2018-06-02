@@ -11,11 +11,22 @@ import constants from '../../constants';
 // import strings from '../../lang';
 import { toTimeString, toDateString } from '../../../utils/index';
 
-const MatchInfo = styled.div`
+const Styled = styled.div`
   padding: 1em;
+  color: ${constants.theme().textColorPrimary}
+`;
+const Date = styled.div`
+  text-align: left;
+  font-size: ${constants.fontSizeSmall};
+  margin-top: 3px;
+  & > div {
+    display: inline-block;
+  }
+`;
+const MatchInfo = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  color: ${constants.theme().textColorSecondary}
+  grid-template-columns: 1fr 100px 1fr;
+  
   
   @media only screen and (max-width: 1023px) {
     flex-basis: 100%;
@@ -23,14 +34,21 @@ const MatchInfo = styled.div`
   }
   .club-image {
     padding: 2px;
-    background-color: rgba(255,255,255,0.1);
+    display: table;
+    -webkit-border-horizontal-spacing: 1em;
+    &.left { justify-self: end; }
+    &.right { justify-self: start; }
+    > * { display: table-cell; vertical-align: middle; }
     
     img {
-      height: 40px;
-      @media only screen and (max-width: 768px) {
-        //width: 72px;
-        height: 32px;
-      }
+      //border: 1px solid ${constants.theme().borderColor};
+      //background-color: rgba(255,255,255,0.1);
+      //padding: 8px;
+      //height: 40px;
+      //@media only screen and (max-width: 768px) {
+        width: 72px;
+        //height: 32px;
+      //}
     }
   }
     
@@ -49,17 +67,9 @@ const MatchInfo = styled.div`
       display: block;
     }
     & .duration {
-      font-size: 28px;
-      @media only screen and (max-width: 400px) {
-        font-size: 24px;
-      }
-    }
-    & .ended {
-      font-size: ${constants.fontSizeSmall};
-      color: ${constants.colorMutedLight};
-      margin-top: 3px;
-      & > div {
-        display: inline-block;
+      font-size: 24px;
+      @media only screen and (max-width: 662px) {
+        font-size: 18px;
       }
     }
   }
@@ -72,53 +82,55 @@ const MatchVisualizeCompact = (props) => {
   const styles = {};
   if (greaterThan.medium) {
     styles.iconButton = {
-      style: { height: 40, width: 'auto' },
+      style: { height: 40, width: 'auto', padding: 0 },
       iconStyle: { height: 32, width: 'auto' },
     };
   } else {
     styles.iconButton = {
-      style: { height: 32, width: 'auto' },
+      style: { height: 32, width: 'auto', padding: 0 },
       iconStyle: { height: 24, width: 'auto' },
     };
   }
 
   return (
-    <MatchInfo pumping={props.pumping}>
-      <div className="club-image">
-        <IconButton
-          disabled={disabled}
-          tooltip={!disabled && `For ${home.name}`}
-          tooltipPosition="top-center"
-          style={styles.iconButton.style}
-          iconStyle={styles.iconButton.iconStyle}
-          touch
-        >
-          <img src={home.icon} alt="" />
-        </IconButton>
-        <div>{Clubs[home] && Clubs[home].name}</div>
-      </div>
-      <div className="info">
-        <span className="duration">
-          {toTimeString(date * 1000)}
-        </span>
-        <span className="ended">
-          {toDateString(date * 1000)}
-        </span>
-      </div>
-      <div className="club-image">
-        <IconButton
-          disabled={disabled}
-          tooltip={!disabled && `For ${away.name}`}
-          tooltipPosition="top-center"
-          style={styles.iconButton.style}
-          iconStyle={styles.iconButton.iconStyle}
-          touch
-        >
-          <img src={away.icon} alt="" />
-        </IconButton>
-        <div>{Clubs[away] && Clubs[away].name}</div>
-      </div>
-    </MatchInfo>
+    <Styled>
+      <Date>
+        {toDateString(date * 1000)}
+      </Date>
+      <MatchInfo pumping={props.pumping}>
+        <div className="club-image left">
+          <div>{home.name}</div>
+          <IconButton
+            disabled={disabled}
+            tooltip={!disabled && `For ${home.name}`}
+            tooltipPosition="top-center"
+            style={styles.iconButton.style}
+            iconStyle={styles.iconButton.iconStyle}
+            touch
+          >
+            <img src={home.icon} alt="" />
+          </IconButton>
+        </div>
+        <div className="info">
+          <span className="duration">
+            {toTimeString(date * 1000)}
+          </span>
+        </div>
+        <div className="club-image right">
+          <IconButton
+            disabled={disabled}
+            tooltip={!disabled && `For ${away.name}`}
+            tooltipPosition="top-center"
+            style={styles.iconButton.style}
+            iconStyle={styles.iconButton.iconStyle}
+            touch
+          >
+            <img src={away.icon} alt="" />
+          </IconButton>
+          <div>{away.name}</div>
+        </div>
+      </MatchInfo>
+    </Styled>
   );
 };
 
