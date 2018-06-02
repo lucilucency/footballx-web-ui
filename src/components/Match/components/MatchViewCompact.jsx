@@ -63,7 +63,7 @@ class MatchViewCompact extends React.Component {
         >
           <MatchVisualizeCompact
             disabled
-            matchID={this.props.data.id}
+            data={this.props.data}
             home={home}
             away={away}
             date={data.date}
