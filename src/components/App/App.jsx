@@ -153,7 +153,7 @@ class App extends React.Component {
 
               <Route exact path="/matches/:info?" component={Match.Home} />
               <Route exact path="/match/hot" component={Match.HotMatch} />
-              <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.MatchDetail} />
+              <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.HotMatchDetail} />
 
               <Route exact path="/l/:id" component={League.LeageView} />
               {/* <Route exact path="/l/:id/matches" component={League.Matches} /> */}

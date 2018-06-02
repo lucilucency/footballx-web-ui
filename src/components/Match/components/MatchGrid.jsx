@@ -54,19 +54,29 @@ class MatchGrid extends React.Component {
 
         return Object.keys(leagues).map(key => (
           <div key={key}>
-            {leagues[key].map(item => (
-              <LazyLoad height={100} key={item.id}>
-                <MatchViewCompact data={item} isLoggedIn={isLoggedIn} />
-              </LazyLoad>
-            ))}
+            {leagues[key].map((item, index) => {
+              if (index > 10) {
+                return (
+                  <LazyLoad height={200} key={item.id}>
+                    <MatchViewCompact data={item} isLoggedIn={isLoggedIn} />
+                  </LazyLoad>
+                );
+              }
+              return <MatchViewCompact key={item.id} data={item} isLoggedIn={isLoggedIn} />
+            })}
           </div>
         ));
       }
-      return matches.map(item => (
-        <LazyLoad height={100} key={item.id}>
-          <MatchViewCompact data={item} isLoggedIn={isLoggedIn} />
-        </LazyLoad>
-      ));
+      return matches.map((item, index) => {
+        if (index > 10) {
+          return (
+            <LazyLoad height={200} key={item.id}>
+              <MatchViewCompact data={item} isLoggedIn={isLoggedIn} />
+            </LazyLoad>
+          )
+        }
+        return <MatchViewCompact key={item.id} data={item} isLoggedIn={isLoggedIn} />;
+      });
     }
 
     if (loading) {

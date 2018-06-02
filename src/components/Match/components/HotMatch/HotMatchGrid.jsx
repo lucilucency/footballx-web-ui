@@ -71,8 +71,8 @@ HotMatchGrid.propTypes = {
 const mapStateToProps = state => ({
   user: state.app.metadata.data.user,
   isLoggedIn: Boolean(state.app.metadata.data.user),
-  matches: state.app.matches.data,
-  loading: state.app.matches.loading,
+  matches: state.app.hotMatches.data,
+  loading: state.app.hotMatches.loading,
 });
 
 const mapDispatchToProps = dispatch => ({

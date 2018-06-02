@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import { HotMatchGrid } from '../Match/components';
 import { Container } from '../../utils/index';
 
-class NewFeeds extends React.Component {
+class HotMatches extends React.Component {
   componentDidMount() {
     // console.log('in popular/hot');
   }
@@ -25,7 +25,7 @@ class NewFeeds extends React.Component {
   }
 }
 
-NewFeeds.propTypes = {
+HotMatches.propTypes = {
 };
 
 // const mapStateToProps = state => ({
@@ -33,4 +33,4 @@ NewFeeds.propTypes = {
 //   loading: state.app.posts.loading,
 // });
 
-export default connect(null, null)(NewFeeds);
+export default connect(null, null)(HotMatches);

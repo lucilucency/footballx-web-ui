@@ -16,6 +16,7 @@ export default combineReducers({
   post: reducer('post', {}),
   comments: reducer('comments'),
 
+  hotMatches: reducer('hotMatches'),
   matches: reducer('matches'),
   match: reducer('match', {}),
 

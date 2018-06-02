@@ -214,7 +214,7 @@ export const getMatches = ({ start_time = parseInt(Date.now() / 1000), end_time 
 });
 export const getHotMatches = ({
   /**/
-  reducer = 'matches',
+  reducer = 'hotMatches',
   path = 'matches/hot',
 } = {}) => dispatchGet({
   reducer,

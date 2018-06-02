@@ -84,9 +84,6 @@ const MatchVisualizeCompact = (props) => {
 
   return (
     <Styled>
-      {/* <Date>
-        {toDateString(date * 1000)}
-      </Date> */}
       <MatchInfo>
         <div className="club-image left">
           <div>{home.name}</div>
@@ -101,7 +98,7 @@ const MatchVisualizeCompact = (props) => {
           </IconButton>
         </div>
         <div className="info">
-          {date > Date.now() ? (
+          {date * 1000 > Date.now() ? (
             <span className="duration">
               {toTimeString(date * 1000)}
             </span>
@@ -134,6 +131,8 @@ MatchVisualizeCompact.propTypes = {
   away: PropTypes.object,
   date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
+  // isCompact: PropTypes.bool,
+  // isHot: PropTypes.bool,
   /**/
   // history: PropTypes.object,
   greaterThan: PropTypes.object,

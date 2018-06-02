@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import Amplitude from 'react-amplitude';
 import { setMatch, getMatch, getMatchVotes } from '../../actions';
-import { MatchView } from './components';
+import { HotMatchView } from './components';
 import { Container } from '../../utils';
 
 
-class MatchDetail extends React.Component {
+class HotMatchDetail extends React.Component {
   componentDidMount() {
     const { location } = this.props;
     if (location.state && location.state.data) {
@@ -40,7 +40,7 @@ class MatchDetail extends React.Component {
             margin: 'auto',
           }}
         >
-          <MatchView
+          <HotMatchView
             isLoggedIn={isLoggedIn}
             matchID={matchID}
             data={data}
@@ -51,7 +51,7 @@ class MatchDetail extends React.Component {
   }
 }
 
-MatchDetail.propTypes = {
+HotMatchDetail.propTypes = {
   match: PropTypes.object,
   history: PropTypes.object,
   location: PropTypes.object,
@@ -76,4 +76,4 @@ const mapDispatchToProps = dispatch => ({
   getMatchVotes: matchID => dispatch(getMatchVotes(matchID)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MatchDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(HotMatchDetail);
