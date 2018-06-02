@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import constants from '../constants';
 import { toggleTray } from '../../actions/index';
 
-import { FxPNG } from '../Icons';
+import { LogoRound } from '../Icons';
 
 class BurgerButton extends React.Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class BurgerButton extends React.Component {
         style={{ padding: 0 }}
         iconStyle={{ color: constants.theme().textColorSecondary, width: 36, height: 36 }}
       >
-        <FxPNG clicked={this.state.isChecked} />
+        <LogoRound clicked={this.state.isChecked} />
       </IconButton>
     );
     // return (
@@ -43,7 +43,7 @@ class BurgerButton extends React.Component {
     //       width: 40,
     //       height: 40,
     //     }}
-    //     checkedIcon={<FxPNG clicked={this.state.isChecked} />}
+    //     checkedIcon={<LogoRound clicked={this.state.isChecked} />}
     //     uncheckedIcon={<MenuIcon style={{ fill: constants.theme().textColorSecondary }} />}
     //     onCheck={this.handleToggle}
     //   />

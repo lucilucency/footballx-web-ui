@@ -59,6 +59,7 @@ class MatchGrid extends React.Component {
 }
 
 MatchGrid.propTypes = {
+  // grouped: PropTypes.bool,
   // sorting: PropTypes.string,
   // filter: PropTypes.string,
 

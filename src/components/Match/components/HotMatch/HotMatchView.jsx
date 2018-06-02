@@ -11,13 +11,13 @@ import {
 import clubs from 'fxconstants/build/clubsObj.json';
 import { hitVote, getMatchComments, announce } from '../../../../actions/index';
 import strings from '../../../../lang/index';
-import { bindAll, getCookie } from '../../../../utils/index';
+import { bindAll, getCookie, styles } from '../../../../utils/index';
 import constants from '../../../constants';
 import MatchVisualize from './HotMatchVisualize';
 import FanFight from './FanFight';
 import Backdrop from './Backdrop';
 import CreateComment from '../CreateEditComment';
-import ViewComments from '../Comments';
+import ViewComments from '../MatchComments';
 import MatchActions from '../MatchActions';
 
 class MatchView extends React.Component {
@@ -56,9 +56,7 @@ class MatchView extends React.Component {
       <div>
         <Card
           key={data.id}
-          style={{
-            // maxWidth: 900,
-          }}
+          style={styles.card.style}
         >
           <CardHeader
             title={strings.paragraph_match_title}
@@ -112,20 +110,22 @@ class MatchView extends React.Component {
                 />
               )}
               {this.state.openLive && (
-                <iframe
-                  title={this.props.data.id}
-                  src="//iframe.dacast.com/b/111717/c/472596"
-                  width="590"
-                  height="431"
-                  frameBorder="0"
-                  scrolling="no"
-                  // allow="autoplay"
-                  allowFullScreen
-                  // webkitAllowFullScreen
-                  // mozAllowFullScreen
-                  // oAllowFullScreen
-                  // msAllowFullScreen
-                />
+                <div style={{ width: '100%', backgroundColor: 'black' }}>
+                  <iframe
+                    title={this.props.data.id}
+                    src={this.props.data.url_live}
+                    width="590"
+                    height="431"
+                    frameBorder="0"
+                    scrolling="no"
+                    // allow="autoplay"
+                    allowFullScreen
+                    // webkitAllowFullScreen
+                    // mozAllowFullScreen
+                    // oAllowFullScreen
+                    // msAllowFullScreen
+                  />
+                </div>
               )}
             </div>
           </CardMedia>

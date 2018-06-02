@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import constants from '../../constants';
 import { fromNow, ActiveLink, styles } from '../../../utils';
-import CommentActions from './CommentActions';
+// import CommentActions from './CommentActions';
 
 class ViewPostComments extends React.Component {
   state = {
@@ -47,7 +47,8 @@ class ViewPostComments extends React.Component {
             </h6>
           </div>
         }
-        secondaryText={<CommentActions data={item} type="comment" isLoggedIn={this.props.isLoggedIn} />}
+        // secondaryText={<CommentActions data={item} type="comment" isLoggedIn={this.props.isLoggedIn} />}
+        secondaryText={<div />}
         nestedItems={item.comments && item.comments.map(el => this.renderComment(el, true))}
         nestedListStyle={{
           borderLeft: `1px solid ${constants.theme().neutralColorVariant1}`,
@@ -73,7 +74,7 @@ const mapStateToProps = state => ({
 });
 
 ViewPostComments.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
+  // isLoggedIn: PropTypes.bool.isRequired,
   /**/
   comments: PropTypes.array.isRequired,
 };

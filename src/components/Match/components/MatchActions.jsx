@@ -7,25 +7,29 @@ import {
   // IconButton,
   FlatButton,
 } from 'material-ui';
-import IconLive from 'material-ui/svg-icons/notification/live-tv';
 import { bindAll, renderDialog } from '../../../utils';
-// import { IconUpvote, IconDownvote } from '../../Icons';
+import { IconLiveTV, IconShare, IconComment } from '../../Icons';
 import { upVote, downVote, setPost } from '../../../actions';
 import constants from '../../constants';
 import ButtonShare from '../../../utils/ButtonShare';
 import strings from '../../../lang';
 
 const MatchActionStyled = styled.div`
-  padding: 0 0;
+  padding: 0 1em;
   display: table;
   border-top: ${`1px solid ${constants.grey50}`};
-  font-weight: ${constants.fontWeightHeavy};
+  font-weight: ${constants.fontWeightMedium};
   font-size: ${constants.fontSizeSmall};
   font-family: ${constants.theme().fontFamily};
+  color: ${constants.theme().neutralColor};
   
   > * {
     display: table-cell;
     vertical-align: middle;
+  }
+  
+  span {
+    color: ${constants.theme().neutralColor};
   }
 `;
 
@@ -147,40 +151,57 @@ class PostActions extends React.Component {
           </IconButton> */}
           <div>
             {this.props.disableComment ? (
-              <div>
-                {this.props.count ? `${this.props.count} comments` : 'Comment'}
+              <div style={{ display: 'block' }}>
+                <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={constants.theme().neutralColor} />
+                <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{this.props.count || 0}</span>
               </div>
             ) : (
               <FlatButton
                 target="_blank"
-                label={this.props.count ? `${this.props.count} comments` : 'Comment'}
+                label={this.props.count || strings.label_comment}
+                icon={<IconComment style={{ marginTop: -5 }} color={constants.theme().neutralColor} />}
+                labelPosition="after"
+                labelStyle={{
+                  paddingLeft: 5,
+                  fontWeight: 'inherit',
+                  fontSize: 'inherit',
+                }}
                 onClick={() => this.props.history.push(`/m/${item.id}`)}
               />
+              // <FlatButton
+              //   target="_blank"
+              //   label={this.props.count ? `${this.props.count} comments` : 'Comment'}
+              //   onClick={() => this.props.history.push(`/m/${item.id}`)}
+              // />
             )}
           </div>
           <ButtonShare
             clipboard={`${window.location.host}/m/${item.id}`}
             child={(
               <FlatButton
-                target="_blank"
-                label={strings.label_share_match}
+                label={strings.label_share_post}
+                icon={<IconShare color={constants.theme().neutralColor} />}
+                labelPosition="after"
                 labelStyle={{
+                  paddingLeft: 0,
                   fontWeight: 'inherit',
                   fontSize: 'inherit',
                 }}
               />
             )}
           />
-          <FlatButton
-            target="_blank"
-            label={strings.label_live_stream}
-            icon={<IconLive style={{ width: 18, height: 18 }} />}
-            labelStyle={{
-              fontWeight: 'inherit',
-              fontSize: 'inherit',
-            }}
-            onClick={this.props.onClickOpenLive}
-          />
+          {this.props.data.url_live && (
+            <FlatButton
+              target="_blank"
+              label={strings.label_live_stream}
+              icon={<IconLiveTV style={{ width: 18, height: 16 }} borderColor={constants.theme().neutralColor} color="transparent" />}
+              labelStyle={{
+                fontWeight: 'inherit',
+                fontSize: 'inherit',
+              }}
+              onClick={this.props.onClickOpenLive}
+            />
+          )}
         </MatchActionStyled>
         {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}
       </div>

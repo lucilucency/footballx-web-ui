@@ -15,6 +15,7 @@ const StyledDiv = styled.div`
   flex-wrap: wrap;
   align-items: center;
   background-color: #008eff;
+  color: ${constants.theme().textColorSecondary};
 
   & main,
   & aside {
@@ -73,7 +74,9 @@ const StyledDiv = styled.div`
   }
 `;
 const Announce = ({
-  title, body, onClick, link,
+  title, body,
+  // onClick,
+  link,
 }) => (
   <StyledDiv>
     <main>
@@ -86,23 +89,23 @@ const Announce = ({
         backgroundColor={constants.colorBlue}
         href={link}
         target="_blank"
-        label={strings.announce_creating}
+        label={strings.announce_play_game}
       />
     </aside>
-    <aside>
+    {/* <aside>
       <RaisedButton
         backgroundColor={constants.colorBlue}
         onClick={onClick}
         label={strings.announce_dismiss}
       />
-    </aside>
+    </aside> */}
   </StyledDiv>
 );
 
 Announce.propTypes = {
   title: PropTypes.string,
   body: PropTypes.string,
-  onClick: PropTypes.func,
+  // onClick: PropTypes.func,
   link: PropTypes.string,
 };
 
@@ -169,7 +172,7 @@ const mapStateToProps = () =>
         title: 'RUSSIA 2018',
         body: <Counter to={1528970400} />,
         number: 2,
-        html_url: '//google.com',
+        html_url: '/',
       }],
     },
   });

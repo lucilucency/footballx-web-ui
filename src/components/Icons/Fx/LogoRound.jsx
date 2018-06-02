@@ -16,7 +16,7 @@ const Styled = styled.div`
   `}
 `;
 
-const FxPNG = ({ clicked, style }) => (
+const LogoRound = ({ clicked, style }) => (
   <Styled
     clicked={clicked}
     style={{
@@ -35,9 +35,9 @@ const FxPNG = ({ clicked, style }) => (
   />
 );
 
-FxPNG.propTypes = {
+LogoRound.propTypes = {
   clicked: PropTypes.bool,
   style: PropTypes.object,
 };
 
-export default FxPNG;
+export default LogoRound;

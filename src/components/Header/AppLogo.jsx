@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import constants from '../constants';
 // import strings from '../../lang/index';
-import { FxPNG } from '../Icons/index';
+import { LogoRound } from '../Icons/index';
 
 const StyledLink = styled(Link)`
   font-weight: ${constants.fontWeightMedium};
@@ -25,7 +25,7 @@ const AppLogo = () => (
     {/* <span style={{ fontSize: size, verticalAlign: 'middle' }}>
       {strings.app_name}
     </span> */}
-    <FxPNG />
+    <LogoRound />
   </StyledLink>
 );
 

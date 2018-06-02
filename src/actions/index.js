@@ -190,6 +190,28 @@ export const downVote = (target_id, params, type = 'post') => dispatch => Promis
 ]);
 
 // match
+export const getMatches = ({ start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000 } = {}) => dispatchGet({
+  reducer: 'matches',
+  path: 'matches',
+  params: {
+    start_time,
+    end_time,
+  },
+  transform: (resp) => {
+    const { matches } = resp;
+    return matches && matches.map((el) => {
+      const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
+      const goals = el.cache_goals ? el.cache_goals.split(',') : [];
+      return {
+        ...el,
+        home: Number(clubs[0]),
+        homeGoal: Number(goals[0]),
+        away: Number(clubs[1]),
+        awayGoal: Number(goals[1]),
+      };
+    });
+  },
+});
 export const getHotMatches = ({
   /**/
   reducer = 'matches',
@@ -213,7 +235,7 @@ export const getHotMatches = ({
 export const updateMatch = payload => dispatch => dispatch({
   type: 'OK/EDIT_ARR/matches',
   payload,
-});
+}); /* update match after get votes */
 export const setMatch = payload => dispatch => dispatch({
   type: 'OK/EDIT/match',
   payload,

@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import strings from '../../lang';
 
 class Counter extends React.Component {
   constructor(props) {
     super();
-    this.state = { time: {}, seconds: props.to - parseInt(Date.now() / 1000) };
+    this.state = { time: {}, seconds: props.to - parseInt(Date.now() / 1000, 10) };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
@@ -58,10 +59,15 @@ class Counter extends React.Component {
   }
 
   render() {
+    const { time } = this.state;
+
     return (
       <div>
-        {/* <button onClick={this.startTimer}>Start</button> */}
-        d: {this.state.time.d} h: {this.state.time.h} m: {this.state.time.m} s: {this.state.time.s}
+        {strings.label_start_in} &nbsp;
+        {time.d ? <span><b>{this.state.time.d}</b> days &nbsp;</span> : null}
+        {<span><b>{this.state.time.h}</b> hours &nbsp;</span>}
+        {<span><b>{this.state.time.m}</b> mins &nbsp;</span>}
+        {<span><b>{this.state.time.s}</b> secs &nbsp;</span>}
       </div>
     );
   }

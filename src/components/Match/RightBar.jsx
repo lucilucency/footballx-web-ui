@@ -7,7 +7,6 @@ import strings from '../../lang/index';
 const MatchRightBar = () => (
   <RightTray>
     <SmallPaper>
-      <p>Popular</p>
       <p>{strings.paragraph_popular_desc}</p>
     </SmallPaper>
   </RightTray>
