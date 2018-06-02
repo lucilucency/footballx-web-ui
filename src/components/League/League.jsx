@@ -4,11 +4,22 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import Amplitude from 'react-amplitude';
 import { getLeagueMatches } from '../../actions';
-import { MatchGrid } from './components';
+import { MatchGrid } from '../Match/components';
 import { Container } from '../../utils';
 import RightBar from './RightBar';
 import leagues from '../../fxconstants/leaguesObj.json';
 
+const getData = (props) => {
+  const { match } = props;
+  const leagueID = Number(match.params.id);
+
+  if (!leagueID) {
+    props.history.push('/');
+  } else {
+    props.getLeagueMatches(leagueID);
+    Amplitude.logEvent(`View league ${leagues[leagueID] && leagues[leagueID].name}`);
+  }
+};
 
 class LeageOverview extends React.Component {
   componentDidMount() {
@@ -18,9 +29,14 @@ class LeageOverview extends React.Component {
     if (!leagueID) {
       this.props.history.push('/');
     } else {
-      // this.props.getLeagueMatches(leagueID);
-      this.props.getLeagueMatches();
+      this.props.getLeagueMatches(leagueID);
       Amplitude.logEvent(`View league ${leagues[leagueID] && leagues[leagueID].name}`);
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.match.params.id !== this.props.match.params.id) {
+      getData(props);
     }
   }
 

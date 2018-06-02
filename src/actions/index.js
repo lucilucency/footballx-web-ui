@@ -291,7 +291,8 @@ export const getLeagueMatches = (leagueID, { start_time = parseInt(Date.now() / 
     end_time,
   },
   transform: (resp) => {
-    const leagueMatch = resp.filter(el => el.league_id === leagueID);
+    const { matches } = resp;
+    const leagueMatch = matches.filter(el => el.league_id === leagueID);
     return leagueMatch && leagueMatch.map((el) => {
       const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
       const goals = el.cache_goals ? el.cache_goals.split(',') : [];

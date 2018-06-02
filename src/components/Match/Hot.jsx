@@ -2,7 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { MatchGrid } from '../Match/components';
+import { HotMatchGrid } from '../Match/components';
 import { Container } from '../../utils/index';
 import RightTrayComponent from './RightBar';
 
@@ -16,7 +16,7 @@ class NewFeeds extends React.Component {
       <div>
         <Helmet title="Hot" />
         <Container>
-          <MatchGrid
+          <HotMatchGrid
             bound="all"
             sorting="hot"
           />

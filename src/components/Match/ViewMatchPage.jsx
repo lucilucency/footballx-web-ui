@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import Amplitude from 'react-amplitude';
 import { setMatch, getMatch, getMatchVotes } from '../../actions';
-import { ViewMatch } from './components';
+import { HotMatchView } from './components';
 import { Container } from '../../utils';
 
 
@@ -40,7 +40,7 @@ class PageViewMatch extends React.Component {
             margin: 'auto',
           }}
         >
-          <ViewMatch
+          <HotMatchView
             isLoggedIn={isLoggedIn}
             matchID={matchID}
             data={data}

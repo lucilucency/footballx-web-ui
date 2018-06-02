@@ -8,12 +8,12 @@ import clubs from 'fxconstants/build/clubsObj.json';
 import { upVote, downVote, getMatchVotes, updateMatch } from '../../../../actions/index';
 import { bindAll } from '../../../../utils/index';
 import constants from '../../../constants';
-import MatchVisualizeCompact from '../MatchVisualizeCompact';
+import MatchVisualizeCompact from './HotMatchVisualizeCompact';
 import FanFight from './FanFight';
 // import MatchActions from './MatchActions';
 
 
-class ViewMatchCompact extends React.Component {
+class HotMatchViewCompact extends React.Component {
   static initialState = {
     dialogConstruct: {},
     leagues: [],
@@ -23,7 +23,7 @@ class ViewMatchCompact extends React.Component {
     super(props);
 
     this.state = {
-      ...ViewMatchCompact.initialState,
+      ...HotMatchViewCompact.initialState,
     };
 
     bindAll([], this);
@@ -176,7 +176,7 @@ class ViewMatchCompact extends React.Component {
   }
 }
 
-ViewMatchCompact.propTypes = {
+HotMatchViewCompact.propTypes = {
   data: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
 
@@ -200,4 +200,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewMatchCompact));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HotMatchViewCompact));

@@ -2,46 +2,48 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
-import LazyLoad from 'react-lazyload';
-import { getHotMatches } from '../../../actions/index';
-import { ViewMatchCompact, ViewMatchCompactBlank } from './index';
+// import LazyLoad from 'react-lazyload';
+import MatchViewCompact from './MatchViewCompact';
+import { MatchGridBlank } from '../../Blank';
 // import constants from '../../constants';
 
 const PostsGridStyled = styled.div`
-  //max-width: 900px;
-  ${props => props.columns && css`
-    -moz-column-count: ${props.columns}; 
-    -webkit-column-count: ${props.columns}; 
-    column-count: ${props.columns};
-    -moz-column-gap: 1em;
-    -webkit-column-gap: 1em; 
-    column-gap: 1em;
-  `}
-  
-  > div {
-     display: inline-block;
-     margin-bottom: 1em;
-     width: 100%; 
-  }
+  // ${props => props.columns && css`
+  //   -moz-column-count: ${props.columns}; 
+  //   -webkit-column-count: ${props.columns}; 
+  //   column-count: ${props.columns};
+  //   -moz-column-gap: 1em;
+  //   -webkit-column-gap: 1em; 
+  //   column-gap: 1em;
+  // `}
+  //
+  // > div {
+  //    display: inline-block;
+  //    margin-bottom: 1em;
+  //    width: 100%; 
+  // }
 `;
 
 
 class MatchGrid extends React.Component {
   componentDidMount() {
-    this.props.getMatches();
+    // this.props.getMatches();
   }
 
   renderGrid() {
     if (this.props.matches.length) {
       return this.props.matches.map(item => (
-        <LazyLoad height={200} key={item.id}>
-          <ViewMatchCompact data={item} isLoggedIn={this.props.isLoggedIn} />
-        </LazyLoad>
+        <div>
+          {/* <LazyLoad height={1000} key={item.id}>
+            <MatchViewCompact data={item} isLoggedIn={this.props.isLoggedIn} />
+          </LazyLoad> */}
+          <MatchViewCompact data={item} isLoggedIn={this.props.isLoggedIn} />
+        </div>
       ));
     }
 
     if (this.props.loading) {
-      return (<ViewMatchCompactBlank />);
+      return (<MatchGridBlank />);
     }
 
     return null;
@@ -49,7 +51,7 @@ class MatchGrid extends React.Component {
 
   render() {
     return (
-      <PostsGridStyled columns={this.columnCount}>
+      <PostsGridStyled>
         {this.renderGrid()}
       </PostsGridStyled>
     );
@@ -65,7 +67,6 @@ MatchGrid.propTypes = {
   isLoggedIn: PropTypes.bool,
   matches: PropTypes.array,
   loading: PropTypes.bool,
-  getMatches: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -75,8 +76,4 @@ const mapStateToProps = state => ({
   loading: state.app.matches.loading,
 });
 
-const mapDispatchToProps = dispatch => ({
-  getMatches: () => dispatch(getHotMatches()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MatchGrid);
+export default connect(mapStateToProps)(MatchGrid);

@@ -6,6 +6,9 @@ const mobileAPI = process.env.REACT_APP_API_HOST || 'https://api.ttab.me';
 const webAPI = process.env.FX_WEB_API || 'https://web-api.ttab.me';
 const v = process.env.FX_VERSION || 'v1';
 
+const updateVersionPath = `${mobileAPI}/${v}/version`;
+const updateContentPath = `${webAPI}/${v}/content`;
+
 const updateObjFile = (name, data) => {
   const json = data.reduce((json, value, key) => { json[value.id] = value; return json; }, {});
   const outputPath = `src/fxconstants/${name}Obj.json`;
@@ -22,14 +25,12 @@ const updateArrFile = (name, data) => {
 };
 
 const getDownloadUrl = (delay, tries, error) => {
-  const url = `${mobileAPI}/${v}/version`;
-
   if (tries < 1) {
     return null;
   }
 
   return request
-    .get(url)
+    .get(updateVersionPath)
     .set('Content-Type', 'application/x-www-form-urlencoded')
     // .set('Authorization', `Bearer ${accessToken}`)
     .query({}) // query string
@@ -42,13 +43,12 @@ const getDownloadUrl = (delay, tries, error) => {
     })
     .catch((err) => {
       console.log(err);
-      console.log(`Error in ${type}`);
       return null;
     });
 };
 
 request
-  .post(`${webAPI}/${v}/content`)
+  .post(updateContentPath)
   .set('Content-Type', 'application/x-www-form-urlencoded')
   .query({}) // query string
   .then((res, err) => {
@@ -78,7 +78,6 @@ request
   })
   .catch((err) => {
     console.log(err);
-    console.log(`Error in ${type}`);
     return null;
   });
 

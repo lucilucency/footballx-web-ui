@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import LazyLoad from 'react-lazyload';
 import { getHotMatches } from '../../../../actions/index';
-import { ViewMatchCompact, ViewMatchCompactBlank } from '../index';
+import { HotMatchViewCompact } from '../index';
+import { MatchGridBlank } from '../../../Blank';
 // import constants from '../../constants';
 
-const PostsGridStyled = styled.div`
-  //max-width: 900px;
+const Styled = styled.div`
   ${props => props.columns && css`
     -moz-column-count: ${props.columns}; 
     -webkit-column-count: ${props.columns}; 
@@ -26,22 +26,22 @@ const PostsGridStyled = styled.div`
 `;
 
 
-class MatchGrid extends React.Component {
+class HotMatchGrid extends React.Component {
   componentDidMount() {
-    this.props.getMatches();
+    this.props.getHotMatches();
   }
 
   renderGrid() {
     if (this.props.matches.length) {
       return this.props.matches.map(item => (
         <LazyLoad height={200} key={item.id}>
-          <ViewMatchCompact data={item} isLoggedIn={this.props.isLoggedIn} />
+          <HotMatchViewCompact data={item} isLoggedIn={this.props.isLoggedIn} />
         </LazyLoad>
       ));
     }
 
     if (this.props.loading) {
-      return (<ViewMatchCompactBlank />);
+      return (<MatchGridBlank />);
     }
 
     return null;
@@ -49,14 +49,14 @@ class MatchGrid extends React.Component {
 
   render() {
     return (
-      <PostsGridStyled columns={this.columnCount}>
+      <Styled columns={this.columnCount}>
         {this.renderGrid()}
-      </PostsGridStyled>
+      </Styled>
     );
   }
 }
 
-MatchGrid.propTypes = {
+HotMatchGrid.propTypes = {
   // sorting: PropTypes.string,
   // filter: PropTypes.string,
 
@@ -65,7 +65,7 @@ MatchGrid.propTypes = {
   isLoggedIn: PropTypes.bool,
   matches: PropTypes.array,
   loading: PropTypes.bool,
-  getMatches: PropTypes.func,
+  getHotMatches: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getMatches: () => dispatch(getHotMatches()),
+  getHotMatches: () => dispatch(getHotMatches()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MatchGrid);
+export default connect(mapStateToProps, mapDispatchToProps)(HotMatchGrid);
