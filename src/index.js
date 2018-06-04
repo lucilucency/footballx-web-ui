@@ -176,22 +176,12 @@ if (userID) {
   store.dispatch(refresh(userID));
 }
 
-
 /* init amplitude */
 Amplitude.init(process.env.REACT_APP_AMP);
 Amplitude.setUserId(userID);
 Amplitude.logEvent('Visit web');
 
-// ReactGA.initialize(process.env.REACT_APP_GA, {
-//   gaOptions: {
-//     userId: userID,
-//   },
-// });
-// ReactGA.pageview(window.location.pathname + window.location.search);
 const history = createHistory();
-// history.listen((location) => {
-//   ReactGA.pageview(location.pathname);
-// });
 
 const rootElement = document.getElementById('root');
 const app = (

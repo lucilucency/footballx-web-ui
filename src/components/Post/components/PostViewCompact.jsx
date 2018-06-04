@@ -66,9 +66,9 @@ class ViewPostCompact extends React.Component {
     return (
       <CardText>
         <LinkPreview hasImage={content.image}>
-          <a href={content.url} target="_blank">{content.url}</a>
+          <a href={content.url} target="_blank" rel="noopener noreferrer">{content.url}</a>
           {content.image && (
-            <a href={content.url} target="_blank"><img src={content.image} alt="" /></a>
+            <a href={content.url} target="_blank" rel="noopener noreferrer"><img src={content.image} alt="" /></a>
           )}
         </LinkPreview>
       </CardText>
