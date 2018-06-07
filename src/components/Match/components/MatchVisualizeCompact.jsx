@@ -1,24 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled, {
 // css
 } from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import IconButton from 'material-ui/IconButton';
 import constants from '../../constants';
-// import strings from '../../lang';
 import { toTimeString } from '../../../utils/index';
 import clubs from '../../../fxconstants/clubsObj.json';
 
 const Styled = styled.div`
   padding: 8px;
   position: relative;
+  font-size: ${constants.fontSizeSmall};
   color: ${constants.theme().textColorPrimary}
   
-  .status {
+  & .status {
     position: absolute;
-    line-height: 44px;
+    line-height: 32px;
+    
+    @media only screen and (max-width: 768px) {
+      line-height: 24px;
+    }
   }
 `;
 const MatchInfo = styled.div`
@@ -40,7 +41,6 @@ const MatchInfo = styled.div`
   }
     
   .info {
-    margin: 0 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -52,8 +52,6 @@ const MatchInfo = styled.div`
     & span {
       text-transform: uppercase;
       display: block;
-    }
-    & .duration {
       font-size: 24px;
       @media only screen and (max-width: 662px) {
         font-size: 18px;
@@ -85,41 +83,25 @@ const MatchVisualizeCompact = (props) => {
 
   return (
     <Styled>
-      <div className="status">FT</div>
+      <div className="status">{data.status}</div>
       <MatchInfo>
         <div className="club-image left">
           <span>{home.name}</span>
-          <IconButton
-            tooltip={home.name}
-            tooltipPosition="top-center"
-            style={styles.iconButton.style}
-            iconStyle={styles.iconButton.iconStyle}
-            touch
-          >
-            <img src={home.icon} alt="" />
-          </IconButton>
+          <img src={home.icon} alt="" style={styles.iconButton.iconStyle} />
         </div>
-        <div className="info">
+        <div className="info" style={{ backgroundColor: date * 1000 < Date.now() && constants.theme().positiveColorVariant1 }}>
           {date * 1000 > Date.now() ? (
-            <span className="duration">
+            <span>
               {toTimeString(date * 1000)}
             </span>
           ) : (
-            <span className="duration">
+            <span>
               {data.homeGoal} : {data.awayGoal}
             </span>
           )}
         </div>
         <div className="club-image right">
-          <IconButton
-            tooltip={away.name}
-            tooltipPosition="top-center"
-            style={styles.iconButton.style}
-            iconStyle={styles.iconButton.iconStyle}
-            touch
-          >
-            <img src={away.icon} alt="" />
-          </IconButton>
+          <img src={away.icon} alt="" style={styles.iconButton.iconStyle} />
           <span>{away.name}</span>
         </div>
       </MatchInfo>
@@ -129,16 +111,10 @@ const MatchVisualizeCompact = (props) => {
 
 MatchVisualizeCompact.propTypes = {
   data: PropTypes.object,
-
+  greaterThan: PropTypes.object,
   // isCompact: PropTypes.bool,
   // isHot: PropTypes.bool,
   /**/
-  // history: PropTypes.object,
-  greaterThan: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  greaterThan: state.browser.greaterThan,
-});
-
-export default withRouter(connect(mapStateToProps)(MatchVisualizeCompact));
+export default MatchVisualizeCompact;

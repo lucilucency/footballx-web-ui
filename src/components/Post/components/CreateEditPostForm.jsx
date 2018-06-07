@@ -22,7 +22,7 @@ import { IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
 import { bindAll, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
 import constants from '../../constants';
-import { ajaxGET, createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload, announce } from '../../../actions';
+import { ajaxGet, createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload, announce } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 import CommunitySelector from './CommunitySelector';
@@ -222,7 +222,7 @@ class CreateEditPost extends React.Component {
           }
         });
       } else if (this.state.formData.content_type.value === 3) {
-        ajaxGET({
+        ajaxGet({
           url: 'https://api.linkpreview.net',
           params: {
             key: '5b03a9f4939b356336e5e035f42bac4fe711704c83833',

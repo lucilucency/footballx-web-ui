@@ -25,12 +25,14 @@ const Constants = {
   fontWeightNormal: '400',
   fontWeightMedium: '500',
   fontWeightHeavy: '600',
+
   fontSizeHuge: '50px',
   fontSizeBig: '37px',
   fontSizeCommon: '21px',
   fontSizeMedium: '16px',
   fontSizeSmall: '14px',
   fontSizeTiny: '12px',
+
   lineHeightMedium: '21px',
   lineHeightSmall: '18px',
   normalTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
@@ -70,6 +72,7 @@ const Constants = {
       case 'light':
         theme = {
           positiveColor: materialColor.green500,
+          positiveColorVariant1: materialColor.green100,
           negativeColor: materialColor.red500,
           disabledColor: materialColor.grey400,
           neutralColor: materialColor.grey500,

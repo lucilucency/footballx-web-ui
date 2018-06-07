@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CreatePostButton } from '../Post/components/index';
-import { RightTray, SmallPaper } from '../../utils/index';
-import strings from '../../lang/index';
+import { CreatePostButton } from '../../Post/components/index';
+import { RightTray, SmallPaper } from '../../../utils/index';
+import strings from '../../../lang/index';
 
 const MatchRightBar = (props) => {
   const { user } = props;

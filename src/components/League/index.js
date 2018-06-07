@@ -1,4 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import LeageView from './League';
+import LeageView from './ViewLeague';
 
 export { LeageView };

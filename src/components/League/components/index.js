@@ -1,9 +1,9 @@
-import ViewMatchCompact from './MatchViewCompact';
-import ViewMatchCompactBlank from '../../Blank/MatchGridBlank';
-import ViewMatch from './MatchView';
+import Standing from './LeagueStanding';
+import LeagueMatches from './LeagueMatches';
+import Calendar from './Calendar';
 
 export {
-  ViewMatch,
-  ViewMatchCompact,
-  ViewMatchCompactBlank,
+  Calendar,
+  Standing,
+  LeagueMatches,
 };

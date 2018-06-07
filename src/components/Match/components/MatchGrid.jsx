@@ -31,7 +31,6 @@ class MatchGrid extends React.Component {
 
   getSeasonName = (seasonID) => {
     const fs = this.props.seasons.find(s => s.id === Number(seasonID));
-    window.seasons = this.props.seasons;
     if (fs) {
       return fs.name;
     }
@@ -45,25 +44,25 @@ class MatchGrid extends React.Component {
 
     let matchesOut = matches;
     if (leagueID) {
-      matchesOut = matchesOut.filter(m => m.league_id === leagueID);
+      matchesOut = matchesOut.filter(m => Number(m.league_id) === leagueID);
     }
 
-    const groups = {};
-    matchesOut.forEach((match) => {
-      const date = toDateString(match.date * 1000);
-      if (groups[date]) {
-        if (groups[date][match.season_id]) {
-          groups[date][match.season_id].push(match);
+    if (matchesOut && matchesOut.length) {
+      const groups = {};
+      matchesOut.forEach((match) => {
+        const date = toDateString(match.date * 1000);
+        if (groups[date]) {
+          if (groups[date][match.season_id]) {
+            groups[date][match.season_id].push(match);
+          } else {
+            groups[date][match.season_id] = [match];
+          }
         } else {
+          groups[date] = {};
           groups[date][match.season_id] = [match];
         }
-      } else {
-        groups[date] = {};
-        groups[date][match.season_id] = [match];
-      }
-    });
+      });
 
-    if (matchesOut.length) {
       return Object.keys(groups).map(date => (
         <div key={date}>
           <h5 className="date">{date}</h5>
@@ -88,26 +87,15 @@ class MatchGrid extends React.Component {
               </CardTitle>
               <List style={{ padding: 0 }}>
                 {groups[date][seasonID].map((item, index) => {
-                  if (index > 10) {
-                    return (
-                      <ListItem
-                        key={`match_${item.id}`}
-                        onClick={() => {
-                          this.props.history.push(`/m/${item.id}`);
-                        }}
-                        innerDivStyle={{ padding: 0 }}
-                      >
-                        <LazyLoad height={200}>
-                          <MatchVisualizeCompact
-                            disabled
-                            data={item}
-                            isLoggedIn={this.props.isLoggedIn}
-                          />
-                        </LazyLoad>
-                      </ListItem>
-                    );
-                  }
-                  return (
+                  const matchVisualize = (
+                    <MatchVisualizeCompact
+                      disabled
+                      data={item}
+                      isLoggedIn={this.props.isLoggedIn}
+                      greaterThan={this.props.greaterThan}
+                    />
+                  );
+                  const matchVisualizeItem = (
                     <ListItem
                       key={`match_${item.id}`}
                       innerDivStyle={{ padding: 0 }}
@@ -115,13 +103,18 @@ class MatchGrid extends React.Component {
                         this.props.history.push(`/m/${item.id}`);
                       }}
                     >
-                      <MatchVisualizeCompact
-                        disabled
-                        data={item}
-                        isLoggedIn={this.props.isLoggedIn}
-                      />
+                      {matchVisualize}
                     </ListItem>
                   );
+
+                  if (index > 10) {
+                    return (
+                      <LazyLoad height={200} key={`match_${item.id}`}>
+                        {matchVisualizeItem}
+                      </LazyLoad>
+                    );
+                  }
+                  return matchVisualizeItem;
                 })}
               </List>
             </Card>
@@ -148,22 +141,22 @@ class MatchGrid extends React.Component {
 
 MatchGrid.propTypes = {
   leagueID: PropTypes.number, /* null if view all */
+  matches: PropTypes.array.isRequired,
+  seasons: PropTypes.array,
 
   /**/
   // user: PropTypes.object,
-  history: PropTypes.func,
+  history: PropTypes.object,
   isLoggedIn: PropTypes.bool,
-  matches: PropTypes.array,
-  seasons: PropTypes.array,
   loading: PropTypes.bool,
+  greaterThan: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   user: state.app.metadata.data.user,
-  seasons: state.app.seasons.data,
   isLoggedIn: Boolean(state.app.metadata.data.user),
-  matches: state.app.matches.data,
   loading: state.app.matches.loading,
+  greaterThan: state.browser.greaterThan,
 });
 
 export default withRouter(connect(mapStateToProps)(MatchGrid));

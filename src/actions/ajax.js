@@ -7,15 +7,15 @@ const FX_API = process.env.REACT_APP_API_HOST;
 const FX_VERSION = process.env.REACT_APP_VERSION;
 
 // eslint-disable-next-line import/prefer-default-export
-export const ajaxGET = ({
+export const ajaxGet = ({
   auth = false,
   host = FX_API,
   version = FX_VERSION,
+  path,
   url,
   contentType = 'application/x-www-form-urlencoded',
   retries = 1,
   retriesBreak = 3000,
-  path,
   params = {},
 }, callback) => {
   const queryUrl = url || `${host}/${version}/${path}`;

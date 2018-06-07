@@ -309,7 +309,7 @@ export const getCommunity = postID => dispatchGet({
 });
 
 // league
-export const getLeagueLastSeasons = leagueID => dispatchGet({
+export const getLeagueLastSeasons = (leagueID, callback) => dispatchGet({
   reducer: 'ADD/seasons',
   path: `league/${leagueID}/seasons`,
   params: {
@@ -323,6 +323,7 @@ export const getLeagueLastSeasons = leagueID => dispatchGet({
     }
     return null;
   },
+  callback,
 });
 export const getSeasonMatches = (seasonID, { start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000 } = {}) => dispatchGet({
   reducer: 'ADD/matches',
