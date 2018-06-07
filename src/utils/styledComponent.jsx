@@ -50,9 +50,9 @@ export const FormWrapper = styled(ValidatorForm)`
   transition: max-height 1s;
   box-sizing: border-box;
   ${props => ((props['data-display']) ? css`
-      max-height: 10000px;
+    max-height: 10000px;
   ` : css`
-      max-height: 0;
+    max-height: 0;
   `)}
 
   ${props => (props['data-toggle'] && css`

@@ -4,11 +4,15 @@ import * as parser from './parser';
 import { getCookie, setCookie, eraseCookie } from '../utils';
 
 export const localUpdateReducer = (name, payload) => dispatch => dispatch({
-  type: `OK/EDIT/${name}`,
+  type: `OK/EDIT_LOCAL/${name}`,
   payload,
 });
 export const localSetReducer = (name, payload) => dispatch => dispatch({
   type: `OK/${name}`,
+  payload,
+});
+export const localLoadingReducer = (name, payload) => dispatch => dispatch({
+  type: `REQUEST/${name}`,
   payload,
 });
 
@@ -305,27 +309,45 @@ export const getCommunity = postID => dispatchGet({
 });
 
 // league
-export const getLeagueMatches = (leagueID, { start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000 } = {}) => dispatchGet({
-  reducer: 'matches',
+export const getLeagueLastSeasons = leagueID => dispatchGet({
+  reducer: 'ADD/seasons',
+  path: `league/${leagueID}/seasons`,
+  params: {
+    league_id: leagueID,
+  },
+  transform: (resp) => {
+    const { seasons } = resp;
+    if (seasons) {
+      const last = seasons[seasons.length - 1];
+      return seasons.filter(el => el.year === last.year);
+    }
+    return null;
+  },
+});
+export const getSeasonMatches = (seasonID, { start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000 } = {}) => dispatchGet({
+  reducer: 'ADD/matches',
   path: 'matches',
   params: {
+    season_id: seasonID,
     start_time,
     end_time,
   },
   transform: (resp) => {
     const { matches } = resp;
-    const leagueMatch = matches.filter(el => el.league_id === leagueID);
-    return leagueMatch && leagueMatch.map((el) => {
-      const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
-      const goals = el.cache_goals ? el.cache_goals.split(',') : [];
-      return {
-        ...el,
-        home: Number(clubs[0]),
-        homeGoal: Number(goals[0]),
-        away: Number(clubs[1]),
-        awayGoal: Number(goals[1]),
-      };
-    });
+    if (matches && matches.length) {
+      return matches.map((el) => {
+        const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
+        const goals = el.cache_goals ? el.cache_goals.split(',') : [];
+        return {
+          ...el,
+          home: Number(clubs[0]),
+          homeGoal: Number(goals[0]),
+          away: Number(clubs[1]),
+          awayGoal: Number(goals[1]),
+        };
+      });
+    }
+    return [];
   },
 });
 
@@ -411,8 +433,16 @@ export const getSearchResultAndPros = query => dispatch => Promise.all([
   dispatch(getSearchCommunities(query)),
   // dispatch(getSearchUsers(query)),
 ]);
-export const getAnnouncement = merged => dispatchGet({
-  reducer: 'announcement',
+export const getBanner = (time = parseInt(Date.now() / 1000, 10)) => dispatchGet({
+  reducer: 'banner',
+  path: 'banner',
+  params: {
+    time,
+  },
+  transform: resp => resp.banner,
+});
+export const getUpdateVersion = merged => dispatchGet({
+  reducer: 'update',
   path: 'search/issues',
   params: {
     q: `repo:footballx/web type:pr base:production label:release merged:>${merged}`,

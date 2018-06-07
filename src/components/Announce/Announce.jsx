@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 // import ReactMarkdown from 'react-markdown';
-// import strings from '../../lang';
-// import { getAnnouncement } from '../../actions';
+import strings from '../../lang';
+import { getBanner } from '../../actions';
 import constants from '../constants';
 import Counter from './Counter';
 
@@ -16,6 +16,10 @@ const StyledDiv = styled.div`
   align-items: center;
   background-color: #008eff;
   color: ${constants.theme().textColorSecondary};
+  
+  h2 {
+    text-transform: uppercase;
+  }
 
   & main,
   & aside {
@@ -75,38 +79,40 @@ const StyledDiv = styled.div`
 `;
 const Announce = ({
   title, body,
-  // onClick,
-  // link,
+  onClick,
+  link,
 }) => (
   <StyledDiv>
     <main>
-      <h4>{title}</h4>
+      <h2>{title}</h2>
       {/* {body && <ReactMarkdown source={body} />} */}
       {body && body}
     </main>
-    {/* <aside>
-      <RaisedButton
-        backgroundColor={constants.colorBlue}
-        href={link}
-        target="_blank"
-        label={strings.announce_play_game}
-      />
-    </aside> */}
-    {/* <aside>
+    {link && (
+      <aside>
+        <RaisedButton
+          backgroundColor={constants.colorBlue}
+          href={link}
+          target="_blank"
+          label={strings.announce_play_game}
+        />
+      </aside>
+    )}
+    <aside>
       <RaisedButton
         backgroundColor={constants.colorBlue}
         onClick={onClick}
         label={strings.announce_dismiss}
       />
-    </aside> */}
+    </aside>
   </StyledDiv>
 );
 
 Announce.propTypes = {
   title: PropTypes.string,
   body: PropTypes.node,
-  // onClick: PropTypes.func,
-  // link: PropTypes.string,
+  onClick: PropTypes.func,
+  link: PropTypes.string,
 };
 
 class AnnounceComponent extends React.Component {
@@ -124,27 +130,37 @@ class AnnounceComponent extends React.Component {
     };
   }
 
-  // UNSAFE_componentWillMount() {
-  //   this.props.getPulls(this.getDate(5));
-  // }
+  UNSAFE_componentWillMount() {
+    this.props.getBanner();
+  }
 
   render() {
     const { error, loading, data } = this.props;
 
     if (!error && !loading && data) {
-      if (data.items && data.items[0]) {
+      if (data) {
         const {
-          title,
-          body,
+          is_count_down,
+          start_time,
+          end_time,
+          text,
           number,
           html_url: link,
-        } = data.items[0];
+        } = data;
+        const now = parseInt(Date.now() / 1000, 10);
 
-        if (localStorage && !this.state.dismissed && Number(localStorage.getItem('dismiss')) < number) {
-          return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />;
+        if (!this.state.dismissed && Number(end_time) > now) {
+          const isStarted = Number(start_time) < now;
+          return (
+            <Announce
+              title={text}
+              body={is_count_down && <Counter start={Number(start_time)} end={Number(end_time)} countToStart={!isStarted} />}
+              onClick={() => this.dismiss(number)}
+              link={link}
+              location={window.location}
+            />
+          );
         }
-
-        return <Announce title={title} body={body} onClick={() => this.dismiss(number)} link={link} location={window.location} />;
       }
     }
 
@@ -153,7 +169,7 @@ class AnnounceComponent extends React.Component {
 }
 
 AnnounceComponent.propTypes = {
-  // getPulls: PropTypes.func,
+  getBanner: PropTypes.func,
   error: PropTypes.string,
   loading: PropTypes.bool,
   data: PropTypes.oneOfType([
@@ -162,23 +178,17 @@ AnnounceComponent.propTypes = {
   ]),
 };
 
-const mapStateToProps = () =>
-  // const { error, loading, data } = state.app.announcement;
-  ({
-    error: null,
-    loading: false,
-    data: {
-      items: [{
-        title: 'RUSSIA 2018',
-        body: <Counter to={1528970400} />,
-        number: 2,
-        html_url: '/',
-      }],
-    },
+const mapStateToProps = (state) => {
+  const { error, loading, data } = state.app.banner;
+  return ({
+    error,
+    loading,
+    data,
   });
+};
 
-// const mapDispatchToProps = dispatch => ({
-  // getPulls: repo => dispatch(getAnnouncement(repo)),
-// });
+const mapDispatchToProps = dispatch => ({
+  getBanner: () => dispatch(getBanner()),
+});
 
-export default connect(mapStateToProps, null)(AnnounceComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(AnnounceComponent);

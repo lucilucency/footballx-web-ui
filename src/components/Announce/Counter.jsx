@@ -4,8 +4,8 @@ import strings from '../../lang';
 
 class Counter extends React.Component {
   constructor(props) {
-    super();
-    this.state = { time: {}, seconds: props.to - parseInt(Date.now() / 1000, 10) };
+    super(props);
+    this.state = { time: {}, seconds: 0 };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
@@ -34,12 +34,14 @@ class Counter extends React.Component {
 
   componentDidMount() {
     const timeLeftVar = this.secondsToTime(this.state.seconds);
-    this.state = { time: timeLeftVar };
+    const to = this.props.countToStart ? this.props.start : this.props.end;
+    this.state = { time: timeLeftVar, seconds: to - parseInt(Date.now() / 1000, 10) };
     this.startTimer();
   }
 
   startTimer() {
     if (this.timer === 0) {
+      this.countDown();
       this.timer = setInterval(this.countDown, 1000);
     }
   }
@@ -74,7 +76,9 @@ class Counter extends React.Component {
 }
 
 Counter.propTypes = {
-  to: PropTypes.number,
+  start: PropTypes.number,
+  end: PropTypes.number,
+  countToStart: PropTypes.bool,
 };
 
 export default Counter;

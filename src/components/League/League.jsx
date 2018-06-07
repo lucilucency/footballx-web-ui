@@ -3,47 +3,57 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import Amplitude from 'react-amplitude';
-import { getLeagueMatches } from '../../actions';
-import { MatchGrid } from '../Match/components';
+import { getLeagueLastSeasons, localSetReducer, getSeasonMatches } from '../../actions';
 import { Container } from '../../utils';
 import RightBar from './RightBar';
 import leagues from '../../fxconstants/leaguesObj.json';
+import MatchGrid from '../Match/components/MatchGrid';
 
-const getData = (props) => {
+const getSeasons = (props) => {
   const { match } = props;
   const leagueID = Number(match.params.id);
 
   if (!leagueID) {
     props.history.push('/');
   } else {
-    props.getLeagueMatches(leagueID);
+    props.getLeagueLastSeasons(leagueID);
     Amplitude.logEvent(`View league ${leagues[leagueID] && leagues[leagueID].name}`);
+  }
+};
+
+const getMatches = (props) => {
+  if (props.seasons && props.seasons.length) {
+    props.seasons.forEach((season) => {
+      props.getSeasonMatches(season.id, {
+        start_time: season.start_time,
+        end_time: season.end_time,
+      });
+    });
   }
 };
 
 class LeageOverview extends React.Component {
   componentDidMount() {
-    const { match } = this.props;
-    const leagueID = Number(match.params.id);
-
-    if (!leagueID) {
-      this.props.history.push('/');
-    } else {
-      this.props.getLeagueMatches(leagueID);
-      Amplitude.logEvent(`View league ${leagues[leagueID] && leagues[leagueID].name}`);
-    }
+    getSeasons(this.props);
+    getMatches(this.props);
   }
 
   componentWillReceiveProps(props) {
     if (props.match.params.id !== this.props.match.params.id) {
-      getData(props);
+      getSeasons(props);
+    }
+    if (props.seasons !== this.props.seasons) {
+      getMatches(props);
     }
   }
 
   render() {
+    const { match } = this.props;
+    const leagueID = Number(match.params.id);
+
     return (
       <div>
-        <Helmet title="Match" />
+        <Helmet title="League" />
         <Container
           columns="1fr 300px"
           style={{
@@ -51,7 +61,10 @@ class LeageOverview extends React.Component {
             margin: 'auto',
           }}
         >
-          <MatchGrid />
+          {/* <div>
+            {this.props.seasons && this.props.seasons.map(season => <MatchesInSeason key={`season_${season.id}`} season={season} leagueID={leagueID} />)}
+          </div> */}
+          <MatchGrid leagueID={leagueID} />
           <RightBar />
         </Container>
       </div>
@@ -61,18 +74,22 @@ class LeageOverview extends React.Component {
 
 LeageOverview.propTypes = {
   match: PropTypes.object,
-  history: PropTypes.object,
+  seasons: PropTypes.array,
+  // history: PropTypes.object,
   // isLoggedIn: PropTypes.bool,
-  getLeagueMatches: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   isLoggedIn: Boolean(state.app.metadata.data.user),
-  data: state.app.match.data,
+  seasons: state.app.seasons.data,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getLeagueMatches: (leagueID, args) => dispatch(getLeagueMatches(leagueID, args)),
+  getLeagueLastSeasons: (leagueID) => {
+    dispatch(localSetReducer('matches', []));
+    dispatch(getLeagueLastSeasons(leagueID));
+  },
+  getSeasonMatches: (seasonID, args) => dispatch(getSeasonMatches(seasonID, args)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeageOverview);

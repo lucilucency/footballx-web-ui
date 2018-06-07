@@ -33,7 +33,7 @@ const MatchActionStyled = styled.div`
   }
 `;
 
-class PostActions extends React.Component {
+class MatchActons extends React.Component {
   static initialState = {
     openDialog: false,
     dialogConstruct: {},
@@ -43,7 +43,7 @@ class PostActions extends React.Component {
     super(props);
 
     this.state = {
-      ...PostActions.initialState,
+      ...MatchActons.initialState,
     };
 
     bindAll([
@@ -209,7 +209,7 @@ class PostActions extends React.Component {
   }
 }
 
-PostActions.propTypes = {
+MatchActons.propTypes = {
   type: PropTypes.string.isRequired, /* post, comment */
   count: PropTypes.number, /* comment numbers */
   data: PropTypes.object,
@@ -233,5 +233,5 @@ const mapDispatchToProps = dispatch => ({
   setPost: payload => dispatch(setPost(payload)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostActions));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MatchActons));
 

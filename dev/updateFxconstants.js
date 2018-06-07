@@ -2,12 +2,13 @@ const fs = require('fs');
 
 const request = require('superagent');
 
-const mobileAPI = process.env.REACT_APP_API_HOST || 'https://api.ttab.me';
-const webAPI = process.env.FX_WEB_API || 'https://web-api.ttab.me';
-const v = process.env.FX_VERSION || 'v1';
+const API = process.env.REACT_APP_API_HOST;
+const cmsAPI = process.env.REACT_APP_API_CMS;
 
-const updateVersionPath = `${mobileAPI}/${v}/version`;
-const updateContentPath = `${webAPI}/${v}/content`;
+const updateVersionPath = `${API}/v1/version`;
+const updateContentPath = `${cmsAPI}/v1/content`;
+console.log('updateVersionPath', updateVersionPath);
+console.log('updateContentPath', updateContentPath);
 
 const updateObjFile = (name, data) => {
   const json = data.reduce((json, value, key) => { json[value.id] = value; return json; }, {});

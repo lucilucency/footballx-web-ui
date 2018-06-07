@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import clubsArr from 'fxconstants/build/clubsArr.json';
-
 import {
   Chip,
   Avatar,
 } from 'material-ui';
+import clubsArr from '../../../fxconstants/clubsArr.json';
 import { bindAll, BigSelector } from '../../../utils';
 import constants from '../../constants';
 

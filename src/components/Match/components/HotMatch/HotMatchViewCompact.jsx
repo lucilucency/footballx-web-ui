@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Card, CardMedia } from 'material-ui';
-import clubs from 'fxconstants/build/clubsObj.json';
+import clubs from '../../../../fxconstants/clubsObj.json';
 import { upVote, downVote, getMatchVotes, updateMatch } from '../../../../actions/index';
 import { bindAll } from '../../../../utils/index';
 import constants from '../../../constants';

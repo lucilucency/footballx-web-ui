@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { keyframes, css } from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import Clubs from 'fxconstants/build/clubsObj.json';
 import IconButton from 'material-ui/IconButton';
+import clubs from '../../../fxconstants/clubsObj.json';
 import { hitVote } from '../../../actions';
 import constants from '../../constants';
 // import strings from '../../../lang';
@@ -160,7 +160,7 @@ class MatchVisualize extends React.Component {
           >
             <img src={home.icon} alt="" />
           </IconButton>
-          <div>{Clubs[home] && Clubs[home].name}</div>
+          <div>{clubs[home] && clubs[home].name}</div>
         </div>
         <div className="info">
           <span className="duration">
@@ -182,7 +182,7 @@ class MatchVisualize extends React.Component {
           >
             <img src={away.icon} alt="" />
           </IconButton>
-          <div>{Clubs[away] && Clubs[away].name}</div>
+          <div>{clubs[away] && clubs[away].name}</div>
         </div>
       </MatchInfo>
     );

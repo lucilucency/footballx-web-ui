@@ -8,11 +8,11 @@ import {
   CardActions,
   CardMedia,
 } from 'material-ui';
-import clubs from 'fxconstants/build/clubsObj.json';
 import { hitVote, getMatchComments, announce } from '../../../actions';
 import strings from '../../../lang';
 import { bindAll, getCookie } from '../../../utils';
 import constants from '../../constants';
+import clubs from '../../../fxconstants/clubsObj.json';
 import MatchVisualize from './MatchVisualize';
 import FanFight from './FanFight';
 import Backdrop from './Backdrop';

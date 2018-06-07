@@ -9,10 +9,17 @@ import IconButton from 'material-ui/IconButton';
 import constants from '../../constants';
 // import strings from '../../lang';
 import { toTimeString } from '../../../utils/index';
+import clubs from '../../../fxconstants/clubsObj.json';
 
 const Styled = styled.div`
   padding: 8px;
+  position: relative;
   color: ${constants.theme().textColorPrimary}
+  
+  .status {
+    position: absolute;
+    line-height: 44px;
+  }
 `;
 const MatchInfo = styled.div`
   display: grid;
@@ -26,20 +33,10 @@ const MatchInfo = styled.div`
     padding: 2px;
     display: table;
     -webkit-border-horizontal-spacing: 1em;
+    
     &.left { justify-self: end; }
     &.right { justify-self: start; }
     > * { display: table-cell; vertical-align: middle; }
-    
-    img {
-      //border: 1px solid ${constants.theme().borderColor};
-      //background-color: rgba(255,255,255,0.1);
-      //padding: 8px;
-      //height: 40px;
-      //@media only screen and (max-width: 768px) {
-        width: 72px;
-        //height: 32px;
-      //}
-    }
   }
     
   .info {
@@ -67,8 +64,12 @@ const MatchInfo = styled.div`
 
 const MatchVisualizeCompact = (props) => {
   const {
-    home, away, date, greaterThan,
+    greaterThan, data,
   } = props;
+  const { date } = data;
+  const home = clubs[data.home] || {};
+  const away = clubs[data.away] || {};
+
   const styles = {};
   if (greaterThan.medium) {
     styles.iconButton = {
@@ -84,9 +85,10 @@ const MatchVisualizeCompact = (props) => {
 
   return (
     <Styled>
+      <div className="status">FT</div>
       <MatchInfo>
         <div className="club-image left">
-          <div>{home.name}</div>
+          <span>{home.name}</span>
           <IconButton
             tooltip={home.name}
             tooltipPosition="top-center"
@@ -104,7 +106,7 @@ const MatchVisualizeCompact = (props) => {
             </span>
           ) : (
             <span className="duration">
-              {props.data.homeGoal} : {props.data.awayGoal}
+              {data.homeGoal} : {data.awayGoal}
             </span>
           )}
         </div>
@@ -118,7 +120,7 @@ const MatchVisualizeCompact = (props) => {
           >
             <img src={away.icon} alt="" />
           </IconButton>
-          <div>{away.name}</div>
+          <span>{away.name}</span>
         </div>
       </MatchInfo>
     </Styled>
@@ -127,9 +129,6 @@ const MatchVisualizeCompact = (props) => {
 
 MatchVisualizeCompact.propTypes = {
   data: PropTypes.object,
-  home: PropTypes.object,
-  away: PropTypes.object,
-  date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
   // isCompact: PropTypes.bool,
   // isHot: PropTypes.bool,

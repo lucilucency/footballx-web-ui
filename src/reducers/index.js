@@ -7,7 +7,7 @@ import announcement from './announcement';
 export default combineReducers({
   metadata: reducer('metadata', {}),
   records: reducer('records'),
-  // announcement: reducer('announcement'),
+  banner: reducer('banner'),
 
   community: reducer('community', {}),
   suggestedCommunities: reducer('suggestedCommunities'),
@@ -19,6 +19,8 @@ export default combineReducers({
   hotMatches: reducer('hotMatches'),
   matches: reducer('matches'),
   match: reducer('match', {}),
+
+  seasons: reducer('seasons'),
 
   announcement,
   tray,

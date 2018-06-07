@@ -45,7 +45,7 @@ const Constants = {
           negativeColor: materialColor.red500,
           disabledColor: materialColor.grey400,
           neutralColor: materialColor.grey500,
-          neutralColorVariant1: materialColor.grey300,
+          neutralColorVariant1: materialColor.grey50,
 
           backgroundColorPrimary: '#2d2c43',
           surfaceColorPrimary: 'rgb(46, 47, 64)',

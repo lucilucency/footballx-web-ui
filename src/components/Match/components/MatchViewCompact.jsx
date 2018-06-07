@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Card, CardMedia, CardTitle } from 'material-ui';
-import clubs from '../../../fxconstants/clubsObj.json';
 // import { upVote, downVote, updateMatch } from '../../../actions/index';
 import { styles } from '../../../utils/index';
 import constants from '../../constants';
 import MatchVisualizeCompact from './MatchVisualizeCompact';
 import leaguesObj from '../../../fxconstants/leaguesObj.json';
+import clubs from '../../../fxconstants/clubsObj.json';
 
 class MatchViewCompact extends React.Component {
   static initialState = {

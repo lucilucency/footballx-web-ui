@@ -145,6 +145,16 @@ class PostActions extends React.Component {
     });
   }
 
+  routerToViewPostFull = () => {
+    const { data } = this.props;
+    this.props.history.push({
+      pathname: `/p/${data.id}`,
+      state: {
+        data,
+      },
+    });
+  };
+
   render() {
     const item = this.props.data;
     const ups = item.c_ups || 0;
@@ -205,7 +215,7 @@ class PostActions extends React.Component {
                   fontWeight: 'inherit',
                   fontSize: 'inherit',
                 }}
-                onClick={this.popupViewPostFull}
+                onClick={this.props.browser.greaterThan.small ? this.popupViewPostFull : this.routerToViewPostFull}
               />
             )}
           </div>
@@ -238,10 +248,11 @@ PostActions.propTypes = {
   isLoggedIn: PropTypes.bool,
 
   /**/
+  browser: PropTypes.object,
   upVote: PropTypes.func,
   downVote: PropTypes.func,
   setPost: PropTypes.func,
-  // history: PropTypes.object,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

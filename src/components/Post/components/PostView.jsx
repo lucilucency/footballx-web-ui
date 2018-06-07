@@ -74,7 +74,7 @@ class ViewPostFull extends React.Component {
           }}
         >
           <CardHeader
-            title={<ActiveLink to={`/r/${item.community_link}`}>{item.community_name}</ActiveLink>}
+            title={<ActiveLink to={`/r/${item.community_id}`}>{item.community_name}</ActiveLink>}
             subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
             avatar={item.community_icon}
             style={styles.cardHeader.style}
@@ -105,7 +105,7 @@ class ViewPostFull extends React.Component {
           >
             <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
           </CardText>}
-          <CardActions>
+          <CardActions style={styles.cardActions.style}>
             <PostActions
               type="post"
               data={this.props.data}

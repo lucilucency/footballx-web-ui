@@ -16,14 +16,6 @@ import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 
 class CreateEditComment extends React.Component {
-  static defaultProps = {
-    mode: 'create',
-    display: true,
-    toggle: false,
-    popup: false,
-    loading: false,
-  };
-
   static defaultFormData = {
     title: '',
     content: '',
@@ -86,6 +78,7 @@ class CreateEditComment extends React.Component {
     return {
       // title: formData.title,
       content: formData.content,
+      created_at: parseInt(Date.now() / 1000, 10),
       // content_type: formData.content_type.value || 1,
     };
   }
@@ -115,11 +108,27 @@ class CreateEditComment extends React.Component {
       } else {
         let reducer = 'ADD/comments';
         let payload = { xuser: this.props.user };
-        if (this.props.target.post_type && this.props.target.post_type === 'comment') {
+        const reducerCallback = [];
+        const payloadCallback = [];
+        if (!this.props.target.target_id) { /* comment in post */
+          reducerCallback.push('EDIT/post');
+          payloadCallback.push({
+            ...this.props.target,
+            c_comments: (this.props.target.c_comments || 0) + 1,
+          });
+        }
+        if (this.props.target.target_id !== this.props.target.parent_id) { /* comment in comment */
           reducer = 'EDIT/comments';
           payload = this.getPayload({
             ...submitData,
             xuser: this.props.user,
+          });
+          reducerCallback.push('EDIT_LOCAL', 'EDIT_ARR/posts');
+          payloadCallback.push({
+            c_comments: (this.props.target.c_comments || 0) + 1,
+          }, {
+            ...this.props.target,
+            c_comments: (this.props.target.c_comments || 0) + 1,
           });
         }
 
@@ -130,14 +139,8 @@ class CreateEditComment extends React.Component {
           },
           reducer,
           payload,
-          reducerCallback: ['EDIT/post', 'EDIT_ARR/posts'],
-          payloadCallback: [{
-            ...this.props.target,
-            c_comments: (this.props.target.c_comments || 0) + 1,
-          }, {
-            ...this.props.target,
-            c_comments: (this.props.target.c_comments || 0) + 1,
-          }],
+          reducerCallback,
+          payloadCallback,
         }));
       }
     });
@@ -332,6 +335,14 @@ CreateEditComment.propTypes = {
   defaultDeleteFunction: PropTypes.func,
   createComment: PropTypes.func,
   comments: PropTypes.array,
+};
+
+CreateEditComment.defaultProps = {
+  mode: 'create',
+  display: true,
+  toggle: true,
+  popup: false,
+  loading: false,
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditComment));

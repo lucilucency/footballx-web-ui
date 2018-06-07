@@ -8,7 +8,7 @@ import {
   CardActions,
   CardMedia,
 } from 'material-ui';
-import clubs from 'fxconstants/build/clubsObj.json';
+import clubs from '../../../../fxconstants/clubsObj.json';
 import { hitVote, getMatchComments, announce } from '../../../../actions/index';
 import strings from '../../../../lang/index';
 import { bindAll, getCookie, styles } from '../../../../utils/index';

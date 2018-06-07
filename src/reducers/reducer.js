@@ -8,6 +8,14 @@ export default (type, initialData) => (state = {
   switch (action.type) {
     /* get action */
     case `REQUEST/${type}`:
+      if (action.payload) {
+        return {
+          ...state,
+          loading: true,
+          data: action.payload,
+          error: null,
+        };
+      }
       return {
         ...state,
         loading: true,
@@ -60,7 +68,7 @@ export default (type, initialData) => (state = {
         error: action.error,
       };
 
-    /* edit action */
+    /* edit action: replace (state.data + payload) to exist element */
     case `REQUEST/EDIT/${type}`:
       return {
         ...state,
@@ -84,6 +92,36 @@ export default (type, initialData) => (state = {
         };
       }
     case `FAIL/EDIT/${type}`:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+
+    /* update action: update local payload to exist element */
+    case `REQUEST/EDIT_LOCAL/${type}`:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case `OK/EDIT_LOCAL/${type}`:
+      if (action.payload) {
+        // console.log('payload', action.payload, 'state.data', state);
+        return {
+          ...state,
+          loading: false,
+          data: update(state.data, { $merge: action.payload }),
+          error: null,
+        };
+      }
+      return {
+        ...state,
+        loading: false,
+        data: state.data,
+        error: null,
+      };
+    case `FAIL/EDIT_LOCAL/${type}`:
       return {
         ...state,
         loading: false,
