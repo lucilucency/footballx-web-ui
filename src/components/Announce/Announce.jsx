@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 // import ReactMarkdown from 'react-markdown';
 import strings from '../../lang';
 import { getBanner } from '../../actions';
@@ -14,7 +14,12 @@ const StyledDiv = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  background-color: #008eff;
+  //background-color: #008eff;
+  ${props => props.bg && css`
+     background-image: url(${props.bg});
+     -webkit-background-size: cover;background-size: cover;
+     background-repeat: no-repeat;
+  `}
   color: ${constants.theme().textColorSecondary};
   
   h2 {
@@ -81,38 +86,43 @@ const Announce = ({
   title, body,
   onClick,
   link,
-}) => (
-  <StyledDiv>
-    <main>
-      <h2>{title}</h2>
-      {/* {body && <ReactMarkdown source={body} />} */}
-      {body && body}
-    </main>
-    {link && (
+  bg,
+}) => {
+  console.log('bg', bg);
+  return (
+    <StyledDiv bg={bg}>
+      <main>
+        <h2>{title}</h2>
+        {/* {body && <ReactMarkdown source={body} />} */}
+        {body && body}
+      </main>
+      {link && (
+        <aside>
+          <RaisedButton
+            backgroundColor={constants.colorBlue}
+            href={link}
+            target="_blank"
+            label={strings.announce_play_game}
+          />
+        </aside>
+      )}
       <aside>
         <RaisedButton
           backgroundColor={constants.colorBlue}
-          href={link}
-          target="_blank"
-          label={strings.announce_play_game}
+          onClick={onClick}
+          label={strings.announce_dismiss}
         />
       </aside>
-    )}
-    <aside>
-      <RaisedButton
-        backgroundColor={constants.colorBlue}
-        onClick={onClick}
-        label={strings.announce_dismiss}
-      />
-    </aside>
-  </StyledDiv>
-);
+    </StyledDiv>
+  )
+};
 
 Announce.propTypes = {
   title: PropTypes.string,
   body: PropTypes.node,
   onClick: PropTypes.func,
   link: PropTypes.string,
+  bg: PropTypes.string,
 };
 
 class AnnounceComponent extends React.Component {
@@ -153,6 +163,7 @@ class AnnounceComponent extends React.Component {
           const isStarted = Number(start_time) < now;
           return (
             <Announce
+              bg={data.bg}
               title={text}
               body={is_count_down && <Counter start={Number(start_time)} end={Number(end_time)} countToStart={!isStarted} />}
               onClick={() => this.dismiss(number)}
