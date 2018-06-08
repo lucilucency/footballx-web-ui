@@ -23,8 +23,12 @@ const StyledDiv = styled.div`
      background-repeat: no-repeat;
   `}
   
-  h2 {
+  .title {
     text-transform: uppercase;
+    -webkit-margin-before: 1em; -webkit-margin-after: 0;
+  }
+  .subTitle {
+    -webkit-margin-before: 0; -webkit-margin-after: 2em;
   }
 
   & main,
@@ -91,9 +95,8 @@ const Announce = ({
 }) => (
   <StyledDiv bg={bg}>
     <main>
-      <h2>{title}</h2>
-      {/* {body && <ReactMarkdown source={body} />} */}
-      {body && body}
+      <h2 className="title">{title}</h2>
+      <div className="subTitle">{body && body}</div>
     </main>
     {link && (
       <aside>

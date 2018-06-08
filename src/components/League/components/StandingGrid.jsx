@@ -16,9 +16,26 @@ const Styled = styled.div`
   
 `;
 
+const displayTeam = (row, col, field) => {
+  const name = clubsObj[field] && clubsObj[field].name;
+  const icon = clubsObj[field] && clubsObj[field].icon;
+
+  return (
+    <div>
+      <img
+        src={icon}
+        alt=""
+        height={18}
+      />
+      &nbsp;&nbsp;
+      {name}
+    </div>
+  );
+};
+
 const tableEventsColumns = (name, browser) => [
   browser.greaterThan.medium && { displayName: '#', displayFn: (row, col, field, index) => getOrdinal(index + 1) },
-  { displayName: name, field: 'club_id', displayFn: (row, col, field) => clubsObj[field] && clubsObj[field].name },
+  { displayName: name, field: 'club_id', displayFn: displayTeam },
   { displayName: 'P', field: 'p', sortFn: true },
   { displayName: 'W', field: 'w', sortFn: true },
   { displayName: 'D', field: 'd', sortFn: true },
