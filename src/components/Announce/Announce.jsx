@@ -15,12 +15,13 @@ const StyledDiv = styled.div`
   flex-wrap: wrap;
   align-items: center;
   //background-color: #008eff;
+  color: ${constants.theme().textColorSecondary};
+
   ${props => props.bg && css`
      background-image: url(${props.bg});
      -webkit-background-size: cover;background-size: cover;
      background-repeat: no-repeat;
   `}
-  color: ${constants.theme().textColorSecondary};
   
   h2 {
     text-transform: uppercase;
@@ -87,35 +88,32 @@ const Announce = ({
   onClick,
   link,
   bg,
-}) => {
-  console.log('bg', bg);
-  return (
-    <StyledDiv bg={bg}>
-      <main>
-        <h2>{title}</h2>
-        {/* {body && <ReactMarkdown source={body} />} */}
-        {body && body}
-      </main>
-      {link && (
-        <aside>
-          <RaisedButton
-            backgroundColor={constants.colorBlue}
-            href={link}
-            target="_blank"
-            label={strings.announce_play_game}
-          />
-        </aside>
-      )}
+}) => (
+  <StyledDiv bg={bg}>
+    <main>
+      <h2>{title}</h2>
+      {/* {body && <ReactMarkdown source={body} />} */}
+      {body && body}
+    </main>
+    {link && (
       <aside>
         <RaisedButton
           backgroundColor={constants.colorBlue}
-          onClick={onClick}
-          label={strings.announce_dismiss}
+          href={link}
+          target="_blank"
+          label={strings.announce_play_game}
         />
       </aside>
-    </StyledDiv>
-  )
-};
+    )}
+    <aside>
+      <RaisedButton
+        backgroundColor={constants.colorBlue}
+        onClick={onClick}
+        label={strings.announce_dismiss}
+      />
+    </aside>
+  </StyledDiv>
+);
 
 Announce.propTypes = {
   title: PropTypes.string,
