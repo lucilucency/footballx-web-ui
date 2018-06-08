@@ -1,29 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CreatePostButton } from '../../Post/components/index';
-import { RightTray, SmallPaper } from '../../../utils/index';
-import strings from '../../../lang/index';
+import { SmallPaper } from '../../../utils/index';
+import strings from '../../../lang';
+// import AboutX from '../../About/AboutX';
 
-const MatchRightBar = (props) => {
-  const { user } = props;
-  return (
-    <RightTray>
-      <SmallPaper>
-        <p>Popular</p>
-        <p>{strings.paragraph_popular_desc}</p>
-        {user && <CreatePostButton />}
-      </SmallPaper>
-    </RightTray>
-  );
-};
+const MatchRightBar = () => (
+  <div>
+    <SmallPaper>
+      <p>{strings.paragraph_popular_desc}</p>
+    </SmallPaper>
+  </div>
+);
 
-MatchRightBar.propTypes = {
-  user: PropTypes.object,
-};
+// MatchRightBar.propTypes = {
+//   user: PropTypes.object,
+// };
+//
+// const mapStateToProps = state => ({
+//   user: state.app.metadata.data.user || {},
+// });
 
-const mapStateToProps = state => ({
-  user: state.app.metadata.data.user || {},
-});
-
-export default connect(mapStateToProps, null)(MatchRightBar);
+export default connect()(MatchRightBar);

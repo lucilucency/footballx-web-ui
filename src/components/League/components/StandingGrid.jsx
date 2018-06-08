@@ -3,34 +3,32 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { Card, CardTitle, List, ListItem } from 'material-ui';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+import { Card, CardTitle } from 'material-ui';
 
+import Table, { /* TableLink */ } from '../../Table';
 import { MatchGridBlank } from '../../Blank';
 import constants from '../../constants';
 import leaguesObj from '../../../fxconstants/leaguesObj.json';
 import clubsObj from '../../../fxconstants/clubsObj.json';
-import { styles } from '../../../utils';
+import { styles, getOrdinal } from '../../../utils';
 
 const Styled = styled.div`
-  .date {
-    text-align: left;
-  }
-  // background-color: ${constants.theme().surfaceColorPrimary};
   
-  .league-preview {
-    padding: 0 1em;
-    display: flex;
-    flex-direction: row;
-  }
 `;
+
+const tableEventsColumns = (name, browser) => [
+  browser.greaterThan.medium && { displayName: '#', displayFn: (row, col, field, index) => getOrdinal(index + 1) },
+  { displayName: name, field: 'club_id', displayFn: (row, col, field) => clubsObj[field] && clubsObj[field].name },
+  { displayName: 'P', field: 'p', sortFn: true },
+  { displayName: 'W', field: 'w', sortFn: true },
+  { displayName: 'D', field: 'd', sortFn: true },
+  { displayName: 'L', field: 'l', sortFn: true },
+  { displayName: 'F', field: 'f', sortFn: true },
+  { displayName: 'A', field: 'd', sortFn: true },
+  { displayName: 'G', field: 'gd', sortFn: true },
+  { displayName: 'D', field: 'd', sortFn: true },
+  { displayName: 'PTS', field: 'pts', sortFn: true },
+];
 
 class StandingGrid extends React.Component {
   componentDidMount() {
@@ -89,67 +87,13 @@ class StandingGrid extends React.Component {
             {this.getSeasonName(seasonID) || (leaguesObj[leagueID] && leaguesObj[leagueID].name)}
           </CardTitle>
           <Table
-            selectable={false}
-          >
-            <TableHeader>
-              <TableRow>
-                <TableHeaderColumn>#</TableHeaderColumn>
-                <TableHeaderColumn>{this.getSeasonName(seasonID) || (leaguesObj[leagueID] && leaguesObj[leagueID].name)}</TableHeaderColumn>
-                <TableHeaderColumn>P</TableHeaderColumn>
-                <TableHeaderColumn>W</TableHeaderColumn>
-                <TableHeaderColumn>D</TableHeaderColumn>
-                <TableHeaderColumn>L</TableHeaderColumn>
-                <TableHeaderColumn>F</TableHeaderColumn>
-                <TableHeaderColumn>A</TableHeaderColumn>
-                <TableHeaderColumn>G</TableHeaderColumn>
-                <TableHeaderColumn>D</TableHeaderColumn>
-                <TableHeaderColumn>Pts</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {groups[seasonID].map((item, index) => (
-                <TableRow>
-                  <TableRowColumn>{index + 1}</TableRowColumn>
-                  <TableRowColumn>{clubsObj[item.club_id] && clubsObj[item.club_id].name}</TableRowColumn>
-                  <TableRowColumn>{item.p}</TableRowColumn>
-                  <TableRowColumn>{item.w}</TableRowColumn>
-                  <TableRowColumn>{item.d}</TableRowColumn>
-                  <TableRowColumn>{item.l}</TableRowColumn>
-                  <TableRowColumn>{item.f}</TableRowColumn>
-                  <TableRowColumn>{item.a}</TableRowColumn>
-                  <TableRowColumn>{item.gd}</TableRowColumn>
-                  <TableRowColumn>{item.d}</TableRowColumn>
-                  <TableRowColumn>{item.pts}</TableRowColumn>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <List style={{ padding: 0 }}>
-            {groups[seasonID].map((item) => {
-              const matchVisualize = (
-                <div>
-                  {/* <MatchVisualizeCompact
-                      disabled
-                      data={item}
-                      isLoggedIn={this.props.isLoggedIn}
-                      greaterThan={this.props.greaterThan}
-                    /> */}
-                  {JSON.stringify(item)}
-                </div>
-              );
-              return (
-                <ListItem
-                  key={`match_${item.id}`}
-                  innerDivStyle={{ padding: 0 }}
-                  onClick={() => {
-                    this.props.history.push(`/m/${item.id}`);
-                  }}
-                >
-                  {matchVisualize}
-                </ListItem>
-              );
-            })}
-          </List>
+            columns={tableEventsColumns(this.getSeasonName(seasonID) || (leaguesObj[leagueID] && leaguesObj[leagueID].name), this.props.browser)}
+            data={groups[seasonID]}
+            loading={false}
+            error={false}
+            paginated={false}
+            pageLength={30}
+          />
         </Card>
       ));
     }
@@ -175,10 +119,11 @@ StandingGrid.propTypes = {
   seasons: PropTypes.array,
   standings: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
+  browser: PropTypes.object,
 
   /**/
   // user: PropTypes.object,
-  history: PropTypes.object,
+  // history: PropTypes.object,
 };
 
 export default withRouter(connect()(StandingGrid));

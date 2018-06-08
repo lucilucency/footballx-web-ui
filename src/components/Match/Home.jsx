@@ -3,50 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import Amplitude from 'react-amplitude';
-import { MatchGrid } from '../Match/components';
-import { Container, toDateString } from '../../utils';
+import { Container } from '../../utils';
 import strings from '../../lang';
 import RightBar from './RightBar';
 import TabBar from '../TabBar';
-
-const start_time = new Date();
-start_time.setHours(0, 0, 0, 0);
-const end_time = new Date();
-end_time.setHours(23, 59, 59, 999);
+import UpcomingMatches from './components/UpcomingMatches';
+import RecentMatches from './components/RecentMatches';
 
 const matchTabs = [{
-  name: toDateString(start_time - 86400),
-  key: 'yesterday',
-  content: () => (
-    <MatchGrid
-      grouped
-      start_time={parseInt(start_time.getTime() / 1000, 10) - 86400}
-      end_time={parseInt(start_time.getTime() / 1000, 10)}
-    />
-  ),
-  route: '/matches/yesterday',
+  name: strings.label_recent_matches,
+  key: 'recent',
+  content: <RecentMatches />,
+  route: '/matches/recent',
 }, {
-  name: strings.label_today,
-  key: 'today',
-  content: () => (
-    <MatchGrid
-      grouped
-      start_time={parseInt(start_time.getTime() / 1000, 10)}
-      end_time={parseInt(end_time.getTime() / 1000, 10)}
-    />
-  ),
-  route: '/matches/today',
-}, {
-  name: toDateString(start_time + 86400),
-  key: 'tomorrow',
-  content: () => (
-    <MatchGrid
-      grouped
-      start_time={parseInt(end_time.getTime() / 1000, 10)}
-      end_time={parseInt(end_time.getTime() / 1000, 10) + 86400}
-    />
-  ),
-  route: '/matches/tomorrow',
+  name: strings.label_upcoming_matches,
+  key: 'upcoming',
+  content: <UpcomingMatches />,
+  route: '/matches/upcoming',
 }];
 
 class MatchHome extends React.Component {
@@ -55,12 +28,12 @@ class MatchHome extends React.Component {
   }
 
   render() {
-    const route = this.props.match.params.info || 'today';
+    const route = this.props.match.params.info || 'upcoming';
     const tab = matchTabs.find(_tab => _tab.key === route);
 
     return (
       <div>
-        <Helmet title="Match" />
+        <Helmet title="Matches" />
         <Container
           columns="1fr 300px"
           style={{
@@ -73,7 +46,7 @@ class MatchHome extends React.Component {
               info={route}
               tabs={matchTabs}
             />
-            {tab && tab.content(this.props)}
+            {tab && tab.content}
           </div>
           <RightBar />
         </Container>

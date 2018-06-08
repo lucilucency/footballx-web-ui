@@ -10,11 +10,12 @@ class LeagueStanding extends React.Component {
   constructor(props) {
     super(props);
     this.standings = [];
+
     this.getData = (props) => {
       const self = this;
       const { leagueID } = props;
-
       Amplitude.logEvent(`View league ${leagues[leagueID] && leagues[leagueID].name}`);
+      /* get data here */
       props.getLeagueLastSeasons(leagueID, (seasons) => {
         if (seasons && seasons.length) {
           seasons.forEach((season) => {
@@ -54,7 +55,7 @@ class LeagueStanding extends React.Component {
 
     return (
       <div>
-        <StandingGrid leagueID={leagueID} standings={this.standings} seasons={seasons} />
+        <StandingGrid leagueID={leagueID} standings={this.standings} seasons={seasons} browser={this.props.browser} />
       </div>
     );
   }
@@ -65,10 +66,12 @@ LeagueStanding.propTypes = {
   seasons: PropTypes.array,
   // history: PropTypes.object,
   getLeagueLastSeasons: PropTypes.func,
+  browser: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   seasons: state.app.seasons.data,
+  browser: state.browser,
 });
 
 const mapDispatchToProps = dispatch => ({

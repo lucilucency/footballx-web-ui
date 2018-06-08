@@ -18,7 +18,7 @@ const tabs = leagueID => [{
   name: strings.label_standing,
   key: 'standing',
   content: <Standing leagueID={leagueID} />,
-  // rightBar: null,
+  rightBar: <Calendar />,
   route: `/l/${leagueID}/standing`,
 }];
 
@@ -42,7 +42,7 @@ class LeageOverview extends React.Component {
       <div>
         <Helmet title="League" />
         <Container
-          columns={tab && tab.rightBar ? '1fr 300px' : '1fr'}
+          columns={tab && tab.rightBar ? '[full-start] minmax(0, 1fr) [main-start] minmax(10em, 300px) [main-end] minmax(0, 0) [full-end]' : '1fr'}
           style={{
             maxWidth: 992,
             margin: 'auto',

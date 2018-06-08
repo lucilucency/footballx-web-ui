@@ -1,15 +1,15 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { RightTray, SmallPaper } from '../../utils/index';
+import { SmallPaper } from '../../utils/index';
 import strings from '../../lang/index';
 
 const MatchRightBar = () => (
-  <RightTray>
+  <div>
     <SmallPaper>
       <p>{strings.paragraph_popular_desc}</p>
     </SmallPaper>
-  </RightTray>
+  </div>
 );
 
 MatchRightBar.propTypes = {

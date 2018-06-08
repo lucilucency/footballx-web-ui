@@ -1,6 +1,7 @@
 import * as materialColor from 'material-ui/styles/colors';
 
 const Constants = {
+  /* color */
   ...materialColor,
   colorSuccess: '#66BB6A',
   colorDanger: '#ff4c4c',
@@ -11,30 +12,22 @@ const Constants = {
   colorYelor: '#FFAB40',
   colorGolden: '#e5c100',
   colorBlueGray: '#7c99a8',
-  green: '#66BB6A',
-  blue: '#6BF',
-  golden: '#e5c100',
-  yelor: '#FFAB40',
-  red: '#ff4c4c',
-  lightGray: 'rgb(179, 179, 179)',
-  colorBlueMuted: 'rgba(102, 187, 255, 0.3)',
-  colorYelorMuted: 'rgba(255, 171, 64, 0.3)',
-  colorMutedLight: 'rgb(179, 179, 179)',
 
+  /* font */
   fontWeightLight: '200',
   fontWeightNormal: '400',
   fontWeightMedium: '500',
   fontWeightHeavy: '600',
-
   fontSizeHuge: '50px',
   fontSizeBig: '37px',
   fontSizeCommon: '21px',
   fontSizeMedium: '16px',
   fontSizeSmall: '14px',
   fontSizeTiny: '12px',
-
   lineHeightMedium: '21px',
   lineHeightSmall: '18px',
+
+  /* transition */
   normalTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
   linearTransition: 'all 300ms linear',
   theme: () => {
