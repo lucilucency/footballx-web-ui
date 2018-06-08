@@ -35,29 +35,6 @@
 
 
 
-
-//share this to facebook
-var LINK_TO_SHARE = "vuduydu.com";
-Share = {
-	facebook: function(purl, ptitle, pimg, text) {
-		url = 'http://www.facebook.com/sharer.php?s=100';
-		url += '&p[title]=' + encodeURIComponent(ptitle);
-		url += '&p[summary]=' + encodeURIComponent(text);
-		url += '&p[url]=' + encodeURIComponent(purl);
-		url += '&p[images][0]=' + encodeURIComponent(pimg);
-		Share.popup(url);
-	},
-
-	popup: function(url) {
-		if(window.open(url,'','toolbar=0,status=0,width=626, height=436'))
-			if(debugMode)
-				console.log("OK");
-		//else
-		//	window.open(url,'_blank');
-	}};
-
-
-
 var debugMode = true;
 
 
@@ -123,6 +100,12 @@ loadGameAssetsFromServer();
 
 
 
+
+
+
+
+//////////////////////////////////////////THAT'S IT/////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -208,7 +191,7 @@ var teams = {
 			JSONteams.splice(uniqueIndex,1);
 		}
 		
-		console.log(this._teams);
+		//console.log(this._teams);
 	},
 	update:function(){
 		this.breadth = this.breadthLimit*Math.cos(3*frame*3.141592/180.0);		
@@ -287,6 +270,7 @@ var hiddenpositions={
 		this.tipCount = 20;
 		this.hintPos = [];
 		this.hintNum = (level<5?2:1);
+		this.breadthLimit=10;
 		for(var i = 0; i<this.hintNum; i++){
 			var randPos;
 			var valid = false;
@@ -319,8 +303,8 @@ var hiddenpositions={
 			this.positions.push({
 				x:this.ps[i][0],
 				y:this.ps[i][1],
-				width:images['HiddenPosition'].width,
-				height:images['HiddenPosition'].height,
+				width:108,
+				height:108,
 				_mouseover:false,
 				opened:false,
 				isHint:h
@@ -398,7 +382,7 @@ var hiddenpositions={
 		}
 		this.positions[index].opened=true;
 		this.numberOpened++;
-		scoreOfThisMatch-=10;
+		scoreOfThisMatch-=(this.numberOpened===11)?5:10;
 		varprizedScores.put(this.positions[index].x,this.positions[index].y);
 		if(debugMode)
 			console.log("Opened "+index);
@@ -417,7 +401,7 @@ var hiddenpositions={
 							for(var j  = 0; j<this.clicktoflips.length;j++)
 								if(this.clicktoflips[j]._id === i){
 									this.clicktoflips.splice(j,1);
-									console.log(this.clicktoflips.length);
+									//console.log(this.clicktoflips.length);
 								}
 						}
 					}
@@ -453,8 +437,8 @@ var clock = {
 	countFirst:30,
 	firstTime:false,
 	init:function(count = 30){
-		if(debugMode)
-			console.log("Init Clock");
+		//if(debugMode)
+		//	console.log("Init Clock");
 		this.countFirst = 30;
 		this.count = count;
 		this.sec = Math.floor(this.count/1);
@@ -541,8 +525,11 @@ var score = {
 		if(Math.abs(scoreOfThisMatch-this.chasingScore)>0.005)
 			this.chasingScore+=(scoreOfThisMatch-this.chasingScore)*0.2;
 		var a = Math.floor(this.chasingScore);
+		ctx.shadowColor = '#000';
+		ctx.shadowBlur = 50;
 		drawText("POINTS",1444,210,TEXT_COLOR,40);
 		drawText(a+(a===99?1:0),1444,168,TEXT_COLOR,120);
+		ctx.shadowBlur = 0;
 	},
 	init:function(){
 		this.addingCount = 30;
@@ -685,9 +672,11 @@ Button.prototype.update = function(){
 Button.prototype.draw = function(){
 	this.w = images[this.image].width;
 	this.h = images[this.image].height;
-
+		ctx.shadowColor = '#000';
+		ctx.shadowBlur = 50;
 	drawImage(this.image,this.x, this.y,this.w*this.scale+this.breadth,
 		this.h*this.scale+this.breadth,this.flip);
+		ctx.shadowBlur = 0;
 }
 
 
@@ -715,8 +704,8 @@ Button2.prototype.hover = function(x,y){
 		this.targetBlur = 0;
 	return false;
 }
-Button2.prototype.draw = function(){
 
+Button2.prototype.draw = function(){
 	ctx.shadowColor = '#87c3f3';
 	ctx.shadowBlur = this.MaxBlur*(this.scale-1)*5;
 
@@ -725,7 +714,6 @@ Button2.prototype.draw = function(){
 
 	drawImage(this.image,this.x, this.y,this.w,
 		this.h,this.flip);
-
 
 	ctx.shadowBlur = 0;
 }
@@ -751,15 +739,19 @@ function Card(name){
 }
 Card.prototype = Object.create(Button.prototype);
 Card.prototype.constructor = Card;
+
+
 //Card method can override
 Card.prototype.update=function(){
 	Button.prototype.update.call(this);
 	this.velX = (this.targetX-this.x)*0.125;
 	this.x+=this.velX;
-	this.y+=(this.targetY-this.y)*0.45;}
+	this.y+=(this.targetY-this.y)*0.45;
+}
 Card.prototype.moveTo = function(x,y){
 	this.targetX = x;
-	this.targetY = y;}
+	this.targetY = y;
+}
 Card.prototype.draw = function(originX,originY){
 
 
@@ -1073,6 +1065,7 @@ function PromptScene(image,button = new Button2("OKButton",1416,1220)){
 	this.showAnswer.showup = true;
 
 	this.paid = false
+	this.textDisplay = "NO NO NO!";
 }
 PromptScene.prototype.show = function(){
 	this.showup = true;
@@ -1082,6 +1075,9 @@ PromptScene.prototype.show = function(){
 	this.showAnswer.showup = (score._score>SCORE_TO_VIEW_ANSWER);
 
 	this.paid = false
+	this.offsetW = -500;
+	this.offsetH = -140;
+	this.count = 50;
 }
 PromptScene.prototype.onpress = function(x,y){
 	if(this.showup)
@@ -1172,7 +1168,7 @@ PromptScene.prototype.draw = function(){
 		}else if(this._id === 'WrongAnswer'){
 			drawCover(ZERO_NINE);
 			drawImage(this.image,WIDTH/2, HEIGHT/3);
-			drawText("NO NO NO!",WIDTH/2, HEIGHT/3+230,TEXT_COLOR);
+			drawText(this.textDisplay,WIDTH/2, HEIGHT/3+230,TEXT_COLOR);
 			if(score.added()&&level!=MaxLevel-1){
 				this.OKButtons[0].draw();
 
@@ -1410,6 +1406,46 @@ Leaderboard.prototype.draw = function(){
 }
 
 
+function TipScene(){
+	PromptScene.call(this,'TipBackground',new Button('HomeButton',1416,1220,false,true));
+	//this.OKButtons[0].image = 'HomeButton';
+}
+
+TipScene.prototype = Object.create(PromptScene.prototype);
+TipScene.prototype.constructor = TipScene;
+
+TipScene.prototype.show = function(){
+	this.showup = true;
+	this.prevState = currentState;
+	currentState = states.Prompt;
+}
+
+TipScene.prototype.update = function(){
+	if(this.showup){
+		this.OKButtons[0].update();
+		if(this.OKButtons[0].isTriggered()){
+			this.showup = false;
+			currentState = this.prevState;
+		}
+	}
+}
+
+TipScene.prototype.draw = function(){
+	if(this.showup){
+		drawImage(this.image,WIDTH/2,HEIGHT/2);
+		this.OKButtons[0].draw();
+	}
+}
+
+
+
+
+
+
+
+
+
+
 function ButtonName(x,y,name,h=60){
 	this.x = x;
 	this.y = y-h/2;
@@ -1503,8 +1539,9 @@ var splash = {
 			promptScenes["Leaderboard"].show();
 		}
 		if(this.shareButton.isTriggered())
-			Share.facebook(LINK_TO_SHARE,'TITLE','IMG_PATH','DESC');
-
+	        share();
+		if(this.tipButton.isTriggered())
+			promptScenes["TipScene"].show();
 	}
 	,draw:function(){
 		drawImage("BackgroundMenu",WIDTH/2,HEIGHT/2);
@@ -1533,6 +1570,7 @@ function onpress(evt){
 			promptScenes["CorrectAnswer"].onpress(mX,mY);
 			promptScenes["WrongAnswer"].onpress(mX,mY);
 			promptScenes["Leaderboard"].onpress(mX,mY);
+			promptScenes["TipScene"].onpress(mX,mY);
 			break;
 		case states.Splash:
 			splash.onpress(mX,mY);
@@ -1563,6 +1601,7 @@ function onrelease(evt){
 		promptScenes["CorrectAnswer"].onrelease();
 		promptScenes["WrongAnswer"].onrelease();
 		promptScenes["Leaderboard"].onrelease();
+		promptScenes["TipScene"].onrelease();
 	}
 	if(currentState === states.Score){
 		promptScenes["GameOver"].onrelease();
@@ -1576,6 +1615,7 @@ function onmousemove(evt){
 		promptScenes["CorrectAnswer"].onmousemove(mX,mY);
 		promptScenes["WrongAnswer"].onmousemove(mX,mY);
 		promptScenes["Leaderboard"].onmousemove(mX,mY);
+		promptScenes["TipScene"].onmousemove(mX,mY);
 	}
 	if(currentState == states.Splash){
 		splash.onmousemove(mX,mY);
@@ -1619,10 +1659,19 @@ function loadImage(name,src = ""){
 		images[name].src = src;	
 }
 function loadAsset(){
+
+	var tempdata = [];
+	for(var i = 0; i<gamedata.teams.length;i++){
+		loadImage(gamedata.teams[i].name, gamedata.teams[i].team_logo);
+		tempdata.push(gamedata.teams[i]);
+	}
+	teams.load(tempdata);
+
 	//load assets from server
 	if(debugMode)
-		totalResources = 24 + gamedata.clubs.length;
+		totalResources = 25 + gamedata.clubs.length;
 	loadImage('Background');
+	loadImage('BackgroundMenu');
 	loadImage('CorrectAnswer');
 	loadImage('WrongAnswer');
 	loadImage('ScoreIcon');
@@ -1631,34 +1680,26 @@ function loadAsset(){
 	loadImage('ClockIcon');
 	loadImage('TriangleButton');
 	loadImage('OKButton');
-	loadImage('HiddenPosition_hint');
+	loadImage('HiddenPosition_hint');//10
 	loadImage('HiddenPosition_bright');
 	loadImage('HiddenPosition');
-	loadImage('BackgroundMenu');
 	loadImage('Play Button');
 	loadImage('Leaderboard Button');
 	loadImage('Leaderboard Background');
 	loadImage('Share Button');
 	loadImage('Tip Button');
 	loadImage('ShareButton');
-	loadImage('HomeButton');
+	loadImage('HomeButton');//20
 	loadImage('GameOver');
 	loadImage('TipBar');
 	loadImage('ShowAnswerButton');
 	loadImage('ShowAnswerBar');
+	loadImage('TipBackground');
 
 	//load the club logo assets
 	for(var i = 0; i<gamedata.clubs.length; i++)
 		loadImage(gamedata.clubs[i].name,gamedata.clubs[i].club_logo);
 
-	var tempdata = [];
-	for(var i = 0; i<gamedata.teams.length;i++){
-		loadImage(gamedata.teams[i].name, gamedata.teams[i].team_logo);
-		tempdata.push(gamedata.teams[i]);
-	}
-
-
-	teams.load(tempdata);
 }
 var progressBarDone = false
 function main(){
@@ -1726,7 +1767,7 @@ function main(){
 				clearTimeout(sim);
 				progressBarDone = true;
 			}
-			al+=debugMode?0.005:0.002;
+			al+=debugMode?0.002:0.002;
 	}
 	var sim;
 	var progressBg = new Image();
@@ -1771,8 +1812,7 @@ function init(l){
 		promptScenes["WrongAnswer"] = new PromptScene("WrongAnswer");
 		promptScenes["CorrectAnswer"] = new PromptScene("CorrectAnswer");
 		promptScenes["Leaderboard"] = new Leaderboard();
-		//var promptOnTip = new PromptScene("Tip");
-		//var promptOnTip = new PromptScene("Tip");
+		promptScenes["TipScene"] = new TipScene();
 
 	}else{
 		currentState = states.Hint;
@@ -1798,11 +1838,15 @@ function run(){
 }
 var reasons = {Timeout:0,Wrong:1,Correct:2};
 function nextLevel(reason){
-	if(reason === reasons.Timeout||reason === reasons.Wrong){
+	if(reason === reasons.Wrong){
 		scoreOfThisMatch = 0;
-		promptScenes["WrongAnswer"].show();
-	}
-	if(reason === reasons.Correct)
+		promptScenes["WrongAnswer"].textDisplay = "NO NO NO!";
+		promptScenes["WrongAnswer"].show(reason);
+	}else if(reason === reasons.Timeout){
+		scoreOfThisMatch = 0;
+		promptScenes["WrongAnswer"].textDisplay = "TIME'S UP";
+		promptScenes["WrongAnswer"].show(reason);
+	}else if(reason === reasons.Correct)
 		promptScenes["CorrectAnswer"].show();
 	score.add(scoreOfThisMatch);
 }
@@ -1810,6 +1854,7 @@ function update(){
 	frame>100*3*3.141592?frame=0:frame++;
 	if(currentState === states.Prompt){
 		promptScenes["Leaderboard"].update();
+		promptScenes["TipScene"].update();
 
 		if(promptScenes["CorrectAnswer"].update()
 			||promptScenes["WrongAnswer"].update()){
@@ -1871,6 +1916,7 @@ function render(){
 		promptScenes["CorrectAnswer"].draw();
 		promptScenes["WrongAnswer"].draw();		
 		promptScenes["Leaderboard"].draw();		
+		promptScenes["TipScene"].draw();		
 		//drawText(score.amountToAdd,1444,168,TEXT_COLOR,120);
 	}
 	if(currentState === states.Score){
@@ -1985,10 +2031,30 @@ function drawRectWithHole(x1,y1,w1,h1,x2,y2,w2,h2,color,alpha){
 function drawCoverWithHole(x,y,w,h,alpha=0.7){
 	drawRectWithHole(0,0,WIDTH,HEIGHT,x,y,w,h,'rgb(21,30,61)',alpha);
 }
+function share(){
+
+	function popitup(url,windowName) {
+       newwindow=window.open(url,windowName,'height=500,width=560');
+       if (window.focus) {newwindow.focus()}
+       return false;
+     }
+     popitup("https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fd40f944f.ngrok.io%2FWhichTeamIsThis%2F&amp;src=sdkpreparse",
+		'_blank',"SHARE");
+}
+
+</script>
 
 
-
-	</script>
+<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
 
 
 </body>
