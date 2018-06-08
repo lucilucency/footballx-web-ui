@@ -6,7 +6,7 @@ import constants from '../constants';
 
 const StyledMain = styled.main`
   position: relative;
-  margin: 10px 0 30px;
+  margin: 10px 0 10px;
   background-color: ${constants.theme().surfaceColorPrimary};
   border-bottom: 1px solid ${constants.theme().borderColor};
 `;

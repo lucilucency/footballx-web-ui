@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { Container } from '../../utils';
-import { Calendar, LeagueMatches, Standing } from './components/index';
+import { Calendar, LeagueMatches, Standing, Header } from './components/index';
 import TabBar from '../TabBar';
 import strings from '../../lang';
 
@@ -49,6 +49,7 @@ class LeageOverview extends React.Component {
           }}
         >
           <div>
+            <Header leagueID={leagueID} />
             <TabBar
               info={info}
               tabs={tabs(leagueID)}

@@ -66,7 +66,14 @@ class StandingGrid extends React.Component {
       loading, standings, leagueID,
     } = this.props;
 
-    const standingsOut = standings;
+    const standingsOut = standings.sort((pre, cur) => {
+      if (pre.pts > cur.pts) {
+        return -1;
+      } else if (pre.pts === cur.pts) {
+        return 0;
+      }
+      return 1;
+    });
 
     if (standingsOut && standingsOut.length) {
       const groups = {};

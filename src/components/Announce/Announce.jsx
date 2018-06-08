@@ -89,9 +89,9 @@ const StyledDiv = styled.div`
 `;
 const Announce = ({
   title, body,
-  onClick,
   link,
   bg,
+  dismiss,
 }) => (
   <StyledDiv bg={bg}>
     <main>
@@ -108,22 +108,24 @@ const Announce = ({
         />
       </aside>
     )}
-    <aside>
-      <RaisedButton
-        backgroundColor={constants.colorBlue}
-        onClick={onClick}
-        label={strings.announce_dismiss}
-      />
-    </aside>
+    {dismiss && (
+      <aside>
+        <RaisedButton
+          backgroundColor={constants.colorBlue}
+          onClick={dismiss}
+          label={strings.announce_dismiss}
+        />
+      </aside>
+    )}
   </StyledDiv>
 );
 
 Announce.propTypes = {
   title: PropTypes.string,
   body: PropTypes.node,
-  onClick: PropTypes.func,
   link: PropTypes.string,
   bg: PropTypes.string,
+  dismiss: PropTypes.bool,
 };
 
 class AnnounceComponent extends React.Component {
@@ -133,10 +135,7 @@ class AnnounceComponent extends React.Component {
     this.state = {
     };
 
-    this.dismiss = (value) => {
-      if (localStorage) {
-        localStorage.setItem('dismiss', value);
-      }
+    this.dismiss = () => {
       this.setState({ dismissed: true });
     };
   }
@@ -155,7 +154,6 @@ class AnnounceComponent extends React.Component {
           start_time,
           end_time,
           text,
-          number,
           html_url: link,
         } = data;
         const now = parseInt(Date.now() / 1000, 10);
@@ -167,7 +165,7 @@ class AnnounceComponent extends React.Component {
               bg={data.bg}
               title={text}
               body={is_count_down && <Counter start={Number(start_time)} end={Number(end_time)} countToStart={!isStarted} />}
-              onClick={() => this.dismiss(number)}
+              // dismiss={this.dismiss}
               link={link}
               location={window.location}
             />

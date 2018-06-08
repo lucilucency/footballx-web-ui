@@ -11,12 +11,12 @@ import UpcomingMatches from './components/UpcomingMatches';
 import RecentMatches from './components/RecentMatches';
 
 const matchTabs = [{
-  name: strings.label_recent_matches,
+  name: strings.label_recent_matches.toUpperCase(),
   key: 'recent',
   content: <RecentMatches />,
   route: '/matches/recent',
 }, {
-  name: strings.label_upcoming_matches,
+  name: strings.label_upcoming_matches.toUpperCase(),
   key: 'upcoming',
   content: <UpcomingMatches />,
   route: '/matches/upcoming',
