@@ -7,7 +7,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "sh -ac '. ./.env; HTTPS=${REACT_APP_HTTPS} PORT=${REACT_APP_PORT} react-scripts start'",
-    "build": "npm install && npm run lintnofix && update:fxconstants && npm run rsbuild",
+    "build": "npm install && npm run lintnofix && npm run update:fxconstants && npm run rsbuild",
     "rsbuild": "sh -ac '. ./.env; HTTPS=${REACT_APP_HTTPS} PORT=${REACT_APP_PORT} react-scripts build'",
     "snapshot": "react-snap",
     "test": "react-scripts test --env=jsdom",
