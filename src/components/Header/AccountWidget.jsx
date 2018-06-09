@@ -18,7 +18,7 @@ const StyledFlatButton = styled(FlatButton)`
    text-overflow: ellipsis;
    text-transform: none !important;
    white-space: nowrap;
-   font-size: ${constants.fontSizeCommon} !important;
+   font-size: ${constants.fontSizeLarge} !important;
    padding-right: 0 !important;
    padding-left: 0 !important;
  }

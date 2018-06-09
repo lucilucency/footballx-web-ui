@@ -2,12 +2,14 @@ import HotMatchViewCompact from './HotMatch/HotMatchViewCompact';
 import HotMatchView from './HotMatch/HotMatchView';
 import HotMatchGrid from './HotMatch/HotMatchGrid';
 import MatchView from './MatchView';
-import MatchGrid from './MatchGrid';
+import FanFightActions from './FanFightActions';
+import FanFightVisualize from './FanFightVisualize';
 
 export {
   MatchView,
   HotMatchView,
   HotMatchViewCompact,
   HotMatchGrid,
-  MatchGrid,
+  FanFightActions,
+  FanFightVisualize,
 };

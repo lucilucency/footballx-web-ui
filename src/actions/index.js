@@ -434,7 +434,7 @@ export const getSearchResultAndPros = query => dispatch => Promise.all([
   dispatch(getSearchCommunities(query)),
   // dispatch(getSearchUsers(query)),
 ]);
-export const getBanner = (time = parseInt(Date.now() / 1000, 10)) => dispatchGet({
+export const getBanner = (time = parseInt((Date.now() / 1000) - 86400, 10)) => dispatchGet({
   reducer: 'banner',
   path: 'banner',
   params: {

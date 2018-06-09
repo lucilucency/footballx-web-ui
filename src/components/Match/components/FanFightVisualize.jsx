@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
-import constants from '../../../constants';
+import constants from '../../constants';
 
-const nhapnhay = color => keyframes`
+const pumping = color => keyframes`
   0% {
     filter: drop-shadow(0 0 2px ${color});
   }
@@ -39,7 +39,7 @@ const Fan = styled.div`
   
   ${props => props.color && css`
     background-color: ${props.color};
-    animation: ${nhapnhay(props.color)} 2s ease-in-out 0s infinite;
+    animation: ${pumping(props.color)} 2s ease-in-out 0s infinite;
   `}
   
   ${props => props.text && css`

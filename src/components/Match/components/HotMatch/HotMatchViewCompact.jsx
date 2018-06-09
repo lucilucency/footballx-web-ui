@@ -9,7 +9,7 @@ import { upVote, downVote, getMatchVotes, updateMatch } from '../../../../action
 import { bindAll } from '../../../../utils/index';
 import constants from '../../../constants';
 import MatchVisualizeCompact from './HotMatchVisualizeCompact';
-import FanFight from './FanFight';
+import FanFight from '../FanFightVisualize';
 // import MatchActions from './MatchActions';
 
 

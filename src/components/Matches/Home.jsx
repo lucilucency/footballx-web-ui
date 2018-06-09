@@ -7,8 +7,8 @@ import { Container } from '../../utils';
 import strings from '../../lang';
 import RightBar from './RightBar';
 import TabBar from '../TabBar';
-import UpcomingMatches from './components/UpcomingMatches';
-import RecentMatches from './components/RecentMatches';
+import UpcomingMatches from './UpcomingMatches';
+import RecentMatches from './RecentMatches';
 
 const matchTabs = [{
   name: strings.label_recent_matches.toUpperCase(),
@@ -24,7 +24,7 @@ const matchTabs = [{
 
 class MatchHome extends React.Component {
   componentDidMount() {
-    Amplitude.logEvent('View match');
+    Amplitude.logEvent('Enter match');
   }
 
   render() {

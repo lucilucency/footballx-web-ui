@@ -8,17 +8,16 @@ import {
   CardActions,
   CardMedia,
 } from 'material-ui';
-import clubs from '../../../../fxconstants/clubsObj.json';
-import { hitVote, getMatchComments, announce } from '../../../../actions/index';
-import strings from '../../../../lang/index';
-import { bindAll, getCookie, styles } from '../../../../utils/index';
-import constants from '../../../constants';
-import MatchVisualize from './HotMatchVisualize';
-import FanFight from '../FanFightVisualize';
-import Backdrop from './Backdrop';
-import CreateComment from '../Discussion/CreateEditComment';
-import ViewComments from '../Discussion/Comments';
-import MatchActions from '../Discussion/DiscussionTools';
+import clubs from '../../fxconstants/clubsObj.json';
+import { hitVote, getMatchComments, announce } from '../../actions/index';
+import strings from '../../lang/index';
+import { bindAll, getCookie, styles } from '../../utils/index';
+import constants from '../constants';
+
+import { FanFightVisualize, FanFightActions } from './components';
+import CreateComment from './components/Discussion/CreateEditComment';
+import ViewComments from './components/Discussion/Comments';
+import MatchActions from './components/Discussion/DiscussionTools';
 
 class MatchView extends React.Component {
   static initialState = {
@@ -73,13 +72,7 @@ class MatchView extends React.Component {
           >
             <div>
               <div>
-                <FanFight
-                  homeColor={homeColor}
-                  awayColor={awayColor}
-                  homeFan={homeVotes}
-                  awayFan={awayVotes}
-                />
-                <MatchVisualize
+                <FanFightActions
                   matchID={this.props.data.id}
                   home={home}
                   away={away}
@@ -89,44 +82,13 @@ class MatchView extends React.Component {
                   isLoggedIn={this.props.isLoggedIn}
                   pumping
                 />
-              </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr 1fr',
-                  padding: 20,
-                }}
-              >
-                <div>{home.name}</div>
-                <div>Or</div>
-                <div>{away.name}</div>
-              </div>
-              {!this.state.openLive && (
-                <Backdrop
-                  home={homeID}
-                  homeVotes={homeVotes}
-                  away={awayID}
-                  awayVotes={awayVotes}
+                <FanFightVisualize
+                  homeColor={homeColor}
+                  awayColor={awayColor}
+                  homeFan={homeVotes}
+                  awayFan={awayVotes}
                 />
-              )}
-              {this.state.openLive && (
-                <div style={{ width: '100%', backgroundColor: 'black' }}>
-                  <iframe
-                    title={this.props.data.id}
-                    src={this.props.data.url_live}
-                    width="590"
-                    height="431"
-                    frameBorder="0"
-                    scrolling="no"
-                    // allow="autoplay"
-                    allowFullScreen
-                    // webkitAllowFullScreen
-                    // mozAllowFullScreen
-                    // oAllowFullScreen
-                    // msAllowFullScreen
-                  />
-                </div>
-              )}
+              </div>
             </div>
           </CardMedia>
           <CardActions
@@ -144,9 +106,6 @@ class MatchView extends React.Component {
               disableComment
               isLoggedIn={this.props.isLoggedIn}
               count={this.props.comments.length}
-              onClickOpenLive={() => {
-                this.setState({ openLive: !this.state.openLive });
-              }}
             />
           </CardActions>
         </Card>

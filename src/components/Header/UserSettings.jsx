@@ -19,7 +19,7 @@ const VerticalAlignDropdown = styled(Dropdown)`
   justify-content: center;
 `;
 const LinkRouterStyled = styled(Link)`
-  font-size: ${constants.fontSizeMedium};
+  font-size: ${constants.fontSizeNormal};
   font-weight: ${constants.fontWeightLight};
   color: ${constants.colorMutedLight} !important;
   display: flex;
@@ -37,7 +37,7 @@ const LinkRouterStyled = styled(Link)`
   }
 `;
 const LinkStyled = styled.a`
-  font-size: ${constants.fontSizeMedium};
+  font-size: ${constants.fontSizeNormal};
   font-weight: ${constants.fontWeightLight};
   color: ${constants.colorMutedLight} !important;
   display: flex;

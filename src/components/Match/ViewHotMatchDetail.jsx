@@ -19,7 +19,7 @@ class HotMatchDetail extends React.Component {
       this.props.getMatchVotes(this.props.match.params.id);
     }
 
-    Amplitude.logEvent('View match');
+    Amplitude.logEvent('View match detail');
   }
 
   render() {

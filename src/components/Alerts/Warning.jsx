@@ -6,7 +6,7 @@ import constants from '../constants';
 
 const StyledDiv = styled.div`
   font-weight: ${constants.fontWeightLight};
-  font-size: ${constants.fontSizeMedium};
+  font-size: ${constants.fontSizeNormal};
   letter-spacing: 0.1ex;
 
   & svg {

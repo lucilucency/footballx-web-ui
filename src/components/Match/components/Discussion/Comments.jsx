@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
-import constants from '../../constants';
-import { fromNow, ActiveLink, styles } from '../../../utils';
+import constants from '../../../constants';
+import { fromNow, ActiveLink, styles } from '../../../../utils/index';
 // import CommentActions from './CommentActions';
 
 class ViewPostComments extends React.Component {

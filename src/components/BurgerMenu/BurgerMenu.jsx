@@ -9,7 +9,7 @@ import MatchMenu from './MatchMenu';
 
 function disableTray(text) {
   // const patt = new RegExp('/sign_in/|/match|/m/');
-  const patt = new RegExp('/sign_in');
+  const patt = new RegExp('/sign_in|/game');
   return patt.test(text);
 }
 

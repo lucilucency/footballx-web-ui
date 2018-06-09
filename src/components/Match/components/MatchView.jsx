@@ -4,18 +4,12 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   Card,
-  CardHeader,
-  CardActions,
   CardMedia,
 } from 'material-ui';
 import clubs from '../../../fxconstants/clubsObj.json';
-import { hitVote, getMatchComments, announce } from '../../../actions/index';
+import { announce } from '../../../actions/index';
 import strings from '../../../lang/index';
-import { bindAll, getCookie, styles } from '../../../utils/index';
-import constants from '../../constants';
-import CreateComment from './CreateEditComment';
-import ViewComments from './MatchComments';
-import MatchActions from './MatchActions';
+import { bindAll, styles } from '../../../utils/index';
 import MatchVisualize from './MatchVisualize';
 
 class MatchView extends React.Component {
@@ -37,7 +31,6 @@ class MatchView extends React.Component {
     this.props.announce({
       message: strings.announce_match_vote,
     });
-    this.props.getMatchComments(this.props.matchID || this.props.data.id, 'hot', getCookie('user_id'));
   }
 
   render() {
@@ -54,14 +47,6 @@ class MatchView extends React.Component {
           key={data.id}
           style={styles.card.style}
         >
-          <CardHeader
-            title={strings.paragraph_match_title}
-            style={{ textAlign: 'center' }}
-            textStyle={{
-              padding: 0,
-              textTransform: 'uppercase',
-            }}
-          />
           <CardMedia
             style={{
               textAlign: 'center',
@@ -77,63 +62,12 @@ class MatchView extends React.Component {
                   awayVotes={awayVotes}
                   date={data.date}
                   isLoggedIn={this.props.isLoggedIn}
-                  pumping
+                  // pumping
                 />
               </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr 1fr',
-                  padding: 20,
-                }}
-              >
-                <div>{home.name}</div>
-                <div>Or</div>
-                <div>{away.name}</div>
-              </div>
-              {this.state.openLive && (
-                <div style={{ width: '100%', backgroundColor: 'black' }}>
-                  <iframe
-                    title={this.props.data.id}
-                    src={this.props.data.url_live}
-                    width="590"
-                    height="431"
-                    frameBorder="0"
-                    scrolling="no"
-                    // allow="autoplay"
-                    allowFullScreen
-                    // webkitAllowFullScreen
-                    // mozAllowFullScreen
-                    // oAllowFullScreen
-                    // msAllowFullScreen
-                  />
-                </div>
-              )}
             </div>
           </CardMedia>
-          <CardActions
-            style={{
-              padding: '0 8px',
-              display: 'flex',
-              flexDirection: 'row',
-              borderTop: `1px solid ${constants.grey50}`,
-              fontWeight: constants.fontWeightHeavy,
-            }}
-          >
-            <MatchActions
-              type="post"
-              data={this.props.data}
-              disableComment
-              isLoggedIn={this.props.isLoggedIn}
-              count={this.props.comments.length}
-              onClickOpenLive={() => {
-                this.setState({ openLive: !this.state.openLive });
-              }}
-            />
-          </CardActions>
         </Card>
-        {this.props.isLoggedIn && <CreateComment post={this.props.data} />}
-        <ViewComments comments={this.props.comments} isLoggedIn={this.props.isLoggedIn} />
       </div>
     );
   }
@@ -142,26 +76,14 @@ class MatchView extends React.Component {
 MatchView.propTypes = {
   data: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
-  matchID: PropTypes.number,
 
   /**/
-  // user: PropTypes.object,
-  comments: PropTypes.array,
-  getMatchComments: PropTypes.func,
   announce: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  // user: state.app.metadata.data.user,
-  browser: state.browser,
-  comments: state.app.comments.data,
-});
-
 const mapDispatchToProps = dispatch => ({
-  hitVote: (matchID, teamID, payload) => dispatch(hitVote(matchID, teamID, payload)),
-  getMatchComments: (postID, sortby, xuser_id) => dispatch(getMatchComments(postID, sortby, xuser_id)),
   announce: props => dispatch(announce(props)),
 });
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MatchView));
+export default withRouter(connect(null, mapDispatchToProps)(MatchView));

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import LazyLoad from 'react-lazyload';
 import { getHotMatches } from '../../../../actions/index';
-import { HotMatchViewCompact } from '../index';
+import HotMatchViewCompact from './HotMatchViewCompact';
 import { MatchGridBlank } from '../../../Blank';
 // import constants from '../../constants';
 

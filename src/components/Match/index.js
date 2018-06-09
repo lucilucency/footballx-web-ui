@@ -1,11 +1,7 @@
-import HotMatchDetail from './HotMatchDetail';
-import HotMatch from './HotMatches';
-import MatchDetail from './MatchDetail';
-import Home from './Home';
+import HotMatchDetail from './ViewHotMatchDetail';
+import MatchDetail from './ViewMatchDetail';
 
 export {
-  HotMatch,
   HotMatchDetail,
   MatchDetail,
-  Home,
 };

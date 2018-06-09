@@ -4,21 +4,18 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   Card,
-  CardHeader,
   CardActions,
   CardMedia,
 } from 'material-ui';
-import clubs from '../../../../fxconstants/clubsObj.json';
-import { hitVote, getMatchComments, announce } from '../../../../actions/index';
-import strings from '../../../../lang/index';
-import { bindAll, getCookie, styles } from '../../../../utils/index';
-import constants from '../../../constants';
-import MatchVisualize from './HotMatchVisualize';
-import FanFight from '../FanFightVisualize';
-import Backdrop from './Backdrop';
-import CreateComment from '../Discussion/CreateEditComment';
-import ViewComments from '../Discussion/Comments';
-import MatchActions from '../Discussion/DiscussionTools';
+import FanFight from './components/FanFightVisualize';
+import clubs from '../../fxconstants/clubsObj.json';
+import { hitVote, getMatchComments, announce } from '../../actions/index';
+import strings from '../../lang/index';
+import { bindAll, getCookie, styles } from '../../utils/index';
+import constants from '../constants';
+import CreateComment from './components/Discussion/CreateEditComment';
+import ViewComments from './components/Discussion/Comments';
+import MatchActions from './components/Discussion/DiscussionTools';
 
 class MatchView extends React.Component {
   static initialState = {
@@ -58,14 +55,6 @@ class MatchView extends React.Component {
           key={data.id}
           style={styles.card.style}
         >
-          <CardHeader
-            title={strings.paragraph_match_title}
-            style={{ textAlign: 'center' }}
-            textStyle={{
-              padding: 0,
-              textTransform: 'uppercase',
-            }}
-          />
           <CardMedia
             style={{
               textAlign: 'center',
@@ -79,16 +68,6 @@ class MatchView extends React.Component {
                   homeFan={homeVotes}
                   awayFan={awayVotes}
                 />
-                <MatchVisualize
-                  matchID={this.props.data.id}
-                  home={home}
-                  away={away}
-                  homeVotes={homeVotes}
-                  awayVotes={awayVotes}
-                  date={data.date}
-                  isLoggedIn={this.props.isLoggedIn}
-                  pumping
-                />
               </div>
               <div
                 style={{
@@ -101,14 +80,6 @@ class MatchView extends React.Component {
                 <div>Or</div>
                 <div>{away.name}</div>
               </div>
-              {!this.state.openLive && (
-                <Backdrop
-                  home={homeID}
-                  homeVotes={homeVotes}
-                  away={awayID}
-                  awayVotes={awayVotes}
-                />
-              )}
               {this.state.openLive && (
                 <div style={{ width: '100%', backgroundColor: 'black' }}>
                   <iframe

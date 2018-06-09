@@ -18,14 +18,20 @@ const Constants = {
   fontWeightNormal: '400',
   fontWeightMedium: '500',
   fontWeightHeavy: '600',
+
   fontSizeHuge: '50px',
   fontSizeBig: '37px',
-  fontSizeCommon: '21px',
-  fontSizeMedium: '16px',
+  fontSizeLarge: '21px',
+  fontSizeNormal: '16px',
   fontSizeSmall: '14px',
   fontSizeTiny: '12px',
-  lineHeightMedium: '21px',
+
+  lineHeightHuge: '60px',
+  lineHeightBig: '55px',
+  lineHeightLarge: '40px',
+  lineHeightNormal: '24px',
   lineHeightSmall: '18px',
+  lineHeightTiny: '14px',
 
   /* transition */
   normalTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',

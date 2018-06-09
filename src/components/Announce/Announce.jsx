@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 // import ReactMarkdown from 'react-markdown';
 import strings from '../../lang';
+import { renderDialog } from '../../utils';
 import { getBanner } from '../../actions';
 import constants from '../constants';
 import Counter from './Counter';
@@ -14,7 +15,6 @@ const StyledDiv = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  //background-color: #008eff;
   color: ${constants.theme().textColorSecondary};
 
   ${props => props.bg && css`
@@ -25,10 +25,21 @@ const StyledDiv = styled.div`
   
   .title {
     text-transform: uppercase;
+    font-size: ${constants.fontSizeLarge};
     -webkit-margin-before: 1em; -webkit-margin-after: 0;
+    
+    @media only screen and (max-width: 662px) {
+      -webkit-margin-before: 0;
+      font-size: ${constants.fontSizeNormal};
+    }
   }
   .subTitle {
     -webkit-margin-before: 0; -webkit-margin-after: 2em;
+    font-size: ${constants.fontSizeSmall};
+    
+    @media only screen and (max-width: 662px) {
+      -webkit-margin-after: 0;
+    }
   }
 
   & main,
@@ -43,7 +54,7 @@ const StyledDiv = styled.div`
     & > div,
     & a,
     & p {
-      font-size: ${constants.fontSizeMedium};
+      font-size: ${constants.fontSizeNormal};
       margin: 0;
       opacity: 0.85;
     }
@@ -58,8 +69,8 @@ const StyledDiv = styled.div`
 
     & h4 {
       font-weight: ${constants.fontWeightMedium};
-      font-size: ${constants.fontSizeCommon};
-      line-height: ${constants.fontSizeCommon};
+      font-size: ${constants.fontSizeLarge};
+      line-height: ${constants.fontSizeLarge};
       margin: 0 0 2px;
 
       & svg {
@@ -87,52 +98,18 @@ const StyledDiv = styled.div`
     flex-shrink: 0;
   }
 `;
-const Announce = ({
-  title, body,
-  link,
-  bg,
-  dismiss,
-}) => (
-  <StyledDiv bg={bg}>
-    <main>
-      <h2 className="title">{title}</h2>
-      <div className="subTitle">{body && body}</div>
-    </main>
-    {link && (
-      <aside>
-        <RaisedButton
-          backgroundColor={constants.colorBlue}
-          href={link}
-          target="_blank"
-          label={strings.announce_play_game}
-        />
-      </aside>
-    )}
-    {dismiss && (
-      <aside>
-        <RaisedButton
-          backgroundColor={constants.colorBlue}
-          onClick={dismiss}
-          label={strings.announce_dismiss}
-        />
-      </aside>
-    )}
-  </StyledDiv>
-);
-
-Announce.propTypes = {
-  title: PropTypes.string,
-  body: PropTypes.node,
-  link: PropTypes.string,
-  bg: PropTypes.string,
-  dismiss: PropTypes.bool,
-};
 
 class AnnounceComponent extends React.Component {
-  constructor() {
-    super();
+  static initialState = {
+    openDialog: false,
+    dialogConstruct: {},
+  };
+
+  constructor(props) {
+    super(props);
 
     this.state = {
+      ...AnnounceComponent.initialState,
     };
 
     this.dismiss = () => {
@@ -154,21 +131,35 @@ class AnnounceComponent extends React.Component {
           start_time,
           end_time,
           text,
-          html_url: link,
+          url,
         } = data;
         const now = parseInt(Date.now() / 1000, 10);
 
         if (!this.state.dismissed && Number(end_time) > now) {
           const isStarted = Number(start_time) < now;
+          const body = is_count_down && <Counter start={Number(start_time)} end={Number(end_time)} countToStart={!isStarted} />;
           return (
-            <Announce
-              bg={data.bg}
-              title={text}
-              body={is_count_down && <Counter start={Number(start_time)} end={Number(end_time)} countToStart={!isStarted} />}
-              // dismiss={this.dismiss}
-              link={link}
-              location={window.location}
-            />
+            <StyledDiv bg={data.bg}>
+              <main>
+                <div className="title">{text}</div>
+                <div className="subTitle">{body}</div>
+              </main>
+              {url && (
+                <aside>
+                  <a style={{ color: constants.theme().textColorSecondary }} href="/game" target="_blank">{strings.announce_play_game}</a>
+                </aside>
+              )}
+              {false && (
+                <aside>
+                  <RaisedButton
+                    backgroundColor={constants.colorBlue}
+                    onClick={this.dismiss}
+                    label={strings.announce_dismiss}
+                  />
+                </aside>
+              )}
+              {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}
+            </StyledDiv>
           );
         }
       }

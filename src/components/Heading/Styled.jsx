@@ -29,7 +29,7 @@ export const StyledDiv = styled.div`
 
   & .subtitle {
     margin-left: 5px;
-    font-size: ${constants.fontSizeMedium};
+    font-size: ${constants.fontSizeNormal};
     color: ${constants.colorMutedLight};
   }
 `;

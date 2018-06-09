@@ -1,23 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { IconButton, FlatButton } from 'material-ui';
-import Amplitude from 'react-amplitude';
-import strings from '../.././../lang';
-import { IconUpvote, IconDownvote, IconComment, IconShare } from '../../Icons';
-import { upVote, downVote } from '../../../actions';
-import constants from '../../constants';
-import ButtonShare from '../../../utils/ButtonShare';
-import CreateEditComment from './CreateEditComment';
+import {
+  // IconButton,
+  FlatButton,
+} from 'material-ui';
+import { bindAll, renderDialog } from '../../../../utils/index';
+import { IconShare, IconComment } from '../../../Icons/index';
+import { upVote, downVote, setPost } from '../../../../actions/index';
+import constants from '../../../constants';
+import ButtonShare from '../../../../utils/ButtonShare';
+import strings from '../../../../lang/index';
 
-const Styled = styled.div`
-  padding: 0 0;
+const MatchActionStyled = styled.div`
+  padding: 0 1em;
   display: table;
   border-top: ${`1px solid ${constants.grey50}`};
   font-weight: ${constants.fontWeightMedium};
   font-size: ${constants.fontSizeSmall};
+  font-family: ${constants.theme().fontFamily};
+  color: ${constants.theme().neutralColor};
   
   > * {
     display: table-cell;
@@ -27,29 +31,29 @@ const Styled = styled.div`
   span {
     color: ${constants.theme().neutralColor};
   }
-  
-  //button {
-  //  height: 40px;
-  //  padding: 0;
-  //}
 `;
 
-class CommentActions extends React.Component {
+class MatchActons extends React.Component {
   static initialState = {
-    showCommentBox: false,
+    openDialog: false,
+    dialogConstruct: {},
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      ...CommentActions.initialState,
+      ...MatchActons.initialState,
     };
+
+    bindAll([
+      'handleOpenDialog',
+      'handleCloseDialog',
+    ], this);
   }
 
   upvote = () => {
     if (this.props.isLoggedIn) {
-      Amplitude.logEvent('Upvote comment');
       let { c_ups = 0, c_downs = 0, vflag = 0 } = this.props.data;
       if (vflag === 1) {
         vflag = 0;
@@ -73,15 +77,11 @@ class CommentActions extends React.Component {
       this.props.upVote(this.props.data.id, {
         payload,
       }, this.props.type);
-    } else {
-      localStorage.setItem('previousPage', `/p/${this.props.data.id}`);
-      window.location.href = '/sign_in';
     }
   };
 
   downVote = () => {
     if (this.props.isLoggedIn) {
-      Amplitude.logEvent('Downvote comment');
       let { c_ups = 0, c_downs = 0, vflag = 0 } = this.props.data;
       if (vflag === 1) {
         vflag = -1;
@@ -105,73 +105,78 @@ class CommentActions extends React.Component {
       this.props.downVote(this.props.data.id, {
         payload,
       }, this.props.type);
-    } else {
-      localStorage.setItem('previousPage', `/p/${this.props.data.id}`);
-      // this.props.history.push('/sign_in');
-      window.location.href = '/sign_in';
     }
   };
 
-  toggleCommentBox = () => {
-    this.setState({
-      showCommentBox: !this.state.showCommentBox,
-    });
-  };
+  handleOpenDialog() {
+    this.setState({ openDialog: true });
+  }
+
+  handleCloseDialog() {
+    this.setState({ openDialog: false, dialogConstruct: {} });
+  }
 
   render() {
     const item = this.props.data;
-    const ups = item.c_ups || 0;
-    const downs = item.c_downs || 0;
+    // const ups = item.c_ups || 0;
+    // const downs = item.c_downs || 0;
 
     return (
       <div>
-        <Styled>
-          <IconButton
+        <MatchActionStyled>
+          {/* <IconButton
             tooltip="Upvote"
             tooltipPosition="top-center"
             onClick={this.upvote}
-            // disabled={!this.props.isLoggedIn}
+            disabled={!this.props.isLoggedIn}
             iconStyle={{
               width: 20,
               height: 20,
             }}
           >
-            <IconUpvote color={item.vflag === 1 ? constants.theme().positiveColor : constants.theme().neutralColor} hoverColor={constants.theme().positiveColor} />
+            <IconUpvote color={item.vflag === 1 ? constants.blueA100 : constants.theme().buttonMute} hoverColor={constants.blueA100} />
           </IconButton>
           <span style={{ display: 'table-cell', verticalAlign: 'middle' }}>{ups - downs}</span>
           <IconButton
             tooltip="Downvote"
             tooltipPosition="top-center"
             onClick={this.downVote}
-            // disabled={!this.props.isLoggedIn}
+            disabled={!this.props.isLoggedIn}
             iconStyle={{
               width: 20,
               height: 20,
             }}
           >
-            <IconDownvote color={item.vflag === -1 ? constants.theme().negativeColor : constants.theme().neutralColor} hoverColor={constants.theme().negativeColor} />
-          </IconButton>
-          {this.props.disableComment ? (
-            <div style={{ display: 'block' }}>
-              <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={constants.theme().neutralColor} />
-              <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{item.c_comments ? `${item.c_comments} comments` : 'Comment'}</span>
-            </div>
-          ) : (
-            <FlatButton
-              target="_blank"
-              label={item.c_comments || 0}
-              icon={<IconComment style={{ marginTop: -5 }} color={constants.theme().neutralColor} />}
-              labelPosition="after"
-              labelStyle={{
-                paddingLeft: 5,
-                fontWeight: 'inherit',
-                fontSize: 'inherit',
-              }}
-              onClick={this.toggleCommentBox}
-            />
-          )}
+            <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.theme().buttonMute} hoverColor={constants.redA100} />
+          </IconButton> */}
+          <div>
+            {this.props.disableComment ? (
+              <div style={{ display: 'block' }}>
+                <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={constants.theme().neutralColor} />
+                <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{this.props.count || 0}</span>
+              </div>
+            ) : (
+              <FlatButton
+                target="_blank"
+                label={this.props.count || strings.label_comment}
+                icon={<IconComment style={{ marginTop: -5 }} color={constants.theme().neutralColor} />}
+                labelPosition="after"
+                labelStyle={{
+                  paddingLeft: 5,
+                  fontWeight: 'inherit',
+                  fontSize: 'inherit',
+                }}
+                onClick={() => this.props.history.push(`/m/${item.id}`)}
+              />
+              // <FlatButton
+              //   target="_blank"
+              //   label={this.props.count ? `${this.props.count} comments` : 'Comment'}
+              //   onClick={() => this.props.history.push(`/m/${item.id}`)}
+              // />
+            )}
+          </div>
           <ButtonShare
-            clipboard={`${window.location.host}/p/${item.id}`}
+            clipboard={`${window.location.host}/m/${item.id}`}
             child={(
               <FlatButton
                 label={strings.label_share_post}
@@ -185,15 +190,16 @@ class CommentActions extends React.Component {
               />
             )}
           />
-        </Styled>
-        {this.state.showCommentBox && <CreateEditComment target={this.props.data} callback={this.toggleCommentBox} />}
+        </MatchActionStyled>
+        {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}
       </div>
     );
   }
 }
 
-CommentActions.propTypes = {
+MatchActons.propTypes = {
   type: PropTypes.string.isRequired, /* post, comment */
+  count: PropTypes.number, /* comment numbers */
   data: PropTypes.object,
   disableComment: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
@@ -201,7 +207,7 @@ CommentActions.propTypes = {
   /**/
   upVote: PropTypes.func,
   downVote: PropTypes.func,
-  // history: PropTypes.object,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -211,7 +217,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   upVote: (postID, params, type) => dispatch(upVote(postID, params, type)),
   downVote: (postID, params, type) => dispatch(downVote(postID, params, type)),
+  setPost: payload => dispatch(setPost(payload)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CommentActions));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MatchActons));
 

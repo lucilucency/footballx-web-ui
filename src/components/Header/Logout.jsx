@@ -7,7 +7,7 @@ import constants from '../constants';
 import { eraseCookie } from '../../utils';
 
 const LinkStyled = styled.a`
-  font-size: ${constants.fontSizeMedium};
+  font-size: ${constants.fontSizeNormal};
   font-weight: ${constants.fontWeightLight};
   color: ${constants.colorMutedLight} !important;
   display: flex;

@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import { hitVote } from '../../../actions/index';
 import constants from '../../constants';
+import { IconUpvote } from '../../Icons';
 // import strings from '../../../lang';
 import { toTimeString, toDateString } from '../../../utils/index';
 
@@ -158,7 +159,8 @@ class MatchVisualize extends React.Component {
             iconStyle={styles.iconButton.iconStyle}
             touch
           >
-            <img src={home.icon} alt="" />
+            {/* <img src={home.icon} alt="" /> */}
+            <IconUpvote />
           </IconButton>
           <div>{home.name}</div>
         </div>
@@ -180,7 +182,8 @@ class MatchVisualize extends React.Component {
             iconStyle={styles.iconButton.iconStyle}
             touch
           >
-            <img src={away.icon} alt="" />
+            {/* <img src={away.icon} alt="" /> */}
+            <IconUpvote />
           </IconButton>
           <div>{away.name}</div>
         </div>

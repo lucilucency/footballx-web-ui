@@ -14,11 +14,13 @@ import strings from '../../lang';
 import Announce from '../Announce';
 import Header from '../Header';
 import { BurgerMenu } from '../BurgerMenu';
+import Game from '../Game/Game';
 import * as Community from '../Community';
 import * as Home from '../Home';
 import * as Popular from '../Popular';
 import { PageCreatePost, PageViewPost } from '../Post';
 import * as Match from '../Match';
+import * as Matches from '../Matches';
 import * as League from '../League';
 import { UpdateProfileStepper } from '../User';
 import constants from '../constants';
@@ -135,6 +137,8 @@ class App extends React.Component {
               <Route exact path="/sign_in" component={Login} />
               <Route exact path="/submit" component={PageCreatePost} />
 
+              <Route exact path="/game" component={Game} />
+
               <Route exact path="/new" component={Home.New} />
               <Route exact path="/hot" component={Home.Hot} />
               <Route exact path="/top" component={Home.Top} />
@@ -151,9 +155,9 @@ class App extends React.Component {
               <Route exact path="/r/:id?/top" component={Community.Top} />
               <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
 
-              <Route exact path="/matches/:info?" component={Match.Home} />
-              <Route exact path="/match/hot" component={Match.HotMatch} />
-              <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.HotMatchDetail} />
+              <Route exact path="/matches/:info?" component={Matches.Home} />
+              <Route exact path="/match/hot" component={Matches.HotMatches} />
+              <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.MatchDetail} />
 
               <Route exact path="/l/:id/:info?/:subInfo?" component={League.LeageView} />
               {/* <Route exact path="/l/:id/matches" component={League.Matches} /> */}

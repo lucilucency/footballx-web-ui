@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import List, { ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
-import { IconHot } from '../Icons';
+// import { IconHot } from '../Icons';
 import constants from '../constants';
-import strings from '../../lang';
+// import strings from '../../lang';
 
 const leagues = require('../../fxconstants/leaguesArr.json');
 
@@ -37,14 +37,14 @@ const FeedMenu = ({
 
   return (
     <div>
-      <List>
+      {/* <List>
         <ListItem
           primaryText={strings.label_hot_matches}
           leftIcon={<IconHot size={18} />}
           containerElement={<Link to="/match/hot" />}
           innerDivStyle={styles.listItem.innerDivStyle}
         />
-      </List>
+      </List> */}
       {leagues && leagues.length ? (
         <List>
           <Subheader style={styles.subheader.style}>HOT LEAGUES</Subheader>

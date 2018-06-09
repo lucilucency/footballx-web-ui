@@ -66,8 +66,11 @@ class SearchForm extends React.Component {
           }}
           underlineStyle={{ borderColor: 'transparent' }}
           hintStyle={{
- fontSize: constants.fontSizeSmall, lineHeight: constants.lineHeightSmall, whiteSpace: 'nowrap', color: constants.theme().textColorSecondary2,
-}}
+            fontSize: constants.fontSizeSmall,
+            lineHeight: '18px',
+            whiteSpace: 'nowrap',
+            color: constants.theme().textColorSecondary2,
+          }}
         />
       </form>
     );

@@ -7,12 +7,12 @@ import {
   FlatButton,
   RaisedButton,
 } from 'material-ui';
-import constants from '../../constants';
-import strings from '../../../lang';
-import { bindAll, mergeObject, FormWrapper, TextValidator } from '../../../utils';
-import { createMatchComment } from '../../../actions';
-import Error from '../../Error/index';
-import Spinner from '../../Spinner/index';
+import constants from '../../../constants';
+import strings from '../../../../lang/index';
+import { bindAll, mergeObject, FormWrapper, TextValidator } from '../../../../utils/index';
+import { createMatchComment } from '../../../../actions/index';
+import Error from '../../../Error/index';
+import Spinner from '../../../Spinner/index';
 
 class CreateEditComment extends React.Component {
   static defaultProps = {

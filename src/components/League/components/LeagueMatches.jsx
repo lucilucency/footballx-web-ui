@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Amplitude from 'react-amplitude';
 import { getLeagueLastSeasons, getSeasonMatches, localLoadingReducer } from '../../../actions';
 import leagues from '../../../fxconstants/leaguesObj.json';
-import MatchGrid from '../../Match/components/MatchGrid';
+import MatchGrid from '../../Matches/components/MatchGrid';
 
 const getSeasons = (props) => {
   const { leagueID } = props;
@@ -37,7 +37,14 @@ class LeagueMatches extends React.Component {
     const { matches, seasons, leagueID } = this.props;
 
     return (
-      <MatchGrid leagueID={leagueID} matches={matches} seasons={seasons} />
+      <MatchGrid
+        leagueID={leagueID}
+        matches={matches && matches.sort((prev, cur) => {
+          if (prev.date > cur.date) { return 1; } else if (prev.date < cur.date) { return -1; }
+           return 0;
+        })}
+        seasons={seasons}
+      />
     );
   }
 }

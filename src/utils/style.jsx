@@ -45,7 +45,7 @@ export const styles = {
   cardTitle: {
     titleStyle: {
       fontWeight: 'bold',
-      fontSize: constants.fontSizeMedium,
+      fontSize: constants.fontSizeNormal,
       lineHeight: '23px',
     },
     style: {

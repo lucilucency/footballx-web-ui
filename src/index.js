@@ -94,7 +94,6 @@ h1, h2, h3, h4, h5, h6, h7 {
   -webkit-margin-before: 1em; -webkit-margin-after: 1em; 
 }
 
-
 [data-hint] {
   &::before,
   &::after {
@@ -119,7 +118,7 @@ h1, h2, h3, h4, h5, h6, h7 {
     padding: 5px 8px;
     font-weight: ${constants.fontWeightLight};
     text-transform: none;
-    font-size: ${constants.fontSizeMedium};
+    font-size: ${constants.fontSizeNormal};
     line-height: 1.3;
     white-space: nowrap;
   }

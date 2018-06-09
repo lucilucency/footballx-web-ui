@@ -33,7 +33,7 @@ const StyledPagination = styled.div`
   ${props => props.top && `position: absolute;
   right: 0;
   top: -46px;
-  font-size: ${constants.fontSizeMedium};
+  font-size: ${constants.fontSizeNormal};
   @media only screen and (max-width: 767px) {
     position: initial;
   }
@@ -78,7 +78,7 @@ const StyledCurrentPage = styled(FlatButton)`
   pointer-events: none;
 `;
 const StyledInfo = styled.div`
-  font-size: ${constants.fontSizeMedium};
+  font-size: ${constants.fontSizeNormal};
   color: ${constants.colorMutedLight};
 `;
 
