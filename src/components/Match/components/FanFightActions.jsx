@@ -8,7 +8,7 @@ import { hitVote } from '../../../actions/index';
 import constants from '../../constants';
 import { IconUpvote } from '../../Icons';
 // import strings from '../../../lang';
-import { toTimeString, toDateString } from '../../../utils/index';
+// import { toTimeString, toDateString } from '../../../utils/index';
 
 const beatHeart = keyframes`
   0% {
@@ -31,7 +31,7 @@ const beatHeart = keyframes`
 const MatchInfo = styled.div`
   padding: 1em;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   color: ${constants.theme().textColorPrimary}
   
   @media only screen and (max-width: 1023px) {
@@ -132,7 +132,7 @@ class MatchVisualize extends React.Component {
 
   render() {
     const {
-      home, away, homeVotes, awayVotes, date, greaterThan, disabled = false,
+      home, away, homeVotes, awayVotes, greaterThan, disabled = false,
     } = this.props;
     const styles = {};
     if (greaterThan.medium) {
@@ -162,15 +162,7 @@ class MatchVisualize extends React.Component {
             {/* <img src={home.icon} alt="" /> */}
             <IconUpvote />
           </IconButton>
-          <div>{home.name}</div>
-        </div>
-        <div className="info">
-          <span className="duration">
-            {toTimeString(date * 1000)}
-          </span>
-          <span className="ended">
-            {toDateString(date * 1000)}
-          </span>
+          {/* <div>{home.name}</div> */}
         </div>
         <div className="club-image">
           <IconButton
@@ -185,7 +177,7 @@ class MatchVisualize extends React.Component {
             {/* <img src={away.icon} alt="" /> */}
             <IconUpvote />
           </IconButton>
-          <div>{away.name}</div>
+          {/* <div>{away.name}</div> */}
         </div>
       </MatchInfo>
     );
@@ -199,7 +191,6 @@ MatchVisualize.propTypes = {
   away: PropTypes.object,
   homeVotes: PropTypes.number,
   awayVotes: PropTypes.number,
-  date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   pumping: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
 

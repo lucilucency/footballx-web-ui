@@ -4,7 +4,7 @@ import styled, {
 // css
 } from 'styled-components';
 import constants from '../../constants';
-import { toTimeString } from '../../../utils/index';
+import { toTimeString, convertMatchStatus } from '../../../utils/index';
 import clubs from '../../../fxconstants/clubsObj.json';
 
 const Styled = styled.div`
@@ -83,7 +83,7 @@ const MatchVisualizeCompact = (props) => {
 
   return (
     <Styled>
-      <div className="status">{data.status}</div>
+      <div className="status">{convertMatchStatus(data.status)}</div>
       <MatchInfo>
         <div className="club-image left">
           <span>{home.name}</span>

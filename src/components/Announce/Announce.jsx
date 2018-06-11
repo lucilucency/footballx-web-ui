@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 // import ReactMarkdown from 'react-markdown';
 import strings from '../../lang';
-import { renderDialog } from '../../utils';
 import { getBanner } from '../../actions';
 import constants from '../constants';
 import Counter from './Counter';
@@ -158,7 +157,6 @@ class AnnounceComponent extends React.Component {
                   />
                 </aside>
               )}
-              {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}
             </StyledDiv>
           );
         }
@@ -181,7 +179,9 @@ AnnounceComponent.propTypes = {
 
 const mapStateToProps = (state) => {
   const { error, loading, data } = state.app.banner;
+  const isLoggedIn = Boolean(state.app.metadata.data);
   return ({
+    isLoggedIn,
     error,
     loading,
     data,

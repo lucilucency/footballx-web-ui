@@ -162,3 +162,18 @@ export function getCookie(name) {
 export function eraseCookie(name) {
   document.cookie = `${name}=; Max-Age=-99999999;`;
 }
+
+export function convertMatchStatus(status) {
+  switch (status) {
+    case 'NS':
+      return '';
+    case 'FT':
+      return 'FT';
+    case 'HT':
+      return 'HT';
+    case 'Canc.':
+      return '';
+    default:
+      return '';
+  }
+}
