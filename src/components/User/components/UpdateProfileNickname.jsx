@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import update from 'react-addons-update';
 import PropTypes from 'prop-types';
 import { format } from 'util';
+import Amplitude from 'react-amplitude';
 import strings from '../../../lang';
 import { FormWrapper, TextValidator, PasswordWithEye } from '../../../utils';
 import constants from '../../constants';
@@ -40,6 +41,7 @@ class UpdateProfileNickname extends Component {
   }
 
   componentDidMount() {
+    Amplitude.logEvent('Open signup');
     this.props.setTrigger(this.submit);
   }
 

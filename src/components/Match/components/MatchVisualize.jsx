@@ -85,50 +85,6 @@ const MatchInfo = styled.div`
 `;
 
 class MatchVisualize extends React.Component {
-  hitVoteHome = (home, away, homeVotes, awayVotes) => {
-    if (this.props.isLoggedIn) {
-      this.props.hitVote(this.props.matchID, home, {
-        votes: {
-          [home]: homeVotes + 1,
-          [away]: awayVotes,
-        },
-      });
-    } else {
-      // this.props.history.push({
-      //   pathname: '/sign_in',
-      //   state: {
-      //     from: {
-      //       pathname: `/m/${this.props.matchID}`,
-      //     },
-      //   },
-      // });
-      localStorage.setItem('previousPage', `/m/${this.props.matchID}`);
-      window.location.href = '/sign_in';
-    }
-  };
-
-  hitVoteAway = (home, away, homeVotes, awayVotes) => {
-    if (this.props.isLoggedIn) {
-      this.props.hitVote(this.props.matchID, away, {
-        votes: {
-          [home]: homeVotes,
-          [away]: awayVotes + 1,
-        },
-      });
-    } else {
-      // this.props.history.push({
-      //   pathname: '/sign_in',
-      //   state: {
-      //     from: {
-      //       pathname: `/m/${this.props.matchID}`,
-      //     },
-      //   },
-      // });
-      localStorage.setItem('previousPage', `/m/${this.props.matchID}`);
-      window.location.href = '/sign_in';
-    }
-  };
-
   render() {
     const {
       home, away, homeVotes, awayVotes, date, greaterThan, disabled = false,
@@ -153,7 +109,7 @@ class MatchVisualize extends React.Component {
             disabled={disabled}
             tooltip={!disabled && `For ${home.name}`}
             tooltipPosition="top-center"
-            onClick={() => this.hitVoteHome(home.id, away.id, homeVotes, awayVotes)}
+            // onClick={}
             style={styles.iconButton.style}
             iconStyle={styles.iconButton.iconStyle}
             touch
@@ -175,7 +131,7 @@ class MatchVisualize extends React.Component {
             disabled={disabled}
             tooltip={!disabled && `For ${away.name}`}
             tooltipPosition="top-center"
-            onClick={() => this.hitVoteAway(home.id, away.id, homeVotes, awayVotes)}
+            // onClick={}
             style={styles.iconButton.style}
             iconStyle={styles.iconButton.iconStyle}
             touch
