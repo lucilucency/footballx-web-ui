@@ -84,80 +84,75 @@ const MatchInfo = styled.div`
   }
 `;
 
-class MatchVisualize extends React.Component {
-  render() {
-    const {
-      home, away, homeVotes, awayVotes, date, greaterThan, disabled = false,
-    } = this.props;
-    const styles = {};
-    if (greaterThan.medium) {
-      styles.iconButton = {
-        style: { height: 128, width: 'auto' },
-        iconStyle: { height: 108, width: 'auto' },
-      };
-    } else {
-      styles.iconButton = {
-        style: { height: 80, width: 'auto' },
-        iconStyle: { height: 64, width: 'auto' },
-      };
-    }
-
-    return (
-      <MatchInfo pumping={this.props.pumping}>
-        <div className="club-image">
-          <IconButton
-            disabled={disabled}
-            tooltip={!disabled && `For ${home.name}`}
-            tooltipPosition="top-center"
-            // onClick={}
-            style={styles.iconButton.style}
-            iconStyle={styles.iconButton.iconStyle}
-            touch
-          >
-            <img src={home.icon} alt="" />
-          </IconButton>
-          <div>{home.name}</div>
-        </div>
-        <div className="info">
-          <span className="duration">
-            {toTimeString(date * 1000)}
-          </span>
-          <span className="ended">
-            {toDateString(date * 1000)}
-          </span>
-        </div>
-        <div className="club-image">
-          <IconButton
-            disabled={disabled}
-            tooltip={!disabled && `For ${away.name}`}
-            tooltipPosition="top-center"
-            // onClick={}
-            style={styles.iconButton.style}
-            iconStyle={styles.iconButton.iconStyle}
-            touch
-          >
-            <img src={away.icon} alt="" />
-          </IconButton>
-          <div>{away.name}</div>
-        </div>
-      </MatchInfo>
-    );
+const MatchVisualize = ({
+  home,
+  away,
+  date,
+  greaterThan,
+  disabled = false,
+}) => {
+  const styles = {};
+  if (greaterThan.medium) {
+    styles.iconButton = {
+      style: { height: 128, width: 'auto' },
+      iconStyle: { height: 108, width: 'auto' },
+    };
+  } else {
+    styles.iconButton = {
+      style: { height: 80, width: 'auto' },
+      iconStyle: { height: 64, width: 'auto' },
+    };
   }
-}
+
+  return (
+    <MatchInfo pumping={this.props.pumping}>
+      <div className="club-image">
+        <IconButton
+          disabled={disabled}
+          tooltip={!disabled && `For ${home.name}`}
+          tooltipPosition="top-center"
+          // onClick={}
+          style={styles.iconButton.style}
+          iconStyle={styles.iconButton.iconStyle}
+          touch
+        >
+          <img src={home.icon} alt="" />
+        </IconButton>
+        <div>{home.name}</div>
+      </div>
+      <div className="info">
+        <span className="duration">
+          {toTimeString(date * 1000)}
+        </span>
+        <span className="ended">
+          {toDateString(date * 1000)}
+        </span>
+      </div>
+      <div className="club-image">
+        <IconButton
+          disabled={disabled}
+          tooltip={!disabled && `For ${away.name}`}
+          tooltipPosition="top-center"
+          // onClick={}
+          style={styles.iconButton.style}
+          iconStyle={styles.iconButton.iconStyle}
+          touch
+        >
+          <img src={away.icon} alt="" />
+        </IconButton>
+        <div>{away.name}</div>
+      </div>
+    </MatchInfo>
+  );
+};
 
 MatchVisualize.propTypes = {
   disabled: PropTypes.bool,
-  matchID: PropTypes.number,
   home: PropTypes.object,
   away: PropTypes.object,
-  homeVotes: PropTypes.number,
-  awayVotes: PropTypes.number,
   date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  pumping: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
 
   /**/
-  hitVote: PropTypes.func,
   // history: PropTypes.object,
   greaterThan: PropTypes.object,
 };
