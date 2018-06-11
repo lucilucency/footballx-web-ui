@@ -17,7 +17,7 @@ import draftToMarkdown from 'draftjs-to-markdown';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { format } from 'util';
 import Amplitude from 'react-amplitude';
-import clubs from '../../../fxconstants/clubsObj.json';
+import clubs from '../../../fxconstants/clubsArr.json';
 import { IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
 import { bindAll, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
