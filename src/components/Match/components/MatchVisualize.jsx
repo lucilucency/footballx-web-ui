@@ -41,9 +41,7 @@ const MatchInfo = styled.div`
     padding: 2px;
     background-color: rgba(255,255,255,0.1);
     font-size: ${ui.fontSizeSmall};
-    ${props => props.pumping && css`
-      animation: .85s infinite ${beatHeart};
-    `}
+    
     img {
       height: 128px;
       @media only screen and (max-width: 768px) {
@@ -105,7 +103,7 @@ const MatchVisualize = ({
   }
 
   return (
-    <MatchInfo pumping={this.props.pumping}>
+    <MatchInfo>
       <div className="club-image">
         <IconButton
           disabled={disabled}
