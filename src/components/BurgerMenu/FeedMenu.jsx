@@ -79,27 +79,6 @@ const FeedMenu = ({
           ))}
         </List>
       ) : null}
-      {user && (
-        <List>
-          <ListItem
-            primaryText="Light off"
-            rightToggle={<Toggle
-              toggled={localStorage.getItem('theme') === 'dark'}
-              onToggle={(e, isInputChecked) => {
-                if (isInputChecked) {
-                  localStorage.setItem('theme', 'dark');
-                } else {
-                  localStorage.setItem('theme', 'light');
-                }
-                window.location.reload();
-              }}
-            />}
-            innerDivStyle={{
-              fontSize: ui.fontSizeSmall,
-            }}
-          />
-        </List>
-      )}
     </div>
   );
 };

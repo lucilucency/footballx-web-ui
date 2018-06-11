@@ -83,9 +83,11 @@ const BODY = styled.div`
   text-align: center;
   transition: 250ms all ease;
   ${props => props.isTrayOpen && css`
-    padding-left: ${props.trayWidth}px;
-    //margin-left: auto;
-    //margin-right: auto;
+    @media only screen and (min-width: 662px) {
+      padding-left: ${props.trayWidth}px;
+      //margin-left: auto;
+      //margin-right: auto;
+    }
   `};
 `;
 
