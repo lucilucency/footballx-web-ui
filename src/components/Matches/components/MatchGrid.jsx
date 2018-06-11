@@ -29,13 +29,15 @@ class MatchGrid extends React.Component {
     // getData(this.props);
   }
 
-  getSeasonName = (seasonID) => {
+  getHeaderName = (seasonID, leagueID) => {
     const fs = this.props.seasons.find(s => s.id === Number(seasonID));
     if (fs) {
       return fs.name;
     }
-    return null;
+    return leaguesObj[leagueID] && leaguesObj[leagueID].name;
   };
+
+  getHeaderImage = leagueID => (<img src={leaguesObj[leagueID] && leaguesObj[leagueID].icon} alt="" height={18} />);
 
   renderGrid() {
     const {
@@ -83,7 +85,9 @@ class MatchGrid extends React.Component {
                   borderBottom: `1px solid ${ui.borderColor}`,
                 }}
               >
-                <img src={leaguesObj[leagueID] && leaguesObj[leagueID].icon} alt="" height={18} />&nbsp;&nbsp;{this.getSeasonName(seasonID)}
+                {this.getHeaderImage(leagueID || (groups[date][seasonID] && groups[date][seasonID].length && groups[date][seasonID][0].league_id))}
+                &nbsp;&nbsp;
+                {this.getHeaderName(seasonID, groups[date][seasonID] && groups[date][seasonID].length && groups[date][seasonID][0].league_id)}
               </CardTitle>
               <List style={{ padding: 0 }}>
                 {groups[date][seasonID].map((item, index) => {
