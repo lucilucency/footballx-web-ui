@@ -8,7 +8,7 @@ import './styles.css';
 import ui from '../src/theme';
 
 const muiTheme = {
-  fontFamily: ui.fontFamily,
+  fontFamily: ui.fontFamilyPrimary,
   card: { fontWeight: ui.fontWeightNormal },
   badge: { fontWeight: ui.fontWeightNormal },
   subheader: { fontWeight: ui.fontWeightNormal },

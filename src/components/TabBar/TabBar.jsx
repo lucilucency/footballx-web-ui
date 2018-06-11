@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import constants from '../constants';
+import ui from '../../theme';
 
 const StyledMain = styled.main`
   position: relative;
   margin: 10px 0 10px;
-  background-color: ${constants.theme().surfaceColorPrimary};
-  border-bottom: 1px solid ${constants.theme().borderColor};
+  background-color: ${ui.surfaceColorPrimary};
+  border-bottom: 1px solid ${ui.borderColor};
 `;
 const StyledSection = styled.section`
   display: flex;
@@ -19,20 +19,20 @@ const StyledSection = styled.section`
   & a {
     /* Tab */
     text-align: center;
-    font-weight: ${constants.fontWeightLight};
-    font-size: ${constants.fontSizeSmall};
-    color: ${constants.theme().textColorPrimary};
+    font-weight: ${ui.fontWeightLight};
+    font-size: ${ui.fontSizeSmall};
+    color: ${ui.textColorPrimary};
     padding: 14px 12px 10px;
     border-bottom: 4px solid transparent;
     flex-grow: 1;
 
     &:hover {
-      color: color(${constants.theme().textColorPrimary} lightness(85%));
+      color: color(${ui.textColorPrimary} lightness(85%));
     }
 
     &[disabled] {
       pointer-events: none;
-      color: ${constants.theme().disabledColor};
+      color: ${ui.disabledColor};
     }
 
     &[hidden] {
@@ -47,8 +47,8 @@ const StyledSection = styled.section`
 
   & .chosen {
     display: inline-block;
-    border-color: ${constants.theme().positiveColor};
-    color: color(${constants.theme().textColorPrimary} lightness(85%));
+    border-color: ${ui.positiveColor};
+    color: color(${ui.textColorPrimary} lightness(85%));
   }
 `;
 

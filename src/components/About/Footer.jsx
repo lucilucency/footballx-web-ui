@@ -29,11 +29,11 @@ const AboutXFooter = () => (
   <Styled>
     <div>
       <small>
-        {langs.map(lang => <a href="/" onClick={e => setLocalization(e, lang.value)} style={{ marginRight: 8, color: getLocalization !== lang.value && ui.neutralColor }}>{lang.native}</a>)}
+        {langs.map(lang => <a key={lang.value} href="/" onClick={e => setLocalization(e, lang.value)} style={{ marginRight: 8, color: getLocalization !== lang.value && ui.neutralColor }}>{lang.native}</a>)}
       </small>
       &nbsp;|&nbsp;
       <small>
-        {themes.map(theme => <a href="/" onClick={e => setTheme(e, theme.value)} style={{ marginRight: 8, color: getTheme !== theme.value && ui.neutralColor }}>{theme.native}</a>)}
+        {themes.map(theme => <a key={theme.value} href="/" onClick={e => setTheme(e, theme.value)} style={{ marginRight: 8, color: getTheme !== theme.value && ui.neutralColor }}>{theme.native}</a>)}
       </small>
     </div>
   </Styled>

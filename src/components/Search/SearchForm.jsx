@@ -7,7 +7,7 @@ import TextField from 'material-ui/TextField';
 import querystring from 'querystring';
 import strings from '../../lang';
 import { getSearchResultAndPros, setSearchQuery } from '../../actions';
-import constants from '../constants';
+import ui from '../../theme';
 
 class SearchForm extends React.Component {
   constructor() {
@@ -59,17 +59,17 @@ class SearchForm extends React.Component {
           onChange={this.handleChange}
           fullWidth
           underlineFocusStyle={{
-            borderColor: constants.theme().linkColor,
+            borderColor: ui.linkColor,
             bottom: '-4px',
             left: '-40px',
             width: 'calc(100% + 40px)',
           }}
           underlineStyle={{ borderColor: 'transparent' }}
           hintStyle={{
-            fontSize: constants.fontSizeSmall,
+            fontSize: ui.fontSizeSmall,
             lineHeight: '18px',
             whiteSpace: 'nowrap',
-            color: constants.theme().textColorSecondary2,
+            color: ui.textColorSecondary2,
           }}
         />
       </form>

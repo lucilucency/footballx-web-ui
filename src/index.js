@@ -11,7 +11,7 @@ import Amplitude from 'react-amplitude';
 import store from './store';
 import { getMetadata, refresh } from './actions';
 import App from './components/App';
-import constants from './components/constants';
+import ui from './theme';
 import { getCookie } from './utils';
 // import registerServiceWorker from './registerServiceWorker';
 import { unregister } from './registerServiceWorker';
@@ -27,16 +27,16 @@ body {
   height: initial;
   width: initial;
   margin: 0;
-  font-family: ${constants.theme().fontFamily};
+  font-family: ${ui.fontFamilyPrimary};
 }
 
 a {
-  color: ${constants.theme().linkColor};
+  color: ${ui.linkColor};
   text-decoration: none;
-  transition: ${constants.normalTransition};
+  transition: ${ui.normalTransition};
 
   &:hover {
-    color: color(${constants.theme().linkColor} lightness(-33%));
+    color: color(${ui.linkColor} lightness(-33%));
     opacity: 0.6;
   }
 }
@@ -49,9 +49,9 @@ li {
   height: 100%;
   overflow-x: hidden;
   min-height: 100vh;
-  background-color: ${constants.theme().backgroundColorPrimary};
-  background-image: ${constants.theme().backgroundColorSecondary};
-  color: ${constants.theme().textColorPrimary};
+  background-color: ${ui.backgroundColorPrimary};
+  background-image: ${ui.backgroundColorSecondary};
+  color: ${ui.textColorPrimary};
 }
 
 [data-tip="true"] {
@@ -61,8 +61,8 @@ li {
 [data-id="tooltip"] {
   padding: 8px 12px !important;
   border-radius: 2px !important;
-  background-color: ${constants.theme().backgroundColorPrimary} !important;
-  color: ${constants.theme().textColorPrimary} !important;
+  background-color: ${ui.backgroundColorPrimary} !important;
+  color: ${ui.textColorPrimary} !important;
   white-space: pre-wrap;
   line-height: 1.5 !important;
   text-align: left;
@@ -112,13 +112,13 @@ h1, h2, h3, h4, h5, h6, h7 {
 
   &::after {
     content: attr(data-hint);
-    background-color: ${constants.theme().backgroundColorPrimary};
-    color: ${constants.theme().textColorPrimary};
+    background-color: ${ui.backgroundColorPrimary};
+    color: ${ui.textColorPrimary};
     border-radius: 2px;
     padding: 5px 8px;
-    font-weight: ${constants.fontWeightLight};
+    font-weight: ${ui.fontWeightLight};
     text-transform: none;
-    font-size: ${constants.fontSizeNormal};
+    font-size: ${ui.fontSizeNormal};
     line-height: 1.3;
     white-space: nowrap;
   }
@@ -147,7 +147,7 @@ h1, h2, h3, h4, h5, h6, h7 {
   &::before {
     border-style: solid;
     border-width: 3px 6px 0 6px;
-    border-color: ${constants.theme().backgroundColorPrimary};
+    border-color: ${ui.backgroundColorPrimary};
     top: -3px;
   }
 }
@@ -162,7 +162,7 @@ h1, h2, h3, h4, h5, h6, h7 {
   &::before {
     border-style: solid;
     border-width: 0 6px 3px 6px;
-    border-color: transparent transparent ${constants.theme().backgroundColorPrimary} transparent;
+    border-color: transparent transparent ${ui.backgroundColorPrimary} transparent;
     bottom: -3px;
   }
 }

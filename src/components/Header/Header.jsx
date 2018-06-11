@@ -6,10 +6,9 @@ import { Toolbar, ToolbarGroup } from 'material-ui';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import styled from 'styled-components';
 import strings from '../../lang';
-import constants from '../constants';
+import ui from '../../theme';
 import FastActions from './AccountWidget';
 import SearchForm from '../Search/SearchForm';
-// import AppLogo from './AppLogo';
 import { BurgerButton } from '../BurgerMenu';
 import UserSettings from './UserSettings';
 
@@ -46,16 +45,16 @@ const HeaderStyled = styled(Toolbar)`
   position: fixed;
   width: 100%;
   z-index: 1000;
-  background-color: ${constants.theme().surfaceColorSecondary} !important;
-  color: ${constants.theme().textColorSecondary};
-  font-family: ${constants.theme().fontFamily};  
+  background-color: ${ui.surfaceColorSecondary} !important;
+  color: ${ui.textColorSecondary};
+  font-family: ${ui.fontFamilyPrimary};  
   
   padding: 8px !important;
   & a {
-    color: ${constants.theme().textColorSecondary};
+    color: ${ui.textColorSecondary};
 
     &:hover {
-      color: ${constants.theme().textColorSecondary};
+      color: ${ui.textColorSecondary};
     }
   }
 `;
@@ -74,7 +73,7 @@ const HeaderLink = ({ user }) => (
   <VerticalAlignToolbar>
     {getHeaderLinks(user).map(Page => (
       <TabContainer key={Page.key}>
-        <div style={{ margin: '0 10px', textAlign: 'center', fontWeight: `${constants.fontWeightNormal} !important` }}>
+        <div style={{ margin: '0 10px', textAlign: 'center', fontWeight: `${ui.fontWeightNormal} !important` }}>
           {Page}
         </div>
       </TabContainer>
@@ -87,7 +86,7 @@ HeaderLink.propTypes = {
 
 const Search = () => (
   <VerticalAlignToolbar style={{ marginLeft: 20 }}>
-    <ActionSearch style={{ marginRight: 6, opacity: '.6', color: constants.theme().textColorSecondary }} />
+    <ActionSearch style={{ marginRight: 6, opacity: '.6', color: ui.textColorSecondary }} />
     <SearchForm />
   </VerticalAlignToolbar>
 );

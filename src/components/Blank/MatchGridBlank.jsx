@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import constants from '../constants';
+import ui from '../../theme';
 
 const BlankTitle = styled.div`
   @keyframes shine {
@@ -19,7 +19,7 @@ const BlankTitle = styled.div`
 	margin: auto;
 	width: 100%;
 	height: 430px;
-	background-color: ${constants.theme().surfaceColorPrimary};
+	background-color: ${ui.surfaceColorPrimary};
   
   background-image:
     linear-gradient( 90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100% ),
@@ -29,7 +29,7 @@ const BlankTitle = styled.div`
     linear-gradient( lightgray 18px, transparent 0 ),
     linear-gradient( lightgray 14px, transparent 0 ),
     linear-gradient( lightgray 14px, transparent 0 ),
-    linear-gradient( ${constants.theme().backgroundColorPrimary} 1em, transparent 0 );
+    linear-gradient( ${ui.backgroundColorPrimary} 1em, transparent 0 );
 
   background-repeat: repeat-y;
   background-size:

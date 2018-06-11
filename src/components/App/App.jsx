@@ -9,6 +9,7 @@ import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import { Route } from 'react-router-dom';
 import Snackbar from 'material-ui/Snackbar';
+import ui from '../../theme';
 import { announce } from '../../actions';
 import strings from '../../lang';
 import Announce from '../Announce';
@@ -23,51 +24,50 @@ import * as Match from '../Match';
 import * as Matches from '../Matches';
 import * as League from '../League';
 import { UpdateProfileStepper } from '../User';
-import constants from '../constants';
 import Login from '../Login';
 
 const overwritesTheme = {
-  fontFamily: constants.theme().fontFamily,
-  card: { fontWeight: constants.fontWeightNormal },
+  fontFamily: ui.fontFamilyPrimary,
+  card: { fontWeight: ui.fontWeightNormal },
   cardText: {
-    color: constants.theme().textColorPrimary,
+    color: ui.textColorPrimary,
   },
   cardTitle: {
 
   },
-  badge: { fontWeight: constants.fontWeightNormal },
+  badge: { fontWeight: ui.fontWeightNormal },
   subheader: {
-    fontWeight: constants.fontWeightNormal,
-    color: constants.theme().textColorPrimary,
+    fontWeight: ui.fontWeightNormal,
+    color: ui.textColorPrimary,
   },
-  raisedButton: { fontWeight: constants.fontWeightNormal },
-  flatButton: { fontWeight: constants.fontWeightNormal },
+  raisedButton: { fontWeight: ui.fontWeightNormal },
+  flatButton: { fontWeight: ui.fontWeightNormal },
   inkBar: {
-    backgroundColor: constants.colorBlue,
+    backgroundColor: ui.colorBlue,
   },
   palette: {
-    textColor: constants.theme().textColorPrimary,
-    secondaryTextColor: constants.theme().textColorPrimary2,
-    canvasColor: constants.theme().surfaceColorPrimary,
-    alternateTextColor: constants.theme().surfaceColorPrimary,
-    borderColor: constants.theme().borderColor,
+    textColor: ui.textColorPrimary,
+    secondaryTextColor: ui.textColorPrimary2,
+    canvasColor: ui.surfaceColorPrimary,
+    alternateTextColor: ui.surfaceColorPrimary,
+    borderColor: ui.borderColor,
   },
   tabs: {
-    backgroundColor: constants.theme().surfaceColorPrimary,
-    textColor: constants.theme().textColorPrimary,
-    selectedTextColor: constants.theme().textColorPrimary,
+    backgroundColor: ui.surfaceColorPrimary,
+    textColor: ui.textColorPrimary,
+    selectedTextColor: ui.textColorPrimary,
   },
   button: {
     height: 38,
     textTransform: 'none',
   },
   avatar: {
-    backgroundColor: constants.theme().avatarBackgroundColor,
+    backgroundColor: ui.avatarBackgroundColor,
   },
 };
 
 const StyledDiv = styled.div`
-  transition: ${constants.linearTransition};
+  transition: ${ui.linearTransition};
   position: relative;
   display: flex;
   flex-direction: column;

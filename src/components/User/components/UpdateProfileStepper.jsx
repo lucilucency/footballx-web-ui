@@ -13,7 +13,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 // import FlatButton from 'material-ui/FlatButton';
 import styled, { css } from 'styled-components';
 import { followTeam } from '../../../actions';
-import constants from '../../constants';
+import ui from '../../../theme';
 import strings from '../../../lang';
 import UpdateProfileNickname from './UpdateProfileNickname';
 import UpdateProfileTeam from './UpdateProfileTeamSelector';
@@ -62,7 +62,7 @@ const AdBannerDiv = styled.div`
   }
 
   > div {
-    background-color: ${constants.theme().surfaceColorPrimary};
+    background-color: ${ui.surfaceColorPrimary};
     min-height: 400px;
     max-height: 100vh;
     overflow: auto;

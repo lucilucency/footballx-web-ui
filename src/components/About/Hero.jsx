@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import constants from '../constants';
+import ui from '../../theme';
 import { CreatePostButton } from '../Post/components/index';
 import strings from '../../lang/index';
 import Shooter from './Shooter';
@@ -31,12 +31,14 @@ const HeroStyled = styled.div`
     bottom: 0;
     left: 1em;
     text-align: left;
-    color: ${constants.theme().textColorSecondary};
+    color: ${ui.textColorSecondary};
     
-    h6 {
+    .appName {
+      font-size: ${ui.fontSizeSmall};
       -webkit-margin-after: 0;
     }
-    h7 {
+    .appDesc {
+      font-size: ${ui.fontSizeTiny};
       display: block;
       -webkit-margin-before: 0;
       -webkit-margin-after: 1em;
@@ -59,12 +61,12 @@ const Hero = () => (
   <HeroStyled>
     <div className="layer" />
     <div className="voice">
-      <h6>
+      <div className="appName">
         <b>{strings.app_name}</b>
-      </h6>
-      <h7>
+      </div>
+      <div className="appDesc">
         {strings.app_description}
-      </h7>
+      </div>
     </div>
     <img src="/assets/images/icons/icon-128x128.png" alt="" className="x" />
     <div className="shooter"><Shooter /></div>

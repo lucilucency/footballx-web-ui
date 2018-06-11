@@ -21,7 +21,7 @@ import clubs from '../../../fxconstants/clubsArr.json';
 import { IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
 import { bindAll, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
-import constants from '../../constants';
+import ui from '../../../theme';
 import { ajaxGet, createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload, announce } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
@@ -46,7 +46,7 @@ const ButtonUpload = styled.button`
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 11px;
-  background-color: ${constants.theme().surfaceColorPrimary};
+  background-color: ${ui.surfaceColorPrimary};
   color: rgb(0, 121, 211);
   display: inline-block;
   line-height: 18px;
@@ -411,10 +411,10 @@ class CreateEditPost extends React.Component {
             marginBottom: 0,
           }}
           wrapperStyle={{
-            borderTop: `1px solid ${constants.grey200}`,
-            borderLeft: `1px solid ${constants.grey200}`,
-            borderRight: `1px solid ${constants.grey200}`,
-            borderBottom: `1px solid ${constants.grey200}`,
+            borderTop: `1px solid ${ui.borderColor}`,
+            borderLeft: `1px solid ${ui.borderColor}`,
+            borderRight: `1px solid ${ui.borderColor}`,
+            borderBottom: `1px solid ${ui.borderColor}`,
             borderRadius: 4,
             padding: '0 0',
             display: 'flex',
@@ -434,7 +434,7 @@ class CreateEditPost extends React.Component {
     <div
       style={{
         backgroundColor: 'hsla(0,0%,100%,0)',
-        border: `1px solid ${constants.grey200}`,
+        border: `1px solid ${ui.borderColor}`,
         borderRadius: 4,
         padding: '0 10px',
         marginBottom: 10,
@@ -462,7 +462,7 @@ class CreateEditPost extends React.Component {
         position: 'relative',
         boxShadow: 'none',
         backgroundColor: 'hsla(0,0%,100%,0)',
-        border: `1px solid ${constants.grey200}`,
+        border: `1px solid ${ui.borderColor}`,
         borderRadius: 4,
         padding: '0 10px',
         marginBottom: 10,
@@ -613,7 +613,7 @@ class CreateEditPost extends React.Component {
             <div
               style={{
                 backgroundColor: 'hsla(0,0%,100%,0)',
-                border: `1px solid ${constants.grey200}`,
+                border: `1px solid ${ui.borderColor}`,
                 borderRadius: 4,
                 padding: '0 10px',
                 marginBottom: 10,
