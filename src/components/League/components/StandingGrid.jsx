@@ -142,7 +142,7 @@ StandingGrid.propTypes = {
   leagueID: PropTypes.number, /* null if view all */
   seasons: PropTypes.array,
   standings: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   browser: PropTypes.object,
 
   /**/

@@ -12,7 +12,7 @@ import Snackbar from 'material-ui/Snackbar';
 import ui from '../../theme';
 import { announce } from '../../actions';
 import strings from '../../lang';
-import Announce from '../Announce';
+import { Banner, OnFog } from '../Announce';
 import Header from '../Header';
 import { BurgerMenu } from '../BurgerMenu';
 import Game from '../Game/Game';
@@ -23,7 +23,6 @@ import { PageCreatePost, PageViewPost } from '../Post';
 import * as Match from '../Match';
 import * as Matches from '../Matches';
 import * as League from '../League';
-import { UpdateProfileStepper } from '../User';
 import Login from '../Login';
 
 const overwritesTheme = {
@@ -130,9 +129,9 @@ class App extends React.Component {
           />
           <Header params={params} location={location} />
           <BurgerMenu />
-          { location.pathname !== '/popular' && this.props.user && <UpdateProfileStepper user={this.props.user} />}
+          <OnFog location={location} user={this.props.user} />
           <BODY {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
-            <Announce location={location} />
+            <Banner location={location} />
             <CONTENT isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
               <Route exact path="/" component={this.props.user ? Home.New : Popular.Hot} />
               <Route exact path="/popular" component={Popular.Hot} />

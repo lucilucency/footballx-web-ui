@@ -1,3 +1,7 @@
-import Announce from './Announce';
+import Banner from './Banner';
+import OnFog from './OnFog';
 
-export default Announce;
+export {
+  Banner,
+  OnFog,
+};

@@ -104,17 +104,10 @@ function isDisabled(text) {
 }
 
 class AnnounceComponent extends React.Component {
-  static initialState = {
-    openDialog: false,
-    dialogConstruct: {},
-  };
-
   constructor(props) {
     super(props);
 
-    this.state = {
-      ...AnnounceComponent.initialState,
-    };
+    this.state = {};
 
     this.dismiss = () => {
       this.setState({ dismissed: true });

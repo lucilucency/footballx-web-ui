@@ -41,7 +41,7 @@ class UpdateProfileNickname extends Component {
   }
 
   componentDidMount() {
-    Amplitude.logEvent('Open signup');
+    Amplitude.logEvent('Update nickname');
     this.props.setTrigger(this.submit);
   }
 
