@@ -1,31 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import { hitVote } from '../../../actions/index';
 import ui from '../../../theme';
 // import strings from '../../../lang';
 import { toTimeString, toDateString } from '../../../utils/index';
-
-const beatHeart = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(1.1);
-  }
-  40% {
-    transform: scale(1.05);
-  }
-  60% {
-    transform: scale(1.085);
-  }
-  100% {
-    transform: scale(1.02);
-  }
-`;
 
 const MatchInfo = styled.div`
   padding: 1em;
