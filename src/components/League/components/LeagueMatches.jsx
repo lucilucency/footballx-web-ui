@@ -9,7 +9,7 @@ import MatchGrid from '../../Matches/components/MatchGrid';
 const getSeasons = (props) => {
   const { leagueID } = props;
 
-  Amplitude.logEvent(`View league ${leagues[leagueID] && leagues[leagueID].name}`);
+  Amplitude.logEvent(`View league ${leagues[leagueID] && leagues[leagueID].name} matches`);
   props.getLeagueLastSeasons(leagueID, (seasons) => {
     if (seasons && seasons.length) {
       seasons.forEach((season) => {

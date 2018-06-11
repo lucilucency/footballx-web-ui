@@ -24,7 +24,7 @@ const matchTabs = [{
 
 class MatchHome extends React.Component {
   componentDidMount() {
-    Amplitude.logEvent('Enter match');
+    Amplitude.logEvent('Enter Matches');
   }
 
   render() {

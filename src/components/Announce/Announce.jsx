@@ -98,6 +98,11 @@ const StyledDiv = styled.div`
   }
 `;
 
+function isDisabled(text) {
+  const patt = new RegExp('/sign_in|/game');
+  return patt.test(text);
+}
+
 class AnnounceComponent extends React.Component {
   static initialState = {
     openDialog: false,
@@ -123,7 +128,7 @@ class AnnounceComponent extends React.Component {
   render() {
     const { error, loading, data } = this.props;
 
-    if (!error && !loading && data) {
+    if (!error && !loading && data && !isDisabled(this.props.location.pathname)) {
       if (data) {
         const {
           is_count_down,
@@ -168,6 +173,8 @@ class AnnounceComponent extends React.Component {
 }
 
 AnnounceComponent.propTypes = {
+  location: PropTypes.object.isRequired,
+  /**/
   getBanner: PropTypes.func,
   error: PropTypes.string,
   loading: PropTypes.bool,

@@ -14,7 +14,7 @@ class LeagueStanding extends React.Component {
     this.getData = (props) => {
       const self = this;
       const { leagueID } = props;
-      Amplitude.logEvent(`View league ${leagues[leagueID] && leagues[leagueID].name}`);
+      Amplitude.logEvent(`View league ${leagues[leagueID] && leagues[leagueID].name} standing`);
       /* get data here */
       props.getLeagueLastSeasons(leagueID, (seasons) => {
         if (seasons && seasons.length) {
