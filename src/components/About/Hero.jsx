@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import constants from '../constants';
 import { CreatePostButton } from '../Post/components/index';
-// import strings from '../../lang/index';
+import strings from '../../lang/index';
 import Shooter from './Shooter';
 
 const AboutXStyled = styled.div`
@@ -60,10 +60,10 @@ const Hero = () => (
     <div className="layer" />
     <div className="voice">
       <h6>
-        <b>FootballX</b>
+        <b>{strings.app_name}</b>
       </h6>
       <h7>
-        Your passion your voice
+        {strings.app_description}
       </h7>
     </div>
     <img src="/assets/images/icons/icon-128x128.png" alt="" className="x" />
@@ -78,8 +78,8 @@ const AboutX = (props) => {
       <Hero />
       <div style={{ padding: 8 }}>
         <p>
-          <h7><b>Một forum dành riêng cho hàng triệu fan hâm mộ bóng đá được ra đời với tiêu chí:</b></h7>
-          <h7>Nơi mà bạn có thể thoải mái thảo luận về tất cả các vấn đề liên quan đến bóng đá - Chia sẻ tình yêu, kiến thức và quan điểm về bóng đá của chính mình</h7>
+          <h7><b>{strings.paragraph_app_desc_primary}</b></h7>
+          <h7>{strings.paragraph_app_desc_secondary}</h7>
         </p>
         {isLoggedIn && <CreatePostButton isLoggedIn={isLoggedIn} />}
       </div>
