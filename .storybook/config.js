@@ -5,27 +5,27 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './styles.css';
 
-import constants from '../src/components/constants';
+import ui from '../src/theme';
 
 const muiTheme = {
-  fontFamily: constants.theme().fontFamily,
-  card: { fontWeight: constants.fontWeightNormal },
-  badge: { fontWeight: constants.fontWeightNormal },
-  subheader: { fontWeight: constants.fontWeightNormal },
-  raisedButton: { fontWeight: constants.fontWeightNormal },
-  flatButton: { fontWeight: constants.fontWeightNormal },
+  fontFamily: ui.fontFamily,
+  card: { fontWeight: ui.fontWeightNormal },
+  badge: { fontWeight: ui.fontWeightNormal },
+  subheader: { fontWeight: ui.fontWeightNormal },
+  raisedButton: { fontWeight: ui.fontWeightNormal },
+  flatButton: { fontWeight: ui.fontWeightNormal },
   inkBar: {
-    backgroundColor: constants.colorBlue,
+    backgroundColor: ui.linkColor,
   },
   palette: {
-    textColor: constants.theme().textColorPrimary,
-    primary1Color: constants.colorBlue,
-    canvasColor: constants.theme().surfaceColorPrimary,
+    textColor: ui.textColorPrimary,
+    primary1Color: ui.linkColor,
+    canvasColor: ui.surfaceColorPrimary,
   },
   tabs: {
-    backgroundColor: constants.theme().surfaceColorPrimary,
-    textColor: constants.theme().textColorPrimary,
-    selectedTextColor: constants.theme().textColorPrimary,
+    backgroundColor: ui.surfaceColorPrimary,
+    textColor: ui.textColorPrimary,
+    selectedTextColor: ui.textColorPrimary,
   },
   button: { height: 38 },
 };

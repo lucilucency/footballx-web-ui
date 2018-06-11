@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components';
 // import ReactMarkdown from 'react-markdown';
 import strings from '../../lang';
 import { getBanner } from '../../actions';
-import constants from '../constants';
+import ui from '../../theme';
 import Counter from './Counter';
 
 const StyledDiv = styled.div`
@@ -14,7 +14,7 @@ const StyledDiv = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  color: ${constants.theme().textColorSecondary};
+  color: ${ui.textColorSecondary};
 
   ${props => props.bg && css`
      background-image: url(${props.bg});
@@ -24,17 +24,17 @@ const StyledDiv = styled.div`
   
   .title {
     text-transform: uppercase;
-    font-size: ${constants.fontSizeLarge};
+    font-size: ${ui.fontSizeLarge};
     -webkit-margin-before: 1em; -webkit-margin-after: 0;
     
     @media only screen and (max-width: 662px) {
       -webkit-margin-before: 0;
-      font-size: ${constants.fontSizeNormal};
+      font-size: ${ui.fontSizeNormal};
     }
   }
   .subTitle {
     -webkit-margin-before: 0; -webkit-margin-after: 2em;
-    font-size: ${constants.fontSizeSmall};
+    font-size: ${ui.fontSizeSmall};
     
     @media only screen and (max-width: 662px) {
       -webkit-margin-after: 0;
@@ -53,13 +53,13 @@ const StyledDiv = styled.div`
     & > div,
     & a,
     & p {
-      font-size: ${constants.fontSizeNormal};
+      font-size: ${ui.fontSizeNormal};
       margin: 0;
       opacity: 0.85;
     }
 
     & a {
-      color: ${constants.theme().textColorPrimary};
+      color: ${ui.textColorPrimary};
 
       &:hover {
         text-decoration: underline;
@@ -67,14 +67,14 @@ const StyledDiv = styled.div`
     }
 
     & h4 {
-      font-weight: ${constants.fontWeightMedium};
-      font-size: ${constants.fontSizeLarge};
-      line-height: ${constants.fontSizeLarge};
+      font-weight: ${ui.fontWeightMedium};
+      font-size: ${ui.fontSizeLarge};
+      line-height: ${ui.fontSizeLarge};
       margin: 0 0 2px;
 
       & svg {
         height: 16px;
-        fill: ${constants.theme().textColorPrimary};
+        fill: ${ui.textColorPrimary};
         vertical-align: sub;
       }
     }
@@ -145,13 +145,13 @@ class AnnounceComponent extends React.Component {
               </main>
               {url && (
                 <aside>
-                  <a style={{ color: constants.theme().textColorSecondary }} href="/game" target="_blank">{strings.announce_play_game}</a>
+                  <a style={{ color: ui.textColorSecondary }} href="/game" target="_blank">{strings.announce_play_game}</a>
                 </aside>
               )}
               {false && (
                 <aside>
                   <RaisedButton
-                    backgroundColor={constants.colorBlue}
+                    backgroundColor={ui.linkColor}
                     onClick={this.dismiss}
                     label={strings.announce_dismiss}
                   />

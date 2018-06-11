@@ -3,17 +3,12 @@ import * as materialColor from 'material-ui/styles/colors';
 const Constants = {
   /* color */
   ...materialColor,
-  colorSuccess: '#66BB6A',
-  colorDanger: '#ff4c4c',
-  colorGreen: '#66BB6A',
-  colorRed: '#ff4c4c',
-  colorBlue: '#6BF',
-  colorMuted: '#727272',
-  colorYelor: '#FFAB40',
   colorGolden: '#e5c100',
-  colorBlueGray: '#7c99a8',
 
   /* font */
+  fontFamilyPrimary: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
+  fontFamilySecondary: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
+
   fontWeightLight: '200',
   fontWeightNormal: '400',
   fontWeightMedium: '500',
@@ -42,6 +37,7 @@ const Constants = {
     switch (themeName) {
       case 'dark':
         theme = {
+          /* color */
           positiveColor: materialColor.green500,
           negativeColor: materialColor.red500,
           disabledColor: materialColor.grey400,
@@ -64,6 +60,7 @@ const Constants = {
           linkColor: '#6BF',
           avatarBackgroundColor: 'rgba(255, 255, 255, 0.1)',
 
+          /* font */
           fontFamily: '"IBM Plex Sans", sans-serif',
           fontFamilySecondary: 'Open Sans',
         };
@@ -72,10 +69,16 @@ const Constants = {
         theme = {
           positiveColor: materialColor.green500,
           positiveColorVariant1: materialColor.green100,
+          positiveColorVariant2: '#66BB6A',
           negativeColor: materialColor.red500,
+          negativeColorVariant1: '#ff4c4c',
+          negativeColorVariant2: '#FFAB40',
           disabledColor: materialColor.grey400,
           neutralColor: materialColor.grey500,
           neutralColorVariant1: materialColor.grey300,
+          linkColor: '#6BF',
+          borderColor: 'rgb(224, 224, 224)',
+          avatarBackgroundColor: materialColor.grey50,
 
           backgroundColorPrimary: '#F7F7F7',
           surfaceColorPrimary: '#fff',
@@ -95,15 +98,6 @@ const Constants = {
           surfaceColorSecondary: '#249A23', /* header */
           textColorSecondary: '#FFFFFF',
           textColorSecondary2: 'rgba(255, 255, 255, 0.6)',
-
-          linkColor: '#6BF',
-          borderColor: 'rgb(224, 224, 224)',
-          avatarBackgroundColor: materialColor.grey50,
-
-          // fontFamily: 'IBM Plex Sans',
-          fontFamily: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
-          fontFamilySecondary: 'Noto Sans KR,Noto Sans,Helvetica,Arial,Malgun Gothic,sans-serif',
-          // fontFamilySecondary: 'Open Sans',
         };
         break;
       default:

@@ -5,7 +5,8 @@ import Subheader from 'material-ui/Subheader';
 import { SuggestedCommunities } from '../User/components/index';
 import { RightTray, SmallPaper } from '../../utils/index';
 import strings from '../../lang/index';
-import AboutX from '../About/AboutX';
+import AboutX from '../About/Hero';
+import AboutXFooter from '../About/Footer';
 
 const HomeRightBar = (props) => {
   const { isLoggedIn } = props;
@@ -21,6 +22,10 @@ const HomeRightBar = (props) => {
           <SuggestedCommunities />
         </SmallPaper>
       )}
+
+      <div>
+        <AboutXFooter />
+      </div>
     </RightTray>
   );
 };
