@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import constants from '../../constants';
+import ui from '../../../theme';
 
 export const StyledContainer = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ export const TitleContainer = styled.div`
   line-height: 0;
 
   & small {
-    color: ${constants.colorMutedLight};
+    color: ${ui.disabledColorVariant1};
   }
 `;
 
@@ -25,7 +25,7 @@ export const PercentContainer = styled.div`
   width: 100%;
   height: 4px;
   position: absolute;
-  background-color: ${constants.colorMuted};
+  background-color: ${ui.disabledColor};
   align-self: flex-end;
   bottom: -1px;
   left: 0;

@@ -5,7 +5,7 @@ import IconButton from 'material-ui/IconButton';
 // import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 // import { Checkbox } from 'material-ui';
 
-import constants from '../constants';
+import ui from '../../theme';
 import { toggleTray } from '../../actions/index';
 
 import { LogoRound } from '../Icons';
@@ -32,7 +32,7 @@ class BurgerButton extends React.Component {
       <IconButton
         onClick={this.handleToggle}
         style={{ padding: 0 }}
-        iconStyle={{ color: constants.theme().textColorSecondary, width: 36, height: 36 }}
+        iconStyle={{ color: ui.textColorSecondary, width: 36, height: 36 }}
       >
         <LogoRound clicked={this.state.isChecked} />
       </IconButton>
@@ -44,7 +44,7 @@ class BurgerButton extends React.Component {
     //       height: 40,
     //     }}
     //     checkedIcon={<LogoRound clicked={this.state.isChecked} />}
-    //     uncheckedIcon={<MenuIcon style={{ fill: constants.theme().textColorSecondary }} />}
+    //     uncheckedIcon={<MenuIcon style={{ fill: ui.textColorSecondary }} />}
     //     onCheck={this.handleToggle}
     //   />
     // );

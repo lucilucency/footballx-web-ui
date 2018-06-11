@@ -3,13 +3,13 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import LogOutButton from 'material-ui/svg-icons/action/power-settings-new';
 import strings from '../../lang';
-import constants from '../constants';
+import ui from '../../theme';
 import { eraseCookie } from '../../utils';
 
 const LinkStyled = styled.a`
-  font-size: ${constants.fontSizeNormal};
-  font-weight: ${constants.fontWeightLight};
-  color: ${constants.colorMutedLight} !important;
+  font-size: ${ui.fontSizeNormal};
+  font-weight: ${ui.fontWeightLight};
+  color: ${ui.disabledColorVariant1} !important;
   display: flex;
   align-items: center;
   margin-top: 2px;

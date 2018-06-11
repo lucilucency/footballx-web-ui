@@ -5,7 +5,7 @@ import AutoLockScrolling from 'material-ui/internal/AutoLockScrolling';
 import IconButton from 'material-ui/IconButton';
 import NavigationCloseIcon from 'material-ui/svg-icons/navigation/close';
 import styled from 'styled-components';
-import constants from '../../components/constants';
+import ui from '../../theme';
 
 const baseStyles = {
   root: {
@@ -50,7 +50,7 @@ const baseStyles = {
 const Wrapper = styled.div`
   margin: auto;
   overflow-y: auto;
-  background: ${constants.theme().backgroundColorPrimary};
+  background: ${ui.backgroundColorPrimary};
   
   width: 80%;
   min-height: 100%;
@@ -130,7 +130,7 @@ const getStyles = (props, theme) => {
   };
 
   if (props.immersive) {
-    styles.appBar.background = constants.theme().backgroundColorPrimary;
+    styles.appBar.background = ui.backgroundColorPrimary;
     styles.appBar.position = 'absolute';
   }
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import constants from '../constants';
+import ui from '../../theme';
 
 const CrreateEditPostFormBlank = styled.div`
   @keyframes shine {
@@ -19,7 +19,7 @@ const CrreateEditPostFormBlank = styled.div`
 	margin: auto;
 	width: 100%;
 	height: 2000px;
-	background-color: ${constants.theme().surfaceColorPrimary};
+	background-color: ${ui.surfaceColorPrimary};
   
   background-image:
     radial-gradient( circle 20px at calc(20px + 1em) calc(20px + 1em), lightgray 99%, transparent 0 ),
@@ -29,7 +29,7 @@ const CrreateEditPostFormBlank = styled.div`
     linear-gradient( lightgray 18px, transparent 0 ),
     linear-gradient( lightgray 14px, transparent 0 ),
     linear-gradient( lightgray 14px, transparent 0 ),
-    linear-gradient( ${constants.theme().backgroundColorPrimary} 1em, transparent 0 );
+    linear-gradient( ${ui.backgroundColorPrimary} 1em, transparent 0 );
 
   background-repeat: repeat-y;
   background-size:

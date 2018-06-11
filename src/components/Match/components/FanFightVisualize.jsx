@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
-import constants from '../../constants';
+import ui from '../../../theme';
 
 const pumping = color => keyframes`
   0% {
@@ -17,7 +17,7 @@ const pumping = color => keyframes`
 `;
 
 const Styled = styled.div`
-  color: ${constants.theme().textColorSecondary}
+  color: ${ui.textColorSecondary}
   
   h5 {
     position: relative;

@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import styled, {
 // css
 } from 'styled-components';
-import constants from '../../constants';
+import ui from '../../../theme';
 import { toTimeString, convertMatchStatus } from '../../../utils/index';
 import clubs from '../../../fxconstants/clubsObj.json';
 
 const Styled = styled.div`
   padding: 8px;
   position: relative;
-  font-size: ${constants.fontSizeSmall};
-  color: ${constants.theme().textColorPrimary}
+  font-size: ${ui.fontSizeSmall};
+  color: ${ui.textColorPrimary}
   
   & .status {
     position: absolute;
@@ -89,7 +89,7 @@ const MatchVisualizeCompact = (props) => {
           <span>{home.name}</span>
           <img src={home.icon} alt="" style={styles.iconButton.iconStyle} />
         </div>
-        <div className="info" style={{ backgroundColor: date * 1000 < Date.now() && constants.theme().positiveColorVariant1 }}>
+        <div className="info" style={{ backgroundColor: date * 1000 < Date.now() && ui.positiveColorVariant1 }}>
           {date * 1000 > Date.now() ? (
             <span>
               {toTimeString(date * 1000)}

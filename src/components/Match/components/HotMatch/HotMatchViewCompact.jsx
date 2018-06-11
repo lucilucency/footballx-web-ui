@@ -7,7 +7,7 @@ import { Card, CardMedia } from 'material-ui';
 import clubs from '../../../../fxconstants/clubsObj.json';
 import { upVote, downVote, getMatchVotes, updateMatch } from '../../../../actions/index';
 import { bindAll } from '../../../../utils/index';
-import constants from '../../../constants';
+import ui from '../../../../theme';
 import MatchVisualizeCompact from './HotMatchVisualizeCompact';
 import FanFight from '../FanFightVisualize';
 // import MatchActions from './MatchActions';
@@ -102,8 +102,8 @@ class HotMatchViewCompact extends React.Component {
     const home = clubs[homeID] || {};
     const away = clubs[awayID] || {};
     const winner = homeVotes > awayVotes ? home : away;
-    const homeColor = home.home_color || constants.redA200;
-    const awayColor = away.home_color || constants.blueA200;
+    const homeColor = home.home_color || ui.redA200;
+    const awayColor = away.home_color || ui.blueA200;
 
     return (
       <Card
@@ -113,7 +113,7 @@ class HotMatchViewCompact extends React.Component {
           style={{
             textAlign: 'center',
             overflow: 'hidden',
-            textColor: constants.theme().textColorSecondary,
+            textColor: ui.textColorSecondary,
             cursor: 'pointer',
           }}
           onClick={() => {
@@ -160,8 +160,8 @@ class HotMatchViewCompact extends React.Component {
             padding: '0 8px',
             display: 'flex',
             flexDirection: 'row',
-            borderTop: `1px solid ${constants.grey50}`,
-            fontWeight: constants.fontWeightHeavy,
+            borderTop: `1px solid ${ui.grey50}`,
+            fontWeight: ui.fontWeightHeavy,
           }}
         >
           <MatchActions

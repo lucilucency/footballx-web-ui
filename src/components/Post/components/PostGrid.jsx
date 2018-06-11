@@ -7,7 +7,6 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { getMeFeeds, getPostsWorld } from '../../../actions/index';
 import { ViewPostCompact, ViewPostCompactBlank } from './index';
-// import constants from '../../constants';
 import { PostsGridStyled } from './Styled';
 
 class PostGrid extends React.Component {
@@ -83,11 +82,6 @@ class PostGrid extends React.Component {
           }}
           style={{
             width: 150,
-            // height: 32,
-            // lineHeight: '32px',
-            // padding: '8px',
-            // borderRadius: '3px',
-            // backgroundColor: constants.theme().surfaceColorPrimary,
           }}
           // underlineStyle={{ display: 'none' }}
         >

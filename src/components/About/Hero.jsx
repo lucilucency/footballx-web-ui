@@ -80,8 +80,8 @@ const AboutX = (props) => {
       <Hero />
       <div style={{ padding: 8 }}>
         <p>
-          <h7><b>{strings.paragraph_app_desc_primary}</b></h7>
-          <h7>{strings.paragraph_app_desc_secondary}</h7>
+          <div className="appName"><b>{strings.paragraph_app_desc_primary}</b></div>
+          <div className="appDesc">{strings.paragraph_app_desc_secondary}</div>
         </p>
         {isLoggedIn && <CreatePostButton isLoggedIn={isLoggedIn} />}
       </div>

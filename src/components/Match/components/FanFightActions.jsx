@@ -5,7 +5,7 @@ import styled, { keyframes, css } from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import { hitVote } from '../../../actions/index';
-import constants from '../../constants';
+import ui from '../../../theme';
 import { IconUpvote } from '../../Icons';
 // import strings from '../../../lang';
 // import { toTimeString, toDateString } from '../../../utils/index';
@@ -32,7 +32,7 @@ const MatchInfo = styled.div`
   padding: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  color: ${constants.theme().textColorPrimary}
+  color: ${ui.textColorPrimary}
   
   @media only screen and (max-width: 1023px) {
     flex-basis: 100%;
@@ -41,7 +41,7 @@ const MatchInfo = styled.div`
   .club-image {
     padding: 2px;
     background-color: rgba(255,255,255,0.1);
-    font-size: ${constants.fontSizeSmall};
+    font-size: ${ui.fontSizeSmall};
     ${props => props.pumping && css`
       animation: .85s infinite ${beatHeart};
     `}
@@ -75,8 +75,8 @@ const MatchInfo = styled.div`
       }
     }
     & .ended {
-      font-size: ${constants.fontSizeSmall};
-      color: ${constants.colorMutedLight};
+      font-size: ${ui.fontSizeSmall};
+      color: ${ui.disabledColorVariant1};
       margin-top: 3px;
       & > div {
         display: inline-block;

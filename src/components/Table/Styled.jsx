@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import constants from '../constants';
+import ui from '../../theme';
 
 export const StyledBody = styled.div`
   table {
@@ -103,6 +103,6 @@ export const StyledHeaderCell = styled.div`
   justify-content: space-between;
   text-align: center;
   text-transform: uppercase;
-  color: ${constants.theme().textColorPrimary} !important;
+  color: ${ui.textColorPrimary} !important;
   font-weight: 500;
 `;

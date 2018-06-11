@@ -5,7 +5,7 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, ActiveLink, MutedLink, bindAll, renderDialog, styles } from '../../../utils';
-import constants from '../../constants';
+import ui from '../../../theme';
 import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview } from './Styled';
 import ViewPostFullFrame from './PostViewFullFrame';
@@ -153,7 +153,7 @@ class ViewPostCompact extends React.Component {
         />
         <CardTitle
           title={item.title}
-          titleColor={constants.theme().textColorPrimary}
+          titleColor={ui.textColorPrimary}
           titleStyle={styles.cardTitle.titleStyle}
           style={styles.cardTitle.style}
         />
@@ -173,7 +173,7 @@ class ViewPostCompact extends React.Component {
         {isLink && this.renderLink(item.content)}
         {isText && (
           <CardText
-            color={constants.theme().textColorSecondary}
+            color={ui.textColorSecondary}
             style={styles.cardText.style}
           >
             {wrapTextReadMore(item.content, this.popupViewPostFull)}

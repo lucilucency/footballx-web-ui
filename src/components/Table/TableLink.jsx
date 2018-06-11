@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import HardwareKeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
-import constants from '../constants';
+import ui from '../../theme';
 
 const TableLink = ({ to, children, target }) => (
   <Link to={to} target={target}>
@@ -13,7 +13,7 @@ const TableLink = ({ to, children, target }) => (
         opacity: '.6',
         height: 16,
         width: 16,
-        color: constants.colorBlue,
+        color: ui.linkColor,
       }}
     />
   </Link>

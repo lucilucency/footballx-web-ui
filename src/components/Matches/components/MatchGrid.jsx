@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import LazyLoad from 'react-lazyload';
 import { Card, CardTitle, List, ListItem } from 'material-ui';
 import { MatchGridBlank } from '../../Blank';
-import constants from '../../constants';
+import ui from '../../../theme';
 import leaguesObj from '../../../fxconstants/leaguesObj.json';
 import { styles, toDateString } from '../../../utils';
 import MatchVisualizeCompact from './MatchVisualizeCompact';
@@ -15,7 +15,7 @@ const Styled = styled.div`
   .date {
     text-align: left;
   }
-  // background-color: ${constants.theme().surfaceColorPrimary};
+  // background-color: ${ui.surfaceColorPrimary};
   
   .league-preview {
     padding: 0 1em;
@@ -73,14 +73,14 @@ class MatchGrid extends React.Component {
                 ...styles.card.style,
                 padding: 8,
                 marginBottom: 8,
-                textColor: constants.theme().textColorSecondary,
+                textColor: ui.textColorSecondary,
               }}
             >
               <CardTitle
                 style={{
                   ...styles.cardTitle.style,
                   paddingLeft: 0,
-                  borderBottom: `1px solid ${constants.theme().borderColor}`,
+                  borderBottom: `1px solid ${ui.borderColor}`,
                 }}
               >
                 <img src={leaguesObj[leagueID] && leaguesObj[leagueID].icon} alt="" height={18} />&nbsp;&nbsp;{this.getSeasonName(seasonID)}

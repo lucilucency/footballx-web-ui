@@ -9,7 +9,7 @@ import {
 } from 'material-ui';
 import { bindAll, BigSelector } from '../../../utils';
 import { getSuggestedCommunities } from '../../../actions';
-import constants from '../../constants';
+import ui from '../../../theme';
 import strings from '../../../lang';
 
 const initialState = {};
@@ -74,7 +74,7 @@ class CommunitySelector extends React.Component {
 
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <Chip style={{ margin: 5, backgroundColor: constants.theme().surfaceColorPrimary }}>
+        <Chip style={{ margin: 5, backgroundColor: ui.surfaceColorPrimary }}>
           <Avatar
             src={null}
             style={{
@@ -135,7 +135,7 @@ class CommunitySelector extends React.Component {
           width: 300,
           marginBottom: '1em',
           borderRadius: '3px',
-          backgroundColor: constants.theme().surfaceColorPrimary,
+          backgroundColor: ui.surfaceColorPrimary,
         }}
       >
         {nodeList}

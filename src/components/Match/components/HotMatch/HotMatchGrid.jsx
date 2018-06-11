@@ -6,7 +6,6 @@ import LazyLoad from 'react-lazyload';
 import { getHotMatches } from '../../../../actions/index';
 import HotMatchViewCompact from './HotMatchViewCompact';
 import { MatchGridBlank } from '../../../Blank';
-// import constants from '../../constants';
 
 const Styled = styled.div`
   ${props => props.columns && css`

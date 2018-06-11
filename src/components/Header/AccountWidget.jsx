@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FlatButton, IconButton, RaisedButton } from 'material-ui';
 import IconCreatePost from 'material-ui/svg-icons/editor/border-color';
-import constants from '../constants';
+import ui from '../../theme';
 import strings from '../../lang/index';
 import Spinner from '../Spinner/index';
 
@@ -18,7 +18,7 @@ const StyledFlatButton = styled(FlatButton)`
    text-overflow: ellipsis;
    text-transform: none !important;
    white-space: nowrap;
-   font-size: ${constants.fontSizeLarge} !important;
+   font-size: ${ui.fontSizeLarge} !important;
    padding-right: 0 !important;
    padding-left: 0 !important;
  }
@@ -108,11 +108,11 @@ const AccountWidget = ({
       return (
         <Link to="/submit">
           <RaisedButton
-            labelStyle={{ color: constants.theme().textColorSecondary, fontSize: '14px' }}
-            style={{ marginRight: 10, border: '1px solid', borderColor: constants.theme().textColorSecondary }}
+            labelStyle={{ color: ui.textColorSecondary, fontSize: '14px' }}
+            style={{ marginRight: 10, border: '1px solid', borderColor: ui.textColorSecondary }}
             buttonStyle={{ height: '32px', lineHeight: '32px' }}
             label="CREATE POST"
-            backgroundColor={constants.theme().surfaceColorSecondary}
+            backgroundColor={ui.surfaceColorSecondary}
           />
         </Link>
       );

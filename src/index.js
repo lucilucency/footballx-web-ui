@@ -83,15 +83,22 @@ li {
   }
 }
 
-h1 { font-size: 50px; line-height: 65px; }
-h2 { font-size: 37px; line-height: 48px; }
-h3 { font-size: 28px; line-height: 36px; }
-h4 { font-size: 21px; line-height: 27px; }
-h5 { font-size: 16px; line-height: 21px; }
-h6 { font-size: 14px; line-height: 18px; }
-h7 { font-size: 12px; line-height: 16px; display: block; }
-h1, h2, h3, h4, h5, h6, h7 {
-  -webkit-margin-before: 1em; -webkit-margin-after: 1em; 
+.text-colossal { font-size: ${ui.fontSizeColossal}; line-height: 65px; }
+.text-huge { font-size: ${ui.fontSizeHuge}; line-height: 48px; }
+.text-big { font-size: ${ui.fontSizeBig}; line-height: 36px; }
+.text-large { font-size: ${ui.fontSizeLarge}; line-height: 27px; }
+.text-normal { font-size: ${ui.fontSizeNormal}; line-height: 21px; }
+.text-small { font-size: ${ui.fontSizeSmall}; line-height: 18px; }
+.text-tiny { font-size: ${ui.fontSizeTiny}; line-height: 16px; }
+
+.text-colossal,
+.text-huge,
+.text-big,
+.text-large,
+.text-normal,
+.text-small,
+.text-tiny {
+  -webkit-margin-before: 1em; -webkit-margin-after: 1em;
 }
 
 [data-hint] {

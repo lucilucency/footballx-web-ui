@@ -7,7 +7,7 @@ import { Card, CardTitle } from 'material-ui';
 
 import Table, { /* TableLink */ } from '../../Table';
 import { MatchGridBlank } from '../../Blank';
-import constants from '../../constants';
+import ui from '../../../theme';
 import leaguesObj from '../../../fxconstants/leaguesObj.json';
 import clubsObj from '../../../fxconstants/clubsObj.json';
 import { styles, getOrdinal } from '../../../utils';
@@ -92,14 +92,14 @@ class StandingGrid extends React.Component {
             ...styles.card.style,
             padding: 8,
             marginBottom: 8,
-            textColor: constants.theme().textColorSecondary,
+            textColor: ui.textColorSecondary,
           }}
         >
           <CardTitle
             style={{
               ...styles.cardTitle.style,
               paddingLeft: 0,
-              borderBottom: `1px solid ${constants.theme().borderColor}`,
+              borderBottom: `1px solid ${ui.borderColor}`,
             }}
           >
             <img

@@ -10,7 +10,7 @@ import { IconFacebook } from '../Icons';
 import strings from '../../lang';
 import { LocalizationMenu } from '../Localization';
 import Dropdown from '../Header/Dropdown';
-import constants from '../constants';
+import ui from '../../theme';
 import Logout from './Logout';
 
 const VerticalAlignDropdown = styled(Dropdown)`
@@ -19,9 +19,9 @@ const VerticalAlignDropdown = styled(Dropdown)`
   justify-content: center;
 `;
 const LinkRouterStyled = styled(Link)`
-  font-size: ${constants.fontSizeNormal};
-  font-weight: ${constants.fontWeightLight};
-  color: ${constants.colorMutedLight} !important;
+  font-size: ${ui.fontSizeNormal};
+  font-weight: ${ui.fontWeightLight};
+  color: ${ui.disabledColorVariant1} !important;
   display: flex;
   align-items: center;
   margin-top: 2px;
@@ -37,9 +37,9 @@ const LinkRouterStyled = styled(Link)`
   }
 `;
 const LinkStyled = styled.a`
-  font-size: ${constants.fontSizeNormal};
-  font-weight: ${constants.fontWeightLight};
-  color: ${constants.colorMutedLight} !important;
+  font-size: ${ui.fontSizeNormal};
+  font-weight: ${ui.fontWeightLight};
+  color: ${ui.disabledColorVariant1} !important;
   display: flex;
   align-items: center;
   margin-top: 2px;

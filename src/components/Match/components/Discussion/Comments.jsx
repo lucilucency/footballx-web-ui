@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
-import constants from '../../../constants';
+import ui from '../../../../theme';
 import { fromNow, ActiveLink, styles } from '../../../../utils/index';
 // import CommentActions from './CommentActions';
 
@@ -32,9 +32,9 @@ class ViewPostComments extends React.Component {
         style={{
           marginTop: insideTheNest ? 0 : 8,
           paddingBottom: 0,
-          borderLeft: `1px solid ${constants.theme().neutralColorVariant1}`,
+          borderLeft: `1px solid ${ui.neutralColorVariant1}`,
           marginLeft: 8,
-          backgroundColor: constants.theme().surfaceColorPrimary,
+          backgroundColor: ui.surfaceColorPrimary,
         }}
         initiallyOpen
         primaryText={
@@ -42,7 +42,7 @@ class ViewPostComments extends React.Component {
             <div>
               <ActiveLink to={`/user/${xuser.id}`}>{xuser.username || xuser.nickname}</ActiveLink> - <span>{fromNow(item.created_at)}</span>
             </div>
-            <h6 style={{ fontWeight: constants.fontWeightNormal }}>
+            <h6 style={{ fontWeight: ui.fontWeightNormal }}>
               {item.content}
             </h6>
           </div>
@@ -51,7 +51,7 @@ class ViewPostComments extends React.Component {
         secondaryText={<div />}
         nestedItems={item.comments && item.comments.map(el => this.renderComment(el, true))}
         nestedListStyle={{
-          borderLeft: `1px solid ${constants.theme().neutralColorVariant1}`,
+          borderLeft: `1px solid ${ui.neutralColorVariant1}`,
           marginLeft: 8,
         }}
       />

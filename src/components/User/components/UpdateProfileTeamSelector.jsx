@@ -8,7 +8,7 @@ import {
 } from 'material-ui';
 import clubsArr from '../../../fxconstants/clubsArr.json';
 import { bindAll, BigSelector } from '../../../utils';
-import constants from '../../constants';
+import ui from '../../../theme';
 
 const initialState = {};
 const clubs = clubsArr.sort((a, b) => {
@@ -79,7 +79,7 @@ class TeamSelector extends React.Component {
 
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <Chip style={{ margin: 5, backgroundColor: constants.theme().surfaceColorPrimary }}>
+        <Chip style={{ margin: 5, backgroundColor: ui.surfaceColorPrimary }}>
           <Avatar
             src={null}
             style={{
@@ -138,7 +138,7 @@ class TeamSelector extends React.Component {
           width: 300,
           marginBottom: '1em',
           borderRadius: '3px',
-          // backgroundColor: constants.theme().surfaceColorPrimary,
+          // backgroundColor: ui.surfaceColorPrimary,
           margin: 'auto',
         }}
       >

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Paper } from 'material-ui';
-import constants from '../components/constants';
+import ui from '../theme';
 
 export const styles = {
   paper: {
@@ -9,7 +9,7 @@ export const styles = {
       padding: 8,
       minHeight: 120,
       boxShadow: 'none',
-      fontSize: constants.fontSizeTiny,
+      fontSize: ui.fontSizeTiny,
     },
   },
   card: {
@@ -31,10 +31,10 @@ export const styles = {
       fontWeight: 'normal',
       wordBreak: 'break-word',
       whiteSpace: 'pre-wrap',
-      fontSize: constants.fontSizeSmall,
-      fontFamily: constants.theme().fontFamilySecondary,
-      lineHeight: constants.lineHeightSmall,
-      color: constants.theme().textColorPrimary3,
+      fontSize: ui.fontSizeSmall,
+      fontFamily: ui.fontFamilySecondary,
+      lineHeight: ui.lineHeightSmall,
+      color: ui.textColorPrimary3,
     },
   },
   cardActions: {
@@ -45,7 +45,7 @@ export const styles = {
   cardTitle: {
     titleStyle: {
       fontWeight: 'bold',
-      fontSize: constants.fontSizeNormal,
+      fontSize: ui.fontSizeNormal,
       lineHeight: '23px',
     },
     style: {

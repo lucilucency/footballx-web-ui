@@ -10,18 +10,18 @@ import {
 import { bindAll, renderDialog } from '../../../../utils/index';
 import { IconShare, IconComment } from '../../../Icons/index';
 import { upVote, downVote, setPost } from '../../../../actions/index';
-import constants from '../../../constants';
+import ui from '../../../../theme';
 import ButtonShare from '../../../../utils/ButtonShare';
 import strings from '../../../../lang/index';
 
 const MatchActionStyled = styled.div`
   padding: 0 1em;
   display: table;
-  border-top: ${`1px solid ${constants.grey50}`};
-  font-weight: ${constants.fontWeightMedium};
-  font-size: ${constants.fontSizeSmall};
-  font-family: ${constants.theme().fontFamily};
-  color: ${constants.theme().neutralColor};
+  border-top: ${`1px solid ${ui.borderColorVariant1}`};
+  font-weight: ${ui.fontWeightMedium};
+  font-size: ${ui.fontSizeSmall};
+  font-family: ${ui.fontFamily};
+  color: ${ui.neutralColor};
   
   > * {
     display: table-cell;
@@ -29,7 +29,7 @@ const MatchActionStyled = styled.div`
   }
   
   span {
-    color: ${constants.theme().neutralColor};
+    color: ${ui.neutralColor};
   }
 `;
 
@@ -134,7 +134,7 @@ class MatchActons extends React.Component {
               height: 20,
             }}
           >
-            <IconUpvote color={item.vflag === 1 ? constants.blueA100 : constants.theme().buttonMute} hoverColor={constants.blueA100} />
+            <IconUpvote color={item.vflag === 1 ? ui.blueA100 : ui.buttonMute} hoverColor={ui.blueA100} />
           </IconButton>
           <span style={{ display: 'table-cell', verticalAlign: 'middle' }}>{ups - downs}</span>
           <IconButton
@@ -147,19 +147,19 @@ class MatchActons extends React.Component {
               height: 20,
             }}
           >
-            <IconDownvote color={item.vflag === -1 ? constants.redA100 : constants.theme().buttonMute} hoverColor={constants.redA100} />
+            <IconDownvote color={item.vflag === -1 ? ui.redA100 : ui.buttonMute} hoverColor={ui.redA100} />
           </IconButton> */}
           <div>
             {this.props.disableComment ? (
               <div style={{ display: 'block' }}>
-                <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={constants.theme().neutralColor} />
+                <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={ui.neutralColor} />
                 <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{this.props.count || 0}</span>
               </div>
             ) : (
               <FlatButton
                 target="_blank"
                 label={this.props.count || strings.label_comment}
-                icon={<IconComment style={{ marginTop: -5 }} color={constants.theme().neutralColor} />}
+                icon={<IconComment style={{ marginTop: -5 }} color={ui.neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
                   paddingLeft: 5,
@@ -180,7 +180,7 @@ class MatchActons extends React.Component {
             child={(
               <FlatButton
                 label={strings.label_share_post}
-                icon={<IconShare color={constants.theme().neutralColor} />}
+                icon={<IconShare color={ui.neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
                   paddingLeft: 0,

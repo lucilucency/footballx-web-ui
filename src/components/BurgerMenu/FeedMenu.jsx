@@ -9,14 +9,14 @@ import IconPopular from 'material-ui/svg-icons/action/trending-up';
 import Toggle from 'material-ui/Toggle';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
-import constants from '../constants';
+import ui from '../../theme';
 
 const FeedMenu = ({
   tray, user, history, communities,
 }) => {
   const styles = {
     subheader: {
-      style: { fontSize: constants.fontSizeTiny },
+      style: { fontSize: ui.fontSizeTiny },
     },
     listItem: {
       primaryTextStyle: {
@@ -25,12 +25,12 @@ const FeedMenu = ({
         textOverflow: 'ellipsis',
         textTransform: 'none !important',
         whiteSpace: 'nowrap',
-        fontWeight: constants.fontWeightMedium,
+        fontWeight: ui.fontWeightMedium,
       },
       innerDivStyle: {
         marginLeft: 3,
         paddingLeft: '44px',
-        fontSize: constants.fontSizeSmall,
+        fontSize: ui.fontSizeSmall,
       },
     },
   };
@@ -41,13 +41,13 @@ const FeedMenu = ({
         <Subheader style={styles.subheader.style}>FEED</Subheader>
         {user && <ListItem
           primaryText="Home"
-          leftIcon={<Home size={24} color={constants.blueA200} />}
+          leftIcon={<Home size={24} color={ui.blueA200} />}
           containerElement={<Link to="/" />}
           innerDivStyle={styles.listItem.innerDivStyle}
         />}
         <ListItem
           primaryText="Popular"
-          leftIcon={<IconPopular size={24} color={constants.theme().positiveColor} />}
+          leftIcon={<IconPopular size={24} color={ui.positiveColor} />}
           containerElement={<Link to="/popular" />}
           innerDivStyle={styles.listItem.innerDivStyle}
         />
@@ -95,7 +95,7 @@ const FeedMenu = ({
               }}
             />}
             innerDivStyle={{
-              fontSize: constants.fontSizeSmall,
+              fontSize: ui.fontSizeSmall,
             }}
           />
         </List>

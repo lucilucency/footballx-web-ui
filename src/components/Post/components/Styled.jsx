@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import constants from '../../constants';
+import ui from '../../../theme';
 
 export const LinkCoverStyled = styled.span`
-  color: ${constants.colorMutedLight};
-  font-size: ${constants.fontSizeSmall};
+  color: ${ui.disabledColorVariant1};
+  font-size: ${ui.fontSizeSmall};
 `;
 
 export const LinkPreview = styled.div`

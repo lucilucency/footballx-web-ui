@@ -7,7 +7,7 @@ import Amplitude from 'react-amplitude';
 import { getCommentsInPost, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink, styles } from '../../../utils';
-import constants from '../../constants';
+import ui from '../../../theme';
 import ViewPostComments from './CommentGrid';
 import CreateComment from './CreateEditComment';
 import PostActions from './PostActions';
@@ -81,7 +81,7 @@ class ViewPostFull extends React.Component {
           />
           <CardTitle
             title={item.title}
-            titleColor={constants.theme().textColorPrimary}
+            titleColor={ui.textColorPrimary}
             titleStyle={styles.cardTitle.titleStyle}
             style={styles.cardTitle.style}
           />
@@ -100,7 +100,7 @@ class ViewPostFull extends React.Component {
           {isLink && this.renderLink(item.content)}
           {isText &&
           <CardText
-            color={constants.theme().textColorSecondary}
+            color={ui.textColorSecondary}
             style={styles.cardText.style}
           >
             <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />

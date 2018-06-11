@@ -5,7 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Next from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import Prev from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import strings from '../../../lang';
-import constants from '../../constants';
+import ui from '../../../theme';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -33,14 +33,14 @@ const StyledPagination = styled.div`
   ${props => props.top && `position: absolute;
   right: 0;
   top: -46px;
-  font-size: ${constants.fontSizeNormal};
+  font-size: ${ui.fontSizeNormal};
   @media only screen and (max-width: 767px) {
     position: initial;
   }
   `}
 `;
 const pageStyle = `
-  color: ${constants.primaryLinkColor}!important;
+  color: ${ui.linkColor}!important;
   min-width: 20px !important;
   padding: 0 10px !important;
   margin: 0 2px !important;
@@ -58,7 +58,7 @@ const arrowStyle = `
   vertical-align: text-top;
 
   /* Override material-ui */
-  color:${constants.colorYelor} !important;
+  color:${ui.colorYelor} !important;
   padding: 0 !important;`;
 const StyledArrowButton = styled(FlatButton)`
   min-width: 20px !important;
@@ -74,12 +74,12 @@ const StyledCurrentPage = styled(FlatButton)`
  ${pageStyle}
 
   /* Override material-ui */
-  color:${constants.colorMutedLight} !important;
+  color:${ui.disabledColorVariant1} !important;
   pointer-events: none;
 `;
 const StyledInfo = styled.div`
-  font-size: ${constants.fontSizeNormal};
-  color: ${constants.colorMutedLight};
+  font-size: ${ui.fontSizeNormal};
+  color: ${ui.disabledColorVariant1};
 `;
 
 

@@ -9,7 +9,7 @@ import Amplitude from 'react-amplitude';
 import { bindAll, renderDialog } from '../../../utils';
 import { IconUpvote, IconDownvote, IconComment, IconShare } from '../../Icons';
 import { upVote, downVote, setPost } from '../../../actions';
-import constants from '../../constants';
+import ui from '../../../theme';
 import ButtonShare from '../../../utils/ButtonShare';
 import ViewPostFullFrame from './PostViewFullFrame';
 import strings from '../.././../lang';
@@ -17,10 +17,10 @@ import strings from '../.././../lang';
 const PostActionStyled = styled.div`
   padding: 0 0;
   display: table;
-  border-top: ${`1px solid ${constants.grey50}`};
-  font-weight: ${constants.fontWeightMedium};
-  font-size: ${constants.fontSizeSmall};
-  color: ${constants.theme().neutralColor};
+  border-top: ${`1px solid ${ui.borderColorVariant1}`};
+  font-weight: ${ui.fontWeightMedium};
+  font-size: ${ui.fontSizeSmall};
+  color: ${ui.neutralColor};
   
   > * {
     display: table-cell;
@@ -28,7 +28,7 @@ const PostActionStyled = styled.div`
   }
   
   span {
-    color: ${constants.theme().neutralColor};
+    color: ${ui.neutralColor};
   }
 `;
 
@@ -178,7 +178,7 @@ class PostActions extends React.Component {
               paddingRight: 0,
             }}
           >
-            <IconUpvote color={item.vflag === 1 ? constants.theme().positiveColor : constants.theme().neutralColor} hoverColor={constants.positiveColor} />
+            <IconUpvote color={item.vflag === 1 ? ui.positiveColor : ui.neutralColor} hoverColor={ui.positiveColor} />
           </IconButton>
           <span style={{ display: 'table-cell', verticalAlign: 'middle' }}>{ups - downs}</span>
           <IconButton
@@ -196,19 +196,19 @@ class PostActions extends React.Component {
               paddingRight: 0,
             }}
           >
-            <IconDownvote color={item.vflag === -1 ? constants.theme().negativeColor : constants.theme().neutralColor} hoverColor={constants.theme().negativeColor} />
+            <IconDownvote color={item.vflag === -1 ? ui.negativeColor : ui.neutralColor} hoverColor={ui.negativeColor} />
           </IconButton>
           <div>
             {this.props.disableComment ? (
               <div style={{ display: 'block' }}>
-                <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={constants.theme().neutralColor} />
+                <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={ui.neutralColor} />
                 <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{item.c_comments || 0}</span>
               </div>
             ) : (
               <FlatButton
                 target="_blank"
                 label={item.c_comments || strings.label_comment}
-                icon={<IconComment style={{ marginTop: -5 }} color={constants.theme().neutralColor} />}
+                icon={<IconComment style={{ marginTop: -5 }} color={ui.neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
                   paddingLeft: 5,
@@ -224,7 +224,7 @@ class PostActions extends React.Component {
             child={(
               <FlatButton
                 label={strings.label_share_post}
-                icon={<IconShare color={constants.theme().neutralColor} />}
+                icon={<IconShare color={ui.neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
                   paddingLeft: 0,

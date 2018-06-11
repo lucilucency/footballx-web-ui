@@ -1,5 +1,5 @@
 import React from 'react';
-import constants from '../constants';
+import ui from '../../theme';
 
 export default props => (
   <svg
@@ -7,7 +7,7 @@ export default props => (
     viewBox="0 0 300 300"
     style={{
       fill: 'none',
-      stroke: constants.theme().textColorPrimary,
+      stroke: ui.textColorPrimary,
       strokeWidth: 10,
     }}
   >

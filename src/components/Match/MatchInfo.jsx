@@ -12,7 +12,7 @@ import clubs from '../../fxconstants/clubsObj.json';
 import { hitVote, getMatchComments, announce } from '../../actions/index';
 import strings from '../../lang/index';
 import { bindAll, getCookie, styles } from '../../utils/index';
-import constants from '../constants';
+import ui from '../../theme';
 import CreateComment from './components/Discussion/CreateEditComment';
 import ViewComments from './components/Discussion/Comments';
 import MatchActions from './components/Discussion/DiscussionTools';
@@ -47,8 +47,8 @@ class MatchView extends React.Component {
     const awayVotes = data.votes && data.votes[data.away];
     const home = clubs[homeID] || {};
     const away = clubs[awayID] || {};
-    const homeColor = home.home_color || constants.redA200;
-    const awayColor = away.home_color || constants.blueA200;
+    const homeColor = home.home_color || ui.redA200;
+    const awayColor = away.home_color || ui.blueA200;
     return (
       <div>
         <Card
@@ -105,8 +105,8 @@ class MatchView extends React.Component {
               padding: '0 8px',
               display: 'flex',
               flexDirection: 'row',
-              borderTop: `1px solid ${constants.grey50}`,
-              fontWeight: constants.fontWeightHeavy,
+              borderTop: `1px solid ${ui.borderColorVariant1}`,
+              fontWeight: ui.fontWeightHeavy,
             }}
           >
             <MatchActions

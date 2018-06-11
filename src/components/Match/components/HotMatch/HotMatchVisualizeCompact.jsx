@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import Clubs from '../../../../fxconstants/clubsObj.json';
 import { hitVote } from '../../../../actions/index';
-import constants from '../../../constants';
+import ui from '../../../../theme';
 // import strings from '../../../lang';
 import { toTimeString, toDateString } from '../../../../utils/index';
 
@@ -32,7 +32,7 @@ const MatchInfo = styled.div`
   padding: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  color: ${constants.theme().textColorSecondary}
+  color: ${ui.textColorSecondary}
   
   @media only screen and (max-width: 1023px) {
     flex-basis: 100%;
@@ -74,8 +74,8 @@ const MatchInfo = styled.div`
       }
     }
     & .ended {
-      font-size: ${constants.fontSizeSmall};
-      color: ${constants.colorMutedLight};
+      font-size: ${ui.fontSizeSmall};
+      color: ${ui.disabledColorVariant1};
       margin-top: 3px;
       & > div {
         display: inline-block;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import constants from '../constants';
+import ui from '../../theme';
 
 export const StyledDiv = styled.div`
   margin-top: 15px;
@@ -11,15 +11,15 @@ export const StyledDiv = styled.div`
     width: 26px !important;
     margin-right: 6px;
     opacity: 0.8;
-    fill: ${constants.theme().textColorPrimary};
+    fill: ${ui.textColorPrimary};
   }
 
   & a {
-    color: ${constants.theme().textColorPrimary};
+    color: ${ui.textColorPrimary};
     text-decoration: none;
 
     &:hover {
-      color: ${constants.theme().linkColor};
+      color: ${ui.linkColor};
     }
   }
 
@@ -29,8 +29,8 @@ export const StyledDiv = styled.div`
 
   & .subtitle {
     margin-left: 5px;
-    font-size: ${constants.fontSizeNormal};
-    color: ${constants.colorMutedLight};
+    font-size: ${ui.fontSizeNormal};
+    color: ${ui.disabledColorVariant1};
   }
 `;
 
