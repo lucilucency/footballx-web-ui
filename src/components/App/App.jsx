@@ -43,7 +43,7 @@ const overwritesTheme = {
   raisedButton: { fontWeight: ui.fontWeightNormal },
   flatButton: { fontWeight: ui.fontWeightNormal },
   inkBar: {
-    backgroundColor: ui.colorBlue,
+    backgroundColor: ui.linkColor,
   },
   palette: {
     textColor: ui.textColorPrimary,

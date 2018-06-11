@@ -3,38 +3,6 @@ import * as materialColor from 'material-ui/styles/colors';
 import constants from '../components/constants';
 
 export const themes = [{
-  value: 'dark',
-  native: 'Dark Theme',
-  data: {
-    ...constants,
-    positiveColor: materialColor.green500,
-    positiveColorVariant1: materialColor.green100,
-    positiveColorVariant2: '#66BB6A',
-    negativeColor: materialColor.red500,
-    negativeColorVariant1: '#ff4c4c',
-    negativeColorVariant2: '#FFAB40',
-    disabledColor: materialColor.grey400,
-    disabledColorVariant1: 'rgb(179, 179, 179)',
-    neutralColor: materialColor.grey500,
-    neutralColorVariant1: materialColor.grey50,
-    linkColor: '#6BF',
-    borderColor: 'rgb(52, 50, 50)',
-    borderColorVariant1: materialColor.grey50,
-    avatarBackgroundColor: 'rgba(255, 255, 255, 0.1)',
-
-    backgroundColorPrimary: '#2d2c43',
-    surfaceColorPrimary: 'rgb(46, 47, 64)',
-    textColorPrimary: materialColor.fullWhite,
-    textColorPrimary1: '#222222',
-    textColorPrimary2: '#555555',
-    textColorPrimary3: '#777777',
-    textColorPrimary4: '#999999',
-
-    backgroundColorSecondary: 'linear-gradient(135deg, rgb(46, 45, 69), rgb(28, 33, 39))',
-    surfaceColorSecondary: 'rgb(39, 39, 58)',
-    textColorSecondary: materialColor.grey200,
-  },
-}, {
   value: 'light',
   native: 'Light Theme',
   data: {
@@ -73,7 +41,39 @@ export const themes = [{
     textColorSecondary: '#FFFFFF',
     textColorSecondary2: 'rgba(255, 255, 255, 0.6)',
   },
-}];
+}, null && {
+  value: 'dark',
+  native: 'Dark Theme',
+  data: {
+    ...constants,
+    positiveColor: materialColor.green500,
+    positiveColorVariant1: materialColor.green100,
+    positiveColorVariant2: '#66BB6A',
+    negativeColor: materialColor.red500,
+    negativeColorVariant1: '#ff4c4c',
+    negativeColorVariant2: '#FFAB40',
+    disabledColor: materialColor.grey400,
+    disabledColorVariant1: 'rgb(179, 179, 179)',
+    neutralColor: materialColor.grey500,
+    neutralColorVariant1: materialColor.grey50,
+    linkColor: '#6BF',
+    borderColor: 'rgb(52, 50, 50)',
+    borderColorVariant1: materialColor.grey50,
+    avatarBackgroundColor: 'rgba(255, 255, 255, 0.1)',
+
+    backgroundColorPrimary: '#2d2c43',
+    surfaceColorPrimary: 'rgb(46, 47, 64)',
+    textColorPrimary: materialColor.fullWhite,
+    textColorPrimary1: '#222222',
+    textColorPrimary2: '#555555',
+    textColorPrimary3: '#777777',
+    textColorPrimary4: '#999999',
+
+    backgroundColorSecondary: 'linear-gradient(135deg, rgb(46, 45, 69), rgb(28, 33, 39))',
+    surfaceColorSecondary: 'rgb(39, 39, 58)',
+    textColorSecondary: materialColor.grey200,
+  },
+}].filter(Boolean);
 const savedTheme = window.localStorage && window.localStorage.getItem('theme');
 const themeToUse = (themes.filter(o => o).find(el => el.value === savedTheme) || themes[0]).data;
 export default themeToUse;
