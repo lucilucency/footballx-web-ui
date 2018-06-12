@@ -13,7 +13,13 @@ import clubsObj from '../../../fxconstants/clubsObj.json';
 import { styles, getOrdinal } from '../../../utils';
 
 const Styled = styled.div`
-  
+  //display: grid;
+  //grid-template-columns: 1fr;
+  //grid-column-gap: 1em;
+  //
+  //@media only screen and (min-width: 992px) {
+  //  grid-template-columns: 1fr 1fr;
+  //}
 `;
 
 const displayTeam = (row, col, field) => {
@@ -36,15 +42,15 @@ const displayTeam = (row, col, field) => {
 const tableEventsColumns = (name, browser) => [
   browser.greaterThan.medium && { displayName: '#', displayFn: (row, col, field, index) => getOrdinal(index + 1) },
   { displayName: name, field: 'club_id', displayFn: displayTeam },
-  { displayName: 'P', field: 'p', sortFn: true },
-  { displayName: 'W', field: 'w', sortFn: true },
-  { displayName: 'D', field: 'd', sortFn: true },
-  { displayName: 'L', field: 'l', sortFn: true },
-  { displayName: 'F', field: 'f', sortFn: true },
-  { displayName: 'A', field: 'd', sortFn: true },
-  { displayName: 'G', field: 'gd', sortFn: true },
-  { displayName: 'D', field: 'd', sortFn: true },
-  { displayName: 'PTS', field: 'pts', sortFn: true },
+  { displayName: 'P', field: 'p', sortFn: false },
+  { displayName: 'W', field: 'w', sortFn: false },
+  { displayName: 'D', field: 'd', sortFn: false },
+  { displayName: 'L', field: 'l', sortFn: false },
+  { displayName: 'F', field: 'f', sortFn: false },
+  { displayName: 'A', field: 'd', sortFn: false },
+  { displayName: 'G', field: 'gd', sortFn: false },
+  { displayName: 'D', field: 'd', sortFn: false },
+  { displayName: 'PTS', field: 'pts', sortFn: false },
 ];
 
 class StandingGrid extends React.Component {
@@ -95,21 +101,23 @@ class StandingGrid extends React.Component {
             textColor: ui.textColorSecondary,
           }}
         >
-          <CardTitle
-            style={{
-              ...styles.cardTitle.style,
-              paddingLeft: 0,
-              borderBottom: `1px solid ${ui.borderColor}`,
-            }}
-          >
-            <img
-              src={leaguesObj[leagueID] && leaguesObj[leagueID].icon}
-              alt=""
-              height={18}
-            />
-            &nbsp;&nbsp;
-            {this.getSeasonName(seasonID) || (leaguesObj[leagueID] && leaguesObj[leagueID].name)}
-          </CardTitle>
+          {false && (
+            <CardTitle
+              style={{
+                ...styles.cardTitle.style,
+                paddingLeft: 0,
+                borderBottom: `1px solid ${ui.borderColor}`,
+              }}
+            >
+              <img
+                src={leaguesObj[leagueID] && leaguesObj[leagueID].icon}
+                alt=""
+                height={18}
+              />
+              &nbsp;&nbsp;
+              {this.getSeasonName(seasonID) || (leaguesObj[leagueID] && leaguesObj[leagueID].name)}
+            </CardTitle>
+          )}
           <Table
             columns={tableEventsColumns(this.getSeasonName(seasonID) || (leaguesObj[leagueID] && leaguesObj[leagueID].name), this.props.browser)}
             data={groups[seasonID]}

@@ -22,7 +22,7 @@ const tabs = leagueID => [{
   route: `/l/${leagueID}/standing`,
 }];
 
-class LeageOverview extends React.Component {
+class ViewLeague extends React.Component {
   componentDidMount() {
     const { match } = this.props;
     const leagueID = Number(match.params.id);
@@ -63,7 +63,7 @@ class LeageOverview extends React.Component {
   }
 }
 
-LeageOverview.propTypes = {
+ViewLeague.propTypes = {
   match: PropTypes.object,
   history: PropTypes.object,
   // isLoggedIn: PropTypes.bool,
@@ -83,4 +83,4 @@ LeageOverview.propTypes = {
 //   getSeasonMatches: (seasonID, args) => dispatch(getSeasonMatches(seasonID, args)),
 // });
 
-export default withRouter(connect()(LeageOverview));
+export default withRouter(connect()(ViewLeague));

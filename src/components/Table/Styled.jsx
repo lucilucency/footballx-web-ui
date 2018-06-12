@@ -5,7 +5,7 @@ export const StyledBody = styled.div`
   table {
     background-color: transparent !important;
     table-layout: auto !important;
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
 
     & th {
       //background-color: rgba(0, 0, 0, 0.3);
@@ -36,8 +36,10 @@ export const StyledBody = styled.div`
       }
 
       & td {
-        border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
-        border-bottom: 0 !important;
+        //border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-top: none !important;
+        //border-bottom: 0 !important;
+        border-bottom: none !important;
       }
     }
 
