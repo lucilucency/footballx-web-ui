@@ -10,6 +10,7 @@ import TabBar from '../TabBar';
 import Squad from './Squad';
 import teamSquadObj from '../../fxconstants/teamSquadObj.json';
 import teams from '../../fxconstants/clubsObj.json';
+import RightBar from './RightBar';
 
 const tabs = teamID => [
   {
@@ -17,6 +18,7 @@ const tabs = teamID => [
     key: 'squad',
     content: propsVar => <Squad data={propsVar.data} isLoggedIn={propsVar.isLoggedIn} />,
     route: `/t/${teamID}/squad`,
+    rightBar: <RightBar />,
   },
 ].filter(Boolean);
 
