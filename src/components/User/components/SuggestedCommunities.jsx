@@ -17,10 +17,11 @@ class RequestLayer extends React.Component {
   }
 
   doSubscribe = (community) => {
+    const { communities = [] } = this.props.following;
     this.props.subscribe(this.props.user.id, community.id, {
       following: {
         ...this.props.following,
-        communities: [...this.props.following.communities, community],
+        communities: [...communities, community],
       },
     });
   };
