@@ -79,10 +79,10 @@ const AboutX = (props) => {
     <AboutXStyled>
       <Hero />
       <div style={{ padding: 8 }}>
-        <p>
-          <div className="appName"><b>{strings.paragraph_app_desc_primary}</b></div>
-          <div className="appDesc">{strings.paragraph_app_desc_secondary}</div>
-        </p>
+        <div className="text-tiny">
+          <b>{strings.paragraph_app_desc_primary}</b><br />
+          {strings.paragraph_app_desc_secondary}
+        </div>
         {isLoggedIn && <CreatePostButton isLoggedIn={isLoggedIn} />}
       </div>
     </AboutXStyled>

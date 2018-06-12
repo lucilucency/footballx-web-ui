@@ -143,7 +143,7 @@ class AnnounceComponent extends React.Component {
               </main>
               {url && (
                 <aside>
-                  <a style={{ color: ui.textColorSecondary }} href="/game" target="_blank">{strings.announce_play_game}</a>
+                  <a style={{ color: ui.textColorSecondary }} href="/game">{strings.announce_play_game}</a>
                 </aside>
               )}
               {/* <aside>

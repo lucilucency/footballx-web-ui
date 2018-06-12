@@ -12,7 +12,12 @@ class GamePort extends React.Component {
   }
 
   componentDidMount() {
-    Amplitude.logEvent('Enter game');
+    if (this.props.user) {
+      Amplitude.logEvent('Enter game');
+    } else {
+      localStorage.setItem('previousPage', '/game');
+      window.location.href = '/sign_in';
+    }
   }
 
   render() {
@@ -38,11 +43,16 @@ class GamePort extends React.Component {
 }
 
 GamePort.propTypes = {
-  banner: PropTypes.object,
+  user: PropTypes.object,
+  banner: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+  ]),
   browser: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
+  user: state.app.metadata.data.user,
   browser: state.browser,
   banner: state.app.banner.data,
 });

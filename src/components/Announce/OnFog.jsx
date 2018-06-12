@@ -12,7 +12,7 @@ const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
   opacity: 0.2;
-  z-index: 1000;
+  z-index: 1500;
   position: fixed;
   text-align: center;
   background-color: #000;
@@ -35,7 +35,7 @@ const AdBannerDiv = styled.div`
   //top: calc(50vh - 200px);
   //left: calc(15vw);
   opacity: 1;
-  z-index: 1000;
+  z-index: 1500;
   position: fixed;
   text-align: center;
   display: flex;
