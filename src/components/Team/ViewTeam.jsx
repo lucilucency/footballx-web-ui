@@ -14,7 +14,7 @@ import RightBar from './RightBar';
 
 const tabs = teamID => [
   {
-    name: strings.label_line_ups,
+    name: strings.label_squad,
     key: 'squad',
     content: propsVar => <Squad data={propsVar.data} isLoggedIn={propsVar.isLoggedIn} />,
     route: `/t/${teamID}/squad`,
