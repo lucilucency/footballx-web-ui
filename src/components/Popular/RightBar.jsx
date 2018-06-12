@@ -2,36 +2,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Subheader from 'material-ui/Subheader';
-import { CreatePostButton } from '../Post/components/index';
 import { SuggestedCommunities } from '../User/components/index';
 import { RightTray, SmallPaper } from '../../utils/index';
 import strings from '../../lang/index';
+import AboutX from '../About/Hero';
+import AboutXFooter from '../About/Footer';
 
-const PopularRightBar = (props) => {
-  const { user } = props;
+const HomeRightBar = (props) => {
+  const { isLoggedIn } = props;
   return (
     <RightTray>
-      <SmallPaper>
-        <p>Popular</p>
-        <p>{strings.paragraph_popular_desc}</p>
-        {user && <CreatePostButton />}
+      <SmallPaper style={{ padding: 0 }}>
+        <AboutX isLoggedIn={isLoggedIn} />
       </SmallPaper>
-      {user && (
+
+      {isLoggedIn && (
         <SmallPaper>
           <Subheader>{strings.label_suggested_community}</Subheader>
           <SuggestedCommunities />
         </SmallPaper>
       )}
+
+      <div>
+        <AboutXFooter />
+      </div>
     </RightTray>
   );
 };
 
-PopularRightBar.propTypes = {
-  user: PropTypes.object,
+HomeRightBar.propTypes = {
+  isLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  user: state.app.metadata.data.user || {},
+  isLoggedIn: Boolean(state.app.metadata.data.user),
 });
 
-export default connect(mapStateToProps, null)(PopularRightBar);
+export default connect(mapStateToProps, null)(HomeRightBar);

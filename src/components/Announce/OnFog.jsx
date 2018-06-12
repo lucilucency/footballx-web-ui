@@ -68,7 +68,7 @@ class OnFog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dismissed: Boolean(props.user.username),
+      dismissed: Boolean(props.user && props.user.username),
     };
 
     this.dismiss = () => {
