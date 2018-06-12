@@ -3,12 +3,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { SmallPaper } from '../../utils/index';
 import strings from '../../lang/index';
+import AboutXFooter from '../About/Footer';
+
 
 const MatchRightBar = () => (
   <div>
     <SmallPaper>
       <p>{strings.paragraph_popular_desc}</p>
     </SmallPaper>
+    <div>
+      <AboutXFooter />
+    </div>
   </div>
 );
 
