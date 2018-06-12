@@ -183,7 +183,9 @@ if (userID) {
 }
 
 /* init amplitude */
-Amplitude.init(process.env.REACT_APP_AMP);
+Amplitude.init(process.env.REACT_APP_AMP, null, {
+  includeUtm: true,
+});
 Amplitude.setUserId(userID);
 Amplitude.logEvent('Visit web');
 

@@ -8,29 +8,12 @@ import {
 } from 'material-ui';
 import clubs from '../../../fxconstants/clubsObj.json';
 import { announce } from '../../../actions/index';
-import strings from '../../../lang/index';
-import { bindAll, styles } from '../../../utils/index';
+import { styles } from '../../../utils/index';
 import MatchVisualize from './MatchVisualize';
 
 class MatchView extends React.Component {
-  static initialState = {
-    openLive: false,
-  };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      ...MatchView.initialState,
-    };
-
-    bindAll([], this);
-  }
-
   componentDidMount() {
-    this.props.announce({
-      message: strings.announce_match_vote,
-    });
+
   }
 
   render() {
@@ -76,9 +59,6 @@ class MatchView extends React.Component {
 MatchView.propTypes = {
   data: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
-
-  /**/
-  announce: PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => ({
