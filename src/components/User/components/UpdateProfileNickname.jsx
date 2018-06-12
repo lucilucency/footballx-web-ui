@@ -95,8 +95,6 @@ class UpdateProfileNickname extends Component {
         this.props.callback(true);
       }
     });
-
-    // this.props.callback();
   };
 
   render() {

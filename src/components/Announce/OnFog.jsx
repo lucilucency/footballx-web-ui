@@ -68,25 +68,29 @@ class OnFog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dismissed: Boolean(props.user && props.user.username),
+      start: false,
     };
 
     this.dismiss = () => {
-      this.setState({ dismissed: true });
+      this.setState({ start: false });
+    };
+
+    this.start = (user) => {
+      this.setState({ start: Boolean(!user || !user.username) });
     };
   }
 
   render() {
     const { user, location } = this.props;
 
-    if (user && !inWhiteList(location.pathname) && (!user.username || (user.username && !this.state.dismissed))) {
+    if (user && !inWhiteList(location.pathname) && (!user.username || (this.state.start))) {
       return (
         <div>
           <Overlay />
           <AdBannerDiv>
             <UpdateProfileStepper
-              user={user}
               onClose={this.dismiss}
+              onStart={this.start}
             />
           </AdBannerDiv>
         </div>

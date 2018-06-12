@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
+// import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 // import ReactMarkdown from 'react-markdown';
@@ -109,9 +109,9 @@ class AnnounceComponent extends React.Component {
 
     this.state = {};
 
-    this.dismiss = () => {
-      this.setState({ dismissed: true });
-    };
+    // this.dismiss = () => {
+    //   this.setState({ dismissed: true });
+    // };
   }
 
   UNSAFE_componentWillMount() {
@@ -132,7 +132,7 @@ class AnnounceComponent extends React.Component {
         } = data;
         const now = parseInt(Date.now() / 1000, 10);
 
-        if (!this.state.dismissed && Number(end_time) > now) {
+        if (!this.state.hasUsername && Number(end_time) > now) {
           const isStarted = Number(start_time) < now;
           const body = is_count_down && <Counter start={Number(start_time)} end={Number(end_time)} countToStart={!isStarted} />;
           return (
@@ -146,15 +146,13 @@ class AnnounceComponent extends React.Component {
                   <a style={{ color: ui.textColorSecondary }} href="/game" target="_blank">{strings.announce_play_game}</a>
                 </aside>
               )}
-              {false && (
-                <aside>
-                  <RaisedButton
-                    backgroundColor={ui.linkColor}
-                    onClick={this.dismiss}
-                    label={strings.announce_dismiss}
-                  />
-                </aside>
-              )}
+              {/* <aside>
+                <RaisedButton
+                  backgroundColor={ui.linkColor}
+                  onClick={this.dismiss}
+                  label={strings.announce_dismiss}
+                />
+              </aside> */}
             </StyledDiv>
           );
         }

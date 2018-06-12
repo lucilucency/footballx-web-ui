@@ -13,7 +13,7 @@ end_time.setHours(23, 59, 59, 999);
 
 const getSeasons = (props) => {
   Amplitude.logEvent('View upcoming matches');
-  props.getMatches({ start_time: parseInt(start_time / 1000, 10), end_time: parseInt((end_time / 1000) + 84600, 10) });
+  props.getMatches({ start_time: parseInt(start_time / 1000, 10), end_time: parseInt((end_time / 1000) + 169200, 10) });
 };
 
 class UpcomingMatches extends React.Component {

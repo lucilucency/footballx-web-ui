@@ -27,6 +27,7 @@ class HorizontalNonLinearStepper extends React.Component {
   componentDidMount() {
     // console.log('Open sign-up');
     Amplitude.logEvent('Sign-up');
+    this.props.onStart(this.props.user);
   }
 
   handleNext = () => {
@@ -39,6 +40,7 @@ class HorizontalNonLinearStepper extends React.Component {
         ]).then(() => {
           if (this.props.user.username) {
             Amplitude.logEvent('Set username');
+            this.props.onStart();
             this.setState({
               stepIndex: stepIndex + 1,
             });
@@ -182,13 +184,18 @@ class HorizontalNonLinearStepper extends React.Component {
 HorizontalNonLinearStepper.propTypes = {
   user: PropTypes.object,
   onClose: PropTypes.func,
+  onStart: PropTypes.func,
   /**/
   // clubs: PropTypes.object,
   followTeam: PropTypes.func,
 };
 
+const mapStateToProps = state => ({
+  user: state.app.metadata.data.user,
+});
+
 const mapDispatchToProps = dispatch => ({
   followTeam: (userID, teamID) => dispatch(followTeam(userID, teamID)),
 });
 
-export default connect(null, mapDispatchToProps)(HorizontalNonLinearStepper);
+export default connect(mapStateToProps, mapDispatchToProps)(HorizontalNonLinearStepper);
