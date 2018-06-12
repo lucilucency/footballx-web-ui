@@ -20,11 +20,19 @@ const styles = {
       whiteSpace: 'nowrap',
       fontWeight: ui.fontWeightMedium,
     },
-    innerDivStyle: {
-      marginLeft: 3,
-      paddingLeft: '44px',
-      fontSize: ui.fontSizeSmall,
+    secondaryTextStyle: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      textTransform: 'none !important',
+      whiteSpace: 'nowrap',
+      fontWeight: ui.fontWeightMedium,
+      fontSize: ui.fontSizeTiny,
     },
+    // innerDivStyle: {
+    //   marginLeft: 3,
+    //   paddingLeft: '44px',
+    //   fontSize: ui.fontSizeSmall,
+    // },
   },
 };
 
@@ -56,9 +64,10 @@ class Squad extends React.Component {
                 <ListItem
                   key={player.name}
                   primaryText={<div style={styles.listItem.primaryTextStyle}>{player.name}</div>}
-                  leftIcon={<Avatar size={24} src={player.icon} />}
+                  secondaryText={<div style={styles.listItem.secondaryTextStyle}>{player.club}</div>}
+                  leftAvatar={<Avatar size={40} src={player.icon} />}
                   innerDivStyle={styles.listItem.innerDivStyle}
-                  rightIcon={<Avatar size={24} src={player.club_logo} />}
+                  rightAvatar={<Avatar size={40} src={player.club_logo} />}
                 />
               ))}
             </List>
