@@ -24,7 +24,7 @@ const tabs = matchID => [
   {
     name: strings.label_fan_fight,
     key: 'fan-fight',
-    content: propsVar => <FanFighting data={propsVar.data} isLoggedIn={propsVar.isLoggedIn} />,
+    content: propsVar => <FanFighting data={propsVar.data} isLoggedIn={propsVar.isLoggedIn} matchID={propsVar.matchID} />,
     route: `/m/${matchID}/fan-fight`,
   },
   null && {
@@ -91,7 +91,7 @@ class MatchDetail extends React.Component {
               info={info}
               tabs={tabs(matchID)}
             />
-            {tab && tab.content({ data, isLoggedIn })}
+            {tab && tab.content({ data, isLoggedIn, matchID })}
           </div>
           {tab && tab.rightBar}
         </Container>

@@ -70,6 +70,7 @@ const MatchVisualize = ({
   date,
   greaterThan,
   disabled = false,
+  history,
 }) => {
   const styles = {};
   if (greaterThan.medium) {
@@ -91,7 +92,7 @@ const MatchVisualize = ({
           disabled={disabled}
           tooltip={!disabled && `For ${home.name}`}
           tooltipPosition="top-center"
-          // onClick={}
+          onClick={() => history.push(`/t/${home.id}`)}
           style={styles.iconButton.style}
           iconStyle={styles.iconButton.iconStyle}
           touch
@@ -113,7 +114,7 @@ const MatchVisualize = ({
           disabled={disabled}
           tooltip={!disabled && `For ${away.name}`}
           tooltipPosition="top-center"
-          // onClick={}
+          onClick={() => history.push(`/t/${away.id}`)}
           style={styles.iconButton.style}
           iconStyle={styles.iconButton.iconStyle}
           touch
@@ -133,7 +134,7 @@ MatchVisualize.propTypes = {
   date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
   /**/
-  // history: PropTypes.object,
+  history: PropTypes.object,
   greaterThan: PropTypes.object,
 };
 

@@ -23,6 +23,7 @@ import { PageCreatePost, PageViewPost } from '../Post';
 import * as Match from '../Match';
 import * as Matches from '../Matches';
 import * as League from '../League';
+import * as Team from '../Team';
 import Login from '../Login';
 
 const overwritesTheme = {
@@ -161,6 +162,7 @@ class App extends React.Component {
               <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.MatchDetail} />
 
               <Route exact path="/l/:id/:info?/:subInfo?" component={League.LeageView} />
+              <Route exact path="/t/:id/:info?/:subInfo?" component={Team.ViewTeam} />
               {/* <Route exact path="/l/:id/matches" component={League.Matches} /> */}
               {/* <Route exact path="/l/:id/table" component={League.Table} /> */}
             </CONTENT>

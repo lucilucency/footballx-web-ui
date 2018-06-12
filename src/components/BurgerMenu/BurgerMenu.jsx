@@ -14,7 +14,7 @@ function disableTray(text) {
 }
 
 function openMatchTray(text) {
-  const patt = new RegExp('/match|/m/|/l/');
+  const patt = new RegExp('/match|/m/|/l/|/t/');
   return patt.test(text);
 }
 

@@ -10,20 +10,20 @@ const updateContentPath = `${cmsAPI}/v1/content`;
 console.log('updateVersionPath', updateVersionPath);
 console.log('updateContentPath', updateContentPath);
 
-const updateObjFile = (name, data) => {
+function updateObjFile(name, data) {
   const json = data.reduce((json, value, key) => { json[value.id] = value; return json; }, {});
   const outputPath = `src/fxconstants/${name}Obj.json`;
   fs.writeFile(outputPath, JSON.stringify(json), 'utf8', () => {
     console.log(`${outputPath}: OK`);
   });
-};
+}
 
-const updateArrFile = (name, data) => {
+function updateArrFile(name, data) {
   const outputPath = `src/fxconstants/${name}Arr.json`;
   fs.writeFile(outputPath, JSON.stringify(data), 'utf8', () => {
     console.log(`${outputPath}: OK`);
   });
-};
+}
 
 const getDownloadUrl = (delay, tries, error) => {
   if (tries < 1) {
