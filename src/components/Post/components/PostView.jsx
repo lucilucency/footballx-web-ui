@@ -100,7 +100,7 @@ class ViewPostFull extends React.Component {
           {isLink && this.renderLink(item.content)}
           {isText &&
           <CardText
-            color={ui.textColorSecondary}
+            color={ui.alternateTextColor}
             style={styles.cardText.style}
           >
             <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />

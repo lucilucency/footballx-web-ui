@@ -14,7 +14,7 @@ const StyledDiv = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  color: ${ui.textColorSecondary};
+  color: ${ui.alternateTextColor};
 
   ${props => props.bg && css`
      background-image: url(${props.bg});
@@ -99,7 +99,7 @@ const StyledDiv = styled.div`
 `;
 
 function isDisabled(text) {
-  const patt = new RegExp('/sign_in|/game');
+  const patt = new RegExp('/sign_in|/game|/r/');
   return patt.test(text);
 }
 
@@ -143,7 +143,7 @@ class AnnounceComponent extends React.Component {
               </main>
               {url && (
                 <aside>
-                  <a style={{ color: ui.textColorSecondary }} href="/game">{strings.announce_play_game}</a>
+                  <a style={{ color: ui.alternateTextColor }} href="/game">{strings.announce_play_game}</a>
                 </aside>
               )}
               {/* <aside>

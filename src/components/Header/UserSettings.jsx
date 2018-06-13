@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { IconButton, Avatar } from 'material-ui';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
-import ActionHome from 'material-ui/svg-icons/action/home';
-import IconLight from 'material-ui/svg-icons/editor/highlight';
+import ActionHome from 'material-ui/svg-icons/social/person';
 import styled from 'styled-components';
 import { IconFacebook } from '../Icons';
 import strings from '../../lang';
@@ -21,7 +20,7 @@ const VerticalAlignDropdown = styled(Dropdown)`
 const LinkRouterStyled = styled(Link)`
   font-size: ${ui.fontSizeNormal};
   font-weight: ${ui.fontWeightLight};
-  color: ${ui.disabledColorVariant1} !important;
+  color: ${ui.textColorPrimary} !important;
   display: flex;
   align-items: center;
   margin-top: 2px;
@@ -39,7 +38,7 @@ const LinkRouterStyled = styled(Link)`
 const LinkStyled = styled.a`
   font-size: ${ui.fontSizeNormal};
   font-weight: ${ui.fontWeightLight};
-  color: ${ui.disabledColorVariant1} !important;
+  color: ${ui.textColorPrimary} !important;
   display: flex;
   align-items: center;
   margin-top: 2px;
@@ -64,7 +63,7 @@ const UserSettings = ({ user }) => (
   >
     {null && <LocalizationMenu />}
     <LinkRouterStyled to={`/u/${user.id}`}>
-      <ActionHome />
+      <ActionHome color={ui.positiveColor} size={24} style={{ width: 24, height: 24 }} />
       <span>{strings.app_my_profile}</span>
     </LinkRouterStyled>
     <LinkStyled
@@ -72,24 +71,8 @@ const UserSettings = ({ user }) => (
       target="_blank"
       rel="noopener noreferrer"
     >
-      <IconFacebook fill="rgb(179,179,179)" />
+      <IconFacebook fill={ui.blue} size={14} />
       <span>{strings.app_join_us_fb}</span>
-    </LinkStyled>
-    <LinkStyled
-      href=""
-      rel="noopener noreferrer"
-      onClick={(e) => {
-        e.preventDefault();
-        if (localStorage.getItem('theme') === 'dark') {
-          localStorage.setItem('theme', 'light');
-        } else {
-          localStorage.setItem('theme', 'dark');
-        }
-        window.location.reload();
-      }}
-    >
-      <IconLight fill="rgb(179,179,179)" />
-      <span>Switch theme</span>
     </LinkStyled>
     {user ? <Logout /> : null}
   </VerticalAlignDropdown>

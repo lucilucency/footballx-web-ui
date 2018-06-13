@@ -29,15 +29,9 @@ import Login from '../Login';
 const overwritesTheme = {
   fontFamily: ui.fontFamilyPrimary,
   card: { fontWeight: ui.fontWeightNormal },
-  cardText: {
-    color: ui.textColorPrimary,
-  },
-  cardTitle: {
-
-  },
   badge: { fontWeight: ui.fontWeightNormal },
   subheader: {
-    fontWeight: ui.fontWeightNormal,
+    // fontWeight: ui.fontWeightNormal,
     color: ui.textColorPrimary,
   },
   raisedButton: { fontWeight: ui.fontWeightNormal },
@@ -47,10 +41,19 @@ const overwritesTheme = {
   },
   palette: {
     textColor: ui.textColorPrimary,
-    secondaryTextColor: ui.textColorPrimary2,
+    secondaryTextColor: ui.textColorVariant1,
     canvasColor: ui.surfaceColorPrimary,
     alternateTextColor: ui.surfaceColorPrimary,
     borderColor: ui.borderColor,
+    primary1Color: ui.primary1Color, /* app-bar, toggle:true */
+    // primary2Color: '', /* weak!!! datePicker.selectColor, timePicker.selectColor */
+    // primary3Color: '', /* toggle:false, slider:false */
+    // accent1Color: materialColor.green500, /* tab-bar, :secondary */
+    // accent2Color: '', /* weak!!! toggle:false */
+    // accent3Color: '', /* weak!!! table-header */
+  },
+  checkbox: {
+    checkedColor: ui.checkboxCheckedColor || ui.primary1Color,
   },
   tabs: {
     backgroundColor: ui.surfaceColorPrimary,
@@ -158,7 +161,6 @@ class App extends React.Component {
               <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
 
               <Route exact path="/matches/:info?" component={Matches.Home} />
-              <Route exact path="/match/hot" component={Matches.HotMatches} />
               <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.MatchDetail} />
 
               <Route exact path="/l/:id/:info?/:subInfo?" component={League.LeageView} />

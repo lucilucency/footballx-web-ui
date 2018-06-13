@@ -9,7 +9,7 @@ import { MatchGridBlank } from '../../Blank';
 import ui from '../../../theme';
 import leaguesObj from '../../../fxconstants/leaguesObj.json';
 import { styles, toDateString } from '../../../utils';
-import MatchVisualizeCompact from './MatchVisualizeCompact';
+import MatchVisualizeCompact from '../../Match/components/MatchVisualizeCompact';
 
 const Styled = styled.div`
   .date {
@@ -37,7 +37,7 @@ class MatchGrid extends React.Component {
     return leaguesObj[leagueID] && leaguesObj[leagueID].name;
   };
 
-  getHeaderImage = leagueID => (<img src={leaguesObj[leagueID] && leaguesObj[leagueID].icon} alt="" height={18} />);
+  getHeaderImage = leagueID => (<img src={leaguesObj[leagueID] && leaguesObj[leagueID].icon} alt="" height={16} />);
 
   renderGrid() {
     const {
@@ -75,7 +75,7 @@ class MatchGrid extends React.Component {
                 ...styles.card.style,
                 padding: 8,
                 marginBottom: 8,
-                textColor: ui.textColorSecondary,
+                textColor: ui.alternateTextColor,
               }}
             >
               <CardTitle
@@ -86,7 +86,7 @@ class MatchGrid extends React.Component {
                 }}
               >
                 {this.getHeaderImage(leagueID || (groups[date][seasonID] && groups[date][seasonID].length && groups[date][seasonID][0].league_id))}
-                &nbsp;&nbsp;
+                &nbsp;
                 {this.getHeaderName(seasonID, groups[date][seasonID] && groups[date][seasonID].length && groups[date][seasonID][0].league_id)}
               </CardTitle>
               <List style={{ padding: 0 }}>

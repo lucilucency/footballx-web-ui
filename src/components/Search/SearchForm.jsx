@@ -69,7 +69,7 @@ class SearchForm extends React.Component {
             fontSize: ui.fontSizeSmall,
             lineHeight: '18px',
             whiteSpace: 'nowrap',
-            color: ui.textColorSecondary2,
+            color: ui.alternateTextColorVariant1,
           }}
         />
       </form>

@@ -46,29 +46,19 @@ const HeaderStyled = styled(Toolbar)`
   position: fixed;
   width: 100%;
   z-index: 1000;
-  background-color: ${ui.surfaceColorSecondary} !important;
-  color: ${ui.textColorSecondary};
+  background-color: ${ui.primary1Color} !important;
+  color: ${ui.alternateTextColor};
   font-family: ${ui.fontFamilyPrimary};  
   
   padding: 8px !important;
   & a {
-    color: ${ui.textColorSecondary};
+    color: ${ui.alternateTextColor};
 
     &:hover {
-      color: ${ui.textColorSecondary};
+      color: ${ui.alternateTextColorVariant1};
     }
   }
 `;
-
-const LogoGroup = () => (
-  <VerticalAlignToolbar>
-    <BurgerButton />
-    {/* {greaterThanSmall && <AppLogo style={{ marginRight: 18 }} size={24} />} */}
-  </VerticalAlignToolbar>
-);
-LogoGroup.propTypes = {
-  // greaterThanSmall: PropTypes.bool,
-};
 
 const HeaderLink = ({ user }) => (
   <VerticalAlignToolbar>
@@ -87,15 +77,15 @@ HeaderLink.propTypes = {
 
 const Search = () => (
   <VerticalAlignToolbar style={{ marginLeft: 20 }}>
-    <ActionSearch style={{ marginRight: 6, opacity: '.6', color: ui.textColorSecondary }} />
+    <ActionSearch style={{ marginRight: 6, opacity: '.6', color: ui.alternateTextColor }} />
     <SearchForm />
   </VerticalAlignToolbar>
 );
 
-const Header = ({ location, greaterThanSmall, user }) => (
+const Header = ({ greaterThanSmall, user }) => (
   <HeaderStyled>
     <VerticalAlignDiv>
-      <LogoGroup greaterThanSmall={greaterThanSmall} location={location} />
+      <BurgerButton />
       <HeaderLink user={user} />
       {greaterThanSmall && <Search />}
     </VerticalAlignDiv>
@@ -107,9 +97,7 @@ const Header = ({ location, greaterThanSmall, user }) => (
 );
 
 Header.propTypes = {
-  location: PropTypes.shape({}),
   greaterThanSmall: PropTypes.bool,
-
   user: PropTypes.shape({}),
 };
 

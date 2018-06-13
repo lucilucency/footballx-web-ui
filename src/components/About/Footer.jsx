@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import strings, { langs } from '../../lang/index';
-import ui, { /* themes */ } from '../../theme/index';
+import ui, { themes } from '../../theme/index';
 
 const Styled = styled.div`
   text-align: center;
@@ -18,12 +18,12 @@ const setLocalization = (e, payload) => {
   window.location.reload();
 };
 
-// const getTheme = window.localStorage.getItem('theme');
-// const setTheme = (e, payload) => {
-//   e.preventDefault();
-//   window.localStorage.setItem('theme', payload);
-//   window.location.reload();
-// };
+const getTheme = window.localStorage.getItem('theme');
+const setTheme = (e, payload) => {
+  e.preventDefault();
+  window.localStorage.setItem('theme', payload);
+  window.location.reload();
+};
 
 const AboutXFooter = () => (
   <Styled>
@@ -31,17 +31,26 @@ const AboutXFooter = () => (
       <small>
         {langs.map(lang => <a key={lang.value} href="/" onClick={e => setLocalization(e, lang.value)} style={{ marginRight: 8, color: getLocalization !== lang.value && ui.neutralColor }}>{lang.native}</a>)}
       </small>
+    </div>
+    {null && (
+      <div>
+        <small>
+          {themes.map(theme => (
+            <a key={theme.value} href="/" onClick={e => setTheme(e, theme.value)} style={{ marginRight: 8, color: getTheme !== theme.value && ui.neutralColor }}>
+              {theme.native}
+            </a>
+          ))}
+        </small>
+      </div>
+    )}
+    <div>
+      <small>
+        <a key="about" href="https://ttab.me" target="_blank" rel="noopener noreferrer">{strings.app_about} {strings.app_name}</a>
+      </small>
       &nbsp;|&nbsp;
       <small>
-        <a key="privacy" href="https://ttab.me" target="_blank" rel="noopener noreferrer">{strings.app_privacy_terms}</a>
+        <a key="privacy" href="https://ttab.me/privacy" target="_blank" rel="noopener noreferrer">{strings.app_privacy_terms}</a>
       </small>
-      {/* <small>
-        {themes.map(theme => (
-          <a key={theme.value} href="/" onClick={e => setTheme(e, theme.value)} style={{ marginRight: 8, color: getTheme !== theme.value && ui.neutralColor }}>
-            {theme.native}
-          </a>
-        ))}
-      </small> */}
     </div>
   </Styled>
 );

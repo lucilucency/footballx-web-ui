@@ -146,7 +146,7 @@ class ViewPostCompact extends React.Component {
     return (
       <Card style={styles.card.style}>
         <CardHeader
-          title={communityLink}
+          title={<div style={styles.cardHeader.title}>{communityLink}</div>}
           subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
           avatar={item.community_icon}
           style={styles.cardHeader.style}
@@ -173,7 +173,6 @@ class ViewPostCompact extends React.Component {
         {isLink && this.renderLink(item.content)}
         {isText && (
           <CardText
-            color={ui.textColorSecondary}
             style={styles.cardText.style}
           >
             {wrapTextReadMore(item.content, this.popupViewPostFull)}

@@ -20,14 +20,15 @@ const Constants = {
   fontSizeLarge: '21px',
   fontSizeNormal: '16px',
   fontSizeSmall: '14px',
+  fontSizeLittle: '13px',
   fontSizeTiny: '12px',
 
   lineHeightHuge: '60px',
   lineHeightBig: '55px',
   lineHeightLarge: '40px',
   lineHeightNormal: '24px',
-  lineHeightSmall: '18px',
-  lineHeightTiny: '14px',
+  lineHeightSmall: '25px',
+  lineHeightTiny: '18px',
 
   /* transition */
   normalTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',

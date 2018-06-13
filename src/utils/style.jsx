@@ -16,7 +16,12 @@ export const styles = {
     style: { boxShadow: 'none' },
   },
   cardHeader: {
-    style: { padding: '1em 1em 0.5em 1em' },
+    style: {
+      padding: '1em 1em 0.5em 1em',
+    },
+    title: {
+      color: ui.textColorVariant1,
+    },
   },
   cardMedia: {
     style: {
@@ -34,7 +39,7 @@ export const styles = {
       fontSize: ui.fontSizeSmall,
       fontFamily: ui.fontFamilySecondary,
       lineHeight: ui.lineHeightSmall,
-      color: ui.textColorPrimary3,
+      color: ui.textColorVariant1,
     },
   },
   cardActions: {

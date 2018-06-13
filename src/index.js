@@ -50,7 +50,7 @@ li {
   overflow-x: hidden;
   min-height: 100vh;
   background-color: ${ui.backgroundColorPrimary};
-  background-image: ${ui.backgroundColorSecondary};
+  background-image: ${ui.backgroundImageColor};
   color: ${ui.textColorPrimary};
 }
 
@@ -87,9 +87,9 @@ li {
 .text-huge { font-size: ${ui.fontSizeHuge}; line-height: 48px; }
 .text-big { font-size: ${ui.fontSizeBig}; line-height: 36px; }
 .text-large { font-size: ${ui.fontSizeLarge}; line-height: 27px; }
-.text-normal { font-size: ${ui.fontSizeNormal}; line-height: 21px; }
-.text-small { font-size: ${ui.fontSizeSmall}; line-height: 18px; }
-.text-tiny { font-size: ${ui.fontSizeTiny}; line-height: 16px; }
+.text-normal { font-size: ${ui.fontSizeNormal}; line-height: ${ui.lineHeightNormal}; }
+.text-small { font-size: ${ui.fontSizeSmall}; line-height: ${ui.lineHeightSmall}; }
+.text-tiny { font-size: ${ui.fontSizeTiny}; line-height: ${ui.lineHeightTiny}; }
 
 .text-colossal,
 .text-huge,

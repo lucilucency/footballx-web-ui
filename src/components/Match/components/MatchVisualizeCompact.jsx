@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled, {
 // css
 } from 'styled-components';
-import ui from '../../../theme';
+import ui from '../../../theme/index';
 import { toTimeString, convertMatchStatus } from '../../../utils/index';
 import clubs from '../../../fxconstants/clubsObj.json';
 
@@ -24,7 +24,7 @@ const Styled = styled.div`
 `;
 const MatchInfo = styled.div`
   display: grid;
-  grid-template-columns: 1fr 100px 1fr;
+  grid-template-columns: [full-start] minmax(0, 1fr) [main-start] minmax(5em, 100px) [main-end] minmax(0, 1fr) [full-end];
   
   @media only screen and (max-width: 1023px) {
     flex-basis: 100%;
@@ -35,8 +35,18 @@ const MatchInfo = styled.div`
     display: table;
     -webkit-border-horizontal-spacing: 1em;
     
-    &.left { justify-self: end; }
-    &.right { justify-self: start; }
+    &.left { 
+      justify-self: end;
+      span {
+        text-align: right;
+      } 
+    }
+    &.right { 
+      justify-self: start;
+      span {
+        text-align: left;
+      } 
+    }
     > * { display: table-cell; vertical-align: middle; }
   }
     
@@ -89,7 +99,7 @@ const MatchVisualizeCompact = (props) => {
           <span>{home.name}</span>
           <img src={home.icon} alt="" style={styles.iconButton.iconStyle} />
         </div>
-        <div className="info" style={{ backgroundColor: date * 1000 < Date.now() && ui.positiveColorVariant1 }}>
+        <div className="info" style={{ backgroundColor: date * 1000 < Date.now() && ui.positiveColorVariant2 }}>
           {date * 1000 > Date.now() ? (
             <span>
               {toTimeString(date * 1000)}

@@ -16,6 +16,7 @@ const StyledSection = styled.section`
   justify-content: space-between;
   flex-wrap: wrap;
 
+
   & a {
     /* Tab */
     text-align: center;
@@ -25,6 +26,7 @@ const StyledSection = styled.section`
     padding: 14px 12px 10px;
     border-bottom: 4px solid transparent;
     flex-grow: 1;
+    font-weight: ${ui.fontWeightHeavy};
 
     &:hover {
       color: color(${ui.textColorPrimary} lightness(85%));
@@ -47,7 +49,7 @@ const StyledSection = styled.section`
 
   & .chosen {
     display: inline-block;
-    border-color: ${ui.positiveColor};
+    border-color: ${ui.primary1Color};
     color: color(${ui.textColorPrimary} lightness(85%));
   }
 `;

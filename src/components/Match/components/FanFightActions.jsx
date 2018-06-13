@@ -40,7 +40,6 @@ const MatchInfo = styled.div`
   }
   .club-image {
     padding: 2px;
-    background-color: rgba(255,255,255,0.1);
     font-size: ${ui.fontSizeSmall};
     ${props => props.pumping && css`
       animation: .85s infinite ${beatHeart};

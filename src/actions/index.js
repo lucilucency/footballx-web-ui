@@ -99,8 +99,8 @@ export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGet({
   params: {
     sortby,
     xuser_id,
-    limit: 100,
-    offset: 0,
+    // limit: 100,
+    // offset: 0,
   },
   transform: parser.parsePostInMeFeeds,
 });
@@ -111,8 +111,8 @@ export const getWorldFeeds = ({ sortby, xuser_id }) => dispatchGet({
   params: {
     sortby,
     xuser_id,
-    limit: 100,
-    offset: 0,
+    // limit: 100,
+    // offset: 0,
   },
   transform: parser.parsePostInMeFeeds,
 });

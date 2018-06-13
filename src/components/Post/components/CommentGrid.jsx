@@ -50,7 +50,7 @@ class ViewPostComments extends React.Component {
         secondaryText={<CommentActions data={item} type="comment" isLoggedIn={this.props.isLoggedIn} />}
         nestedItems={item.comments && item.comments.map(el => this.renderComment(el, true))}
         nestedListStyle={{
-          borderLeft: `1px solid ${ui.textColorSecondary}`,
+          borderLeft: `1px solid ${ui.alternateTextColor}`,
           marginLeft: 8,
         }}
       />

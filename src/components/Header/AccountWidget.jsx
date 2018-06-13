@@ -108,11 +108,11 @@ const AccountWidget = ({
       return (
         <Link to="/submit">
           <RaisedButton
-            labelStyle={{ color: ui.textColorSecondary, fontSize: '14px' }}
-            style={{ marginRight: 10, border: '1px solid', borderColor: ui.textColorSecondary }}
+            labelStyle={{ color: ui.alternateTextColor, fontSize: '14px' }}
+            style={{ marginRight: 10, border: '1px solid', borderColor: ui.alternateTextColor }}
             buttonStyle={{ height: '32px', lineHeight: '32px' }}
             label="CREATE POST"
-            backgroundColor={ui.surfaceColorSecondary}
+            backgroundColor={ui.primary1Color}
           />
         </Link>
       );

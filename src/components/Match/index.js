@@ -1,7 +1,4 @@
-import HotMatchDetail from './ViewHotMatch';
+/* eslint-disable import/prefer-default-export */
 import MatchDetail from './ViewMatch';
 
-export {
-  HotMatchDetail,
-  MatchDetail,
-};
+export { MatchDetail };

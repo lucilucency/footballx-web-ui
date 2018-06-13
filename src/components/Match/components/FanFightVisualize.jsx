@@ -17,7 +17,7 @@ const pumping = color => keyframes`
 `;
 
 const Styled = styled.div`
-  color: ${ui.textColorSecondary}
+  color: ${ui.alternateTextColor}
   
   h5 {
     position: relative;

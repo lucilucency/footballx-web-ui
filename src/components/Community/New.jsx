@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import { setCommunity, getCommunity } from '../../actions';
 import { PostGrid } from '../Post/components/index';
 import { Container } from '../../utils/index';
-import RightBar from './CommunityRightBar';
+import RightBar from './RightBar';
 
 class CommunityNew extends React.Component {
   componentDidMount() {

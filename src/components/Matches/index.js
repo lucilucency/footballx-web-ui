@@ -1,7 +1,4 @@
-import HotMatches from './HotMatches';
+/* eslint-disable import/prefer-default-export */
 import Home from './Home';
 
-export {
-  HotMatches,
-  Home,
-};
+export { Home };

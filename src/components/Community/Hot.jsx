@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import { setCommunity, getCommunity } from '../../actions';
 import { PostGrid } from '../Post/components/index';
 import { Container } from '../../utils/index';
-import RightComponent from './CommunityRightBar';
+import RightComponent from './RightBar';
 
 const propsLoadData = (props) => {
   const { location } = props;

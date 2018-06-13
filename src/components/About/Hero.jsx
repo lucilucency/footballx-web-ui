@@ -31,7 +31,7 @@ const HeroStyled = styled.div`
     bottom: 0;
     left: 1em;
     text-align: left;
-    color: ${ui.textColorSecondary};
+    color: ${ui.alternateTextColor};
     
     .appName {
       font-size: ${ui.fontSizeSmall};
@@ -78,11 +78,13 @@ const AboutX = (props) => {
   return (
     <AboutXStyled>
       <Hero />
-      <div style={{ padding: 8 }}>
-        <div className="text-tiny">
-          <b>{strings.paragraph_app_desc_primary}</b><br />
-          {strings.paragraph_app_desc_secondary}
-        </div>
+      <div style={{ padding: 8, fontSize: ui.fontSizeTiny }}>
+        <p><b>{strings.paragraph_app_desc_primary}</b></p>
+        <p>
+          <small className="text-tiny">
+            {strings.paragraph_app_desc_secondary}
+          </small>
+        </p>
         {isLoggedIn && <CreatePostButton isLoggedIn={isLoggedIn} />}
       </div>
     </AboutXStyled>

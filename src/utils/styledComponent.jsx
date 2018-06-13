@@ -70,7 +70,7 @@ export const FormWrapper = styled(ValidatorForm)`
 `;
 
 export const ActiveLink = styled(Link)`
-  color: #000;
+  color: ${ui.linkColor};
   :hover {
     text-decoration: underline;
   }

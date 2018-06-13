@@ -98,7 +98,7 @@ class StandingGrid extends React.Component {
             ...styles.card.style,
             padding: 8,
             marginBottom: 8,
-            textColor: ui.textColorSecondary,
+            textColor: ui.alternateTextColor,
           }}
         >
           {false && (

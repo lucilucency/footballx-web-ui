@@ -3,7 +3,7 @@ import ui from '../../../theme';
 
 export const LinkCoverStyled = styled.span`
   color: ${ui.disabledColorVariant1};
-  font-size: ${ui.fontSizeSmall};
+  font-size: ${ui.fontSizeLittle};
 `;
 
 export const LinkPreview = styled.div`

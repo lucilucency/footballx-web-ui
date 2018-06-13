@@ -12,7 +12,7 @@ import { toTimeString, toDateString } from '../../../utils/index';
 const MatchInfo = styled.div`
   padding: 1em;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: [full-start] minmax(0, 1fr) [main-start] minmax(0, 1fr) [main-end] minmax(0, 1fr) [full-end];
   color: ${ui.textColorPrimary}
   
   @media only screen and (max-width: 1023px) {
@@ -21,7 +21,6 @@ const MatchInfo = styled.div`
   }
   .club-image {
     padding: 2px;
-    background-color: rgba(255,255,255,0.1);
     font-size: ${ui.fontSizeSmall};
     
     img {
