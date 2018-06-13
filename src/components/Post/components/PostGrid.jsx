@@ -5,7 +5,7 @@ import LazyLoad from 'react-lazyload';
 import { withRouter } from 'react-router-dom';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { getMeFeeds, getPostsWorld } from '../../../actions/index';
+import { getMeFeeds, getWorldFeeds } from '../../../actions/index';
 import { ViewPostCompact, ViewPostCompactBlank } from './index';
 import { PostsGridStyled } from './Styled';
 
@@ -131,8 +131,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getMeFeeds: ({ sortby, xuser_id }) => dispatch(getMeFeeds({ sortby, xuser_id })),
-  getWorldFeeds: ({ sortby, xuser_id }) => dispatch(getPostsWorld({ sortby, xuser_id })),
-  getCommunityFeeds: ({ sortby, xuser_id }) => dispatch(getPostsWorld({ sortby, xuser_id })),
+  getWorldFeeds: ({ sortby, xuser_id }) => dispatch(getWorldFeeds({ sortby, xuser_id })),
+  getCommunityFeeds: ({ sortby, xuser_id }) => dispatch(getWorldFeeds({ sortby, xuser_id })),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostGrid));

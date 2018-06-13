@@ -2,7 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { langs } from '../../lang/index';
+import strings, { langs } from '../../lang/index';
 import ui, { /* themes */ } from '../../theme/index';
 
 const Styled = styled.div`
@@ -31,7 +31,10 @@ const AboutXFooter = () => (
       <small>
         {langs.map(lang => <a key={lang.value} href="/" onClick={e => setLocalization(e, lang.value)} style={{ marginRight: 8, color: getLocalization !== lang.value && ui.neutralColor }}>{lang.native}</a>)}
       </small>
-      {/* &nbsp;|&nbsp; */}
+      &nbsp;|&nbsp;
+      <small>
+        <a key="privacy" href="https://ttab.me" target="_blank">{strings.app_privacy_terms}</a>
+      </small>
       {/* <small>
         {themes.map(theme => (
           <a key={theme.value} href="/" onClick={e => setTheme(e, theme.value)} style={{ marginRight: 8, color: getTheme !== theme.value && ui.neutralColor }}>
