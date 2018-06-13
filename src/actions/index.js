@@ -94,23 +94,25 @@ export const subscribeCommunity = (communityID, {
 } = {}) => dispatchGet({ reducer, path });
 // post
 export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGet({
-  reducer: 'ADD/posts',
+  reducer: 'posts',
   path: 'posts/following',
   params: {
     sortby,
     xuser_id,
-    limit: 20,
+    limit: 100,
     offset: 0,
   },
   transform: parser.parsePostInMeFeeds,
 });
 export const getWorldFeeds = ({ sortby, xuser_id }) => dispatchGet({
   auth: false,
-  reducer: 'ADD/posts',
+  reducer: 'posts',
   path: 'posts',
   params: {
     sortby,
     xuser_id,
+    limit: 100,
+    offset: 0,
   },
   transform: parser.parsePostInMeFeeds,
 });

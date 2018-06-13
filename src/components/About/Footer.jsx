@@ -11,7 +11,7 @@ const Styled = styled.div`
   color: ${ui.neutralColor}
 `;
 
-const getLocalization = window.localStorage.getItem('localization');
+const getLocalization = window.localStorage.getItem('localization') || langs[0].value;
 const setLocalization = (e, payload) => {
   e.preventDefault();
   window.localStorage.setItem('localization', payload);

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import queryString from 'querystring';
 import Amplitude from 'react-amplitude';
 import { getCookie } from '../../utils';
+import { langs } from '../../lang/index';
 
 class GamePort extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class GamePort extends React.Component {
     const { browser } = this.props;
     const params = {
       access_token: getCookie('access_token'),
+      lang: window.localStorage.getItem('localization') || langs[0].value,
     };
 
     const url = this.props.banner.url || 'https://game.footballx.live';
