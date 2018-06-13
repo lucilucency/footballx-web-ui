@@ -33,7 +33,7 @@ const AboutXFooter = () => (
       </small>
       &nbsp;|&nbsp;
       <small>
-        <a key="privacy" href="https://ttab.me" target="_blank">{strings.app_privacy_terms}</a>
+        <a key="privacy" href="https://ttab.me" target="_blank" rel="noopener noreferrer">{strings.app_privacy_terms}</a>
       </small>
       {/* <small>
         {themes.map(theme => (
