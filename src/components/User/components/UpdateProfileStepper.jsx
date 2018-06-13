@@ -151,7 +151,6 @@ class HorizontalNonLinearStepper extends React.Component {
           )}
           {stepIndex === 2 && (
             <div>
-              {/* <h2>{strings.hint_choose_following_community_1}</h2> */}
               <p>{strings.hint_choose_following_community_2}</p>
               <SuggestedCommunities />
             </div>

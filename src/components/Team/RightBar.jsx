@@ -8,7 +8,7 @@ import AboutXFooter from '../About/Footer';
 const TeamRightBar = () => (
   <div>
     <SmallPaper>
-      <p>{strings.paragraph_popular_desc}</p>
+      <p>{strings.paragraph_post_desc}</p>
     </SmallPaper>
     <div>
       <AboutXFooter />
