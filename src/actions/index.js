@@ -366,7 +366,6 @@ const changeFollow = (userID, {
   reducer = 'EDIT/metadata',
   path = `xuser/${userID}/change-follow`,
 }) => dispatchPost({
-  version: 'v1',
   reducer,
   path,
   params: {
