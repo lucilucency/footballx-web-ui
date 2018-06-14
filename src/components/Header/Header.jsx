@@ -40,6 +40,14 @@ const TabContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  
+  > div {
+    margin: 0 1em;
+    
+    @media only screen and (max-width: 768px) {
+      margin: 0 8px 0 0;
+    } 
+  }
 `;
 
 const HeaderStyled = styled(Toolbar)`
@@ -48,7 +56,11 @@ const HeaderStyled = styled(Toolbar)`
   z-index: 1000;
   background-color: ${ui.primary1Color} !important;
   color: ${ui.alternateTextColor};
-  font-family: ${ui.fontFamilyPrimary};  
+  font-family: ${ui.fontFamilyPrimary};
+  
+  @media only screen and (max-width: 768px) {
+    font-size: ${ui.fontSizeLittle};
+  } 
   
   padding: 8px !important;
   & a {
@@ -64,7 +76,7 @@ const HeaderLink = ({ user }) => (
   <VerticalAlignToolbar>
     {getHeaderLinks(user).map(Page => (
       <TabContainer key={Page.key}>
-        <div style={{ margin: '0 10px', textAlign: 'center', fontWeight: `${ui.fontWeightNormal} !important` }}>
+        <div style={{ textAlign: 'center', fontWeight: `${ui.fontWeightNormal} !important` }}>
           {Page}
         </div>
       </TabContainer>

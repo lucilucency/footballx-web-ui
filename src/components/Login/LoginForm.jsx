@@ -115,7 +115,7 @@ class LoginForm extends React.Component {
             errorText={this.state.message}
           />
           <br />
-          <FlatButton label={strings.home_login} primary />
+          <FlatButton label={strings.app_login} primary />
         </form>
       </div>
     );
