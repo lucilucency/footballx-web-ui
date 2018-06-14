@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import styled from 'styled-components';
 import { loginFb } from '../../actions';
 import strings from '../../lang';
-import FbLoginBtn from './FbLoginBtn';
+import FacebookLoginButton from './FacebookLoginButton';
 
 const OrLine = styled.div`
   position: relative;
@@ -89,14 +89,21 @@ class LoginForm extends React.Component {
   render() {
     return (
       <div>
-        <FbLoginBtn
+        <FacebookLoginButton
+          onSuccess={this.doLoginFb}
+          onFailure={(err) => {
+            console.warn('err', err);
+          }}
+          // afterLogin={}
+        />
+        {/* <FbLoginBtn
           width={250}
           dataScope="public_profile,email,user_birthday,user_gender"
           onSuccess={this.doLoginFb}
           onFailure={(err) => {
             console.warn('err', err);
           }}
-        />
+        /> */}
         <OrLine>or</OrLine>
         <form>
           <TextField
