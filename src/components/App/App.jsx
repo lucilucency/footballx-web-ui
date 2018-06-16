@@ -55,6 +55,9 @@ const overwritesTheme = {
   tableRow: {
     borderColor: ui.borderColorVariant1,
   },
+  tableHeaderColumn: {
+    height: 48,
+  },
   checkbox: {
     checkedColor: ui.checkboxCheckedColor || ui.primary1Color,
   },

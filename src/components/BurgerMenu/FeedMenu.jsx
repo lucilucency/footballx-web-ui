@@ -45,7 +45,7 @@ const FeedMenu = ({
         />}
         <ListItem
           primaryText="Popular"
-          leftIcon={<IconPopular size={24} color={ui.positiveColor} />}
+          leftIcon={<IconPopular size={24} color={ui.primary1Color} />}
           containerElement={<Link to="/popular" />}
           innerDivStyle={styles.listItem.innerDivStyle}
         />

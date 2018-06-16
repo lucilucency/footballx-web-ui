@@ -1,13 +1,23 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import ui from '../../theme';
 
 export const StyledBody = styled.div`
   table {
     background-color: transparent !important;
     table-layout: auto !important;
+    font-style: ${ui.fontSizeSmall};
+    ${props => props.fixedColumns && css`
+      table-layout: fixed !important;
+    `}
+    
     //margin-bottom: 20px;
 
     & th {
+      ${props => props.fixedColumns && props.fixedColumns.map(col => css`
+        &:nth-child(${col.pos}) {
+          width: ${col.width};
+        }
+      `)}
       //background-color: rgba(0, 0, 0, 0.3);
 
       & svg {
@@ -30,10 +40,12 @@ export const StyledBody = styled.div`
       &:nth-child(odd) {
         //background-color: rgba(255, 255, 255, 0.019);
       }
-
       &:nth-child(even) {
         //background-color: rgba(0, 0, 0, 0.019);
       }
+      &:last-child {
+        border-bottom: none !important;
+      }      
 
       & td {
         //border-top: 1px solid rgba(255, 255, 255, 0.06) !important;

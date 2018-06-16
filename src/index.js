@@ -61,7 +61,7 @@ li {
 [data-id="tooltip"] {
   padding: 8px 12px !important;
   border-radius: 2px !important;
-  background-color: ${ui.backgroundColorPrimary} !important;
+  background-color: ${ui.positiveColorVariant1} !important;
   color: ${ui.textColorPrimary} !important;
   white-space: pre-wrap;
   line-height: 1.5 !important;

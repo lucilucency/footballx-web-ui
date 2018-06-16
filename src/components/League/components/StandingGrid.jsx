@@ -8,18 +8,13 @@ import { Card, CardTitle } from 'material-ui';
 import Table, { /* TableLink */ } from '../../Table';
 import { MatchGridBlank } from '../../Blank';
 import ui from '../../../theme';
+import strings from '../../../lang';
 import leaguesObj from '../../../fxconstants/leaguesObj.json';
 import clubsObj from '../../../fxconstants/clubsObj.json';
 import { styles, getOrdinal } from '../../../utils';
 
 const Styled = styled.div`
-  //display: grid;
-  //grid-template-columns: 1fr;
-  //grid-column-gap: 1em;
-  //
-  //@media only screen and (min-width: 992px) {
-  //  grid-template-columns: 1fr 1fr;
-  //}
+
 `;
 
 const displayTeam = (row, col, field) => {
@@ -31,27 +26,46 @@ const displayTeam = (row, col, field) => {
       <img
         src={icon}
         alt=""
-        height={18}
+        height={24}
+        style={{ verticalAlign: 'middle' }}
       />
-      &nbsp;&nbsp;
-      {name}
+      <span style={{ verticalAlign: 'middle' }}>&nbsp;&nbsp;{name}</span>
     </div>
   );
 };
 
+const displayStat = (row, col, field) => (field || '0');
+
 const tableEventsColumns = (name, browser) => [
   browser.greaterThan.medium && { displayName: '#', displayFn: (row, col, field, index) => (index > -1 ? index + 1 : getOrdinal(index + 1)) },
-  { displayName: name, field: 'club_id', displayFn: displayTeam },
-  { displayName: 'P', field: 'p', displayFn: (row, col, field) => (field || 0) },
-  { displayName: 'W', field: 'w', displayFn: (row, col, field) => (field || 0) },
-  { displayName: 'D', field: 'd', displayFn: (row, col, field) => (field || 0) },
-  { displayName: 'L', field: 'l', displayFn: (row, col, field) => (field || 0) },
-  { displayName: 'F', field: 'f', displayFn: (row, col, field) => (field || 0) },
-  { displayName: 'A', field: 'd', displayFn: (row, col, field) => (field || 0) },
-  { displayName: 'GD', field: 'gd', displayFn: (row, col, field) => (field || 0) },
-  { displayName: 'D', field: 'd', displayFn: (row, col, field) => (field || 0) },
-  { displayName: 'PTS', field: 'pts', displayFn: (row, col, field) => (field || 0) },
-];
+  {
+    displayName: <b>{name}</b>, field: 'club_id', displayFn: displayTeam, tooltip: strings.tooltip_team,
+  },
+  {
+    displayName: <b>{strings.enum_standing_p}</b>, field: 'p', displayFn: displayStat, tooltip: strings.tooltip_standing_p,
+  },
+  {
+    displayName: <b>{strings.enum_standing_w}</b>, field: 'w', displayFn: displayStat, tooltip: strings.tooltip_standing_w,
+  },
+  {
+    displayName: <b>{strings.enum_standing_d}</b>, field: 'd', displayFn: displayStat, tooltip: strings.tooltip_standing_d,
+  },
+  {
+    displayName: <b>{strings.enum_standing_l}</b>, field: 'l', displayFn: displayStat, tooltip: strings.tooltip_standing_l,
+  },
+  {
+    displayName: <b>{strings.enum_standing_f}</b>, field: 'f', displayFn: displayStat, tooltip: strings.tooltip_standing_f,
+  },
+  {
+    displayName: <b>{strings.enum_standing_a}</b>, field: 'a', displayFn: displayStat, tooltip: strings.tooltip_standing_a,
+  },
+  {
+    displayName: <b>{strings.enum_standing_gd}</b>, field: 'gd', displayFn: displayStat, tooltip: strings.tooltip_standing_gd,
+  },
+  {
+    displayName: <b>{strings.enum_standing_pts}</b>, field: 'pts', displayFn: displayStat, tooltip: strings.tooltip_standing_pts,
+  },
+].filter(Boolean);
 
 class StandingGrid extends React.Component {
   componentDidMount() {
@@ -120,11 +134,19 @@ class StandingGrid extends React.Component {
           )}
           <Table
             columns={tableEventsColumns(this.getSeasonName(seasonID) || (leaguesObj[leagueID] && leaguesObj[leagueID].name), this.props.browser)}
-            data={groups[seasonID]}
+            data={groups[seasonID].sort((a, b) => {
+              if (a.rank > b.rank) return 1;
+              else if (a.rank < b.rank) return -1;
+              return 0;
+            })}
             loading={false}
             error={false}
             paginated={false}
             pageLength={30}
+            fixedColumns={[{
+              pos: 2,
+              width: '200px',
+            }]}
           />
         </Card>
       ));

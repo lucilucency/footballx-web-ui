@@ -6,14 +6,15 @@ import { getMatches } from '../../actions/index';
 // import leagues from '../../../fxconstants/leaguesObj.json';
 import MatchGrid from './components/MatchGrid';
 
-const start_time = new Date();
+const start_time = parseInt((new Date() / 1000) - 7200, 10);
 // start_time.setHours(0, 0, 0, 0);
-const end_time = new Date();
-end_time.setHours(23, 59, 59, 999);
+const end = new Date();
+end.setHours(23, 59, 59, 999);
+const end_time = parseInt((end / 1000) + 169200, 10);
 
 const getSeasons = (props) => {
   Amplitude.logEvent('View upcoming matches');
-  props.getMatches({ start_time: parseInt(start_time / 1000, 10), end_time: parseInt((end_time / 1000) + 169200, 10) });
+  props.getMatches({ start_time, end_time });
 };
 
 class UpcomingMatches extends React.Component {

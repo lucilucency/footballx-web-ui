@@ -137,6 +137,7 @@ class Table extends React.Component {
       hoverRowColumn,
       highlightFn,
       keyFn,
+      fixedColumns,
     } = this.props;
     const {
       sortState, sortField, sortFn, currentPage,
@@ -153,7 +154,7 @@ class Table extends React.Component {
       data = data.slice(currentPage * pageLength, (currentPage + 1) * pageLength);
     }
     return (
-      <StyledBody hoverRowColumn={hoverRowColumn} >
+      <StyledBody hoverRowColumn={hoverRowColumn} fixedColumns={fixedColumns}>
         {paginated && <Pagination
           numPages={Math.ceil(dataLength / pageLength)}
           currentPage={currentPage}
@@ -292,6 +293,7 @@ const {
   number,
   string,
   func,
+  array,
 } = PropTypes;
 
 Table.propTypes = {
@@ -307,6 +309,7 @@ Table.propTypes = {
   hoverRowColumn: bool,
   highlightFn: func,
   keyFn: func,
+  fixedColumns: array,
 };
 
 export default Table;
