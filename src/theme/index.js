@@ -3,8 +3,8 @@ import * as materialColor from 'material-ui/styles/colors';
 import constants from '../components/constants';
 
 export const themes = [{
-  value: 'light',
-  native: 'Light',
+  value: 'pitch',
+  native: 'Pitch',
   data: {
     ...constants,
     positiveColor: materialColor.green500,
@@ -19,7 +19,7 @@ export const themes = [{
     neutralColorVariant1: materialColor.grey300,
     linkColor: '#6BF',
     borderColor: 'rgb(224, 224, 224)',
-    borderColorVariant1: materialColor.grey50,
+    borderColorVariant1: materialColor.green50,
     avatarBackgroundColor: materialColor.grey50,
 
     backgroundColorPrimary: materialColor.grey100,
@@ -52,7 +52,7 @@ export const themes = [{
     neutralColorVariant1: materialColor.grey300,
     linkColor: '#6BF',
     borderColor: 'rgb(224, 224, 224)',
-    borderColorVariant1: materialColor.grey50,
+    borderColorVariant1: materialColor.red50,
     avatarBackgroundColor: materialColor.grey50,
 
     backgroundColorPrimary: materialColor.grey100, /* canvas color */

@@ -92,13 +92,7 @@ class MatchView extends React.Component {
             </div>
           </CardMedia>
           <CardActions
-            style={{
-              padding: '0 8px',
-              display: 'flex',
-              flexDirection: 'row',
-              borderTop: `1px solid ${constants.grey50}`,
-              fontWeight: constants.fontWeightHeavy,
-            }}
+            style={styles.cardActions.style}
           >
             <MatchActions
               type="post"

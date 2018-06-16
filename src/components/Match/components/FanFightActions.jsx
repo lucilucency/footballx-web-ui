@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import { hitVote } from '../../../actions/index';
 import ui from '../../../theme';
-import { IconUpvote } from '../../Icons';
+// import { IconUpvote } from '../../Icons';
 // import strings from '../../../lang';
 // import { toTimeString, toDateString } from '../../../utils/index';
 
@@ -136,13 +136,13 @@ class MatchVisualize extends React.Component {
     const styles = {};
     if (greaterThan.medium) {
       styles.iconButton = {
-        style: { height: 128, width: 'auto' },
-        iconStyle: { height: 108, width: 'auto' },
+        style: { height: 96, width: 'auto' },
+        iconStyle: { height: 80, width: 'auto' },
       };
     } else {
       styles.iconButton = {
-        style: { height: 80, width: 'auto' },
-        iconStyle: { height: 64, width: 'auto' },
+        style: { height: 64, width: 'auto' },
+        iconStyle: { height: 48, width: 'auto' },
       };
     }
 
@@ -151,30 +151,30 @@ class MatchVisualize extends React.Component {
         <div className="club-image">
           <IconButton
             disabled={disabled}
-            tooltip={!disabled && `For ${home.name}`}
+            tooltip={!disabled && `Vote for ${home.name}`}
             tooltipPosition="top-center"
             onClick={() => this.hitVoteHome(home.id, away.id, homeVotes, awayVotes)}
             style={styles.iconButton.style}
             iconStyle={styles.iconButton.iconStyle}
             touch
           >
-            {/* <img src={home.icon} alt="" /> */}
-            <IconUpvote />
+            <img src={home.icon} alt="" />
+            {/* <IconUpvote /> */}
           </IconButton>
           {/* <div>{home.name}</div> */}
         </div>
         <div className="club-image">
           <IconButton
             disabled={disabled}
-            tooltip={!disabled && `For ${away.name}`}
+            tooltip={!disabled && `Vote for ${away.name}`}
             tooltipPosition="top-center"
             onClick={() => this.hitVoteAway(home.id, away.id, homeVotes, awayVotes)}
             style={styles.iconButton.style}
             iconStyle={styles.iconButton.iconStyle}
             touch
           >
-            {/* <img src={away.icon} alt="" /> */}
-            <IconUpvote />
+            <img src={away.icon} alt="" />
+            {/* <IconUpvote /> */}
           </IconButton>
           {/* <div>{away.name}</div> */}
         </div>

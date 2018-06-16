@@ -18,7 +18,7 @@ const setLocalization = (e, payload) => {
   window.location.reload();
 };
 
-const getTheme = window.localStorage.getItem('theme');
+const getTheme = window.localStorage.getItem('theme') || themes[0].value;
 const setTheme = (e, payload) => {
   e.preventDefault();
   window.localStorage.setItem('theme', payload);
@@ -29,10 +29,19 @@ const AboutXFooter = () => (
   <Styled>
     <div>
       <small>
+        <a key="about" href="https://ttab.me" target="_blank" rel="noopener noreferrer">{strings.app_about} {strings.app_name}</a>
+      </small>
+      &nbsp;|&nbsp;
+      <small>
+        <a key="privacy" href="https://ttab.me/privacy" target="_blank" rel="noopener noreferrer">{strings.app_privacy_terms}</a>
+      </small>
+    </div>
+    <div>
+      <small>
         {langs.map(lang => <a key={lang.value} href="/" onClick={e => setLocalization(e, lang.value)} style={{ marginRight: 8, color: getLocalization !== lang.value && ui.neutralColor }}>{lang.native}</a>)}
       </small>
     </div>
-    {null && (
+    {true && (
       <div>
         <small>
           {themes.map(theme => (
@@ -43,15 +52,6 @@ const AboutXFooter = () => (
         </small>
       </div>
     )}
-    <div>
-      <small>
-        <a key="about" href="https://ttab.me" target="_blank" rel="noopener noreferrer">{strings.app_about} {strings.app_name}</a>
-      </small>
-      &nbsp;|&nbsp;
-      <small>
-        <a key="privacy" href="https://ttab.me/privacy" target="_blank" rel="noopener noreferrer">{strings.app_privacy_terms}</a>
-      </small>
-    </div>
   </Styled>
 );
 

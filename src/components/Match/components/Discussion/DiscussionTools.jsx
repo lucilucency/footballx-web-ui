@@ -17,7 +17,6 @@ import strings from '../../../../lang/index';
 const MatchActionStyled = styled.div`
   padding: 0 1em;
   display: table;
-  border-top: ${`1px solid ${ui.borderColorVariant1}`};
   font-weight: ${ui.fontWeightMedium};
   font-size: ${ui.fontSizeSmall};
   font-family: ${ui.fontFamily};

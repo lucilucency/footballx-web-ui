@@ -52,6 +52,9 @@ const overwritesTheme = {
     // accent2Color: '', /* weak!!! toggle:false */
     // accent3Color: '', /* weak!!! table-header */
   },
+  tableRow: {
+    borderColor: ui.borderColorVariant1,
+  },
   checkbox: {
     checkedColor: ui.checkboxCheckedColor || ui.primary1Color,
   },
@@ -96,6 +99,9 @@ const BODY = styled.div`
 
 const CONTENT = styled.div`
   display: inline;
+  @media only screen and (max-width: 768px) {
+    padding: 1em 0px;
+  }
   ${props => css`
     @media only screen and (min-width: ${props.trayWidth + 1200}px) {
       max-width: 1200px;
@@ -104,9 +110,7 @@ const CONTENT = styled.div`
     }
   `}
   
-  @media only screen and (max-width: 768px) {
-    padding: 1em 0px;
-  }
+  
 `;
 
 class App extends React.Component {

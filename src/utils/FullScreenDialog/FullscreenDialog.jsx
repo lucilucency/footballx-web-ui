@@ -159,8 +159,8 @@ export default function FullscreenDialog(props, { muiTheme }) {
         onClick={onRequestClose}
         style={{
           position: 'fixed',
-          right: 0,
-          top: 0,
+          right: 7,
+          top: 3,
         }}
       >
         {closeIcon}

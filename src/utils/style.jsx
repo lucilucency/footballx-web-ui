@@ -45,6 +45,7 @@ export const styles = {
   cardActions: {
     style: {
       padding: '0 0',
+      borderTop: `1px solid ${ui.borderColorVariant1}`,
     },
   },
   cardTitle: {

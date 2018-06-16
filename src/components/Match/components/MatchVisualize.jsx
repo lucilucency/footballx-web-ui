@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import { hitVote } from '../../../actions/index';
 import ui from '../../../theme';
-// import strings from '../../../lang';
+import strings from '../../../lang';
 import { toTimeString, toDateString } from '../../../utils/index';
 
 const MatchInfo = styled.div`
@@ -89,7 +89,7 @@ const MatchVisualize = ({
       <div className="club-image">
         <IconButton
           disabled={disabled}
-          tooltip={!disabled && `For ${home.name}`}
+          tooltip={strings.hint_click_to_view_team}
           tooltipPosition="top-center"
           onClick={() => history.push(`/t/${home.id}`)}
           style={styles.iconButton.style}
@@ -111,7 +111,7 @@ const MatchVisualize = ({
       <div className="club-image">
         <IconButton
           disabled={disabled}
-          tooltip={!disabled && `For ${away.name}`}
+          tooltip={strings.hint_click_to_view_team}
           tooltipPosition="top-center"
           onClick={() => history.push(`/t/${away.id}`)}
           style={styles.iconButton.style}

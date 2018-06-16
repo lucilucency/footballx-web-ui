@@ -40,17 +40,17 @@ const displayTeam = (row, col, field) => {
 };
 
 const tableEventsColumns = (name, browser) => [
-  browser.greaterThan.medium && { displayName: '#', displayFn: (row, col, field, index) => getOrdinal(index + 1) },
+  browser.greaterThan.medium && { displayName: '#', displayFn: (row, col, field, index) => (index > -1 ? index + 1 : getOrdinal(index + 1)) },
   { displayName: name, field: 'club_id', displayFn: displayTeam },
-  { displayName: 'P', field: 'p', sortFn: false },
-  { displayName: 'W', field: 'w', sortFn: false },
-  { displayName: 'D', field: 'd', sortFn: false },
-  { displayName: 'L', field: 'l', sortFn: false },
-  { displayName: 'F', field: 'f', sortFn: false },
-  { displayName: 'A', field: 'd', sortFn: false },
-  { displayName: 'G', field: 'gd', sortFn: false },
-  { displayName: 'D', field: 'd', sortFn: false },
-  { displayName: 'PTS', field: 'pts', sortFn: false },
+  { displayName: 'P', field: 'p', displayFn: (row, col, field) => (field || 0) },
+  { displayName: 'W', field: 'w', displayFn: (row, col, field) => (field || 0) },
+  { displayName: 'D', field: 'd', displayFn: (row, col, field) => (field || 0) },
+  { displayName: 'L', field: 'l', displayFn: (row, col, field) => (field || 0) },
+  { displayName: 'F', field: 'f', displayFn: (row, col, field) => (field || 0) },
+  { displayName: 'A', field: 'd', displayFn: (row, col, field) => (field || 0) },
+  { displayName: 'GD', field: 'gd', displayFn: (row, col, field) => (field || 0) },
+  { displayName: 'D', field: 'd', displayFn: (row, col, field) => (field || 0) },
+  { displayName: 'PTS', field: 'pts', displayFn: (row, col, field) => (field || 0) },
 ];
 
 class StandingGrid extends React.Component {

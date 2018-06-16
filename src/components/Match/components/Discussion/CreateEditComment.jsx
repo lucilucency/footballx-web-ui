@@ -226,7 +226,7 @@ class CreateEditComment extends React.Component {
       name="comment_content"
       key="content"
       type="text"
-      hintText={this.props.post.c_comments ? strings.hint_comment : 'Be the first one bark here'}
+      hintText={strings.hint_comment}
       hintStyle={{ top: 12 }}
       onChange={e => this.setState({
         formData: update(this.state.formData, {

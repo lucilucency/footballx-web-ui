@@ -17,7 +17,6 @@ import strings from '../.././../lang';
 const PostActionStyled = styled.div`
   padding: 0 0;
   display: table;
-  border-top: ${`1px solid ${ui.borderColorVariant1}`};
   font-weight: ${ui.fontWeightMedium};
   font-size: ${ui.fontSizeSmall};
   color: ${ui.neutralColor};

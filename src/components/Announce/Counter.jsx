@@ -35,6 +35,7 @@ class Counter extends React.Component {
   componentDidMount() {
     const timeLeftVar = this.secondsToTime(this.state.seconds);
     const to = this.props.countToStart ? this.props.start : this.props.end;
+    this.text = this.props.countToStart ? strings.label_start_in : strings.label_end_in;
     this.state = { time: timeLeftVar, seconds: to - parseInt(Date.now() / 1000, 10) };
     this.startTimer();
   }
@@ -65,7 +66,7 @@ class Counter extends React.Component {
 
     return (
       <div>
-        {strings.label_start_in} &nbsp;
+        {this.text} &nbsp;
         {time.d ? <span><b>{this.state.time.d}</b> days &nbsp;</span> : null}
         {<span><b>{this.state.time.h}</b> hours &nbsp;</span>}
         {<span><b>{this.state.time.m}</b> mins &nbsp;</span>}
