@@ -39,7 +39,7 @@ class FacebookLoginButton extends React.Component {
       <Styled
         socialId="1800262673561624"
         language="en_US"
-        scope="public_profile,email,user_birthday,user_gender"
+        scope="public_profile,email,user_link,user_birthday,user_gender"
         responseHandler={this.responseFacebook}
         xfbml
         fields="id,email,name"

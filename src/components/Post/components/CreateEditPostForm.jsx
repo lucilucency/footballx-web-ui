@@ -27,8 +27,8 @@ import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 import CommunitySelector from './CommunitySelector';
 
-const MAX_SIZE = 1200000;
-const MAX_SIZE_MB = 1.2;
+const MAX_SIZE = 10000000;
+const MAX_SIZE_MB = 10;
 
 const articleContent = {
   lineHeight: '24px',
