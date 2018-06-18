@@ -5,7 +5,6 @@ export const StyledBody = styled.div`
   table {
     background-color: transparent !important;
     table-layout: auto !important;
-    font-style: ${ui.fontSizeSmall};
     ${props => props.fixedColumns && css`
       table-layout: fixed !important;
     `}
@@ -61,11 +60,12 @@ export const StyledBody = styled.div`
       padding-right: 8px !important;
 
       &:first-child {
-        padding-left: 24px !important;
+        //padding-left: 24px !important;
       }
 
       &:last-child {
-        padding-right: 24px !important;
+        //padding-right: 24px !important;
+        text-align: right;
       }
     }
   }
@@ -77,7 +77,7 @@ export const StyledBody = styled.div`
   }
   @media only screen and (max-width: 960px) {
     .innerContainer {
-      margin: 0 -25px;
+      //margin: 0 -25px;
     }
   }
   ${props => (props.hoverRowColumn ? `

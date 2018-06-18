@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { Card, CardTitle } from 'material-ui';
+import { Card } from 'material-ui';
 
 import Table, { /* TableLink */ } from '../../Table';
 import { MatchGridBlank } from '../../Blank';
@@ -53,10 +53,10 @@ const tableEventsColumns = (name, browser) => [
   {
     displayName: <b>{strings.enum_standing_l}</b>, field: 'l', displayFn: displayStat, tooltip: strings.tooltip_standing_l,
   },
-  {
+  browser.greaterThan.medium && {
     displayName: <b>{strings.enum_standing_f}</b>, field: 'f', displayFn: displayStat, tooltip: strings.tooltip_standing_f,
   },
-  {
+  browser.greaterThan.medium && {
     displayName: <b>{strings.enum_standing_a}</b>, field: 'a', displayFn: displayStat, tooltip: strings.tooltip_standing_a,
   },
   {
@@ -115,23 +115,6 @@ class StandingGrid extends React.Component {
             textColor: ui.alternateTextColor,
           }}
         >
-          {false && (
-            <CardTitle
-              style={{
-                ...styles.cardTitle.style,
-                paddingLeft: 0,
-                borderBottom: `1px solid ${ui.borderColor}`,
-              }}
-            >
-              <img
-                src={leaguesObj[leagueID] && leaguesObj[leagueID].icon}
-                alt=""
-                height={18}
-              />
-              &nbsp;&nbsp;
-              {this.getSeasonName(seasonID) || (leaguesObj[leagueID] && leaguesObj[leagueID].name)}
-            </CardTitle>
-          )}
           <Table
             columns={tableEventsColumns(this.getSeasonName(seasonID) || (leaguesObj[leagueID] && leaguesObj[leagueID].name), this.props.browser)}
             data={groups[seasonID].sort((a, b) => {
@@ -143,7 +126,7 @@ class StandingGrid extends React.Component {
             error={false}
             paginated={false}
             pageLength={30}
-            fixedColumns={[{
+            fixedColumns={this.props.browser.greaterThan.medium && [{
               pos: 2,
               width: '100px',
             }]}

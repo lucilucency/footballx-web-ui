@@ -89,7 +89,6 @@ const BODY = styled.div`
    //padding: 25px;
   flex-grow: 1;
   margin-top: 56px;
-  text-align: center;
   transition: 250ms all ease;
   ${props => props.isTrayOpen && css`
     @media only screen and (min-width: 662px) {

@@ -235,13 +235,13 @@ class Table extends React.Component {
                             ? Number((valueWithOffset * 100 / max).toFixed(1))
                             : 0;
                           valEl = displayFn
-                            ? displayFn(row, column, value, index, barPercentValue)
+                            ? displayFn(row, column, value, index + (currentPage * pageLength), barPercentValue)
                             : <span>{value}</span>;
                         } else {
                           // Percent bars assumes that the value is in decimal
                           barPercentValue = Number((value * 100).toFixed(1)) || 0;
                           valEl = displayFn
-                            ? displayFn(row, column, value, index, barPercentValue)
+                            ? displayFn(row, column, value, index + (currentPage * pageLength), barPercentValue)
                             : <span>{barPercentValue}</span>;
                         }
 
@@ -252,7 +252,7 @@ class Table extends React.Component {
                           inverse={invertBarColor}
                         />);
                       } else if (displayFn) {
-                        fieldEl = displayFn(row, column, value, index);
+                        fieldEl = displayFn(row, column, value, index + (currentPage * pageLength));
                       } else {
                         fieldEl = value;
                       }

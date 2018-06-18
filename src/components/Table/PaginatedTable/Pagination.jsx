@@ -18,11 +18,13 @@ const StyledContainer = styled.div`
   `)};
 `;
 const StyledPagination = styled.div`
- display: flex;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  //margin-left: 8px;
+  //margin-right: 8px;
   font-size: ${ui.fontSizeTiny};
   
   & > div {
@@ -42,7 +44,7 @@ const StyledPagination = styled.div`
 const pageStyle = `
   color: ${ui.linkColor}!important;
   min-width: 20px !important;
-  padding: 0 10px !important;
+  padding: 0 5px !important;
   margin: 0 2px !important;
   @media only screen and (max-width: 511px) {
     /* Override material-ui */
@@ -52,26 +54,27 @@ const pageStyle = `
   }
 `;
 const StyledPage = styled(FlatButton)`
-${pageStyle}
+  ${pageStyle}
 `;
 const arrowStyle = `
   vertical-align: text-top;
 
   /* Override material-ui */
-  color:${ui.colorYelor} !important;
+  color:${ui.linkColor} !important;
+  font-size: 18px !important;
   padding: 0 !important;`;
 const StyledArrowButton = styled(FlatButton)`
   min-width: 20px !important;
-${arrowStyle}
+  ${arrowStyle}
 `;
 const StyledPrev = styled(Prev)`
-${arrowStyle}
+  ${arrowStyle}
 `;
 const StyledNext = styled(Next)`
-${arrowStyle}
+  ${arrowStyle}
 `;
 const StyledCurrentPage = styled(FlatButton)`
- ${pageStyle}
+  ${pageStyle}
 
   /* Override material-ui */
   color:${ui.disabledColorVariant1} !important;
@@ -123,12 +126,12 @@ const Pagination = ({
   numPages > 1 && (
     <StyledContainer top={place === 'top'}>
       <StyledPagination top={place === 'top'}>
-        {currentPage > 0 &&
-        <StyledPage onClick={() => setCurrentPage(0)}>
-          {strings.pagination_first}
-        </StyledPage>
-        }
         <div>
+          {currentPage > 0 &&
+          <StyledPage onClick={() => setCurrentPage(0)}>
+            {strings.pagination_first}
+          </StyledPage>
+          }
           {currentPage > 0 &&
           <StyledArrowButton onClick={currentPage > 0 ? prevPage : () => {}}>
             <StyledPrev />
@@ -150,12 +153,12 @@ const Pagination = ({
             <StyledNext />
           </StyledArrowButton>
           }
+          {currentPage < numPages - 1 &&
+          <StyledPage onClick={() => setCurrentPage(numPages - 1)}>
+            {strings.pagination_last}
+          </StyledPage>
+          }
         </div>
-        {currentPage < numPages - 1 &&
-        <StyledPage onClick={() => setCurrentPage(numPages - 1)}>
-          {strings.pagination_last}
-        </StyledPage>
-        }
       </StyledPagination>
       {place === 'bot' &&
       <StyledInfo>

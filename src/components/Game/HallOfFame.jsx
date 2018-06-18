@@ -3,24 +3,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import strings from '../../lang/index';
 import firebase from '../../firebase';
-import { getOrdinal } from '../../utils';
+import { getOrdinal, formatSeconds } from '../../utils';
 import Table, { /* TableLink */ } from '../Table';
-import Container from '../Container';
+import King from './HallOfFameKing';
 
-const tableEventsColumns = (browser) => [
+const tableEventsColumns = browser => [
   browser.greaterThan.medium &&
   { displayName: '#', displayFn: (row, col, field, index) => (index > -1 ? index + 1 : getOrdinal(index + 1)) },
   {
-    displayName: 'nickname', field: 'name',
+    displayName: strings.label_nickname, field: 'name',
   },
   {
-    displayName: 'time', field: 'time',
+    displayName: 'score', field: 'score',
   },
   {
-    displayName: 'point', field: 'score',
+    displayName: 'time', field: 'time', displayFn: (row, col, field) => formatSeconds(field),
   },
 ].filter(Boolean);
 
+const getHighlightFn = user => row => user && user.id && row.id === user.id;
 
 class GamePort extends React.Component {
   state = {
@@ -33,27 +34,34 @@ class GamePort extends React.Component {
     this.firebaseCallback = this.firebaseRef.on('value', (snap) => {
       const data = snap.val();
       this.setState({ hallOfFame: data });
-      window.abc = data;
       if (this.props.user) {
-        const userFame = data.find(el => el.id === this.props.user.id);
+        const userFame = data.findIndex(el => el.id === this.props.user.id);
         if (userFame) {
-          this.setState({
-            userFame,
-          });
+          this.setState({ userFame: { ...data[userFame], rank: userFame + 1 } });
         }
       }
     });
   }
 
   render() {
-    const { browser } = this.props;
+    const { userFame, hallOfFame } = this.state;
+    const { browser, user } = this.props;
+
 
     return (
-      <Container
-        loading={false}
-        error={false}
-        title="Hall of Fame"
-      >
+      <div>
+        <div>
+          {hallOfFame && hallOfFame.length ? (
+            <div>
+              <King data={hallOfFame[0]} />
+            </div>
+          ) : null}
+          {user && userFame ? (
+            <p style={{ textAlign: 'center' }}>
+              Your rank: <b>{userFame.rank}</b>
+            </p>
+          ) : null}
+        </div>
         <Table
           columns={tableEventsColumns(browser)}
           data={this.state.hallOfFame}
@@ -61,8 +69,9 @@ class GamePort extends React.Component {
           error={false}
           paginatedBottom
           pageLength={10}
+          highlightFn={getHighlightFn(user)}
         />
-      </Container>
+      </div>
     );
   }
 }

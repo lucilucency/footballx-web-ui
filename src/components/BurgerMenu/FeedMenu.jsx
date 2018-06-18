@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import List, { ListItem } from 'material-ui/List';
-import Home from 'material-ui/svg-icons/action/home';
+// import Home from 'material-ui/svg-icons/action/home';
 import IconPopular from 'material-ui/svg-icons/action/trending-up';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';

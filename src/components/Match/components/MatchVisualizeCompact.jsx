@@ -50,10 +50,11 @@ const MatchInfo = styled.div`
     > * { display: table-cell; vertical-align: middle; }
   }
     
-  .info {
+  .score {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
     z-index: 1;
   
     @media only screen and (max-width: 400px) {
@@ -99,7 +100,7 @@ const MatchVisualizeCompact = (props) => {
           <span>{home.name}</span>
           <img src={home.icon} alt="" style={styles.iconButton.iconStyle} />
         </div>
-        <div className="info" style={{ backgroundColor: date * 1000 < Date.now() && ui.positiveColorVariant2 }}>
+        <div className="score" style={{ backgroundColor: date * 1000 < Date.now() && ui.positiveColorVariant2 }}>
           {date * 1000 > Date.now() ? (
             <span>
               {toTimeString(date * 1000)}

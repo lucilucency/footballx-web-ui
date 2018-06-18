@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Subheader from 'material-ui/Subheader';
 import { SuggestedCommunities } from '../User/components/index';
 import { RightTray, SmallPaper } from '../../utils/index';
 import strings from '../../lang/index';
+import Container from '../Container';
 import AboutX from '../About/Hero';
 import AboutXFooter from '../About/Footer';
 import HallOfFame from '../Game/HallOfFame';
@@ -16,16 +16,26 @@ const HomeRightBar = (props) => {
       <SmallPaper style={{ padding: 0 }}>
         <AboutX isLoggedIn={isLoggedIn} />
       </SmallPaper>
+      <Container
+        title={strings.label_hall_of_fame}
+        style={{
+          fontSize: '12px',
+        }}
+      >
+        <SmallPaper>
+          <HallOfFame />
+        </SmallPaper>
+      </Container>
 
       {isLoggedIn && (
-        <SmallPaper>
-          <Subheader>{strings.label_suggested_community}</Subheader>
-          <SuggestedCommunities />
-        </SmallPaper>
+        <Container
+          title={strings.label_suggested_community}
+        >
+          <SmallPaper>
+            <SuggestedCommunities />
+          </SmallPaper>
+        </Container>
       )}
-      <div>
-        <HallOfFame />
-      </div>
       <div>
         <AboutXFooter />
       </div>

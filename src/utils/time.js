@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
-import strings from 'lang';
 import util from 'util';
+import strings from '../lang';
 
 const second = 1;
 const minute = second * 60;
@@ -41,6 +41,18 @@ const timeUnits = [{
   in_seconds: year,
 }];
 
+const intervalUnits = [{
+  name: strings.interval_s,
+  plural: strings.interval_ss,
+  limit: minute,
+  in_seconds: second,
+}, {
+  name: strings.interval_m,
+  plural: strings.interval_mm,
+  limit: hour,
+  in_seconds: minute,
+}];
+
 export function pad(n, width, z = '0') {
   const str = `${n}`;
   return str.length >= width ? str : new Array((width - str.length) + 1).join(z) + n;
@@ -79,6 +91,20 @@ export function fromNow(time) {
     }
   }
 
+  return '';
+}
+
+export function toIntervalString(diff) {
+  if (diff > 0) {
+    for (let i = 0; i < intervalUnits.length; i += 1) {
+      const unit = intervalUnits[i];
+
+      if (diff < unit.limit || !unit.limit) {
+        const val = Math.floor(diff / unit.in_seconds);
+        return val > 1 ? util.format(unit.plural, val) : unit.name;
+      }
+    }
+  }
 
   return '';
 }
