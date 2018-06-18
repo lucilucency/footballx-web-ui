@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { PostGrid } from '../Post/components/index';
 import { Container } from '../../utils/index';
-import RightBar from './HomeRightBar';
+import RightBar from './RightBar';
 // import { MatchGrid } from '../Match/components';
 
 class HomeNew extends React.Component {

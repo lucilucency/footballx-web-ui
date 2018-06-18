@@ -36,13 +36,13 @@ const FeedMenu = ({
   return (
     <div>
       <List>
-        <Subheader style={styles.subheader.style}>FEED</Subheader>
-        {user && <ListItem
+        {/* <Subheader style={styles.subheader.style}>FEED</Subheader> */}
+        {/* {user && <ListItem
           primaryText="Home"
           leftIcon={<Home size={24} color={ui.blueA200} />}
           containerElement={<Link to="/" />}
           innerDivStyle={styles.listItem.innerDivStyle}
-        />}
+        />} */}
         <ListItem
           primaryText="Popular"
           leftIcon={<IconPopular size={24} color={ui.primary1Color} />}

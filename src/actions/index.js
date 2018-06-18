@@ -412,6 +412,7 @@ const registerClub = (userID, {
 export const followTeam = (userID, teamID) => registerClub(userID, { club_id: teamID, is_favorite: true });
 export const unfollowTeam = (userID, teamID) => registerClub(userID, { club_id: teamID, is_favorite: false });
 
+/* games */
 
 /**/
 export const setSearchQuery = query => dispatch => dispatch(({

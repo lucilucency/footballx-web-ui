@@ -7,6 +7,7 @@ import { RightTray, SmallPaper } from '../../utils/index';
 import strings from '../../lang/index';
 import AboutX from '../About/Hero';
 import AboutXFooter from '../About/Footer';
+import HallOfFame from '../Game/HallOfFame';
 
 const HomeRightBar = (props) => {
   const { isLoggedIn } = props;
@@ -22,7 +23,9 @@ const HomeRightBar = (props) => {
           <SuggestedCommunities />
         </SmallPaper>
       )}
-
+      <div>
+        <HallOfFame />
+      </div>
       <div>
         <AboutXFooter />
       </div>

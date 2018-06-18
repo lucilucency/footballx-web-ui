@@ -23,7 +23,8 @@ const StyledPagination = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
-
+  font-size: ${ui.fontSizeTiny};
+  
   & > div {
     display: flex;
   }
@@ -33,7 +34,6 @@ const StyledPagination = styled.div`
   ${props => props.top && `position: absolute;
   right: 0;
   top: -46px;
-  font-size: ${ui.fontSizeNormal};
   @media only screen and (max-width: 767px) {
     position: initial;
   }
@@ -78,7 +78,7 @@ const StyledCurrentPage = styled(FlatButton)`
   pointer-events: none;
 `;
 const StyledInfo = styled.div`
-  font-size: ${ui.fontSizeNormal};
+  font-size: ${ui.fontSizeTiny};
   color: ${ui.disabledColorVariant1};
 `;
 

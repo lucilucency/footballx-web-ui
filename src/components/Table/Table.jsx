@@ -131,7 +131,8 @@ class Table extends React.Component {
       error,
       summable,
       maxRows,
-      paginated,
+      paginatedTop,
+      paginatedBottom,
       placeholderMessage,
       pageLength = 20,
       hoverRowColumn,
@@ -150,12 +151,12 @@ class Table extends React.Component {
     if (sortField) {
       data = defaultSort(data.slice(0), sortState, sortField, sortFn);
     }
-    if (paginated) {
+    if (paginatedTop || paginatedBottom) {
       data = data.slice(currentPage * pageLength, (currentPage + 1) * pageLength);
     }
     return (
       <StyledBody hoverRowColumn={hoverRowColumn} fixedColumns={fixedColumns}>
-        {paginated && <Pagination
+        {paginatedTop && <Pagination
           numPages={Math.ceil(dataLength / pageLength)}
           currentPage={currentPage}
           nextPage={this.nextPage}
@@ -271,7 +272,7 @@ class Table extends React.Component {
             </MaterialTable>
           </div>)}
         </StyledContainer>
-        {paginated && <Pagination
+        {paginatedBottom && <Pagination
           numPages={Math.ceil(dataLength / pageLength)}
           currentPage={currentPage}
           pageLength={pageLength}
@@ -303,7 +304,8 @@ Table.propTypes = {
   error: bool,
   summable: bool,
   maxRows: number,
-  paginated: bool,
+  paginatedTop: bool,
+  paginatedBottom: bool,
   placeholderMessage: string,
   pageLength: number,
   hoverRowColumn: bool,

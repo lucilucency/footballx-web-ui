@@ -32,7 +32,7 @@ const MAX_SIZE_MB = 10;
 
 const articleContent = {
   lineHeight: '24px',
-  fontFamily: 'Open Sans',
+  fontFamily: ui.fontFamilyPrimary,
   fontStyle: 'normal',
   color: '#555555',
   fontSize: '14px',

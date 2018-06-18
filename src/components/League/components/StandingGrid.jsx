@@ -145,7 +145,7 @@ class StandingGrid extends React.Component {
             pageLength={30}
             fixedColumns={[{
               pos: 2,
-              width: '200px',
+              width: '100px',
             }]}
           />
         </Card>
