@@ -149,7 +149,7 @@ export function toDateTimeString(input) {
     hour: 'numeric',
     day: 'numeric',
     // month: 'short',
-    month: 'numeric',
+    month: 'long',
     year: 'numeric',
   });
 }

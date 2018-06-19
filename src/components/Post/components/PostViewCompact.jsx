@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui';
+import { withRouter } from 'react-router-dom';
+import { Card, CardActions, CardHeader, CardMedia, CardText } from 'material-ui';
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
-import { toDateTimeString, ActiveLink, MutedLink, bindAll, renderDialog, styles } from '../../../utils';
-import ui from '../../../theme';
+import { ActiveLink, MutedLink, bindAll, renderDialog, styles, toDateTimeString } from '../../../utils';
+// import ui from '../../../theme';
 import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview } from './Styled';
 import ViewPostFullFrame from './PostViewFullFrame';
@@ -64,7 +65,7 @@ class ViewPostCompact extends React.Component {
     };
 
     return (
-      <CardText>
+      <CardText style={styles.cardText.style}>
         <LinkPreview hasImage={content.image}>
           <a href={content.url} target="_blank" rel="noopener noreferrer">{content.url}</a>
           {content.image && (
@@ -103,6 +104,16 @@ class ViewPostCompact extends React.Component {
       this.handleOpenDialog();
     });
   }
+
+  routerToViewPostFull = () => {
+    const { data } = this.props;
+    this.props.history.push({
+      pathname: `/p/${data.id}`,
+      state: {
+        data,
+      },
+    });
+  };
 
   render() {
     const item = this.props.data;
@@ -146,21 +157,21 @@ class ViewPostCompact extends React.Component {
     return (
       <Card style={styles.card.style}>
         <CardHeader
-          title={<div style={styles.cardHeader.title}>{communityLink}</div>}
-          subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
+          title={<div style={{ ...styles.cardHeader.title, display: 'inline' }}>{communityLink} &nbsp;<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled></div>}
+          subtitle={<span style={styles.cardTitle.titleStyle}>{item.title}</span>}
           avatar={item.community_icon}
           style={styles.cardHeader.style}
         />
-        <CardTitle
+        {/* <CardTitle
           title={item.title}
           titleColor={ui.textColorPrimary}
           titleStyle={styles.cardTitle.titleStyle}
           style={styles.cardTitle.style}
-        />
+        /> */}
         {isImage &&
         <CardMedia
           style={styles.cardMedia.style}
-          onClick={this.popupViewPostFull}
+          onClick={this.props.browser.greaterThan.small ? this.popupViewPostFull : this.routerToViewPostFull}
         >
           <ImageWrapper>
             <ImageCompact
@@ -195,8 +206,10 @@ class ViewPostCompact extends React.Component {
 ViewPostCompact.propTypes = {
   data: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
+  browser: PropTypes.object,
   setPost: PropTypes.func,
   followingCommunities: PropTypes.array,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -211,4 +224,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewPostCompact);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewPostCompact));

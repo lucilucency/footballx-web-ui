@@ -6,7 +6,7 @@ import ui from '../../theme';
 
 const StyledMain = styled.main`
   position: relative;
-  margin: 10px 0 10px;
+  margin: 0 0 10px;
   background-color: ${ui.surfaceColorPrimary};
   border-bottom: 1px solid ${ui.borderColor};
 `;

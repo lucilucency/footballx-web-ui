@@ -10,9 +10,14 @@ import Hot from './Hot';
 import New from './New';
 import Top from './Top';
 import Controversy from './Controversy';
+import { IconHotFeed } from '../Icons';
+
+const verticalAlign = {
+  verticalAlign: 'middle',
+};
 
 const tabs = loggedInUserID => [{
-  name: 'HOT HOT HOT',
+  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <b style={{ ...verticalAlign }}>HOT HOT HOT</b></div>,
   key: 'hot',
   content: <Hot loggedInUserID={loggedInUserID} />,
   route: '/home/hot',
@@ -58,10 +63,16 @@ class HomeFeed extends React.Component {
           }}
         >
           <div>
-            <TabBar
-              info={info}
-              tabs={tabs(loggedInUserID)}
-            />
+            <div
+              style={{
+                // width: 400,
+              }}
+            >
+              <TabBar
+                info={info}
+                tabs={tabs(loggedInUserID)}
+              />
+            </div>
             {tab && tab.content}
           </div>
           <RightComponent data={data} />

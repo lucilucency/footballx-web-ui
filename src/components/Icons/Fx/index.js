@@ -4,18 +4,18 @@ import IconDownvote from './Downvote';
 import IconComment from './Comment';
 import IconShare from './Share';
 import IconFollowCommunity from './FollowCommunity';
-import IconHot from './Hot';
 import IconLiveTV from './LiveTV';
 import GoldMedal from './GoldMedal';
+import IconHotFeed from './HotFeed';
 
 export {
   GoldMedal,
+  IconHotFeed,
   LogoRound,
   IconUpvote,
   IconDownvote,
   IconComment,
   IconShare,
   IconFollowCommunity,
-  IconHot,
   IconLiveTV,
 };

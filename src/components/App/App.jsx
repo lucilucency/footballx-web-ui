@@ -28,7 +28,6 @@ import Login from '../Login';
 
 const overwritesTheme = {
   fontFamily: ui.fontFamilyPrimary,
-  card: { fontWeight: ui.fontWeightNormal },
   badge: { fontWeight: ui.fontWeightNormal },
   subheader: {
     // fontWeight: ui.fontWeightNormal,
@@ -51,6 +50,10 @@ const overwritesTheme = {
     // accent1Color: materialColor.green500, /* tab-bar, :secondary */
     // accent2Color: '', /* weak!!! toggle:false */
     // accent3Color: '', /* weak!!! table-header */
+  },
+  card: {
+    fontWeight: ui.fontWeightNormal,
+    subtitleColor: ui.textColorPrimary,
   },
   tableRow: {
     borderColor: ui.borderColorVariant1,

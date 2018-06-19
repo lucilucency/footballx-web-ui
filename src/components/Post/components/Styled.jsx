@@ -63,7 +63,7 @@ export const PostsGridStyled = styled.div`
   
   > div {
      display: inline-block;
-     margin-bottom: 1em;
+     margin-bottom: 8px;
      width: 100%; 
   }
 `;
