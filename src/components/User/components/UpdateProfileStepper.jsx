@@ -116,7 +116,7 @@ class HorizontalNonLinearStepper extends React.Component {
           </Step>
           <Step>
             <StepLabel>
-              {strings.label_choose_following_community}
+              {strings.hint_choose_following_community}
             </StepLabel>
           </Step>
         </Stepper>

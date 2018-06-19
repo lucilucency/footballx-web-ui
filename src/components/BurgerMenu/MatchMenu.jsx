@@ -37,14 +37,6 @@ const FeedMenu = ({
 
   return (
     <div>
-      {/* <List>
-        <ListItem
-          primaryText={strings.label_hot_matches}
-          leftIcon={<IconHot size={18} />}
-          containerElement={<Link to="/match/hot" />}
-          innerDivStyle={styles.listItem.innerDivStyle}
-        />
-      </List> */}
       {leagues && leagues.length ? (
         <List>
           <Subheader style={styles.subheader.style}>HOT LEAGUES</Subheader>

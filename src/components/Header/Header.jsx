@@ -13,9 +13,9 @@ import { BurgerButton } from '../BurgerMenu';
 import UserSettings from './UserSettings';
 
 const getHeaderLinks = () => [
-  <Link key={strings.header_home} to="/">{strings.header_home}</Link>,
-  <Link key={strings.header_matches} to="/matches">{strings.header_matches}</Link>,
-  <Link key={strings.header_games} to="/game">{strings.header_games}</Link>,
+  <Link key={strings.heading_home} to="/">{strings.heading_home}</Link>,
+  <Link key={strings.heading_matches} to="/matches">{strings.heading_matches}</Link>,
+  <Link key={strings.heading_games} to="/game">{strings.heading_games}</Link>,
 ].filter(Boolean);
 
 const VerticalAlignToolbar = styled(ToolbarGroup)`

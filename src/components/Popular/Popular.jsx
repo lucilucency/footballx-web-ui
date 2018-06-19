@@ -10,9 +10,14 @@ import Hot from './Hot';
 import New from './New';
 import Top from './Top';
 import Controversy from './Controversy';
+import { IconHotFeed } from '../Icons';
+
+const verticalAlign = {
+  verticalAlign: 'middle',
+};
 
 const tabs = loggedInUserID => [{
-  name: 'HOT HOT HOT',
+  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <b style={{ ...verticalAlign }}>HOT HOT HOT</b></div>,
   key: 'hot',
   content: <Hot loggedInUserID={loggedInUserID} />,
   route: '/popular/hot',
