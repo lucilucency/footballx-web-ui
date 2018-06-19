@@ -3,6 +3,8 @@ import { dispatchDelete, dispatchGet, dispatchPost, dispatchPut } from './dispat
 import * as parser from './parser';
 import { getCookie, setCookie, eraseCookie } from '../utils';
 
+const PAGE_LIMIT = 50;
+
 export const localUpdateReducer = (name, payload) => dispatch => dispatch({
   type: `OK/EDIT_LOCAL/${name}`,
   payload,
@@ -93,29 +95,38 @@ export const subscribeCommunity = (communityID, {
   path = `community/${communityID}/subscribe`,
 } = {}) => dispatchGet({ reducer, path });
 // post
-export const getMeFeeds = ({ sortby = 'new', xuser_id }) => dispatchGet({
+export const getMeFeeds = ({
+  sortby, xuser_id, limit = PAGE_LIMIT, offset = 0,
+}) => dispatchGet({
   reducer: 'posts',
   path: 'posts/following',
   params: {
-    sortby,
-    xuser_id,
-    // limit: 100,
-    // offset: 0,
+    sortby, xuser_id, limit, offset,
   },
   transform: parser.parsePostInMeFeeds,
 });
-export const getWorldFeeds = ({ sortby, xuser_id }) => dispatchGet({
+export const getWorldFeeds = ({
+  sortby, xuser_id, limit = PAGE_LIMIT, offset = 0,
+}) => dispatchGet({
   auth: false,
   reducer: 'posts',
   path: 'posts',
   params: {
-    sortby,
-    xuser_id,
-    // limit: 100,
-    // offset: 0,
+    sortby, xuser_id, limit, offset,
   },
   transform: parser.parsePostInMeFeeds,
 });
+export const getCommunityFeeds = (communityID, {
+  limit = PAGE_LIMIT, offset = 0, sortby, xuser_id,
+}) => dispatchGet({
+  reducer: 'posts',
+  path: `community/${communityID}/posts`,
+  params: {
+    limit, offset, sortby, xuser_id,
+  },
+  transform: parser.parsePostInMeFeeds,
+});
+
 export const createPost = ({ params, payload }) => dispatchPost({
   reducer: 'ADD/posts',
   path: 'post',
@@ -304,12 +315,11 @@ export const setCommunity = payload => dispatch => dispatch(({
   type: 'OK/community',
   payload,
 }));
-export const getCommunity = postID => dispatchGet({
+export const getCommunity = communityID => dispatchGet({
   reducer: 'community',
-  path: `post/${postID}`,
-  params: {
-    xuser_id: getCookie('user_id'),
-  },
+  path: `community/${communityID}`,
+  params: {},
+  transform: parser.parseCommunityDetail,
 });
 
 // league

@@ -7,7 +7,7 @@ export const styles = {
   paper: {
     style: {
       padding: 8,
-      minHeight: 120,
+      minHeight: 70,
       boxShadow: 'none',
       fontSize: ui.fontSizeTiny,
     },

@@ -1,38 +1,45 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Helmet from 'react-helmet';
 import { PostGrid } from '../Post/components/index';
-import { Container } from '../../utils/index';
-import RightTrayComponent from './RightBar';
+import { getMeFeeds } from '../../actions/index';
 
 class HomeTop extends React.Component {
   componentDidMount() {
-
+    this.props.getMeFeeds({
+      sortby: 'top',
+      xuser_id: this.props.loggedInUserID,
+    });
   }
 
   render() {
     return (
       <div>
-        <Helmet title="News feed" />
-        <Container>
-          <PostGrid
-            bound="mine"
-            sorting="top"
-          />
-          <RightTrayComponent />
-        </Container>
+        <PostGrid
+          posts={this.props.posts}
+          loading={this.props.loading}
+          loggedInUserID={this.props.loggedInUserID}
+        />
       </div>
     );
   }
 }
 
 HomeTop.propTypes = {
+  /**/
+  loggedInUserID: PropTypes.number,
+  posts: PropTypes.array,
+  loading: PropTypes.bool,
+  getMeFeeds: PropTypes.func,
 };
 
-// const mapStateToProps = state => ({
-//   browser: state.browser,
-//   loading: state.app.posts.loading,
-// });
+const mapStateToProps = state => ({
+  posts: state.app.posts.data,
+  loading: state.app.posts.loading,
+});
 
-export default connect(null, null)(HomeTop);
+const mapDispatchToProps = dispatch => ({
+  getMeFeeds: ({ sortby, xuser_id }) => dispatch(getMeFeeds({ sortby, xuser_id })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeTop);

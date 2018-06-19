@@ -1,75 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Helmet from 'react-helmet';
-import { setCommunity, getCommunity } from '../../actions';
 import { PostGrid } from '../Post/components/index';
-import { Container } from '../../utils/index';
-import RightComponent from './RightBar';
+import { getCommunityFeeds } from '../../actions/index';
 
-const propsLoadData = (props) => {
-  const { location } = props;
-
-  if (location.state && location.state.data) {
-    props.setCommunity(location.state.data);
-  } else if (props.match.params.id && Number(props.match.params.id)) {
-    props.getCommunity(props.match.params.id);
-  } else {
-    props.history.push('/');
-  }
-};
-
-class CommunityHot extends React.Component {
+class CommunityFeedHot extends React.Component {
   componentDidMount() {
-    propsLoadData(this.props);
-  }
-
-  componentWillReceiveProps(props) {
-    if (props.location.pathname !== this.props.location.pathname) {
-      propsLoadData(props);
-    }
+    this.props.getCommunityFeeds(this.props.communityID, {
+      sortby: 'hot',
+      xuser_id: this.props.loggedInUserID,
+    });
   }
 
   render() {
-    const { match, data } = this.props;
-    const communityID = Number(match.params.id);
-
     return (
       <div>
-        <Helmet title="News feed" />
-        <Container browser={this.props.browser}>
-          <PostGrid
-            bound="community"
-            sorting="hot"
-            communityID={communityID}
-          />
-          <RightComponent data={data} />
-        </Container>
+        <PostGrid
+          posts={this.props.posts}
+          loading={this.props.loading}
+          loggedInUserID={this.props.loggedInUserID}
+        />
       </div>
     );
   }
 }
 
-CommunityHot.propTypes = {
-  browser: PropTypes.object,
-
-  match: PropTypes.object,
-  location: PropTypes.object,
-
-  data: PropTypes.object,
+CommunityFeedHot.propTypes = {
+  communityID: PropTypes.number.isRequired,
+  loggedInUserID: PropTypes.number,
+  /**/
+  posts: PropTypes.array,
+  loading: PropTypes.bool,
+  getCommunityFeeds: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  browser: state.browser,
+  posts: state.app.posts.data,
   loading: state.app.posts.loading,
-  user: state.app.metadata.data.user || {},
-  data: state.app.community.data,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCommunity: payload => dispatch(setCommunity(payload)),
-  getCommunity: id => dispatch(getCommunity(id)),
+  getCommunityFeeds: (communityID, { sortby, xuser_id }) => dispatch(getCommunityFeeds(communityID, { sortby, xuser_id })),
 });
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommunityHot);
+export default connect(mapStateToProps, mapDispatchToProps)(CommunityFeedHot);

@@ -47,7 +47,6 @@ class GamePort extends React.Component {
     const { userFame, hallOfFame } = this.state;
     const { browser, user } = this.props;
 
-
     return (
       <div>
         <div>

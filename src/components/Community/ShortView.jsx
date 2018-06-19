@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Checkbox } from 'material-ui';
+import { Checkbox, Avatar, ListItem } from 'material-ui';
 import IconCheck from 'material-ui/svg-icons/action/check-circle';
 import { followCommunity, unfollowCommunity } from '../../actions';
 import { IconFollowCommunity } from '../Icons';
+import ui from '../../theme';
 
 class CommunityShortView extends React.Component {
   doSubscribe = (communityID) => {
@@ -27,27 +28,31 @@ class CommunityShortView extends React.Component {
 
   render() {
     const { data } = this.props;
-    const rightIconStyle = {
-      height: '24px',
-      width: '24px',
-    };
 
     return (
       <div>
-        <h4>{data.name}</h4>
-        {this.props.user && <Checkbox
-          style={{ margin: 'auto', width: 'auto' }}
-          checked={Boolean(this.isFollowing(data.id))}
-          checkedIcon={<IconCheck style={rightIconStyle} />}
-          uncheckedIcon={<IconFollowCommunity style={{ ...rightIconStyle, fill: 'transparent' }} />}
-          onCheck={(e, isChecked) => {
-            if (isChecked) {
-              this.doSubscribe(data.id);
-            } else {
-              this.unSubscribe(data.id);
-            }
-          }}
-        />}
+        <ListItem
+          key={data.id}
+          disabled
+          leftAvatar={<Avatar src={data.icon} size={40} />}
+          rightIcon={this.props.user && <Checkbox
+            checked={Boolean(this.isFollowing(data.id))}
+            checkedIcon={<IconCheck />}
+            uncheckedIcon={<IconFollowCommunity style={{ fill: 'transparent' }} />}
+            onCheck={(e, isChecked) => {
+              if (isChecked) {
+                this.doSubscribe(data.id);
+              } else {
+                this.unSubscribe(data.id);
+              }
+            }}
+          />}
+
+          primaryText={data.name}
+          secondaryText={data.c_followers &&
+          <small style={{ fontSize: ui.fontSizeTiny }}>{`${data.c_followers} followers`}</small>
+          }
+        />
       </div>
     );
   }

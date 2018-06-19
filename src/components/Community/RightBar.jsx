@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { RightTray, SmallPaper } from '../../utils/index';
-import CommunityShortView from './CommunityShortView';
+import CommunityShortView from './ShortView';
 import AboutXFooter from '../About/Footer';
 
 const RightTrayComponent = (props) => {
@@ -10,7 +10,7 @@ const RightTrayComponent = (props) => {
 
   return (
     <RightTray>
-      <SmallPaper style={{ textAlign: 'center' }}>
+      <SmallPaper>
         <CommunityShortView data={data} />
       </SmallPaper>
       <SmallPaper>

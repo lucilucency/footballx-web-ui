@@ -1,3 +1,4 @@
+import Home from './Community';
 import Controversy from './Controversy';
 import New from './New';
 import Top from './Top';
@@ -8,4 +9,5 @@ export {
   Hot,
   Top,
   Controversy,
+  Home,
 };

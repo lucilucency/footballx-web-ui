@@ -143,28 +143,18 @@ class App extends React.Component {
           <BODY {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
             <Banner location={location} />
             <CONTENT isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
-              <Route exact path="/" component={this.props.user ? Home.New : Popular.Hot} />
-              <Route exact path="/popular" component={Popular.Hot} />
+              <Route exact path="/" component={this.props.user ? Home.Home : Popular.Popular} />
+              <Route exact path="/popular" component={Popular.Popular} />
               <Route exact path="/sign_in" component={Login} />
               <Route exact path="/submit" component={PageCreatePost} />
 
               <Route exact path="/game" component={Game} />
 
-              <Route exact path="/new" component={Home.New} />
-              <Route exact path="/hot" component={Home.Hot} />
-              <Route exact path="/top" component={Home.Top} />
-              <Route exact path="/controversy" component={Home.Controversy} />
-              <Route exact path="/popular/new" component={Popular.New} />
-              <Route exact path="/popular/hot" component={Popular.Hot} />
-              <Route exact path="/popular/top" component={Popular.Top} />
-              <Route exact path="/popular/controversy" component={Popular.Controversy} />
-              <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
+              <Route exact path="/home/:info?" component={Home.Home} />
+              <Route exact path="/popular/:info" component={Popular.Popular} />
 
-              <Route exact path="/r/:id?" component={Community.Hot} />
-              <Route exact path="/r/:id?/new" component={Community.New} />
-              <Route exact path="/r/:id?/hot" component={Community.Hot} />
-              <Route exact path="/r/:id?/top" component={Community.Top} />
-              <Route exact path="/r/:id?/controversy" component={Community.Controversy} />
+              <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
+              <Route exact path="/r/:id/:info?/:subInfo?" component={Community.Home} />
 
               <Route exact path="/matches/:info?" component={Matches.Home} />
               <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.MatchDetail} />

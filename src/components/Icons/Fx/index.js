@@ -6,8 +6,10 @@ import IconShare from './Share';
 import IconFollowCommunity from './FollowCommunity';
 import IconHot from './Hot';
 import IconLiveTV from './LiveTV';
+import GoldMedal from './GoldMedal';
 
 export {
+  GoldMedal,
   LogoRound,
   IconUpvote,
   IconDownvote,

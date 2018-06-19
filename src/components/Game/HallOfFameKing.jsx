@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Avatar } from 'material-ui';
 import styled from 'styled-components';
 import ui from '../../theme';
+import { GoldMedal } from '../Icons';
 
 const LARGE_IMAGE_SIZE = 64;
 
@@ -71,12 +72,12 @@ const HallOfFameKing = (propsVar) => {
     <Styled>
       <ImageContainer>
         <AvatarStyled
-          color={ui.yellowA400}
-          backgroundColor={ui.orangeA700}
+          // color={ui.yellowA400}
+          // backgroundColor={ui.orangeA700}
           style={avatarStyle}
           size={LARGE_IMAGE_SIZE}
         >
-          I
+          <GoldMedal />
         </AvatarStyled>
       </ImageContainer>
       <InfoContainer>

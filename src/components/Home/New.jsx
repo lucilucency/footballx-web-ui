@@ -1,41 +1,45 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Helmet from 'react-helmet';
 import { PostGrid } from '../Post/components/index';
-import { Container } from '../../utils/index';
-import RightBar from './RightBar';
-// import { MatchGrid } from '../Match/components';
+import { getMeFeeds } from '../../actions/index';
 
 class HomeNew extends React.Component {
   componentDidMount() {
-
+    this.props.getMeFeeds({
+      sortby: 'new',
+      xuser_id: this.props.loggedInUserID,
+    });
   }
 
   render() {
     return (
       <div>
-        <Helmet title="News feed" />
-        <Container>
-          <div>
-            <PostGrid
-              bound="mine"
-              sorting="new"
-            />
-          </div>
-          <RightBar />
-        </Container>
+        <PostGrid
+          posts={this.props.posts}
+          loading={this.props.loading}
+          loggedInUserID={this.props.loggedInUserID}
+        />
       </div>
     );
   }
 }
 
 HomeNew.propTypes = {
+  /**/
+  loggedInUserID: PropTypes.number,
+  posts: PropTypes.array,
+  loading: PropTypes.bool,
+  getMeFeeds: PropTypes.func,
 };
 
-// const mapStateToProps = state => ({
-//   browser: state.browser,
-//   loading: state.app.posts.loading,
-// });
+const mapStateToProps = state => ({
+  posts: state.app.posts.data,
+  loading: state.app.posts.loading,
+});
 
-export default connect(null, null)(HomeNew);
+const mapDispatchToProps = dispatch => ({
+  getMeFeeds: ({ sortby, xuser_id }) => dispatch(getMeFeeds({ sortby, xuser_id })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeNew);
