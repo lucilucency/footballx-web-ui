@@ -1,8 +1,5 @@
-import * as materialColor from 'material-ui/styles/colors';
-
 const Constants = {
   /* color */
-  ...materialColor,
   colorGolden: '#e5c100',
 
   /* font */

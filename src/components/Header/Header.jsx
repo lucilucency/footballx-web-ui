@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Toolbar, ToolbarGroup } from 'material-ui';
 import ActionSearch from 'material-ui/svg-icons/action/search';
-import styled from 'styled-components';
+import muiThemeable from 'material-ui/styles/muiThemeable';
+import styled, {} from 'styled-components';
 import strings from '../../lang';
 import ui from '../../theme';
 import FastActions from './AccountWidget';
@@ -54,8 +55,6 @@ const HeaderStyled = styled(Toolbar)`
   position: fixed;
   width: 100%;
   z-index: 1000;
-  background-color: ${ui.primary1Color} !important;
-  color: ${ui.alternateTextColor};
   font-family: ${ui.fontFamilyPrimary};
   
   @media only screen and (max-width: 768px) {
@@ -117,4 +116,4 @@ const mapStateToProps = state => ({
   greaterThanSmall: state.browser.greaterThan.small,
   user: state.app.metadata.data.user,
 });
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps, null)(muiThemeable()(Header));

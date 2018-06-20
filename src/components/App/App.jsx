@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import { Route } from 'react-router-dom';
 import Snackbar from 'material-ui/Snackbar';
-import localUI, { skeleton, getTheme } from '../../theme';
+import localUI, { getTheme, skeleton } from '../../theme';
 import { announce } from '../../actions';
 import strings from '../../lang';
 import { Banner, OnFog } from '../Announce';
@@ -24,54 +25,59 @@ import * as League from '../League';
 import * as Team from '../Team';
 import Login from '../Login';
 
-const overwritesTheme = theme => ({
+const overwritesTheme = ui => ({
+  fontFamily: skeleton.fontFamilyPrimary,
+  badge: { fontWeight: skeleton.fontWeightNormal },
+  raisedButton: { fontWeight: skeleton.fontWeightNormal },
+  subheader: {
+    // fontWeight: ui.fontWeightNormal,
+    color: ui.textColorPrimary,
+  },
+  flatButton: { fontWeight: skeleton.fontWeightNormal },
+  inkBar: {
+    backgroundColor: ui.linkColor,
+  },
   palette: {
-    primary1Color: theme.primary1Color, /* app-bar, toggle:true */
-    textColor: theme.textColorPrimary,
-    secondaryTextColor: theme.textColorVariant1,
-    canvasColor: theme.surfaceColorPrimary,
-    alternateTextColor: theme.surfaceColorPrimary,
-    borderColor: theme.borderColor,
+    textColor: ui.textColorPrimary,
+    secondaryTextColor: ui.textColorVariant1,
+    canvasColor: ui.surfaceColorPrimary,
+    alternateTextColor: ui.surfaceColorPrimary,
+    borderColor: ui.borderColor,
+    primary1Color: ui.primary1Color, /* app-bar, toggle:true */
     // primary2Color: '', /* weak!!! datePicker.selectColor, timePicker.selectColor */
     // primary3Color: '', /* toggle:false, slider:false */
     // accent1Color: materialColor.green500, /* tab-bar, :secondary */
     // accent2Color: '', /* weak!!! toggle:false */
     // accent3Color: '', /* weak!!! table-header */
   },
-  fontFamily: skeleton.fontFamilyPrimary,
-  badge: { fontWeight: skeleton.fontWeightNormal },
-  raisedButton: { fontWeight: skeleton.fontWeightNormal },
-  flatButton: { fontWeight: skeleton.fontWeightNormal },
   card: {
     fontWeight: skeleton.fontWeightNormal,
-    subtitleColor: theme.textColorPrimary,
-  },
-  subheader: {
-    color: theme.textColorPrimary,
-  },
-  inkBar: {
-    backgroundColor: theme.linkColor,
+    subtitleColor: ui.textColorPrimary,
   },
   tableRow: {
-    borderColor: theme.borderColorVariant1,
+    borderColor: ui.borderColorVariant1,
   },
   tableHeaderColumn: {
     height: 48,
   },
   checkbox: {
-    checkedColor: theme.checkboxCheckedColor || theme.primary1Color,
+    checkedColor: ui.checkboxCheckedColor || ui.primary1Color,
   },
   tabs: {
-    backgroundColor: theme.surfaceColorPrimary,
-    textColor: theme.textColorPrimary,
-    selectedTextColor: theme.textColorPrimary,
+    backgroundColor: ui.surfaceColorPrimary,
+    textColor: ui.textColorPrimary,
+    selectedTextColor: ui.textColorPrimary,
+  },
+  toolbar: {
+    color: ui.alternateTextColor,
+    backgroundColor: ui.primary1Color,
   },
   button: {
     height: 38,
     textTransform: 'none',
   },
   avatar: {
-    backgroundColor: theme.avatarBackgroundColor,
+    backgroundColor: ui.avatarBackgroundColor,
   },
 });
 
@@ -125,9 +131,9 @@ class App extends React.Component {
       location,
     } = this.props;
     const storedTheme = this.props.theme && getTheme(this.props.theme.name);
-    const overwrite = overwritesTheme((storedTheme && storedTheme.data) || localUI);
+
     return (
-      <MuiThemeProvider theme={getMuiTheme(overwrite)}>
+      <MuiThemeProvider muiTheme={getMuiTheme(baseTheme, overwritesTheme((storedTheme && storedTheme.data) || localUI))}>
         <StyledDiv {...this.props}>
           <Helmet
             defaultTitle={strings.title_default}

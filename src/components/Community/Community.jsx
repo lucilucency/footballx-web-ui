@@ -108,7 +108,7 @@ Community.propTypes = {
 
   data: PropTypes.object,
   loggedInUserID: PropTypes.number,
-  theme: PropTypes.string,
+  theme: PropTypes.object,
   setTheme: PropTypes.func,
 };
 
