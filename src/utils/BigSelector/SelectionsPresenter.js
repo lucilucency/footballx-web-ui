@@ -1,21 +1,31 @@
 import React, { cloneElement } from 'react';
+import styled from 'styled-components';
 import FloatingLabel from './FloatingLabel';
 import DropDownArrow from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import { selectionsPresenterTypes } from './types';
 import { selectionsPresenterDefaultProps } from './defaultProps';
 
-const styles = {
-  column: { display: 'flex', flexDirection: 'column', flex: 'auto' },
-  row: {
-    alignItems: 'center',
-    display: 'flex',
-    flex: 'auto',
-    justifyContent: 'flex-end',
-    position: 'relative',
-  },
-  selections: { flex: 1 },
-  underline: { position: 'relative', marginTop: 1 },
-};
+const Styled = styled.div`
+  .presenterColumn {
+    display: flex;
+    flex-direction: column;-webkit-flex-direction: column;;-ms-flex-direction: column;
+    flex: auto;-ms-flex: auto;-webkit-flex: auto;
+  }
+  .presenterRow {
+    align-items: center;-webkit-align-items: center;
+    display: flex;
+    flex: auto;-ms-flex: auto;-webkit-flex: auto;
+    justify-content: flex-end;-webkit-justify-content: flex-end;
+    position: relative;
+  }
+  .presenterSelections {
+    flex: 1;-ms-flex: 1;-webkit-flex: 1;
+  }
+  .presenterUnderline {
+    position: relative;
+    margin-top: 1px;
+  }
+`;
 
 const SelectionsPresenter = ({
   disabled,
@@ -86,31 +96,33 @@ const SelectionsPresenter = ({
   });
 
   return (
-    <div style={styles.column}>
-      <div style={styles.row}>
-        <div style={styles.selections}>
-          {floatingLabel && (
-            <FloatingLabel
-              defaultColors={{ floatingLabelColor, focusColor }}
-              disabled={disabled}
-              floatingLabelFocusStyle={floatingLabelFocusStyle}
-              floatingLabelStyle={floatingLabelStyle}
-              isFocused={isFocused}
-              shrink={isShrunk}
-            >
-              {floatingLabel}
-            </FloatingLabel>
-          )}
-          {(!floatingLabel || isShrunk) && selectionsRenderer(selectedValues, hintText)}
+    <Styled>
+      <div className="presenterColumn">
+        <div className="presenterRow">
+          <div className="presenterSelections">
+            {floatingLabel && (
+              <FloatingLabel
+                defaultColors={{ floatingLabelColor, focusColor }}
+                disabled={disabled}
+                floatingLabelFocusStyle={floatingLabelFocusStyle}
+                floatingLabelStyle={floatingLabelStyle}
+                isFocused={isFocused}
+                shrink={isShrunk}
+              >
+                {floatingLabel}
+              </FloatingLabel>
+            )}
+            {(!floatingLabel || isShrunk) && selectionsRenderer(selectedValues, hintText)}
+          </div>
+          {arrowDownIcon}
         </div>
-        {arrowDownIcon}
+        <div className="presenterUnderline">
+          <hr style={baseHRstyle} />
+          <hr style={{ ...baseHRstyle, ...focusedHRstyle }} />
+        </div>
+        {errorText && <div style={{ marginTop: 5, color: 'red', fontSize: 12, ...errorStyle }}>{errorText}</div>}
       </div>
-      <div style={styles.underline}>
-        <hr style={baseHRstyle} />
-        <hr style={{ ...baseHRstyle, ...focusedHRstyle }} />
-      </div>
-      {errorText && <div style={{ marginTop: 5, color: 'red', fontSize: 12, ...errorStyle }}>{errorText}</div>}
-    </div>
+    </Styled>
   );
 };
 

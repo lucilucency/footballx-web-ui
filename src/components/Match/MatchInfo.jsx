@@ -104,7 +104,7 @@ class MatchView extends React.Component {
             style={{
               padding: '0 8px',
               display: 'flex',
-              flexDirection: 'row',
+              flexDirection: 'presenterRow',
               borderTop: `1px solid ${ui.borderColorVariant1}`,
               fontWeight: ui.fontWeightHeavy,
             }}

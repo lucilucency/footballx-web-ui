@@ -5,12 +5,13 @@ import Helmet from 'react-helmet';
 import { setCommunity, getCommunity } from '../../actions';
 import { Container } from '../../utils/index';
 import TabBar from '../TabBar';
+import { IconHotFeed } from '../Icons';
 import RightComponent from './RightBar';
+import Cover from './CommunityCover';
 import Hot from './Hot';
 import New from './New';
 import Top from './Top';
 import Controversy from './Controversy';
-import { IconHotFeed } from '../Icons';
 
 const verticalAlign = {
   verticalAlign: 'middle',
@@ -74,6 +75,7 @@ class CommunityHot extends React.Component {
     return (
       <div>
         <Helmet title={this.props.data.name} />
+        <Cover bg={data.bg} name={data.name} />
         <Container
           columns="1fr 300px"
           style={{
@@ -88,7 +90,7 @@ class CommunityHot extends React.Component {
             />
             {tab && tab.content}
           </div>
-          <RightComponent data={data} />
+          <RightComponent data={data} loggedInUserID={loggedInUserID} />
         </Container>
       </div>
     );

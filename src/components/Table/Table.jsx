@@ -257,7 +257,7 @@ class Table extends React.Component {
                         fieldEl = value;
                       }
                       if (underline === 'max' || underline === 'min') {
-                        style.textDecoration = toUnderline(data, row, field, underline) ? 'underline' : 'none';
+                        style.textDecoration = toUnderline(data, row, field, underline) ? 'presenterUnderline' : 'none';
                       }
                       return (
                         <MaterialTableRowColumn key={`${index}_${colIndex}`} style={style}>

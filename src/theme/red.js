@@ -25,7 +25,7 @@ const ThemeRed = {
   // textColorVariant3: materialColor.grey600,
   // textColorVariant4: materialColor.grey500,
 
-  primary1Color: materialColor.red600, /* header, appBar,... */
+  primary1Color: materialColor.red700, /* header, appBar,... */
   alternateTextColor: materialColor.fullWhite,
   alternateTextColorVariant1: materialColor.lightWhite,
 };

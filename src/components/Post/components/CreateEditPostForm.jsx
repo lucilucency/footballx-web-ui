@@ -401,7 +401,7 @@ class CreateEditPost extends React.Component {
           toolbar={{
             options: ['emoji'],
             inline: {
-              options: ['bold', 'italic', 'underline'],
+              options: ['bold', 'italic', 'presenterUnderline'],
             },
           }}
           toolbarStyle={{

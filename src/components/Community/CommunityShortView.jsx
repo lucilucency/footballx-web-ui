@@ -53,6 +53,7 @@ class CommunityShortView extends React.Component {
           <small style={{ fontSize: ui.fontSizeTiny }}>{`${data.c_followers} followers`}</small>
           }
         />
+        <p>{data.description}</p>
       </div>
     );
   }

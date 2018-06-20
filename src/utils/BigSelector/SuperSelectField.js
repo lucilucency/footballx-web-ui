@@ -7,10 +7,26 @@ import InfiniteScroller from 'react-infinite';
 import ListItem from 'material-ui/List/ListItem';
 import Popover from 'material-ui/Popover/Popover';
 import TextField from 'material-ui/TextField/TextField';
+import styled from 'styled-components';
 import SelectionsPresenter from './SelectionsPresenter';
 import { getChildrenLength, areEqual } from './utils';
 import { selectFieldTypes } from './types';
 import { selectFieldDefaultProps } from './defaultProps';
+
+const Styled = styled(Popover)`
+  header {
+    display: flex; align-items: center;
+    
+    & .flex-50 {
+      flex: 50%;-ms-flex: 50%;-webkit-flex: 50%;
+    }
+  }
+  footer {
+    display: flex; 
+    align-items: center; -webkit-align-items: center;
+    justify-content: flex-end;-webkit-justify-content: flex-end;
+  }
+`;
 
 class SelectField extends Component {
   constructor(props, context) {
@@ -425,7 +441,7 @@ class SelectField extends Component {
           underlineStyle={underlineStyle}
         />
 
-        <Popover
+        <Styled
           anchorEl={this.root}
           anchorOrigin={anchorOrigin}
           canAutoPosition={canAutoPosition}
@@ -452,11 +468,11 @@ class SelectField extends Component {
 
           {multiple &&
             withResetSelectAllButtons && (
-              <header style={{ display: 'flex', alignItems: 'center' }}>
-                <div onClick={this.selectAll} style={{ flex: '50%' }}>
+              <header>
+                <div onClick={this.selectAll} className="flex-50">
                   {selectAllButton}
                 </div>
-                <div onClick={this.reset} style={{ flex: '50%' }}>
+                <div onClick={this.reset} className="flex-50">
                   {resetButton}
                 </div>
               </header>
@@ -488,19 +504,13 @@ class SelectField extends Component {
           </div>
 
           {multiple && (
-            <footer
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-              }}
-            >
+            <footer>
               <div onClick={this.closeMenu} style={menuFooterStyle}>
                 {menuCloseButton}
               </div>
             </footer>
           )}
-        </Popover>
+        </Styled>
       </div>
     );
   }
