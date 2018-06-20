@@ -136,7 +136,7 @@ class CommentActions extends React.Component {
               height: 20,
             }}
           >
-            <IconUpvote color={item.vflag === 1 ? ui.positiveColor : ui.neutralColor} hoverColor={ui.positiveColor} />
+            <IconUpvote color={item.vflag === 1 ? ui.positive1Color : ui.neutralColor} hoverColor={ui.positive1Color} />
           </IconButton>
           <span style={{ display: 'table-cell', verticalAlign: 'middle' }}>{ups - downs}</span>
           <IconButton

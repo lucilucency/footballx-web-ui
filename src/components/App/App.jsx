@@ -30,25 +30,24 @@ const overwritesTheme = ui => ({
   badge: { fontWeight: skeleton.fontWeightNormal },
   raisedButton: { fontWeight: skeleton.fontWeightNormal },
   subheader: {
-    // fontWeight: ui.fontWeightNormal,
     color: ui.textColorPrimary,
   },
   flatButton: { fontWeight: skeleton.fontWeightNormal },
-  inkBar: {
-    backgroundColor: ui.linkColor,
-  },
+  // inkBar: {
+  //   backgroundColor: ui.linkColor,
+  // },
   palette: {
+    primary1Color: ui.positive1Color, /* app-bar, toggle:true */
+    primary2Color: ui.positive2Color, /* weak!!! datePicker.selectColor, timePicker.selectColor */
+    primary3Color: ui.positive3Color, /* toggle:false, slider:false */
+    accent1Color: ui.accent1Color, /* tab-bar, :secondary, inkBar */
+    // accent2Color: '', /* weak!!! toggle:false */
+    // accent3Color: '', /* weak!!! table-header */
     textColor: ui.textColorPrimary,
     secondaryTextColor: ui.textColorVariant1,
     canvasColor: ui.surfaceColorPrimary,
     alternateTextColor: ui.surfaceColorPrimary,
     borderColor: ui.borderColor,
-    primary1Color: ui.primary1Color, /* app-bar, toggle:true */
-    // primary2Color: '', /* weak!!! datePicker.selectColor, timePicker.selectColor */
-    // primary3Color: '', /* toggle:false, slider:false */
-    // accent1Color: materialColor.green500, /* tab-bar, :secondary */
-    // accent2Color: '', /* weak!!! toggle:false */
-    // accent3Color: '', /* weak!!! table-header */
   },
   card: {
     fontWeight: skeleton.fontWeightNormal,
@@ -61,7 +60,7 @@ const overwritesTheme = ui => ({
     height: 48,
   },
   checkbox: {
-    checkedColor: ui.checkboxCheckedColor || ui.primary1Color,
+    checkedColor: ui.checkboxCheckedColor,
   },
   tabs: {
     backgroundColor: ui.surfaceColorPrimary,
@@ -70,7 +69,7 @@ const overwritesTheme = ui => ({
   },
   toolbar: {
     color: ui.alternateTextColor,
-    backgroundColor: ui.primary1Color,
+    backgroundColor: ui.positive1Color,
   },
   button: {
     height: 38,

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import List, { ListItem } from 'material-ui/List';
-// import Home from 'material-ui/svg-icons/action/home';
 import IconPopular from 'material-ui/svg-icons/action/trending-up';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
@@ -36,16 +35,9 @@ const FeedMenu = ({
   return (
     <div>
       <List>
-        {/* <Subheader style={styles.subheader.style}>FEED</Subheader> */}
-        {/* {user && <ListItem
-          primaryText="Home"
-          leftIcon={<Home size={24} color={ui.blueA200} />}
-          containerElement={<Link to="/" />}
-          innerDivStyle={styles.listItem.innerDivStyle}
-        />} */}
         <ListItem
           primaryText="Popular"
-          leftIcon={<IconPopular size={24} color={ui.primary1Color} />}
+          leftIcon={<IconPopular size={24} color={ui.positive1Color} />}
           containerElement={<Link to="/popular" />}
           innerDivStyle={styles.listItem.innerDivStyle}
         />

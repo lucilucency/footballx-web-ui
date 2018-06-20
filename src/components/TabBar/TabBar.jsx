@@ -49,7 +49,7 @@ const StyledSection = styled.section`
 
   & .chosen {
     display: inline-block;
-    border-color: ${ui.primary1Color};
+    border-color: ${ui.positive2Color};
     color: color(${ui.textColorPrimary} lightness(85%));
   }
 `;

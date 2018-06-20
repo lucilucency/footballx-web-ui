@@ -1,9 +1,9 @@
 import * as materialColor from 'material-ui/styles/colors';
 
 const ThemeRed = {
-  positiveColor: materialColor.red500,
-  positiveColorVariant2: materialColor.red100,
-  positiveColorVariant1: materialColor.red400,
+  positive1Color: materialColor.red500,
+  positive2Color: materialColor.red400,
+  positive3Color: materialColor.red100,
   negativeColor: materialColor.fullBlack,
   negativeColorVariant1: '#ff4c4c',
   negativeColorVariant2: '#FFAB40',
@@ -25,7 +25,6 @@ const ThemeRed = {
   // textColorVariant3: materialColor.grey600,
   // textColorVariant4: materialColor.grey500,
 
-  primary1Color: materialColor.red700, /* header, appBar,... */
   alternateTextColor: materialColor.fullWhite,
   alternateTextColorVariant1: materialColor.lightWhite,
 };

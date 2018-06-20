@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import muiThemeable from 'material-ui/styles/muiThemeable';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import styled from 'styled-components';
 import groupsObj from '../../fxconstants/groupsObj.json';
+
+const Styled = styled.div`
+  display: grid;
+  grid-row-gap: 1em;
+`;
 
 class GroupShortView extends React.Component {
   constructor(props) {
@@ -14,10 +22,38 @@ class GroupShortView extends React.Component {
   }
 
   render() {
+    const { group } = this;
+    const { muiTheme } = this.props;
+    const btnStyle = { border: '1px solid', borderColor: muiTheme.palette.primary2Color };
+    const labelStyle = { color: muiTheme.palette.primary2Color };
+
     return (
-      <div>
-        {JSON.stringify(this.group)}
-      </div>
+      <Styled>
+        {/* {group.greeting && <li>{group.greeting}</li>} */}
+        {group.fanpage && <RaisedButton
+          style={btnStyle}
+          labelStyle={labelStyle}
+          label="Fan page"
+          backgroundColor={muiTheme.palette.canvasColor}
+          fullWidth
+          href={group.fanpage}
+          target="_blank"
+        />}
+        <RaisedButton
+          target="_blank"
+          label="sample"
+          onClick={this.popupCreatePost}
+          fullWidth
+          primary
+        />
+        <RaisedButton
+          style={btnStyle}
+          labelStyle={labelStyle}
+          label="Register membership"
+          backgroundColor={muiTheme.palette.canvasColor}
+          fullWidth
+        />
+      </Styled>
     );
   }
 }
@@ -25,6 +61,7 @@ class GroupShortView extends React.Component {
 GroupShortView.propTypes = {
   /**/
   groupID: PropTypes.number,
+  muiTheme: PropTypes.object,
 };
 
-export default connect()(GroupShortView);
+export default (muiThemeable()(GroupShortView));

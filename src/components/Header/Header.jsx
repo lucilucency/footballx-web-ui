@@ -8,7 +8,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import styled, {} from 'styled-components';
 import strings from '../../lang';
 import ui from '../../theme';
-import FastActions from './AccountWidget';
+import FastActions from './FastActions';
 import SearchForm from '../Search/SearchForm';
 import { BurgerButton } from '../BurgerMenu';
 import UserSettings from './UserSettings';

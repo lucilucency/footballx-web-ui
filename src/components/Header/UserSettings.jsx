@@ -63,7 +63,7 @@ const UserSettings = ({ user }) => (
   >
     {null && <LocalizationMenu />}
     <LinkRouterStyled to={`/u/${user.id}`}>
-      <ActionHome color={ui.positiveColor} size={24} style={{ width: 24, height: 24 }} />
+      <ActionHome color={ui.positive1Color} size={24} style={{ width: 24, height: 24 }} />
       <span>{strings.app_my_profile}</span>
     </LinkRouterStyled>
     <LinkStyled

@@ -100,7 +100,7 @@ const MatchVisualizeCompact = (props) => {
           <span>{home.name}</span>
           <img src={home.icon} alt="" style={styles.iconButton.iconStyle} />
         </div>
-        <div className="score" style={{ backgroundColor: date * 1000 < Date.now() && ui.positiveColorVariant2 }}>
+        <div className="score" style={{ backgroundColor: date * 1000 < Date.now() && ui.positive3Color }}>
           {date * 1000 > Date.now() ? (
             <span>
               {toTimeString(date * 1000)}
