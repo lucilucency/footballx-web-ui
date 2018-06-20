@@ -16,6 +16,14 @@ export const setTray = (props = {}) => {
   });
 };
 
+export const setTheme = (props = {}) => {
+  const { name } = props;
+  return ({
+    type: 'THEME/SET',
+    name,
+  });
+};
+
 export const announce = ({
   open = true,
   message,

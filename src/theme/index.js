@@ -3,8 +3,9 @@ import ThemePitch from './pitch';
 import ThemeRed from './red';
 import ThemeDark from './dark';
 
+export const skeleton = constants;
 export const themes = [{
-  value: 'ThemePitch',
+  value: 'pitch',
   native: 'Pitch',
   data: {
     ...constants,
@@ -25,6 +26,7 @@ export const themes = [{
     ...ThemeDark,
   },
 }].filter(Boolean);
-const savedTheme = window.localStorage && window.localStorage.getItem('theme');
-const themeToUse = (themes.filter(o => o).find(el => el.value === savedTheme) || themes[0]).data;
+export const getTheme = themeName => themes.find(el => el.value === themeName);
+export const savedTheme = window.localStorage && window.localStorage.getItem('theme');
+const themeToUse = (getTheme(savedTheme) || themes[0]).data;
 export default themeToUse;

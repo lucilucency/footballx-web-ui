@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import reducer from './reducer';
 import request from './request';
 import tray from './tray';
+import theme from './theme';
 import announcement from './announcement';
 
 export default combineReducers({
@@ -24,5 +25,6 @@ export default combineReducers({
 
   announcement,
   tray,
+  theme,
   request,
 });

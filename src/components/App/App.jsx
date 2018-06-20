@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Helmet from 'react-helmet';
 import styled, { css } from 'styled-components';
 import { Route } from 'react-router-dom';
 import Snackbar from 'material-ui/Snackbar';
-import ui from '../../theme';
+import localUI, { skeleton, getTheme } from '../../theme';
 import { announce } from '../../actions';
 import strings from '../../lang';
 import { Banner, OnFog } from '../Announce';
@@ -26,60 +24,59 @@ import * as League from '../League';
 import * as Team from '../Team';
 import Login from '../Login';
 
-const overwritesTheme = {
-  fontFamily: ui.fontFamilyPrimary,
-  badge: { fontWeight: ui.fontWeightNormal },
-  subheader: {
-    // fontWeight: ui.fontWeightNormal,
-    color: ui.textColorPrimary,
-  },
-  raisedButton: { fontWeight: ui.fontWeightNormal },
-  flatButton: { fontWeight: ui.fontWeightNormal },
-  inkBar: {
-    backgroundColor: ui.linkColor,
-  },
+const overwritesTheme = theme => ({
   palette: {
-    textColor: ui.textColorPrimary,
-    secondaryTextColor: ui.textColorVariant1,
-    canvasColor: ui.surfaceColorPrimary,
-    alternateTextColor: ui.surfaceColorPrimary,
-    borderColor: ui.borderColor,
-    primary1Color: ui.primary1Color, /* app-bar, toggle:true */
+    primary1Color: theme.primary1Color, /* app-bar, toggle:true */
+    textColor: theme.textColorPrimary,
+    secondaryTextColor: theme.textColorVariant1,
+    canvasColor: theme.surfaceColorPrimary,
+    alternateTextColor: theme.surfaceColorPrimary,
+    borderColor: theme.borderColor,
     // primary2Color: '', /* weak!!! datePicker.selectColor, timePicker.selectColor */
     // primary3Color: '', /* toggle:false, slider:false */
     // accent1Color: materialColor.green500, /* tab-bar, :secondary */
     // accent2Color: '', /* weak!!! toggle:false */
     // accent3Color: '', /* weak!!! table-header */
   },
+  fontFamily: skeleton.fontFamilyPrimary,
+  badge: { fontWeight: skeleton.fontWeightNormal },
+  raisedButton: { fontWeight: skeleton.fontWeightNormal },
+  flatButton: { fontWeight: skeleton.fontWeightNormal },
   card: {
-    fontWeight: ui.fontWeightNormal,
-    subtitleColor: ui.textColorPrimary,
+    fontWeight: skeleton.fontWeightNormal,
+    subtitleColor: theme.textColorPrimary,
+  },
+  subheader: {
+    color: theme.textColorPrimary,
+  },
+  inkBar: {
+    backgroundColor: theme.linkColor,
   },
   tableRow: {
-    borderColor: ui.borderColorVariant1,
+    borderColor: theme.borderColorVariant1,
   },
   tableHeaderColumn: {
     height: 48,
   },
   checkbox: {
-    checkedColor: ui.checkboxCheckedColor || ui.primary1Color,
+    checkedColor: theme.checkboxCheckedColor || theme.primary1Color,
   },
   tabs: {
-    backgroundColor: ui.surfaceColorPrimary,
-    textColor: ui.textColorPrimary,
-    selectedTextColor: ui.textColorPrimary,
+    backgroundColor: theme.surfaceColorPrimary,
+    textColor: theme.textColorPrimary,
+    selectedTextColor: theme.textColorPrimary,
   },
   button: {
     height: 38,
     textTransform: 'none',
   },
   avatar: {
-    backgroundColor: ui.avatarBackgroundColor,
+    backgroundColor: theme.avatarBackgroundColor,
   },
-};
+});
 
 const StyledDiv = styled.div`
-  transition: ${ui.linearTransition};
+  transition: ${skeleton.linearTransition};
   position: relative;
   display: flex;
   flex-direction: column;
@@ -107,15 +104,11 @@ const CONTENT = styled.div`
   @media only screen and (max-width: 768px) {
     padding: 1em 0px;
   }
-  ${props => css`
+  ${props => props.trayWidth && css`
     @media only screen and (min-width: ${props.trayWidth + 1200}px) {
       max-width: 1200px;
-      //margin-left: auto;
-      //margin-right: auto;
     }
   `}
-  
-  
 `;
 
 class App extends React.Component {
@@ -131,10 +124,10 @@ class App extends React.Component {
       // width,
       location,
     } = this.props;
-    // const themeName = localStorage.getItem('theme') || 'light';
-    // const theme = themeName === 'light' ? lightBaseTheme : darkBaseTheme;
+    const storedTheme = this.props.theme && getTheme(this.props.theme.name);
+    const overwrite = overwritesTheme((storedTheme && storedTheme.data) || localUI);
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(overwritesTheme)}>
+      <MuiThemeProvider theme={getMuiTheme(overwrite)}>
         <StyledDiv {...this.props}>
           <Helmet
             defaultTitle={strings.title_default}
@@ -194,6 +187,7 @@ App.propTypes = {
     width: PropTypes.number,
     show: PropTypes.bool,
   }),
+  theme: PropTypes.object,
   user: PropTypes.object,
 
   announcement: PropTypes.object,
@@ -202,6 +196,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   tray: state.app.tray,
+  theme: state.app.theme,
   user: state.app.metadata.data.user,
   announcement: state.app.announcement,
 });

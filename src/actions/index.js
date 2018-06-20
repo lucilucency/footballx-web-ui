@@ -1,5 +1,5 @@
 /* eslint-disable camelcase,radix */
-import { dispatchDelete, dispatchGet, dispatchPost, dispatchPut } from './dispatchAction';
+import { dispatchDelete, dispatchGet, dispatchPost, dispatchPut } from './dispatchData';
 import * as parser from './parser';
 import { getCookie, setCookie, eraseCookie } from '../utils';
 
@@ -469,5 +469,5 @@ export const getUpdateVersion = merged => dispatchGet({
 
 export * from './ajax';
 export * from './dispatchForm';
-export * from './dispatchAction';
+export * from './dispatchData';
 export * from './request';

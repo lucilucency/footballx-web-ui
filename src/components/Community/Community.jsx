@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { setCommunity, getCommunity } from '../../actions';
+import { setCommunity, getCommunity, setTheme } from '../../actions';
 import { Container } from '../../utils/index';
 import TabBar from '../TabBar';
 import { IconHotFeed } from '../Icons';
@@ -44,14 +44,15 @@ const propsLoadData = (props) => {
 
   if (location.state && location.state.data) {
     props.setCommunity(location.state.data);
-  } else if (props.match.params.id && Number(props.match.params.id)) {
+  }
+  if (props.match.params.id && Number(props.match.params.id)) {
     props.getCommunity(props.match.params.id);
   } else {
     props.history.push('/');
   }
 };
 
-class CommunityHot extends React.Component {
+class Community extends React.Component {
   componentDidMount() {
     propsLoadData(this.props);
   }
@@ -59,6 +60,10 @@ class CommunityHot extends React.Component {
   componentWillReceiveProps(props) {
     if (props.location.pathname !== this.props.location.pathname) {
       propsLoadData(props);
+    }
+
+    if (props.data && props.data.color && props.data.color !== props.theme.name) {
+      props.setTheme({ name: props.data.color });
     }
   }
 
@@ -75,7 +80,7 @@ class CommunityHot extends React.Component {
     return (
       <div>
         <Helmet title={this.props.data.name} />
-        <Cover bg={data.bg} name={data.name} />
+        {data.bg ? <Cover bg={data.bg} name={data.name} /> : null}
         <Container
           columns="1fr 300px"
           style={{
@@ -97,23 +102,27 @@ class CommunityHot extends React.Component {
   }
 }
 
-CommunityHot.propTypes = {
+Community.propTypes = {
   match: PropTypes.object,
   location: PropTypes.object,
 
   data: PropTypes.object,
   loggedInUserID: PropTypes.number,
+  theme: PropTypes.string,
+  setTheme: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   data: state.app.community.data,
   loggedInUserID: state.app.metadata.data.user && state.app.metadata.data.user.id && Number(state.app.metadata.data.user.id),
+  theme: state.app.theme,
 });
 
 const mapDispatchToProps = dispatch => ({
+  setTheme: props => dispatch(setTheme(props)),
   setCommunity: payload => dispatch(setCommunity(payload)),
   getCommunity: id => dispatch(getCommunity(id)),
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommunityHot);
+export default connect(mapStateToProps, mapDispatchToProps)(Community);

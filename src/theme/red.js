@@ -4,7 +4,7 @@ const ThemeRed = {
   positiveColor: materialColor.red500,
   positiveColorVariant2: materialColor.red100,
   positiveColorVariant1: materialColor.red400,
-  negativeColor: materialColor.red500,
+  negativeColor: materialColor.fullBlack,
   negativeColorVariant1: '#ff4c4c',
   negativeColorVariant2: '#FFAB40',
   disabledColor: materialColor.grey400,
