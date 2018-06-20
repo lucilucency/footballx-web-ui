@@ -13,7 +13,7 @@ import { getChildrenLength, areEqual } from './utils';
 import { selectFieldTypes } from './types';
 import { selectFieldDefaultProps } from './defaultProps';
 
-const Styled = styled(Popover)`
+const StyledPopover = styled(Popover)`
   header {
     display: flex; align-items: center;
     
@@ -93,7 +93,8 @@ class SelectField extends Component {
     });
   };
 
-  openMenu () {
+  openMenu (e) {
+    e.preventDefault();
     if (!this.state.isOpen) this.props.onMenuOpen();
     if (this.state.itemsLength || this.props.showAutocompleteThreshold === 'always') {
       this.setState({ isOpen: true }, () => this.focusTextField());
@@ -122,9 +123,9 @@ class SelectField extends Component {
    * Main Component Wrapper methods
    */
   // toggle instead of close ? (in case user changes targetOrigin/anchorOrigin)
-  handleClick = (event) => !this.props.disabled && this.openMenu();
+  handleClick = (event) => !this.props.disabled && this.openMenu(event);
 
-  handleKeyDown = (event) => !this.props.disabled && /ArrowDown|Enter/.test(event.key) && this.openMenu();
+  handleKeyDown = (event) => !this.props.disabled && /ArrowDown|Enter/.test(event.key) && this.openMenu(event);
 
   /**
    * TextField autocomplete methods
@@ -441,7 +442,7 @@ class SelectField extends Component {
           underlineStyle={underlineStyle}
         />
 
-        <Styled
+        <StyledPopover
           anchorEl={this.root}
           anchorOrigin={anchorOrigin}
           canAutoPosition={canAutoPosition}
@@ -510,7 +511,7 @@ class SelectField extends Component {
               </div>
             </footer>
           )}
-        </Styled>
+        </StyledPopover>
       </div>
     );
   }
