@@ -8,10 +8,10 @@ import TabBar from '../TabBar';
 import { IconHotFeed } from '../Icons';
 import RightComponent from './RightBar';
 import Cover from './CommunityCover';
-import Hot from './Hot';
-import New from './New';
-import Top from './Top';
-import Controversy from './Controversy';
+import Hot from './FeedHot';
+import New from './FeedNew';
+import Top from './FeedTop';
+import Controversy from './FeedControversy';
 
 const verticalAlign = {
   verticalAlign: 'middle',
@@ -62,8 +62,10 @@ class Community extends React.Component {
       propsLoadData(props);
     }
 
-    if (props.data && props.data.color && props.data.color !== props.theme.name) {
-      props.setTheme({ name: props.data.color });
+    if (props.data && props.data.color) {
+      if (props.data.color !== this.props.theme.name) {
+        props.setTheme({ name: props.data.color });
+      }
     }
   }
 
@@ -72,10 +74,6 @@ class Community extends React.Component {
     const matchID = Number(match.params.id);
     const info = match.params.info || 'hot';
     const tab = tabs(matchID, loggedInUserID).find(_tab => _tab.key === info);
-
-    // if (!matchID || !tab) {
-    //   this.props.history.push('/');
-    // }
 
     return (
       <div>

@@ -1,2 +1,7 @@
 /* eslint-disable import/prefer-default-export */
-export const parseCommunityDetail = data => data.community;
+import { savedTheme } from '../../theme';
+
+export const parseCommunityDetail = data => ({
+  ...data.community,
+  color: data.community.color || savedTheme,
+});

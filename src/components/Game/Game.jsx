@@ -59,8 +59,4 @@ const mapStateToProps = state => ({
   banner: state.app.banner.data,
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   toggleTray: props => dispatch(toggleTray(props)),
-// });
-
 export default connect(mapStateToProps)(GamePort);

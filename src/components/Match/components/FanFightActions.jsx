@@ -84,7 +84,7 @@ const MatchInfo = styled.div`
   }
 `;
 
-class MatchVisualize extends React.Component {
+class FanFightActions extends React.Component {
   hitVoteHome = (home, away, homeVotes, awayVotes) => {
     if (this.props.isLoggedIn) {
       this.props.hitVote(this.props.matchID, home, {
@@ -183,7 +183,7 @@ class MatchVisualize extends React.Component {
   }
 }
 
-MatchVisualize.propTypes = {
+FanFightActions.propTypes = {
   disabled: PropTypes.bool,
   matchID: PropTypes.number,
   home: PropTypes.object,
@@ -207,4 +207,4 @@ const mapDispatchToProps = dispatch => ({
   hitVote: (matchID, teamID, payload) => dispatch(hitVote(matchID, teamID, payload)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MatchVisualize));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FanFightActions));

@@ -112,7 +112,8 @@ const AccountWidget = ({
             style={{ marginRight: 10, border: '1px solid', borderColor: ui.alternateTextColor }}
             buttonStyle={{ height: '32px', lineHeight: '32px' }}
             label="CREATE POST"
-            backgroundColor={ui.positive1Color}
+            // backgroundColor={ui.positive1Color}
+            primary
           />
         </Link>
       );
@@ -150,5 +151,6 @@ const mapStateToProps = (state) => {
     user: data.user,
   };
 };
+
 
 export default connect(mapStateToProps, null)(AccountWidget);

@@ -104,17 +104,9 @@ function isDisabled(text) {
 }
 
 class AnnounceComponent extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {};
 
-    this.state = {};
-
-    // this.dismiss = () => {
-    //   this.setState({ dismissed: true });
-    // };
-  }
-
-  UNSAFE_componentWillMount() {
+  componentWillMount() {
     this.props.getBanner();
   }
 

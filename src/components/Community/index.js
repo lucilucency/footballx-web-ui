@@ -1,8 +1,8 @@
 import Home from './Community';
-import Controversy from './Controversy';
-import New from './New';
-import Top from './Top';
-import Hot from './Hot';
+import Controversy from './FeedControversy';
+import New from './FeedNew';
+import Top from './FeedTop';
+import Hot from './FeedHot';
 
 export {
   New,

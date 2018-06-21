@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 import styled from 'styled-components';
 import groupsObj from '../../fxconstants/groupsObj.json';
 

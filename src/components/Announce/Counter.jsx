@@ -33,11 +33,16 @@ class Counter extends React.Component {
   };
 
   componentDidMount() {
+    // console.log('=====================ON COUNTER=========================');
     const timeLeftVar = this.secondsToTime(this.state.seconds);
     const to = this.props.countToStart ? this.props.start : this.props.end;
     this.text = this.props.countToStart ? strings.label_start_in : strings.label_end_in;
     this.state = { time: timeLeftVar, seconds: to - parseInt(Date.now() / 1000, 10) };
     this.startTimer();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   startTimer() {

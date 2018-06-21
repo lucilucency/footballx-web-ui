@@ -2,7 +2,7 @@ import * as Colors from 'material-ui/styles/colors';
 
 const ThemeDark = {
   positive1Color: Colors.grey900,
-  positive2Color: Colors.grey100,
+  positive2Color: Colors.grey900,
   positive3Color: Colors.grey400,
   negativeColor: Colors.minBlack,
   negativeColorVariant1: '#ff4c4c',
@@ -14,7 +14,7 @@ const ThemeDark = {
   linkColor: '#6BF',
   borderColor: 'rgb(52, 50, 50)',
   borderColorVariant1: Colors.grey50,
-  avatarBackgroundColor: 'rgba(255, 255, 255, 0.1)',
+  avatarBackgroundColor: Colors.fullWhite,
 
   backgroundColorPrimary: '#2d2c43',
   backgroundImageColor: 'linear-gradient(135deg, rgb(46, 45, 69), rgb(28, 33, 39))',

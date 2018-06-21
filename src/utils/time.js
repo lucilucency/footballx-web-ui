@@ -175,8 +175,8 @@ export function toTimeString(input) {
 
   const inputParse = Number(input) || input;
   return new Date(inputParse).toLocaleTimeString(window.localStorage.getItem('localization') || 'en-US', {
-    minute: 'numeric',
-    hour: 'numeric',
+    minute: '2-digit',
+    hour: '2-digit',
     hour12: false,
   });
 }

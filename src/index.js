@@ -49,9 +49,9 @@ li {
   height: 100%;
   overflow-x: hidden;
   min-height: 100vh;
-  background-color: ${ui.backgroundColorPrimary};
-  background-image: ${ui.backgroundImageColor};
-  color: ${ui.textColorPrimary};
+  // background-color: ${ui.backgroundColorPrimary};
+  // background-image: ${ui.backgroundImageColor};
+  // color: ${ui.textColorPrimary};
 }
 
 [data-tip="true"] {
