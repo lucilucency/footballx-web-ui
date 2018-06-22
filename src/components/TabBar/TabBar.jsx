@@ -82,7 +82,9 @@ const TabBar = ({
 
 const { string, shape, arrayOf } = PropTypes;
 TabBar.propTypes = {
-  tabs: arrayOf(shape({})),
+  tabs: arrayOf(shape({
+    // name, key, content, route, hidden
+  })),
   info: string,
   match: shape({}),
   muiTheme: PropTypes.object,

@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 // import ReactMarkdown from 'react-markdown';
 // import strings from '../../lang';
-import { getBanner } from '../../actions';
 import ui from '../../theme';
-import { UpdateProfileStepper } from '../User/components';
+import { UpdateProfileAfterSignUpStepper } from '../User/components';
 
 const Overlay = styled.div`
   width: 100vw;
@@ -88,7 +87,7 @@ class OnFog extends React.Component {
         <div>
           <Overlay />
           <AdBannerDiv>
-            <UpdateProfileStepper
+            <UpdateProfileAfterSignUpStepper
               onClose={this.dismiss}
               onStart={this.start}
             />
@@ -112,8 +111,4 @@ OnFog.propTypes = {
 //   user: state.app.metadata.data.user,
 // });
 
-const mapDispatchToProps = dispatch => ({
-  getBanner: () => dispatch(getBanner()),
-});
-
-export default connect(null, mapDispatchToProps)(OnFog);
+export default connect(null)(OnFog);

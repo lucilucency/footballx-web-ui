@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Toolbar, ToolbarGroup } from 'material-ui';
 import ActionSearch from 'material-ui/svg-icons/action/search';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 import styled, {} from 'styled-components';
 import strings from '../../lang';
 import ui from '../../theme';
@@ -116,4 +115,4 @@ const mapStateToProps = state => ({
   greaterThanSmall: state.browser.greaterThan.small,
   user: state.app.metadata.data.user,
 });
-export default connect(mapStateToProps, null)(muiThemeable()(Header));
+export default connect(mapStateToProps, null)(Header);

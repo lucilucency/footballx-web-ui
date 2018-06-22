@@ -23,7 +23,7 @@ const tableEventsColumns = browser => [
 
 const getHighlightFn = user => row => user && user.id && row.id === user.id;
 
-class GamePort extends React.Component {
+class HallOfFame extends React.Component {
   state = {
     hallOfFame: [],
     userFame: null,
@@ -75,7 +75,7 @@ class GamePort extends React.Component {
   }
 }
 
-GamePort.propTypes = {
+HallOfFame.propTypes = {
   user: PropTypes.object,
   browser: PropTypes.object,
 };
@@ -89,4 +89,4 @@ const mapStateToProps = state => ({
 //   toggleTray: props => dispatch(toggleTray(props)),
 // });
 
-export default connect(mapStateToProps)(GamePort);
+export default connect(mapStateToProps)(HallOfFame);

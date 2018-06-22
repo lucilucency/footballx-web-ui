@@ -111,7 +111,7 @@ const AccountWidget = ({
             labelStyle={{ color: ui.alternateTextColor, fontSize: '14px' }}
             style={{ marginRight: 10, border: '1px solid', borderColor: ui.alternateTextColor }}
             buttonStyle={{ height: '32px', lineHeight: '32px' }}
-            label="CREATE POST"
+            label={strings.heading_create_post}
             // backgroundColor={ui.positive1Color}
             primary
           />

@@ -4,12 +4,24 @@ import { connect } from 'react-redux';
 import { PostGrid } from '../Post/components/index';
 import { getCommunityFeeds } from '../../actions/index';
 
+const getData = (props) => {
+  props.getCommunityFeeds(props.communityID, {
+    sortby: 'top',
+    xuser_id: props.loggedInUserID,
+  });
+};
+
 class CommunityFeedTop extends React.Component {
   componentDidMount() {
-    this.props.getCommunityFeeds(this.props.communityID, {
-      sortby: 'top',
-      xuser_id: this.props.loggedInUserID,
-    });
+    if (!this.props.posts || !this.props.posts.length) {
+      getData(this.props);
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.communityID !== this.props.communityID) {
+      getData(props);
+    }
   }
 
   render() {
@@ -31,7 +43,7 @@ CommunityFeedTop.propTypes = {
   /**/
   posts: PropTypes.array,
   loading: PropTypes.bool,
-  getCommunityFeeds: PropTypes.func,
+  // getCommunityFeeds: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

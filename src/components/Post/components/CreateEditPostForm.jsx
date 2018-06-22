@@ -203,11 +203,19 @@ class CreateEditPost extends React.Component {
     const that = this;
     const { mode } = this.props;
     const submitData = this.getFormData();
-    /* close form => upload => update formData => submit => notify || catch exception */
 
-    /* close form */
-    setTimeout(this.close, 250);
+    /** SUBMIT FLOW
+     * 0. Start (trigger amplitude)
+     * 1. Close form
+     * 2. Upload & callback update formData
+     * 3. Submit
+     * 4. Notify success or exception
+     * */
+
     Amplitude.logEvent('Create post');
+
+    /* 1.close form */
+    setTimeout(this.close, 250);
 
     /* declare upload */
     const promiseUpload = new Promise((resolve) => {
@@ -241,7 +249,6 @@ class CreateEditPost extends React.Component {
         resolve(null);
       }
     });
-    //
     /* declare submit */
     const promiseSubmit = params => new Promise((resolve) => {
       if (mode === 'edit') {
@@ -259,6 +266,7 @@ class CreateEditPost extends React.Component {
       }
     });
 
+    /* 2.upload && update formData */
     promiseUpload.then((newContent) => {
       if (newContent) {
         /* announce about post will be created */
@@ -266,6 +274,7 @@ class CreateEditPost extends React.Component {
         //   message: strings.announce_creating,
         // });
 
+        /* 3.submit */
         promiseSubmit({ ...submitData, content: newContent }).then((respSubmit) => {
           if (respSubmit.type && respSubmit.type.indexOf('OK') !== -1) {
             this.props.announce({
@@ -363,7 +372,7 @@ class CreateEditPost extends React.Component {
     rows={1}
     rowsMax={4}
     validators={['required']}
-    errorMessages={[strings.err_is_required]}
+    errorMessages={[strings.err_required]}
   />);
 
   renderRichTextInput = () => {
@@ -449,7 +458,7 @@ class CreateEditPost extends React.Component {
         hintStyle={{ top: 12 }}
         fullWidth
         validators={['required', 'isLink']}
-        errorMessages={[strings.err_is_required, 'Invalid URL']}
+        errorMessages={[strings.err_required, 'Invalid URL']}
         autoComplete="off"
         underlineShow={false}
       />
@@ -584,6 +593,9 @@ class CreateEditPost extends React.Component {
           data-popup={popup}
           data-display={display}
           onSubmit={this.submit}
+          style={{
+            backgroundColor: ui.surfaceColorPrimary,
+          }}
         >
           {loading && <Spinner />}
           {/* {this.state.formData.error && <Error errors={this.state.formData.error} />} */}

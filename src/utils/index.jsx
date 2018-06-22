@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-properties,radix */
 import strings from '../lang';
+import Rules from './ValidatorCore/ValidationRules';
 
 export * from './time';
 export * from './style';
@@ -7,8 +8,24 @@ export * from './sort';
 export * from './styledComponent';
 export * from './misc';
 export * from './FormValidator';
+export * from './ValidatorCore';
 export * from './BigSelector';
 export * from './PasswordWithEye';
+
+export function validate(validator, value, includeRequired) {
+  let result = true;
+  let name = validator;
+  if (name !== 'required' || includeRequired) {
+    let extra;
+    const splitIdx = validator.indexOf(':');
+    if (splitIdx !== -1) {
+      name = validator.substring(0, splitIdx);
+      extra = validator.substring(splitIdx + 1);
+    }
+    result = Rules[name](value, extra);
+  }
+  return result;
+}
 
 export function toNumber(input) {
   return Number(input);
@@ -140,7 +157,7 @@ export function bindAll(methods, self) {
   });
 }
 
-export function setCookie(name, value, days) {
+export function setCookie(name, value, days = 30) {
   let expires = '';
   if (days) {
     const date = new Date();

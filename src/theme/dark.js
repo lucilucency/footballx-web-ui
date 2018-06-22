@@ -20,7 +20,7 @@ const ThemeDark = {
   backgroundImageColor: 'linear-gradient(135deg, rgb(46, 45, 69), rgb(28, 33, 39))',
   surfaceColorPrimary: 'rgb(46, 47, 64)',
   textColorPrimary: '#c6d4df',
-  textColorVariant1: Colors.grey800,
+  textColorVariant1: Colors.grey400,
   textColorVariant2: Colors.grey700,
   // textColorVariant3: Colors.grey600,
   // textColorVariant4: Colors.grey500,

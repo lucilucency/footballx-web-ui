@@ -6,18 +6,11 @@ import { format } from 'util';
 import Amplitude from 'react-amplitude';
 import strings from '../../../lang';
 import { FormWrapper, TextValidator, PasswordWithEye } from '../../../utils';
-import constants from '../../constants';
+import ui from '../../../theme';
 import { updateMetadata, updateUserProfile } from '../../../actions';
 // import Spinner from '../../Spinner/index';
 
 class UpdateProfileNickname extends Component {
-  static defaultProps = {
-    display: true,
-    toggle: false,
-    popup: false,
-    // loading: false,
-  };
-
   static defaultFormData = {
     username: '',
     password: '',
@@ -31,6 +24,13 @@ class UpdateProfileNickname extends Component {
     submitting: false,
     submitResp: [],
   });
+
+  static defaultProps = {
+    display: true,
+    toggle: false,
+    popup: false,
+    // loading: false,
+  };
 
   constructor(props) {
     super(props);
@@ -112,7 +112,9 @@ class UpdateProfileNickname extends Component {
           data-popup={popup}
           data-display={display}
           onSubmit={this.submit}
-          // onError={errors => console.log(errors)}
+          style={{
+            backgroundColor: ui.surfaceColorPrimary,
+          }}
         >
           {/* {loading && <Spinner />} */}
           {(
@@ -120,7 +122,7 @@ class UpdateProfileNickname extends Component {
               <div
                 style={{
                   backgroundColor: 'hsla(0,0%,100%,0)',
-                  border: `1px solid ${constants.grey200}`,
+                  border: `1px solid ${ui.borderColor}`,
                   borderRadius: 4,
                   padding: '0 10px',
                   marginBottom: 10,
@@ -136,7 +138,7 @@ class UpdateProfileNickname extends Component {
                   underlineShow={false}
                   value={this.state.formData.username}
                   validators={['required', 'maxStringLength:20', 'noSpace']}
-                  errorMessages={[strings.err_is_required, format(strings.err_maximum, 20), 'Invalid username: no space']}
+                  errorMessages={[strings.err_required, format(strings.err_maximum, 20), 'Invalid username: no space']}
                   errorText={this.state.error}
                 />
               </div>
@@ -144,7 +146,7 @@ class UpdateProfileNickname extends Component {
                 <div
                   style={{
                     backgroundColor: 'hsla(0,0%,100%,0)',
-                    border: `1px solid ${constants.grey200}`,
+                    border: `1px solid ${ui.grey200}`,
                     borderRadius: 4,
                     padding: '0 10px',
                     marginBottom: 10,
@@ -161,7 +163,7 @@ class UpdateProfileNickname extends Component {
                     value={this.state.formData.password}
                     // errorText="Your password is too short"
                     // validators={['required', 'maxStringLength:16']}
-                    // errorMessages={[strings.err_is_required, format(strings.err_maximum, 16)]}
+                    // errorMessages={[strings.err_required, format(strings.err_maximum, 16)]}
                   />
                 </div>
               )}

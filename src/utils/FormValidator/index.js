@@ -1,5 +1,3 @@
-import { ValidatorComponent, ValidatorForm } from '../ValidatorCore';
-
 import AutoCompleteValidator from './AutoCompleteValidator';
 import DateValidator from './DateValidator';
 import SelectValidator from './SelectValidator';
@@ -12,6 +10,4 @@ export {
   SelectValidator,
   TextValidator,
   TimeValidator,
-  ValidatorComponent,
-  ValidatorForm,
 };

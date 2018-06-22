@@ -24,9 +24,9 @@ export const loginFb = access_token => dispatchPost({
   path: 'xuser/auth',
   params: { access_token },
   callback: (resp) => {
-    setCookie('access_token', resp.access_token, 7);
-    setCookie('user_id', resp.user.id, 7);
-    setCookie('username', resp.user.username, 7);
+    setCookie('access_token', resp.access_token);
+    setCookie('user_id', resp.user.id);
+    setCookie('username', resp.user.username);
   },
 });
 export const refresh = xuser_id => dispatchGet({
@@ -35,7 +35,7 @@ export const refresh = xuser_id => dispatchGet({
   params: { xuser_id },
   callback: (resp) => {
     if (resp.user.username) {
-      setCookie('username', resp.user.username, 7);
+      setCookie('username', resp.user.username);
     } else {
       eraseCookie('username');
     }
@@ -44,7 +44,6 @@ export const refresh = xuser_id => dispatchGet({
 export const getMetadata = ({
   access_token = getCookie('access_token'),
   user_id = getCookie('user_id'),
-  nickname = getCookie('nickname'),
   username = getCookie('username'),
 } = {}) => (dispatch) => {
   const getDataStart = payload => ({
@@ -59,7 +58,6 @@ export const getMetadata = ({
       following: {},
       user: {
         id: user_id,
-        nickname,
         username,
       },
     };
@@ -80,7 +78,9 @@ export const updateUserProfile = (userID, params, payload) => dispatchPut({
   },
   transform: resp => ({ user: resp.xuser }),
   callback: () => {
-    setCookie('username', payload.username, 7);
+    if (!getCookie('username')) {
+      setCookie('username', payload.username);
+    }
   },
 });
 

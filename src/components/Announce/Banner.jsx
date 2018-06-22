@@ -106,7 +106,7 @@ function isDisabled(text) {
 class AnnounceComponent extends React.Component {
   state = {};
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getBanner();
   }
 

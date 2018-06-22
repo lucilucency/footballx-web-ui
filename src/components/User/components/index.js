@@ -1,7 +1,9 @@
-import UpdateProfileStepper from './UpdateProfileStepper';
+import UpdateProfileAfterSignUpStepper from './UpdateProfileAfterSignUpStepper';
 import SuggestedCommunities from './SuggestedCommunities';
+import UpdateUserInfo from './UpdateUserInfo';
 
 export {
   SuggestedCommunities,
-  UpdateProfileStepper,
+  UpdateProfileAfterSignUpStepper,
+  UpdateUserInfo,
 };

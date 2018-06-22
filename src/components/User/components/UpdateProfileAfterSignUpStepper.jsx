@@ -10,8 +10,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Amplitude from 'react-amplitude';
 import { followTeam } from '../../../actions';
 import strings from '../../../lang';
-import UpdateProfileNickname from './UpdateProfileNickname';
-import UpdateProfileTeam from './UpdateProfileTeamSelector';
+import UpdateProfileNickname from './UpdateNickname';
+import UpdateProfileTeam from './UpdateFollowingTeams';
 import SuggestedCommunities from './SuggestedCommunities';
 
 class HorizontalNonLinearStepper extends React.Component {
@@ -92,10 +92,10 @@ class HorizontalNonLinearStepper extends React.Component {
 
     return (
       <div>
-        {/* <h3>{strings.paragraph_update_profile_hi}</h3> */}
+        {/* <h3>{strings.paragraph_complete_sign_up_hi}</h3> */}
         <p>
-          {/* {strings.paragraph_update_profile_welcome} <br /> */}
-          {strings.paragraph_update_profile_introduce}
+          {/* {strings.paragraph_complete_sign_up_welcome} <br /> */}
+          {strings.paragraph_complete_sign_up_introduce}
         </p>
         <Stepper
           activeStep={stepIndex}
@@ -106,17 +106,17 @@ class HorizontalNonLinearStepper extends React.Component {
         >
           <Step>
             <StepLabel>
-              {strings.hint_set_nickname}
+              {strings.heading_update_nickname}
             </StepLabel>
           </Step>
           <Step>
             <StepLabel>
-              {strings.label_choose_following_team}
+              {strings.heading_update_following_team}
             </StepLabel>
           </Step>
           <Step>
             <StepLabel>
-              {strings.hint_choose_following_community}
+              {strings.heading_update_following_communities}
             </StepLabel>
           </Step>
         </Stepper>
@@ -138,8 +138,7 @@ class HorizontalNonLinearStepper extends React.Component {
           )}
           {stepIndex === 1 && (
             <div>
-              {/* <h2>Cool!</h2> */}
-              <p>{strings.hint_choose_following_team}</p>
+              {/* <p>{strings.paragraph_update_following_team}</p> */}
               <UpdateProfileTeam
                 onSelect={(resp) => {
                   this.setState({
@@ -151,7 +150,7 @@ class HorizontalNonLinearStepper extends React.Component {
           )}
           {stepIndex === 2 && (
             <div>
-              <p>{strings.hint_choose_following_community_2}</p>
+              {/* <p>{strings.paragraph_update_following_communities}</p> */}
               <SuggestedCommunities />
             </div>
           )}

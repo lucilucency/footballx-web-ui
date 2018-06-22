@@ -26,19 +26,19 @@ import * as Team from '../Team';
 import Login from '../Login';
 
 const overwritesTheme = ui => ({
-  avatar: {
-    backgroundColor: ui.avatarBackgroundColor,
-  },
-  fontFamily: skeleton.fontFamilyPrimary,
+  avatar: { backgroundColor: ui.avatarBackgroundColor },
   badge: { fontWeight: skeleton.fontWeightNormal },
-  raisedButton: { fontWeight: skeleton.fontWeightNormal },
-  subheader: {
-    color: ui.textColorPrimary,
+  card: {
+    fontWeight: skeleton.fontWeightNormal,
+    subtitleColor: ui.textColorPrimary,
+    titleColor: ui.textColorVariant1,
   },
+  cardText: { textColor: ui.textColorVariant1 },
   flatButton: { fontWeight: skeleton.fontWeightNormal },
-  // inkBar: {
-  //   backgroundColor: ui.linkColor,
-  // },
+  fontFamily: skeleton.fontFamilyPrimary,
+  listItem: { secondaryTextColor: ui.textColorVariant1 },
+  raisedButton: { fontWeight: skeleton.fontWeightNormal },
+  subheader: { color: ui.textColorPrimary },
   palette: {
     primary1Color: ui.positive1Color, /* app-bar, toggle:true */
     primary2Color: ui.positive2Color, /* weak!!! datePicker.selectColor, timePicker.selectColor */
@@ -52,19 +52,9 @@ const overwritesTheme = ui => ({
     alternateTextColor: ui.surfaceColorPrimary,
     borderColor: ui.borderColor,
   },
-  card: {
-    fontWeight: skeleton.fontWeightNormal,
-    subtitleColor: ui.textColorPrimary,
-  },
-  tableRow: {
-    borderColor: ui.borderColorVariant1,
-  },
-  tableHeaderColumn: {
-    height: 48,
-  },
-  checkbox: {
-    checkedColor: ui.checkboxCheckedColor,
-  },
+  tableRow: { borderColor: ui.borderColorVariant1 },
+  tableHeaderColumn: { height: 48 },
+  checkbox: { checkedColor: ui.checkboxCheckedColor },
   tabs: {
     backgroundColor: ui.surfaceColorPrimary,
     textColor: ui.textColorPrimary,
@@ -124,8 +114,13 @@ class App extends React.Component {
     }
     const patt = new RegExp('/r');
     if (prevProps.location && prevProps.location.pathname && this.props.location && this.props.location.pathname) {
-      if (patt.test(prevProps.location.pathname) && !patt.test(this.props.location.pathname)) {
+      const oldPath = prevProps.location.pathname;
+      const newPath = this.props.location.pathname;
+      if (patt.test(oldPath) && !patt.test(newPath)) {
         this.props.setTheme({ name: savedTheme });
+        return true;
+      }
+      if (patt.test(oldPath) && patt.test(newPath) && oldPath !== newPath) {
         return true;
       }
     }

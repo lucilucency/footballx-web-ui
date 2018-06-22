@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, Paper, Subheader } from 'material-ui';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { ValidatorForm } from './FormValidator';
+import ValidatorForm from './ValidatorCore/ValidatorForm';
 import ui from '../theme';
 import { FullScreenDialog } from './FullScreenDialog';
 
@@ -45,7 +45,7 @@ export const RightTray = styled.div`
 `;
 
 export const FormWrapper = styled(ValidatorForm)`
-  background-color: ${ui.surfaceColorPrimary};
+  //background-color: ${ui.surfaceColorPrimary};
   padding: 1em;
   transition: max-height 1s;
   box-sizing: border-box;

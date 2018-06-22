@@ -16,7 +16,7 @@ const RightTrayComponent = (props) => {
       </SmallPaper>
       {data.group_id && loggedInUserID ? (
         <SmallPaper>
-          <GroupShortView groupID={data.group_id} />
+          <GroupShortView groupID={data.group_id} community={data} />
         </SmallPaper>
       ) : null}
       <div>

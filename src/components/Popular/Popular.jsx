@@ -17,7 +17,7 @@ const verticalAlign = {
 };
 
 const tabs = loggedInUserID => [{
-  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <b style={{ ...verticalAlign }}>HOT HOT HOT</b></div>,
+  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <b style={{ ...verticalAlign }}>HOT</b></div>,
   key: 'hot',
   content: <Hot loggedInUserID={loggedInUserID} />,
   route: '/popular/hot',

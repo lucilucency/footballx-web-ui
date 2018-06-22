@@ -86,7 +86,7 @@ class StandingGrid extends React.Component {
       loading, standings, leagueID,
     } = this.props;
 
-    const standingsOut = standings.sort((pre, cur) => {
+    const sortedStandings = standings.sort((pre, cur) => {
       if (pre.pts > cur.pts) {
         return -1;
       } else if (pre.pts === cur.pts) {
@@ -95,9 +95,9 @@ class StandingGrid extends React.Component {
       return 1;
     });
 
-    if (standingsOut && standingsOut.length) {
+    if (sortedStandings && sortedStandings.length) {
       const groups = {};
-      standingsOut.forEach((el) => {
+      sortedStandings.forEach((el) => {
         if (groups[el.season_id]) {
           groups[el.season_id].push(el);
         } else {

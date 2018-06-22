@@ -13,7 +13,9 @@ const getData = (props) => {
 
 class CommunityFeedHot extends React.Component {
   componentDidMount() {
-    getData(this.props);
+    if (!this.props.posts || !this.props.posts.length) {
+      getData(this.props);
+    }
   }
 
   componentWillReceiveProps(props) {

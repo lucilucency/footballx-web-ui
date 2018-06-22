@@ -12,13 +12,14 @@ import Hot from './FeedHot';
 import New from './FeedNew';
 import Top from './FeedTop';
 import Controversy from './FeedControversy';
+import RegisterMembership from './RegisterMembership';
 
 const verticalAlign = {
   verticalAlign: 'middle',
 };
 
 const tabs = (communityID, loggedInUserID) => [{
-  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <b style={{ ...verticalAlign }}>HOT HOT HOT</b></div>,
+  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <b style={{ ...verticalAlign }}>HOT</b></div>,
   key: 'hot',
   content: <Hot communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/hot`,
@@ -37,6 +38,12 @@ const tabs = (communityID, loggedInUserID) => [{
   key: 'controversy',
   content: <Controversy communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/controversy`,
+}, {
+  name: 'Become nakama',
+  key: 'register',
+  content: <RegisterMembership communityID={communityID} loggedInUserID={loggedInUserID} />,
+  route: `/r/${communityID}/register`,
+  hidden: () => true,
 }].filter(Boolean);
 
 const propsLoadData = (props) => {

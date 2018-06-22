@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import RaisedButton from 'material-ui/RaisedButton';
 import styled from 'styled-components';
@@ -22,7 +23,7 @@ class GroupShortView extends React.Component {
 
   render() {
     const { group } = this;
-    const { muiTheme } = this.props;
+    const { muiTheme, community } = this.props;
     const btnStyle = { border: '1px solid', borderColor: muiTheme.palette.primary2Color };
     const labelStyle = { color: muiTheme.palette.primary2Color };
 
@@ -38,28 +39,24 @@ class GroupShortView extends React.Component {
           href={group.fanpage}
           target="_blank"
         />}
-        <RaisedButton
-          target="_blank"
-          label="sample"
-          onClick={this.popupCreatePost}
-          fullWidth
-          primary
-        />
-        <RaisedButton
-          style={btnStyle}
-          labelStyle={labelStyle}
-          label="Register membership"
-          backgroundColor={muiTheme.palette.canvasColor}
-          fullWidth
-        />
+        <Link to={`/r/${community.id}/register`} >
+          <RaisedButton
+            style={btnStyle}
+            labelStyle={labelStyle}
+            label="Register membership"
+            backgroundColor={muiTheme.palette.canvasColor}
+            fullWidth
+          />
+        </Link>
       </Styled>
     );
   }
 }
 
 GroupShortView.propTypes = {
-  /**/
   groupID: PropTypes.number,
+  community: PropTypes.object,
+  /**/
   muiTheme: PropTypes.object,
 };
 

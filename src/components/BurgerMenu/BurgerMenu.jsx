@@ -19,16 +19,10 @@ function openMatchTray(text) {
 }
 
 class BurgerMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleToggle = this.handleToggle.bind(this);
-  }
-
   componentDidMount() {
-    // this.props.setTray({ state: false });
     if (disableTray(this.props.location.pathname) || !this.props.greaterThanSmall) {
       this.props.setTray({ state: false });
-    } else {
+    } else if (!this.props.tray.show) {
       this.props.setTray({ state: true });
     }
   }
@@ -39,14 +33,10 @@ class BurgerMenu extends React.Component {
         this.props.setTray({ state: false });
       } else if (disableTray(props.location.pathname)) {
         this.props.setTray({ state: false });
-      } else {
+      } else if (!props.tray.show) {
         this.props.setTray({ state: true });
       }
     }
-  }
-
-  handleToggle() {
-    this.props.setTray();
   }
 
   render() {

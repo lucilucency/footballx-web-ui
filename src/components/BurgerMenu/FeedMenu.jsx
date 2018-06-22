@@ -7,6 +7,7 @@ import IconPopular from 'material-ui/svg-icons/action/trending-up';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import ui from '../../theme';
+import strings from '../../lang';
 
 const FeedMenu = ({
   tray, user, history, communities,
@@ -36,7 +37,7 @@ const FeedMenu = ({
     <div>
       <List>
         <ListItem
-          primaryText="Popular"
+          primaryText={strings.menu_popular}
           leftIcon={<IconPopular size={24} color={ui.positive1Color} />}
           containerElement={<Link to="/popular" />}
           innerDivStyle={styles.listItem.innerDivStyle}
@@ -44,7 +45,7 @@ const FeedMenu = ({
       </List>
       {user && communities.length ? (
         <List>
-          <Subheader style={styles.subheader.style}>YOUR COMMUNITIES</Subheader>
+          <Subheader style={styles.subheader.style}>{strings.menu_your_communities.toUpperCase()}</Subheader>
           {communities.map(item => (
             <ListItem
               key={item.id}

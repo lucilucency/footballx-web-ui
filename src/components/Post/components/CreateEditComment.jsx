@@ -14,6 +14,7 @@ import { bindAll, FormWrapper, TextValidator } from '../../../utils';
 import { commentInPost } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
+import ui from '../../../theme';
 
 class CreateEditComment extends React.Component {
   static defaultFormData = {
@@ -284,6 +285,9 @@ class CreateEditComment extends React.Component {
         data-popup={popup}
         data-display={display}
         onSubmit={this.submit}
+        style={{
+          backgroundColor: ui.surfaceColorPrimary,
+        }}
         // onSubmit={this.getPayload}
         // onError={errors => console.log(errors)}
       >

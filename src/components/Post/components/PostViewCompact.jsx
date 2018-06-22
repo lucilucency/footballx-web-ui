@@ -162,12 +162,6 @@ class ViewPostCompact extends React.Component {
           avatar={item.community_icon}
           style={styles.cardHeader.style}
         />
-        {/* <CardTitle
-          title={item.title}
-          titleColor={ui.textColorPrimary}
-          titleStyle={styles.cardTitle.titleStyle}
-          style={styles.cardTitle.style}
-        /> */}
         {isImage &&
         <CardMedia
           style={styles.cardMedia.style}
