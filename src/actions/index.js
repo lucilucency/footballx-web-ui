@@ -69,9 +69,9 @@ export const updateMetadata = payload => dispatch => dispatch({
   type: 'OK/EDIT/metadata',
   payload,
 });
-export const updateUserProfile = (userID, params, payload) => dispatchPut({
+export const updateUserProfile = (params, payload) => dispatchPut({
   reducer: 'EDIT/metadata',
-  path: `xuser/${userID}`,
+  path: `xuser/${getCookie('user_id')}`,
   params,
   payload: {
     user: payload,
@@ -84,17 +84,12 @@ export const updateUserProfile = (userID, params, payload) => dispatchPut({
   },
 });
 
-// communities
-export const getSuggestedCommunities = () => dispatchGet({
-  reducer: 'suggestedCommunities',
-  path: 'communities/suggestion',
-  transform: resp => resp.communities,
-});
-export const subscribeCommunity = (communityID, {
-  reducer = 'subscribedCommunities',
-  path = `community/${communityID}/subscribe`,
-} = {}) => dispatchGet({ reducer, path });
-// post
+
+/**
+ *
+ * POST
+ *
+ * */
 export const getMeFeeds = ({
   sortby, xuser_id, limit = PAGE_LIMIT, offset = 0,
 }) => dispatchGet({
@@ -180,7 +175,6 @@ export const commentInPost = ({
 
 export const changeVote = (target_id, vflag, {
   payload,
-  /**/
   reducer = 'EDIT_ARR/posts',
   path = 'post/change-vote',
 } = {}) => dispatchPost({
@@ -208,7 +202,12 @@ export const downVote = (target_id, params, type = 'post') => dispatch => Promis
   type === 'post' && dispatch(setPost(params.payload)),
 ]);
 
-// match
+/**
+ *
+ * MATCH
+ *
+ * */
+
 export const getMatches = ({ start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000 } = {}) => dispatchGet({
   reducer: 'matches',
   path: 'matches',
@@ -216,45 +215,16 @@ export const getMatches = ({ start_time = parseInt(Date.now() / 1000), end_time 
     start_time,
     end_time,
   },
-  transform: (resp) => {
-    const { matches } = resp;
-    return matches && matches.map((el) => {
-      const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
-      const goals = el.cache_goals ? el.cache_goals.split(',') : [];
-      return {
-        ...el,
-        home: Number(clubs[0]),
-        homeGoal: Number(goals[0]),
-        away: Number(clubs[1]),
-        awayGoal: Number(goals[1]),
-      };
-    });
-  },
+  transform: parser.parseMatches,
 });
-export const getHotMatches = ({
-  /**/
-  reducer = 'hotMatches',
-  path = 'matches/hot',
+/* export const getHotMatches = ({
+  reducer = 'hotMatches', path = 'matches/hot',
 } = {}) => dispatchGet({
-  reducer,
-  path,
-  transform: (resp) => {
-    const { matches } = resp;
-
-    return matches ? matches.map((el) => {
-      const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
-      return {
-        ...el,
-        home: Number(clubs[0]),
-        away: Number(clubs[1]),
-      };
-    }) : [];
-  },
+  reducer, path, transform: parser.parseMatches,
 });
 export const updateMatch = payload => dispatch => dispatch({
-  type: 'OK/EDIT_ARR/matches',
-  payload,
-}); /* update match after get votes */
+  type: 'OK/EDIT_ARR/matches', payload,
+}); /!* update match after get votes of hot matches *!/ */
 export const setMatch = payload => dispatch => dispatch({
   type: 'OK/EDIT/match',
   payload,
@@ -262,15 +232,7 @@ export const setMatch = payload => dispatch => dispatch({
 export const getMatch = matchID => dispatchGet({
   reducer: 'EDIT/match',
   path: `match/${matchID}`,
-  transform: (resp) => {
-    const el = resp.match;
-    const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
-    return {
-      ...el,
-      home: Number(clubs[0]),
-      away: Number(clubs[1]),
-    };
-  },
+  transform: parser.parseMatchInMatchDetail,
 });
 export const getMatchVotes = (matchID, callback) => dispatchGet({
   reducer: 'EDIT/match',
@@ -310,7 +272,11 @@ export const createMatchComment = (matchID, {
   payloadCallback,
 });
 
-// community
+/**
+ *
+ * COMMUNITY
+ *
+ * */
 export const setCommunity = payload => dispatch => dispatch(({
   type: 'OK/community',
   payload,
@@ -320,6 +286,28 @@ export const getCommunity = communityID => dispatchGet({
   path: `community/${communityID}`,
   params: {},
   transform: parser.parseCommunityDetail,
+});
+export const getSuggestedCommunities = () => dispatchGet({
+  reducer: 'suggestedCommunities',
+  path: 'communities/suggestion',
+  transform: resp => resp.communities,
+});
+
+/**
+ *
+ * GROUP
+ *
+ * */
+export const getGroupMemberships = groupID => dispatchGet({
+  reducer: 'groupMemberships',
+  path: `group/${groupID}/memberships`,
+  transform: (resp) => {
+    const { group_membership } = resp;
+    if (group_membership && group_membership.length) {
+      return group_membership[group_membership.length - 1];
+    }
+    return null;
+  },
 });
 
 // league
@@ -339,7 +327,9 @@ export const getLeagueLastSeasons = (leagueID, callback) => dispatchGet({
   },
   callback,
 });
-export const getSeasonMatches = (seasonID, { start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000 } = {}) => dispatchGet({
+export const getSeasonMatches = (seasonID, {
+  start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000,
+} = {}) => dispatchGet({
   reducer: 'ADD/matches',
   path: 'matches',
   params: {
@@ -347,23 +337,7 @@ export const getSeasonMatches = (seasonID, { start_time = parseInt(Date.now() / 
     start_time,
     end_time,
   },
-  transform: (resp) => {
-    const { matches } = resp;
-    if (matches && matches.length) {
-      return matches.map((el) => {
-        const clubs = el.cache_clubs ? el.cache_clubs.split(',') : [];
-        const goals = el.cache_goals ? el.cache_goals.split(',') : [];
-        return {
-          ...el,
-          home: Number(clubs[0]),
-          homeGoal: Number(goals[0]),
-          away: Number(clubs[1]),
-          awayGoal: Number(goals[1]),
-        };
-      });
-    }
-    return [];
-  },
+  transform: parser.parseMatches,
 });
 
 // user
@@ -385,7 +359,7 @@ const changeFollow = (userID, {
   },
   payload,
 });
-export const followUser = (userID, targetID) => changeFollow(userID, {
+/* export const followUser = (userID, targetID) => changeFollow(userID, {
   target_id: targetID,
   target_type: 'xuser',
   action_type: 'follow',
@@ -394,7 +368,7 @@ export const unfollowUser = (userID, targetID) => changeFollow(userID, {
   target_id: targetID,
   target_type: 'xuser',
   action_type: 'unfollow',
-});
+}); */
 export const followCommunity = (userID, targetID, payload) => changeFollow(userID, {
   target_id: targetID,
   target_type: 'community',
@@ -407,20 +381,15 @@ export const unfollowCommunity = (userID, targetID, payload) => changeFollow(use
   action_type: 'unfollow',
   payload,
 });
-const registerClub = (userID, {
-  club_id,
-  is_favorite,
+const changeFollowTeam = (userID, {
+  club_id, is_favorite,
   /**/
-  reducer = 'EDIT/metadata',
-  path = `xuser/${userID}/club`,
+  reducer = 'EDIT/metadata', path = `xuser/${userID}/club`,
 }) => dispatchPost({
-  reducer,
-  path,
-  version: 'v1',
-  params: { club_id, is_favorite, xuser_id: userID },
+  reducer, path, version: 'v1', params: { club_id, is_favorite, xuser_id: userID },
 });
-export const followTeam = (userID, teamID) => registerClub(userID, { club_id: teamID, is_favorite: true });
-export const unfollowTeam = (userID, teamID) => registerClub(userID, { club_id: teamID, is_favorite: false });
+export const followTeam = (userID, teamID) => changeFollowTeam(userID, { club_id: teamID, is_favorite: true });
+export const unfollowTeam = (userID, teamID) => changeFollowTeam(userID, { club_id: teamID, is_favorite: false });
 
 /* games */
 

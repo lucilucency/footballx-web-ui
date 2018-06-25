@@ -78,7 +78,7 @@ class UpdateProfileNickname extends Component {
     //     username: this.state.formData.username,
     //   },
     // });
-    this.props.updateUserProfile(this.props.user.id, {
+    this.props.updateUserProfile({
       username: this.state.formData.username,
       // password: this.state.formData.password,
     }, {
@@ -183,7 +183,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateMetadata: payload => dispatch(updateMetadata(payload)),
-  updateUserProfile: (userID, params, payload) => dispatch(updateUserProfile(userID, params, payload)),
+  updateUserProfile: (params, payload) => dispatch(updateUserProfile(params, payload)),
 });
 
 UpdateProfileNickname.propTypes = {

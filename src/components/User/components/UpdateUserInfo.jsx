@@ -32,6 +32,29 @@ const toDatabaseDate = (date) => {
   return null;
 };
 
+export const doSubmit = ({
+  submitFn, submitData, payload, onSubmit,
+}) => {
+  /** SUBMIT FLOW
+   * 0. Start (trigger amplitude)
+   * 1. Submit
+   * */
+
+  Amplitude.logEvent('Update user info');
+
+  const promiseSubmit = () => new Promise((resolve) => {
+    resolve(submitFn.apply(null, [submitData, payload]));
+  });
+
+  promiseSubmit().then((respSubmit) => {
+    if (respSubmit.type && respSubmit.type.indexOf('OK') === -1) {
+      onSubmit(false);
+    } else {
+      onSubmit(true);
+    }
+  });
+};
+
 class UpdateUserInfo extends Component {
   static initFormData = {
     fullname: '',
@@ -80,7 +103,7 @@ class UpdateUserInfo extends Component {
         formValidators: UpdateUserInfo.initFormValidators,
         formErrors: UpdateUserInfo.initFormErrors,
       };
-      props.onChange([]);
+      props.onError([]);
     } else {
       this.state = {
         formData: UpdateUserInfo.initFormData,
@@ -114,6 +137,12 @@ class UpdateUserInfo extends Component {
     };
   }
 
+  getFormErrors = () => {
+    const err = [];
+    Object.keys(this.state.formErrors).forEach(field => err.push(...this.state.formErrors[field]));
+    return err;
+  };
+
   /** validate changed field */
   handleChange = (state, value) => {
     if (state && this.state.formData[state] && this.state.formValidators[state]) {
@@ -131,47 +160,27 @@ class UpdateUserInfo extends Component {
           [state]: { $set: fieldErrors },
         }),
       }, () => {
-        const err = [];
-        Object.keys(this.state.formErrors).forEach(field => err.push(...this.state.formErrors[field]));
-        this.props.onChange(err);
+        const err = this.getFormErrors();
+        this.props.onError(err);
       });
     }
   };
 
   submit = (e) => {
     e.preventDefault();
-
-    if (!this.state.formData.error.length) {
-      this.doSubmit();
+    const errors = this.getFormErrors();
+    if (!errors || !errors.length) {
+      const submitData = this.getFormData();
+      doSubmit({
+        submitData,
+        payload: {
+          ...this.props.user,
+          ...submitData,
+        },
+        onSubmit: this.props.onSubmit,
+        submitFn: this.props.updateUserProfile,
+      });
     }
-  };
-
-  doSubmit = () => {
-    const { props } = this;
-    const submitData = this.getFormData();
-    const payload = {
-      ...this.props.user,
-      ...submitData,
-    };
-
-    /** SUBMIT FLOW
-     * 0. Start (trigger amplitude)
-     * 1. Submit
-     * */
-
-    Amplitude.logEvent('Update user info');
-
-    const promiseSubmit = () => new Promise((resolve) => {
-      resolve(props.updateUserProfile(props.user.id, submitData, payload));
-    });
-
-    promiseSubmit().then((respSubmit) => {
-      if (respSubmit.type && respSubmit.type.indexOf('OK') === -1) {
-        props.callback(false);
-      } else {
-        props.callback(true);
-      }
-    });
   };
 
   render() {
@@ -269,8 +278,8 @@ class UpdateUserInfo extends Component {
             onChange={e => this.setFormData('gender', e.target.value)}
             row
           >
-            <FormControlLabel value="female" control={<Radio />} label="Female" />
             <FormControlLabel value="male" control={<Radio />} label="Male" />
+            <FormControlLabel value="female" control={<Radio />} label="Female" />
             <FormControlLabel value="other" control={<Radio />} label="Other" />
           </RadioGroup>
         </FormGroup>
@@ -289,14 +298,15 @@ UpdateUserInfo.propTypes = {
   display: PropTypes.bool,
   toggle: PropTypes.bool,
   popup: PropTypes.bool,
-  // callback: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
+
   setTrigger: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired,
 
   /**/
   user: PropTypes.object,
   // updateMetadata: PropTypes.func,
-  // updateUserProfile: PropTypes.func,
+  updateUserProfile: PropTypes.func,
 };
 
 UpdateUserInfo.defaultProps = {
@@ -307,7 +317,7 @@ UpdateUserInfo.defaultProps = {
 
 const mapDispatchToProps = dispatch => ({
   updateMetadata: payload => dispatch(updateMetadata(payload)),
-  updateUserProfile: (userID, params, payload) => dispatch(updateUserProfile(userID, params, payload)),
+  updateUserProfile: (params, payload) => dispatch(updateUserProfile(params, payload)),
 });
 
 export default compose(

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { setCommunity, getCommunity, setTheme } from '../../actions';
+import { setCommunity, getCommunity, setTheme, getGroupMemberships } from '../../actions';
 import { Container } from '../../utils/index';
 import TabBar from '../TabBar';
 import { IconHotFeed } from '../Icons';
@@ -18,7 +18,7 @@ const verticalAlign = {
   verticalAlign: 'middle',
 };
 
-const tabs = (communityID, loggedInUserID) => [{
+const getTabs = ({ communityID, loggedInUserID }) => [{
   name: <div><IconHotFeed style={{ ...verticalAlign }} /> <b style={{ ...verticalAlign }}>HOT</b></div>,
   key: 'hot',
   content: <Hot communityID={communityID} loggedInUserID={loggedInUserID} />,
@@ -39,7 +39,7 @@ const tabs = (communityID, loggedInUserID) => [{
   content: <Controversy communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/controversy`,
 }, {
-  name: 'Become nakama',
+  name: 'REGISTER MEMBERSHIP',
   key: 'register',
   content: <RegisterMembership communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/register`,
@@ -65,27 +65,41 @@ class Community extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.location.pathname !== this.props.location.pathname) {
-      propsLoadData(props);
-    }
+    const { location, cData } = props;
 
-    if (props.data && props.data.color) {
-      if (props.data.color !== this.props.theme.name) {
-        props.setTheme({ name: props.data.color });
+    if (cData && JSON.stringify(cData) !== JSON.stringify(this.props.cData)) {
+      if (location.pathname !== this.props.location.pathname) {
+        propsLoadData(props);
+      }
+
+      // change theme
+      if (cData.color) {
+        if (cData.color !== this.props.theme.name) {
+          props.setTheme({ name: cData.color });
+        }
+      }
+
+      /** get group membership */
+      if (props.cData.group_id) {
+        props.getGroupMemberships(props.cData.group_id);
       }
     }
   }
 
   render() {
-    const { match, data, loggedInUserID } = this.props;
-    const matchID = Number(match.params.id);
+    const {
+      match, cData, gmData, loggedInUserID,
+    } = this.props;
+    const communityID = Number(match.params.id);
     const info = match.params.info || 'hot';
-    const tab = tabs(matchID, loggedInUserID).find(_tab => _tab.key === info);
+
+    const tabs = getTabs({ communityID, cData, loggedInUserID });
+    const tab = tabs.find(_tab => _tab.key === info);
 
     return (
       <div>
-        <Helmet title={this.props.data.name} />
-        {data.bg ? <Cover bg={data.bg} name={data.name} /> : null}
+        <Helmet title={this.props.cData.name} />
+        {cData.bg ? <Cover bg={cData.bg} name={cData.name} /> : null}
         <Container
           columns="1fr 300px"
           style={{
@@ -96,11 +110,11 @@ class Community extends React.Component {
           <div>
             <TabBar
               info={info}
-              tabs={tabs(matchID, loggedInUserID)}
+              tabs={tabs}
             />
             {tab && tab.content}
           </div>
-          <RightComponent data={data} loggedInUserID={loggedInUserID} />
+          <RightComponent cData={cData} gmData={gmData} loggedInUserID={loggedInUserID} />
         </Container>
       </div>
     );
@@ -111,14 +125,17 @@ Community.propTypes = {
   match: PropTypes.object,
   location: PropTypes.object,
 
-  data: PropTypes.object,
+  cData: PropTypes.object,
+  gmData: PropTypes.object,
   loggedInUserID: PropTypes.number,
   theme: PropTypes.object,
   setTheme: PropTypes.func,
+  getGroupMemberships: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  data: state.app.community.data,
+  cData: state.app.community.data,
+  gmData: state.app.groupMemberships.data,
   loggedInUserID: state.app.metadata.data.user && state.app.metadata.data.user.id && Number(state.app.metadata.data.user.id),
   theme: state.app.theme,
 });
@@ -127,6 +144,7 @@ const mapDispatchToProps = dispatch => ({
   setTheme: props => dispatch(setTheme(props)),
   setCommunity: payload => dispatch(setCommunity(payload)),
   getCommunity: id => dispatch(getCommunity(id)),
+  getGroupMemberships: id => dispatch(getGroupMemberships(id)),
 });
 
 

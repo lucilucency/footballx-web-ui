@@ -11,6 +11,7 @@ import Amplitude from 'react-amplitude';
 import { followTeam } from '../../actions';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
+import ChooseMembershipPackage from './components/ChooseMembershipPackage';
 
 class RegisterMembership extends React.Component {
   constructor(props) {
@@ -28,14 +29,14 @@ class RegisterMembership extends React.Component {
           this.triggerSubmitStep1 = action;
           this.forceUpdate();
         }}
-        onChange={(err) => {
+        onError={(err) => {
           if (err.length) {
             this.setState({ isValidStep1: false });
           } else {
             this.setState({ isValidStep1: true });
           }
         }}
-        callback={(isValid) => {
+        onSubmit={(isValid) => {
           if (isValid) {
             this.setState({ stepIndex: 1 });
           }
@@ -52,7 +53,45 @@ class RegisterMembership extends React.Component {
           });
         });
       },
-    }];
+    }, {
+      heading: strings.heading_choose_package,
+      key: 'choose_package',
+      content: (
+        <ChooseMembershipPackage
+          gmData={props.gmData}
+          setTrigger={(action) => {
+            this.triggerSubmitStep2 = action;
+            this.forceUpdate();
+          }}
+          onError={(err) => {
+            if (err.length) {
+              this.setState({ isValidStep1: false });
+            } else {
+              this.setState({ isValidStep1: true });
+            }
+          }}
+          callback={(isValid) => {
+            if (isValid) {
+              this.setState({ stepIndex: 1 });
+            }
+          }}
+        />
+      ),
+      route: `/r/${props.communityID}/register/choose_package`,
+      next: (e) => {
+        Promise.all([
+          this.triggerSubmitStep2(e),
+        ]).then(() => {
+          this.setState({
+            stepIndex: 2,
+          });
+        });
+      },
+    }, {
+      heading: strings.heading_complete_register_membership,
+      key: 'complete',
+      content: <div>Congratulate! Be Red Devil now</div>,
+    }].filter(Boolean);
   }
 
   componentDidMount() {
@@ -67,7 +106,7 @@ class RegisterMembership extends React.Component {
   };
 
   handleFinish = () => {
-    this.props.onClose();
+    if (this.props.onClose) this.props.onClose();
   };
 
   render() {
@@ -100,13 +139,13 @@ class RegisterMembership extends React.Component {
             {step && step.content}
           </div>
           <div style={{ marginTop: '1em', marginBottom: '1em' }}>
-            {stepIndex !== this.steps.length && <RaisedButton
+            {stepIndex !== this.steps.length - 1 && <RaisedButton
               label="Next"
               disabled={!this.state.isValidStep1}
               primary
               onClick={step && step.next}
             />}
-            {stepIndex === this.steps.length && <RaisedButton
+            {stepIndex === this.steps.length - 1 && <RaisedButton
               label="Start your journey!"
               primary
               onClick={this.handleFinish}
@@ -120,6 +159,7 @@ class RegisterMembership extends React.Component {
 
 RegisterMembership.propTypes = {
   communityID: PropTypes.number,
+  gmData: PropTypes.object,
   onClose: PropTypes.func,
   /**/
   // user: PropTypes.object,

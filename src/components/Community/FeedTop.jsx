@@ -13,9 +13,7 @@ const getData = (props) => {
 
 class CommunityFeedTop extends React.Component {
   componentDidMount() {
-    if (!this.props.posts || !this.props.posts.length) {
-      getData(this.props);
-    }
+    getData(this.props);
   }
 
   componentWillReceiveProps(props) {

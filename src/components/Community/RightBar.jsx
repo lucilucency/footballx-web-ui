@@ -7,16 +7,16 @@ import AboutXFooter from '../About/Footer';
 import GroupShortView from './GroupShortView';
 
 const RightTrayComponent = (props) => {
-  const { data, loggedInUserID } = props;
+  const { cData, gmData, loggedInUserID } = props;
 
   return (
     <RightTray>
       <SmallPaper>
-        <CommunityShortView data={data} />
+        <CommunityShortView data={cData} />
       </SmallPaper>
-      {data.group_id && loggedInUserID ? (
+      {gmData && loggedInUserID ? (
         <SmallPaper>
-          <GroupShortView groupID={data.group_id} community={data} />
+          <GroupShortView gmData={gmData} cData={cData} />
         </SmallPaper>
       ) : null}
       <div>
@@ -27,7 +27,8 @@ const RightTrayComponent = (props) => {
 };
 
 RightTrayComponent.propTypes = {
-  data: PropTypes.object,
+  cData: PropTypes.object,
+  gmData: PropTypes.object,
   loggedInUserID: PropTypes.number,
 };
 

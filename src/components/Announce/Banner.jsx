@@ -107,13 +107,15 @@ class AnnounceComponent extends React.Component {
   state = {};
 
   componentDidMount() {
-    this.props.getBanner();
+    if (!isDisabled(this.props.location.pathname)) {
+      this.props.getBanner();
+    }
   }
 
   render() {
     const { error, loading, data } = this.props;
 
-    if (!error && !loading && data && !isDisabled(this.props.location.pathname)) {
+    if (!error && !loading && data) {
       if (data) {
         const {
           is_count_down,
