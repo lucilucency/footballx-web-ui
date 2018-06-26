@@ -3,12 +3,11 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import update from 'react-addons-update';
 import PropTypes from 'prop-types';
-import Amplitude from 'react-amplitude';
 import { muiThemeable } from 'material-ui/styles';
 import { FormControlLabel, RadioGroup, Checkbox, FormControl } from 'material-ui-next';
 import strings from '../../../lang';
 import { validate } from '../../../utils';
-import { ajaxGet } from '../../../actions';
+import { ajaxGet, localUpdateMetadata } from '../../../actions';
 
 const dsGifts = {
   1: 'Sổ thành viên',
@@ -25,10 +24,12 @@ const getStyles = theme => ({
     justifyContent: 'center',
   },
   formControl: {
-    margin: theme.spacing.unit * 3,
+    margin: theme.spacing.desktopGutterLess,
   },
   group: {
-    margin: `${theme.spacing.unit}px 0`,
+    marginLeft: theme.spacing.desktopGutterMini,
+    marginRight: theme.spacing.desktopGutterMini,
+    justifyContent: 'center',
     alignItems: 'start',
   },
   package: {
@@ -37,14 +38,13 @@ const getStyles = theme => ({
     maxWidth: 250,
     minWidth: 150,
     borderTop: '5px solid transparent',
-    // backgroundColor: theme.palette.canvasColor,
-    backgroundColor: 'white',
+    backgroundColor: theme.paper.backgroundColor,
   },
 });
 
 class ChooseMembershipPackage extends Component {
   static initFormData = {
-    package: '',
+    package: null,
   };
 
   static initFormValidators = {
@@ -66,26 +66,10 @@ class ChooseMembershipPackage extends Component {
       formErrors: ChooseMembershipPackage.initFormErrors,
     };
 
-    // if (props.user) {
-    //   this.state = {
-    //     formData: {
-    //       package: props.user.package,
-    //     },
-    //     formValidators: ChooseMembershipPackage.initFormValidators,
-    //     formErrors: ChooseMembershipPackage.initFormErrors,
-    //   };
-    // } else {
-    //   this.state = {
-    //     formData: ChooseMembershipPackage.initFormData,
-    //     formValidators: ChooseMembershipPackage.initFormValidators,
-    //     formErrors: ChooseMembershipPackage.initFormErrors,
-    //   };
-    // }
-
-    this.getData = (props) => {
+    this.getData = (nextProps) => {
       ajaxGet({
         auth: true,
-        path: `membership/${props.gmData.id}/packs`,
+        path: `membership/${nextProps.gmData.id}/packs`,
       }, (resp) => {
         try {
           const respObj = JSON.parse(resp);
@@ -119,12 +103,26 @@ class ChooseMembershipPackage extends Component {
       formData: update(this.state.formData, {
         [state]: { $set: value },
       }),
-    }, this.handleChange(state, value));
+    }, this.validateField(state, value));
+  };
+
+  getFormData() {
+    const { formData } = this.state;
+
+    return {
+      group_membership_pack_id: formData.package,
+    };
+  }
+
+  getFormErrors = () => {
+    const err = [];
+    Object.keys(this.state.formErrors).forEach(field => err.push(...this.state.formErrors[field]));
+    return err;
   };
 
   /** validate changed field */
-  handleChange = (state, value) => {
-    if (state && this.state.formData[state] && this.state.formValidators[state]) {
+  validateField = (state, value, callback) => {
+    if (state && this.state.formValidators[state]) {
       const validators = this.state.formValidators[state];
       const fieldErrors = [];
       validators.forEach((validator) => {
@@ -133,6 +131,8 @@ class ChooseMembershipPackage extends Component {
           fieldErrors.push(validator.message);
         }
       });
+
+      if (callback) callback(fieldErrors);
 
       this.setState({
         formErrors: update(this.state.formErrors, {
@@ -144,56 +144,52 @@ class ChooseMembershipPackage extends Component {
       });
     } else {
       this.props.onError([]);
+      if (callback) callback([]);
     }
   };
 
-  getFormData() {
-    const { formData } = this.state;
+  validateAll = (callback) => {
+    const validators = Object.keys(this.state.formData).map((state) => {
+      const value = this.state.formData[state];
+      return new Promise((resolve) => {
+        this.validateField(state, value, err => resolve(err));
+      });
+    });
 
-    return {
-      package: formData.package,
-    };
-  }
-
-  getFormErrors = () => {
-    const err = [];
-    Object.keys(this.state.formErrors).forEach(field => err.push(...this.state.formErrors[field]));
-    return err;
+    Promise.all(validators).then((resp) => {
+      const errors = [];
+      resp.forEach(el => el && el.length && errors.concat(el));
+      callback(errors);
+    });
   };
 
   submit = (e) => {
     e.preventDefault();
-    const errors = this.getFormErrors();
-    if (errors && errors.length) {
-      this.doSubmit();
-    }
+    this.validateAll((errors) => {
+      if (!errors.length) {
+        this.doSubmit();
+      }
+    });
   };
 
+  /** SUBMIT FLOW
+   * 0. Start (trigger amplitude)
+   * 1. Submit
+   * 2. Update metadata
+   * */
   doSubmit = () => {
     const { props } = this;
     const submitData = this.getFormData();
-    const payload = {
-      ...submitData,
-    };
 
-    /** SUBMIT FLOW
-     * 0. Start (trigger amplitude)
-     * 1. Submit
-     * */
+    const { group_membership_pack_id } = submitData;
 
-    Amplitude.logEvent('Update user info');
-
-    const promiseSubmit = () => new Promise((resolve) => {
-      resolve(props.updateUserProfile(props.user.id, submitData, payload));
+    this.props.updateMetadata({
+      registerMembership: {
+        ...this.props.registerMembership,
+        group_membership_pack_id,
+      },
     });
-
-    promiseSubmit().then((respSubmit) => {
-      if (respSubmit.type && respSubmit.type.indexOf('OK') === -1) {
-        props.callback(false);
-      } else {
-        props.callback(true);
-      }
-    });
+    props.onSubmit(true);
   };
 
   renderPackage = (data) => {
@@ -204,7 +200,7 @@ class ChooseMembershipPackage extends Component {
       <div
         style={{
           ...getStyles(this.props.muiTheme).package,
-          borderColor: isPicked ? 'red' : 'transparent',
+          borderColor: isPicked ? this.props.muiTheme.palette.primary2Color : 'transparent',
         }}
       >
         <div className="text-big">{data.name}</div>
@@ -240,7 +236,7 @@ class ChooseMembershipPackage extends Component {
               <FormControlLabel
                 key={el.id}
                 style={{ flexDirection: 'column-reverse' }}
-                value={`package${el.id}`}
+                value={el.id.toString()}
                 control={<Checkbox />}
                 label={this.renderPackage(el)}
               />
@@ -257,17 +253,22 @@ ChooseMembershipPackage.propTypes = {
   onError: PropTypes.func.isRequired,
 
   /**/
-  gmData: PropTypes.object,
   muiTheme: PropTypes.object,
+  gmData: PropTypes.object,
+  registerMembership: PropTypes.object,
+  updateMetadata: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  currentQueryString: window.location.search,
-  loading: state.app.posts.loading,
   gmData: state.app.groupMemberships.data,
+  registerMembership: state.app.metadata.data.registerMembership,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateMetadata: payload => dispatch(localUpdateMetadata(payload)),
 });
 
 export default compose(
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
   muiThemeable(),
 )(ChooseMembershipPackage);

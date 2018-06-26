@@ -4,55 +4,40 @@ import { connect } from 'react-redux';
 import update from 'react-addons-update';
 import PropTypes from 'prop-types';
 import { format } from 'util';
-import Amplitude from 'react-amplitude';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import { FormGroup, FormControlLabel, Radio, RadioGroup, TextField } from 'material-ui-next';
 import strings from '../../../lang';
 import { FormWrapper, TextValidator, validate } from '../../../utils';
 import ui from '../../../theme';
-import { updateMetadata, updateUserProfile } from '../../../actions';
+import { updateUserProfile } from '../../../actions';
+
+const patt1 = new RegExp('(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])/([0-9]{4})');
+const patt2 = new RegExp('([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])');
 
 const toPickerDate = (date) => {
-  const patt = new RegExp('(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])/([0-9]{4})');
-  if (date && date.length && patt.test(date)) {
-    const dateSplit = date.split('/');
-    return `${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`;
+  if (date && date.length) {
+    if (patt1.test(date)) {
+      const dateSplit = date.split('/');
+      return `${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`;
+    } else if (patt2.test(date)) {
+      return date;
+    }
   }
 
   return null;
 };
 
 const toDatabaseDate = (date) => {
-  const patt = new RegExp('([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])');
-  if (date && date.length && patt.test(date)) {
-    const dateSplit = date.split('-');
-    return `${dateSplit[1]}/${dateSplit[2]}/${dateSplit[0]}`;
+  if (date && date.length) {
+    if (patt2.test(date)) {
+      const dateSplit = date.split('-');
+      return `${dateSplit[1]}/${dateSplit[2]}/${dateSplit[0]}`;
+    } else if (patt1.test(date)) {
+      return date;
+    }
   }
 
   return null;
-};
-
-export const doSubmit = ({
-  submitFn, submitData, payload, onSubmit,
-}) => {
-  /** SUBMIT FLOW
-   * 0. Start (trigger amplitude)
-   * 1. Submit
-   * */
-
-  Amplitude.logEvent('Update user info');
-
-  const promiseSubmit = () => new Promise((resolve) => {
-    resolve(submitFn.apply(null, [submitData, payload]));
-  });
-
-  promiseSubmit().then((respSubmit) => {
-    if (respSubmit.type && respSubmit.type.indexOf('OK') === -1) {
-      onSubmit(false);
-    } else {
-      onSubmit(true);
-    }
-  });
 };
 
 class UpdateUserInfo extends Component {
@@ -72,7 +57,7 @@ class UpdateUserInfo extends Component {
   static initFormValidators = {
     fullname: [
       { rule: 'minStringLength:5', message: format(strings.err_minimum, 5) },
-      { rule: 'maxStringLength:32', message: format(strings.err_maximum, 32) },
+      { rule: 'maxStringLength:30', message: format(strings.err_maximum, 30) },
     ],
     email: [
       { rule: 'required', message: strings.err_required },
@@ -122,7 +107,7 @@ class UpdateUserInfo extends Component {
       formData: update(this.state.formData, {
         [state]: { $set: value },
       }),
-    }, this.handleChange(state, value));
+    }, this.validateField(state, value));
   };
 
   getFormData() {
@@ -143,9 +128,9 @@ class UpdateUserInfo extends Component {
     return err;
   };
 
-  /** validate changed field */
-  handleChange = (state, value) => {
-    if (state && this.state.formData[state] && this.state.formValidators[state]) {
+  /** validate field after set */
+  validateField = (state, value, callback) => {
+    if (state && this.state.formValidators[state]) {
       const validators = this.state.formValidators[state];
       const fieldErrors = [];
       validators.forEach((validator) => {
@@ -155,6 +140,8 @@ class UpdateUserInfo extends Component {
         }
       });
 
+      if (callback) callback(fieldErrors);
+
       this.setState({
         formErrors: update(this.state.formErrors, {
           [state]: { $set: fieldErrors },
@@ -163,24 +150,58 @@ class UpdateUserInfo extends Component {
         const err = this.getFormErrors();
         this.props.onError(err);
       });
+    } else {
+      this.props.onError([]);
+      if (callback) callback([]);
     }
+  };
+
+  validateAll = (callback) => {
+    const validators = Object.keys(this.state.formData).map((state) => {
+      const value = this.state.formData[state];
+      return new Promise((resolve) => {
+        this.validateField(state, value, err => resolve(err));
+      });
+    });
+
+    Promise.all(validators).then((resp) => {
+      const errors = [];
+      resp.forEach(el => el && el.length && errors.concat(el));
+      callback(errors);
+    });
   };
 
   submit = (e) => {
     e.preventDefault();
-    const errors = this.getFormErrors();
-    if (!errors || !errors.length) {
-      const submitData = this.getFormData();
-      doSubmit({
-        submitData,
-        payload: {
-          ...this.props.user,
-          ...submitData,
-        },
-        onSubmit: this.props.onSubmit,
-        submitFn: this.props.updateUserProfile,
-      });
-    }
+    this.validateAll((errors) => {
+      if (!errors.length) {
+        this.doSubmit();
+      }
+    });
+  };
+
+  /** SUBMIT FLOW
+   * 0. Start (trigger amplitude)
+   * 1. Submit
+   * */
+  doSubmit = () => {
+    const submitData = this.getFormData();
+    const payload = {
+      ...this.props.user,
+      ...submitData,
+    };
+
+    const promiseSubmit = () => new Promise((resolve) => {
+      resolve(this.props.updateUserProfile(submitData, payload));
+    });
+
+    promiseSubmit().then((respSubmit) => {
+      if (respSubmit.type && respSubmit.type.indexOf('OK') === -1) {
+        this.props.onSubmit(false);
+      } else {
+        this.props.onSubmit(true);
+      }
+    });
   };
 
   render() {
@@ -258,7 +279,6 @@ class UpdateUserInfo extends Component {
             />
           </div>
           <TextField
-            id="date"
             label="Birthday"
             type="date"
             value={toPickerDate(formData.birthday)}
@@ -305,7 +325,6 @@ UpdateUserInfo.propTypes = {
 
   /**/
   user: PropTypes.object,
-  // updateMetadata: PropTypes.func,
   updateUserProfile: PropTypes.func,
 };
 
@@ -316,7 +335,6 @@ UpdateUserInfo.defaultProps = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  updateMetadata: payload => dispatch(updateMetadata(payload)),
   updateUserProfile: (params, payload) => dispatch(updateUserProfile(params, payload)),
 });
 

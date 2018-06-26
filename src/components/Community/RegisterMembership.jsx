@@ -12,97 +12,113 @@ import { followTeam } from '../../actions';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
 import ChooseMembershipPackage from './components/ChooseMembershipPackage';
+import ChoosePlace from './components/ChoosePlace';
 
 class RegisterMembership extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       stepIndex: 0,
-      isValidStep1: false,
+      isStepValid: false,
     };
 
-    this.steps = [{
-      heading: strings.heading_update_profile,
-      key: 'complete_profile',
-      content: (<UpdateUserInfo
-        setTrigger={(action) => {
-          this.triggerSubmitStep1 = action;
-          this.forceUpdate();
-        }}
-        onError={(err) => {
-          if (err.length) {
-            this.setState({ isValidStep1: false });
-          } else {
-            this.setState({ isValidStep1: true });
-          }
-        }}
-        onSubmit={(isValid) => {
-          if (isValid) {
-            this.setState({ stepIndex: 1 });
-          }
-        }}
-      />),
-      route: `/r/${props.communityID}/register/complete_profile`,
-      next: (e) => {
-        Promise.all([
-          this.triggerSubmitStep1(e),
-        ]).then(() => {
-          /** problem still here, cant get callback data */
-          this.setState({
-            stepIndex: 1,
-          });
-        });
-      },
-    }, {
-      heading: strings.heading_choose_package,
-      key: 'choose_package',
-      content: (
-        <ChooseMembershipPackage
-          gmData={props.gmData}
+    this.steps = [
+      {
+        heading: strings.heading_update_profile,
+        key: 'complete_profile',
+        content: (<UpdateUserInfo
           setTrigger={(action) => {
-            this.triggerSubmitStep2 = action;
+            this.triggerSubmit = action;
             this.forceUpdate();
           }}
           onError={(err) => {
             if (err.length) {
-              this.setState({ isValidStep1: false });
+              this.setState({ isStepValid: false });
             } else {
-              this.setState({ isValidStep1: true });
+              this.setState({ isStepValid: true });
             }
           }}
-          callback={(isValid) => {
-            if (isValid) {
-              this.setState({ stepIndex: 1 });
-            }
-          }}
-        />
-      ),
-      route: `/r/${props.communityID}/register/choose_package`,
-      next: (e) => {
-        Promise.all([
-          this.triggerSubmitStep2(e),
-        ]).then(() => {
-          this.setState({
-            stepIndex: 2,
-          });
-        });
+          onSubmit={isValid => this.checkAfterSubmit('complete_profile', isValid)}
+        />),
+        route: `/r/${props.communityID}/register/complete_profile`,
+        next: e => this.triggerSubmit(e),
       },
-    }, {
-      heading: strings.heading_complete_register_membership,
-      key: 'complete',
-      content: <div>Congratulate! Be Red Devil now</div>,
-    }].filter(Boolean);
+      {
+        heading: strings.heading_choose_package,
+        key: 'choose_package',
+        content: (
+          <ChooseMembershipPackage
+            gmData={props.gmData}
+            setTrigger={(action) => {
+              this.triggerSubmit = action;
+              this.forceUpdate();
+            }}
+            onError={(err) => {
+              if (err.length) {
+                this.setState({ isStepValid: false });
+              } else {
+                this.setState({ isStepValid: true });
+              }
+            }}
+            onSubmit={isValid => this.checkAfterSubmit('choose_package', isValid)}
+          />
+        ),
+        route: `/r/${props.communityID}/register/choose_package`,
+        next: e => this.triggerSubmit(e),
+      },
+      {
+        heading: strings.heading_choose_place,
+        key: 'choose_place',
+        content: (
+          <ChoosePlace
+            gmData={props.gmData}
+            setTrigger={(action) => {
+              this.triggerSubmit = action;
+              this.forceUpdate();
+            }}
+            onError={(err) => {
+              if (err.length) {
+                this.setState({ isStepValid: false });
+              } else {
+                this.setState({ isStepValid: true });
+              }
+            }}
+            onSubmit={isValid => this.checkAfterSubmit('choose_place', isValid)}
+          />
+        ),
+        route: `/r/${props.communityID}/register/choose_package`,
+        next: e => this.triggerSubmit(e),
+      },
+      {
+        heading: strings.heading_complete_register_membership,
+        key: 'complete',
+        content: <div>Congratulate! Be Red Devil now</div>,
+      },
+    ].filter(Boolean);
   }
 
   componentDidMount() {
     Amplitude.logEvent('Enter register group membership');
   }
 
-  handlePrev = () => {
+  /* handlePrev = () => {
     const { stepIndex } = this.state;
     if (stepIndex > 0) {
       this.setState({ stepIndex: stepIndex - 1 });
     }
+  }; */
+
+  checkAfterSubmit = (key, isValid) => {
+    if (isValid) {
+      this.next();
+    }
+  };
+
+  next = (callback) => {
+    this.setState({
+      stepIndex: this.state.stepIndex + 1,
+      isStepValid: false,
+    }, callback);
   };
 
   handleFinish = () => {
@@ -135,22 +151,26 @@ class RegisterMembership extends React.Component {
           ))}
         </Stepper>
         <div style={contentStyle}>
-          <div>
-            {step && step.content}
-          </div>
-          <div style={{ marginTop: '1em', marginBottom: '1em' }}>
-            {stepIndex !== this.steps.length - 1 && <RaisedButton
-              label="Next"
-              disabled={!this.state.isValidStep1}
-              primary
-              onClick={step && step.next}
-            />}
-            {stepIndex === this.steps.length - 1 && <RaisedButton
-              label="Start your journey!"
-              primary
-              onClick={this.handleFinish}
-            />}
-          </div>
+          {step && (
+            <div>
+              <div>
+                {step.content}
+              </div>
+              <div style={{ marginTop: '1em', marginBottom: '1em' }}>
+                {stepIndex !== this.steps.length - 1 && <RaisedButton
+                  label="Next"
+                  disabled={!this.state.isStepValid}
+                  primary
+                  onClick={step.next}
+                />}
+                {stepIndex === this.steps.length - 1 && <RaisedButton
+                  label="Start your journey!"
+                  primary
+                  onClick={this.handleFinish}
+                />}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

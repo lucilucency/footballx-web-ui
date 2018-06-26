@@ -7,7 +7,7 @@ import Amplitude from 'react-amplitude';
 import strings from '../../../lang';
 import { FormWrapper, TextValidator, PasswordWithEye } from '../../../utils';
 import ui from '../../../theme';
-import { updateMetadata, updateUserProfile } from '../../../actions';
+import { localUpdateMetadata, updateUserProfile } from '../../../actions';
 // import Spinner from '../../Spinner/index';
 
 class UpdateProfileNickname extends Component {
@@ -72,7 +72,7 @@ class UpdateProfileNickname extends Component {
   submit = () => {
     // if (this.isValid()) {}
 
-    // this.props.updateMetadata({
+    // this.props.localUpdateMetadata({
     //   user: {
     //     ...this.props.user,
     //     username: this.state.formData.username,
@@ -182,7 +182,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateMetadata: payload => dispatch(updateMetadata(payload)),
+  updateMetadata: payload => dispatch(localUpdateMetadata(payload)),
   updateUserProfile: (params, payload) => dispatch(updateUserProfile(params, payload)),
 });
 
@@ -197,7 +197,7 @@ UpdateProfileNickname.propTypes = {
   /**/
   // loading: PropTypes.bool,
   user: PropTypes.object,
-  // updateMetadata: PropTypes.func,
+  // localUpdateMetadata: PropTypes.func,
   updateUserProfile: PropTypes.func,
 };
 

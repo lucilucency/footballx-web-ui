@@ -61,7 +61,6 @@ request
             clubs, areas, leagues, groups, group_membership_configs, exchange_rates, version,
           } = contentData;
 
-
           updateObjFile('clubs', clubs);
           updateObjFile('groups', groups);
           updateObjFile('leagues', leagues);

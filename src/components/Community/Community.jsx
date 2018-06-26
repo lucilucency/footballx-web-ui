@@ -43,6 +43,7 @@ const getTabs = ({ communityID, loggedInUserID }) => [{
   key: 'register',
   content: <RegisterMembership communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/register`,
+  disabled: true,
   hidden: () => true,
 }].filter(Boolean);
 
@@ -108,10 +109,10 @@ class Community extends React.Component {
           }}
         >
           <div>
-            <TabBar
+            {tab && !tab.disabled && <TabBar
               info={info}
               tabs={tabs}
-            />
+            />}
             {tab && tab.content}
           </div>
           <RightComponent cData={cData} gmData={gmData} loggedInUserID={loggedInUserID} />

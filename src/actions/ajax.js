@@ -1,4 +1,5 @@
 import queryString from 'querystring';
+import formurlencoded from 'form-urlencoded';
 import { getCookie } from '../utils';
 
 const request = require('superagent');
@@ -42,6 +43,51 @@ export const ajaxGet = ({
         if (res) {
           if (res.ok && res.text) {
             if (callback) return callback(res.text);
+            return res.text;
+          }
+          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1), delay);
+        }
+        console.error(`Error in ajaxGet/${path}`);
+        console.error(err);
+        return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
+      });
+  };
+
+  return fetchDataWithRetry(retriesBreak, retries);
+};
+
+export const ajaxPost = ({
+  auth = true, host = FX_API, version = FX_VERSION, path, url,
+  contentType = 'application/x-www-form-urlencoded',
+  params = {},
+  retries = 1, retriesBreak = 3000,
+}, callback) => {
+  const queryUrl = url || `${host}/${version}/${path}`;
+  // const queryUrlWithParams = `${queryUrl}?${typeof params === 'string' ? params.substring(1) : queryString.stringify(params)}`;
+
+  const fetchDataWithRetry = (delay, tries, error) => {
+    if (tries < 1) {
+      console.error(error);
+      console.error(`Error in ajaxGet/${path}`);
+      if (callback) return callback(null);
+      return null;
+    }
+
+    let doRequest = request
+      .post(queryUrl)
+      .set('Content-Type', contentType);
+    if (auth) {
+      const accessToken = getCookie('access_token');
+      doRequest = doRequest.set('Authorization', `Bearer ${accessToken}`);
+    }
+
+    return doRequest
+      .send(formurlencoded(params))
+      .end((err, res) => {
+        if (callback) return callback(err, res);
+
+        if (res) {
+          if (res.ok && res.text) {
             return res.text;
           }
           return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1), delay);

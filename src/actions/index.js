@@ -65,7 +65,7 @@ export const getMetadata = ({
   dispatch(getDataStart(payload));
 };
 
-export const updateMetadata = payload => dispatch => dispatch({
+export const localUpdateMetadata = payload => dispatch => dispatch({
   type: 'OK/EDIT/metadata',
   payload,
 });

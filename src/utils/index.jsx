@@ -13,7 +13,6 @@ export * from './BigSelector';
 export * from './PasswordWithEye';
 
 export function validate(validator, value, includeRequired) {
-  let result = true;
   let name = validator;
   if (name !== 'required' || includeRequired) {
     let extra;
@@ -22,9 +21,9 @@ export function validate(validator, value, includeRequired) {
       name = validator.substring(0, splitIdx);
       extra = validator.substring(splitIdx + 1);
     }
-    result = Rules[name](value, extra);
+    return Rules[name](value, extra);
   }
-  return result;
+  return Boolean(value);
 }
 
 export function toNumber(input) {

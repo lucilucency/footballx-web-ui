@@ -38,14 +38,9 @@ export const RightTray = styled.div`
     position: relative;
     width: 100%;
   }
-  
-  //> div[data='page-welcome'] {
-  //  padding-top: calc(75% + 40px);
-  //}
 `;
 
 export const FormWrapper = styled(ValidatorForm)`
-  //background-color: ${ui.surfaceColorPrimary};
   padding: 1em;
   transition: max-height 1s;
   box-sizing: border-box;

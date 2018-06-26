@@ -14,7 +14,7 @@ const RightTrayComponent = (props) => {
       <SmallPaper>
         <CommunityShortView data={cData} />
       </SmallPaper>
-      {gmData && loggedInUserID ? (
+      {gmData && gmData.group_id && loggedInUserID ? (
         <SmallPaper>
           <GroupShortView gmData={gmData} cData={cData} />
         </SmallPaper>

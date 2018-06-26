@@ -23,7 +23,7 @@ const GroupShortView = ({ gmData, muiTheme, cData }) => {
         style={btnStyle}
         labelStyle={labelStyle}
         label="Fan page"
-        backgroundColor={muiTheme.palette.canvasColor}
+        backgroundColor={muiTheme.paper.backgroundColor}
         fullWidth
         href={group.fanpage}
         target="_blank"
@@ -33,7 +33,7 @@ const GroupShortView = ({ gmData, muiTheme, cData }) => {
           style={btnStyle}
           labelStyle={labelStyle}
           label="Register membership"
-          backgroundColor={muiTheme.palette.canvasColor}
+          backgroundColor={muiTheme.paper.backgroundColor}
           fullWidth
         />
       </Link>

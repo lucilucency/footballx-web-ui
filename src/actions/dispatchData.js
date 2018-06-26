@@ -25,20 +25,14 @@ export function dispatch({
 }
 
 export function dispatchPost({
-  auth = true,
-  host = FX_API,
-  version = FX_VERSION,
+  auth = true, host = FX_API, version = FX_VERSION, path,
   contentType = 'application/x-www-form-urlencoded',
-  retries = 1,
-  retriesBreak = 3000,
-  reducer,
-  path,
   params = {},
   transform,
-  payload,
-  reducerCallback,
-  payloadCallback,
+  reducer, payload,
+  reducerCallback, payloadCallback,
   callback,
+  retries = 1, retriesBreak = 3000,
 }) {
   return (dispatchAction) => {
     if (typeof reducerCallback === 'string') {

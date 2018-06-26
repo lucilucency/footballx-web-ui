@@ -9,7 +9,7 @@ const StyledMain = styled.main`
   position: relative;
   margin: 0 0 10px;
   ${props => css`
-    background-color: ${props.muiTheme.palette.canvasColor};
+    background-color: ${props.muiTheme.paper.backgroundColor};
     border-bottom: 1px solid ${props.muiTheme.palette.borderColor};
     
     section {

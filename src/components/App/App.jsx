@@ -34,9 +34,13 @@ const overwritesTheme = ui => ({
     titleColor: ui.textColorVariant1,
   },
   cardText: { textColor: ui.textColorVariant1 },
+  drawer: {
+    color: ui.surfaceColorPrimary,
+  },
   flatButton: { fontWeight: skeleton.fontWeightNormal },
   fontFamily: skeleton.fontFamilyPrimary,
   listItem: { secondaryTextColor: ui.textColorVariant1 },
+  menuItem: { hoverColor: ui.positive3Color, selectedTextColor: ui.positive1Color },
   raisedButton: { fontWeight: skeleton.fontWeightNormal },
   subheader: { color: ui.textColorPrimary },
   palette: {
@@ -48,9 +52,14 @@ const overwritesTheme = ui => ({
     // accent3Color: '', /* weak!!! table-header */
     textColor: ui.textColorPrimary,
     secondaryTextColor: ui.textColorVariant1,
-    canvasColor: ui.surfaceColorPrimary,
-    alternateTextColor: ui.surfaceColorPrimary,
+    // canvasColor: ui.surfaceColorPrimary,
+    canvasColor: ui.backgroundColorPrimary,
+    // alternateTextColor: ui.surfaceColorPrimary,
+    alternateTextColor: ui.backgroundColorPrimary,
     borderColor: ui.borderColor,
+  },
+  paper: {
+    backgroundColor: ui.surfaceColorPrimary,
   },
   tableRow: { borderColor: ui.borderColorVariant1 },
   tableHeaderColumn: { height: 48 },
