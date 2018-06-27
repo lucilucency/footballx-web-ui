@@ -91,7 +91,7 @@ class RegisterMembership extends React.Component {
       {
         heading: strings.heading_complete_register_membership,
         key: 'complete',
-        content: <ReviewTransaction loggedInUserID={props.loggedInUserID} />,
+        content: <ReviewTransaction />,
       },
     ].filter(Boolean);
   }
@@ -241,7 +241,6 @@ class RegisterMembership extends React.Component {
 }
 
 RegisterMembership.propTypes = {
-  loggedInUserID: PropTypes.number,
   communityID: PropTypes.number,
   gmData: PropTypes.object,
   onClose: PropTypes.func,

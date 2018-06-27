@@ -36,7 +36,7 @@ class MatchView extends React.Component {
     this.props.announce({
       message: strings.announce_match_vote,
     });
-    this.props.getMatchComments(this.props.matchID || this.props.data.id, 'hot', getCookie('user_id'));
+    this.props.getMatchComments(this.props.matchID || this.props.data.id, 'hot', Number(getCookie('user_id')));
   }
 
   render() {

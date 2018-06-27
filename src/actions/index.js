@@ -43,7 +43,7 @@ export const refresh = xuser_id => dispatchGet({
 });
 export const getMetadata = ({
   access_token = getCookie('access_token'),
-  user_id = getCookie('user_id'),
+  user_id = Number(getCookie('user_id')),
   username = getCookie('username'),
 } = {}) => (dispatch) => {
   const getDataStart = payload => ({
@@ -143,7 +143,7 @@ export const getPost = postID => dispatchGet({
   reducer: 'post',
   path: `post/${postID}`,
   params: {
-    xuser_id: getCookie('user_id'),
+    xuser_id: Number(getCookie('user_id')),
   },
   transform: parser.parsePost,
 });

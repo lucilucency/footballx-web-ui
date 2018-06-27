@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { muiThemeable } from 'material-ui/styles';
 // import strings from '../../../lang';
 import constants from '../../constants';
+import { getCookie } from "../../../utils/index";
 import { localUpdateMetadata, ajaxGet } from '../../../actions';
 
 const getStyles = theme => ({
@@ -19,58 +20,72 @@ const getStyles = theme => ({
   },
 });
 
+const getDataPackages = props => new Promise((resolve) => {
+  ajaxGet({
+    auth: true,
+    path: `membership/${props.gmData.id}/packs`,
+  }, (resp) => {
+    try {
+      const respObj = JSON.parse(resp);
+      const { group_membership_packs } = respObj;
+      if (group_membership_packs && group_membership_packs.length) {
+        const pack = group_membership_packs.find(el => el.id === props.registerMembership.group_membership_pack_id);
+        resolve(pack);
+      } else {
+        resolve(null);
+      }
+    } catch (err) {
+      console.error(err);
+      resolve(null);
+    }
+  });
+});
+
+const getDataReceiverAddress = () => new Promise((resolve) => {
+  ajaxGet({
+    auth: true,
+    path: `xuser/${getCookie('user_id')}/addresses`,
+  }, (resp) => {
+    try {
+      const respObj = JSON.parse(resp);
+      const { xuser_addresses } = respObj;
+      if (xuser_addresses && xuser_addresses.length) {
+        const userAddress = xuser_addresses[xuser_addresses.length - 1];
+        resolve(userAddress);
+      } else {
+        resolve(null);
+      }
+    } catch (err) {
+      console.error(err);
+      resolve(null);
+    }
+  });
+});
+
+const getData = (props) => {
+  Promise.all([getDataPackages(props), getDataReceiverAddress(props)]).then((promiseResp) => {
+    props.updateMetadata({
+      registerMembership: {
+        ...props.registerMembership,
+        group_membership_pack_data: promiseResp[0],
+        xuser_address_data: promiseResp[1],
+      },
+    });
+  });
+};
+
 class ReviewTransaction extends Component {
-  componentWillReceiveProps(props) {
-    if (!this.props.gmData && props.gmData && props.gmData.id) {
-      Promise.all([this.getDataPackages(props), this.getDataReceiverAddress(props)]).then((promiseResp) => {
-        props.updateMetadata({
-          registerMembership: {
-            ...props.registerMembership,
-            group_membership_pack_data: promiseResp[0],
-            xuser_address_data: promiseResp[1],
-          },
-        });
-      });
+  componentDidMount() {
+    if (this.props.gmData && this.props.gmData.id) {
+      getData(this.props);
     }
   }
 
-  getDataPackages = props => new Promise((resolve) => {
-    ajaxGet({
-      auth: true,
-      path: `membership/${props.gmData.id}/packs`,
-    }, (resp) => {
-      try {
-        const respObj = JSON.parse(resp);
-        const { group_membership_packs } = respObj;
-        if (group_membership_packs && group_membership_packs.length) {
-          const pack = group_membership_packs.find(el => el.id === props.registerMembership.group_membership_pack_id);
-          resolve(pack);
-        }
-      } catch (err) {
-        console.error(err);
-        resolve(null);
-      }
-    });
-  });
-
-  getDataReceiverAddress = props => new Promise((resolve) => {
-    ajaxGet({
-      auth: true,
-      path: `xuser/${props.loggedInUserID}/addresses`,
-    }, (resp) => {
-      try {
-        const respObj = JSON.parse(resp);
-        const { xuser_addresses } = respObj;
-        if (xuser_addresses && xuser_addresses.length) {
-          const userAddress = xuser_addresses[xuser_addresses.length - 1];
-          resolve(userAddress);
-        }
-      } catch (err) {
-        console.error(err);
-        resolve(null);
-      }
-    });
-  });
+  componentWillReceiveProps(props) {
+    if (!this.props.gmData && props.gmData && props.gmData.id) {
+      getData(props);
+    }
+  }
 
   render() {
     const { muiTheme, registerMembership } = this.props;
@@ -97,8 +112,6 @@ class ReviewTransaction extends Component {
 }
 
 ReviewTransaction.propTypes = {
-  // loggedInUserID: PropTypes.number,
-
   /**/
   muiTheme: PropTypes.object,
   gmData: PropTypes.object,

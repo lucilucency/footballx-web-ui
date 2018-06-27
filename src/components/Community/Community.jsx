@@ -44,6 +44,7 @@ const getTabs = ({ communityID, loggedInUserID }) => [{
   content: <RegisterMembership communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/register`,
   disabled: true,
+  hidden: () => true,
   fullWidth: true,
 }].filter(Boolean);
 
