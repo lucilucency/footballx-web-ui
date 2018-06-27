@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { setCommunity, getCommunity, setTheme, getGroupMemberships } from '../../actions';
+import { setCommunity, getCommunity, setTheme, getGroupMemberships, localUpdateMetadata, ajaxGet } from '../../actions';
 import { Container } from '../../utils/index';
 import TabBar from '../TabBar';
 import { IconHotFeed } from '../Icons';
@@ -66,8 +66,9 @@ class Community extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    const { location, cData } = props;
+    const { location, cData, gmData } = props;
 
+    /** after get community */
     if (cData && JSON.stringify(cData) !== JSON.stringify(this.props.cData)) {
       if (location.pathname !== this.props.location.pathname) {
         propsLoadData(props);
@@ -84,6 +85,29 @@ class Community extends React.Component {
       if (props.cData.group_id) {
         props.getGroupMemberships(props.cData.group_id);
       }
+    }
+
+    /** after get group membership */
+    if (gmData && JSON.stringify(gmData) !== JSON.stringify(this.props.gmData)) {
+      ajaxGet({
+        auth: true,
+        path: `membership/${props.gmData.id}/process`,
+      }, (resp) => {
+        try {
+          const respObj = JSON.parse(resp);
+          const { membership_process } = respObj;
+          if (membership_process) {
+            props.localUpdateMetadata({
+              registerMembership: {
+                ...props.registerMembership,
+                ...membership_process,
+              },
+            });
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      });
     }
   }
 
@@ -132,11 +156,14 @@ Community.propTypes = {
   theme: PropTypes.object,
   setTheme: PropTypes.func,
   getGroupMemberships: PropTypes.func,
+  registerMembership: PropTypes.object,
+  localUpdateMetadata: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   cData: state.app.community.data,
   gmData: state.app.groupMemberships.data,
+  registerMembership: state.app.metadata.data.registerMembership,
   loggedInUserID: state.app.metadata.data.user && state.app.metadata.data.user.id && Number(state.app.metadata.data.user.id),
   theme: state.app.theme,
 });
@@ -146,6 +173,7 @@ const mapDispatchToProps = dispatch => ({
   setCommunity: payload => dispatch(setCommunity(payload)),
   getCommunity: id => dispatch(getCommunity(id)),
   getGroupMemberships: id => dispatch(getGroupMemberships(id)),
+  localUpdateMetadata: payload => dispatch(localUpdateMetadata(payload)),
 });
 
 

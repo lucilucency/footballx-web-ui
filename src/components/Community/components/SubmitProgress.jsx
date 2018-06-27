@@ -4,24 +4,15 @@ import { connect } from 'react-redux';
 import update from 'react-addons-update';
 import PropTypes from 'prop-types';
 import { muiThemeable } from 'material-ui/styles';
-import { FormControlLabel, RadioGroup, Checkbox, FormControl } from 'material-ui-next';
 import strings from '../../../lang';
 import { validate } from '../../../utils';
-import { ajaxGet, localUpdateMetadata } from '../../../actions';
-
-const dsGifts = {
-  1: 'Sổ thành viên',
-  2: 'Sổ tay',
-  3: 'Bút',
-  4: 'Dây đeo thẻ',
-  5: 'Móc khóa',
-  7: 'Vé xem Big Offline trận bất kỳ do MUSVN tổ chức (áp dụng Sài Gòn, Hà Nội)',
-};
+import { ajaxPost, localUpdateMetadata } from '../../../actions';
 
 const getStyles = theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
+    flexDirection: 'column',
   },
   formControl: {
     margin: theme.spacing.desktopGutterLess,
@@ -42,7 +33,7 @@ const getStyles = theme => ({
   },
 });
 
-class ChooseMembershipPackage extends Component {
+class SubmitProgress extends Component {
   static initFormData = {
     package: null,
   };
@@ -61,34 +52,37 @@ class ChooseMembershipPackage extends Component {
     super(props);
 
     this.state = {
-      formData: ChooseMembershipPackage.initFormData,
-      formValidators: ChooseMembershipPackage.initFormValidators,
-      formErrors: ChooseMembershipPackage.initFormErrors,
+      formData: SubmitProgress.initFormData,
+      formValidators: SubmitProgress.initFormValidators,
+      formErrors: SubmitProgress.initFormErrors,
     };
 
-    this.getData = (nextProps) => {
-      ajaxGet({
-        auth: true,
-        path: `membership/${nextProps.gmData.id}/packs`,
-      }, (resp) => {
-        try {
-          const respObj = JSON.parse(resp);
-          const { group_membership_packs } = respObj;
-          if (group_membership_packs && group_membership_packs.length) {
-            this.packages = [...group_membership_packs];
-            this.forceUpdate();
+    this.submitProgress = (nextProps) => {
+      ajaxPost({
+        path: `membership/${nextProps.gmData.id}/process`,
+        params: props.registerMembership,
+      }, (err, res) => {
+        if (res.ok && res.text) {
+          try {
+            const { membership_process } = JSON.parse(res.text);
+            props.updateMetadata({
+              registerMembership: {
+                ...props.registerMembership,
+                ...membership_process,
+              },
+            });
+          } catch (parseErr) {
+            console.error(parseErr);
           }
-        } catch (err) {
-          console.error(err);
         }
       });
     };
   }
 
   componentDidMount() {
-    this.props.setTrigger(this.submit);
-    if (this.props.gmData && this.props.gmData.group_id) {
-      this.getData(this.props);
+    // this.props.setTrigger(this.submit);
+    if (!this.props.registerMembership.id) {
+      this.submitProgress(this.props);
     }
   }
 
@@ -192,29 +186,6 @@ class ChooseMembershipPackage extends Component {
     props.onSubmit(true);
   };
 
-  renderPackage = (data) => {
-    const gifts = JSON.parse(data.gifts);
-    const isPicked = data.id === this.state.formData.package;
-
-    return (
-      <div
-        style={{
-          ...getStyles(this.props.muiTheme).package,
-          borderColor: isPicked ? this.props.muiTheme.palette.primary2Color : 'transparent',
-        }}
-      >
-        <div className="text-big">{data.name}</div>
-        <div className="text-small">Price: {data.price}</div>
-        <div>{data.description}</div>
-        <div style={{ height: 200 }}>
-          {gifts && gifts.map(gift => (
-            <div key={gift.item_id}>Item: {(`0${gift.quantity}`).slice(-2)} {dsGifts[gift.item_id]}</div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   render() {
     const { muiTheme } = this.props;
 
@@ -222,34 +193,15 @@ class ChooseMembershipPackage extends Component {
 
     return (
       <div style={styles.root}>
-        <FormControl component="fieldset" required style={styles.formControl}>
-          {/* <FormLabel component="legend">{strings.paragraph_update_following_communities}</FormLabel> */}
-          <RadioGroup
-            aria-label="gender"
-            name="gender1"
-            style={styles.group}
-            value={this.state.formData.package}
-            onChange={e => this.setFormData('package', e.target.value)}
-            row
-          >
-            {this.packages && this.packages.map(el => (
-              <FormControlLabel
-                key={el.id}
-                style={{ flexDirection: 'column-reverse' }}
-                value={el.id.toString()}
-                control={<Checkbox />}
-                label={this.renderPackage(el)}
-              />
-            ))}
-          </RadioGroup>
-        </FormControl>
+        <div>Congratulate! Be Red Devil now</div>
+        {this.props.registerMembership && <div>Your process ID: {this.props.registerMembership.id}</div>}
       </div>
     );
   }
 }
 
-ChooseMembershipPackage.propTypes = {
-  setTrigger: PropTypes.func.isRequired,
+SubmitProgress.propTypes = {
+  // setTrigger: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired,
 
   /**/
@@ -271,4 +223,4 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   muiThemeable(),
-)(ChooseMembershipPackage);
+)(SubmitProgress);

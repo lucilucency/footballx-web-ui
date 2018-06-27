@@ -7,12 +7,14 @@ import {
   StepLabel,
 } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
+import { FlatButton } from 'material-ui';
 import Amplitude from 'react-amplitude';
-import { followTeam } from '../../actions';
+import { } from '../../actions';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
 import ChooseMembershipPackage from './components/ChooseMembershipPackage';
 import ChoosePlace from './components/ChoosePlace';
+import SubmitProgress from './components/SubmitProgress';
 
 class RegisterMembership extends React.Component {
   constructor(props) {
@@ -48,7 +50,6 @@ class RegisterMembership extends React.Component {
         key: 'choose_package',
         content: (
           <ChooseMembershipPackage
-            gmData={props.gmData}
             setTrigger={(action) => {
               this.triggerSubmit = action;
               this.forceUpdate();
@@ -71,7 +72,6 @@ class RegisterMembership extends React.Component {
         key: 'choose_place',
         content: (
           <ChoosePlace
-            gmData={props.gmData}
             setTrigger={(action) => {
               this.triggerSubmit = action;
               this.forceUpdate();
@@ -92,13 +92,21 @@ class RegisterMembership extends React.Component {
       {
         heading: strings.heading_complete_register_membership,
         key: 'complete',
-        content: <div>Congratulate! Be Red Devil now</div>,
+        content: <SubmitProgress />,
       },
     ].filter(Boolean);
   }
 
   componentDidMount() {
     Amplitude.logEvent('Enter register group membership');
+  }
+
+  componentWillReceiveProps(props) {
+    if (JSON.stringify(props.registerMembership) !== JSON.stringify(this.props.registerMembership && props.registerMembership.id)) {
+      this.setState({
+        stepIndex: this.steps.length - 1,
+      });
+    }
   }
 
   /* handlePrev = () => {
@@ -163,11 +171,17 @@ class RegisterMembership extends React.Component {
                   primary
                   onClick={step.next}
                 />}
-                {stepIndex === this.steps.length - 1 && <RaisedButton
-                  label="Start your journey!"
-                  primary
-                  onClick={this.handleFinish}
-                />}
+                {stepIndex === this.steps.length - 1 && (
+                  <div>
+                    <RaisedButton
+                      label="Purchase now!"
+                      primary
+                      onClick={this.handleFinish}
+                      fullWidth
+                    />
+                    <FlatButton fullWidth label="Later" onClick={this.handleFinish} />
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -179,18 +193,13 @@ class RegisterMembership extends React.Component {
 
 RegisterMembership.propTypes = {
   communityID: PropTypes.number,
-  gmData: PropTypes.object,
   onClose: PropTypes.func,
   /**/
-  // user: PropTypes.object,
+  registerMembership: PropTypes.object,
 };
 
-// const mapStateToProps = state => ({
-//   user: state.app.metadata.data.user,
-// });
-
-const mapDispatchToProps = dispatch => ({
-  followTeam: (userID, teamID) => dispatch(followTeam(userID, teamID)),
+const mapStateToProps = state => ({
+  registerMembership: state.app.metadata.data.registerMembership,
 });
 
-export default connect(null, mapDispatchToProps)(RegisterMembership);
+export default connect(mapStateToProps)(RegisterMembership);
