@@ -44,7 +44,7 @@ const getTabs = ({ communityID, loggedInUserID }) => [{
   content: <RegisterMembership communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/register`,
   disabled: true,
-  hidden: () => true,
+  fullWidth: true,
 }].filter(Boolean);
 
 const propsLoadData = (props) => {
@@ -82,8 +82,8 @@ class Community extends React.Component {
       }
 
       /** get group membership */
-      if (props.cData.group_id) {
-        props.getGroupMemberships(props.cData.group_id);
+      if (cData.group_id) {
+        props.getGroupMemberships(cData.group_id);
       }
     }
 
@@ -113,7 +113,7 @@ class Community extends React.Component {
 
   render() {
     const {
-      match, cData, gmData, loggedInUserID,
+      match, cData, gmData, loggedInUserID, registerMembership,
     } = this.props;
     const communityID = Number(match.params.id);
     const info = match.params.info || 'hot';
@@ -121,12 +121,14 @@ class Community extends React.Component {
     const tabs = getTabs({ communityID, cData, loggedInUserID });
     const tab = tabs.find(_tab => _tab.key === info);
 
+    const templateColumns = tab && tab.disabled ? '1fr' : '1fr 300px';
+
     return (
       <div>
         <Helmet title={this.props.cData.name} />
         {cData.bg ? <Cover bg={cData.bg} name={cData.name} /> : null}
         <Container
-          columns="1fr 300px"
+          columns={templateColumns}
           style={{
             maxWidth: 992,
             margin: 'auto',
@@ -139,7 +141,7 @@ class Community extends React.Component {
             />}
             {tab && tab.content}
           </div>
-          <RightComponent cData={cData} gmData={gmData} loggedInUserID={loggedInUserID} />
+          <RightComponent cData={cData} gmData={gmData} loggedInUserID={loggedInUserID} registerMembership={registerMembership} />
         </Container>
       </div>
     );
@@ -149,22 +151,21 @@ class Community extends React.Component {
 Community.propTypes = {
   match: PropTypes.object,
   location: PropTypes.object,
-
   cData: PropTypes.object,
   gmData: PropTypes.object,
   loggedInUserID: PropTypes.number,
   theme: PropTypes.object,
+  registerMembership: PropTypes.object,
   setTheme: PropTypes.func,
   getGroupMemberships: PropTypes.func,
-  registerMembership: PropTypes.object,
   localUpdateMetadata: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   cData: state.app.community.data,
-  gmData: state.app.groupMemberships.data,
+  gmData: state.app.community.data.groupMemberships,
   registerMembership: state.app.metadata.data.registerMembership,
-  loggedInUserID: state.app.metadata.data.user && state.app.metadata.data.user.id && Number(state.app.metadata.data.user.id),
+  loggedInUserID: state.app.metadata.data.user && state.app.metadata.data.user.id,
   theme: state.app.theme,
 });
 

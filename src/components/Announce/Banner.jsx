@@ -98,8 +98,9 @@ const StyledDiv = styled.div`
   }
 `;
 
-function isDisabled(text) {
-  const patt = new RegExp('/sign_in|/game|/r/');
+const patt = new RegExp('/sign_in|/game|/r/');
+
+function isDisableBanner(text) {
   return patt.test(text);
 }
 
@@ -107,48 +108,52 @@ class AnnounceComponent extends React.Component {
   state = {};
 
   componentDidMount() {
-    if (!isDisabled(this.props.location.pathname)) {
+    if (!isDisableBanner(this.props.location.pathname)) {
       this.props.getBanner();
     }
   }
 
   render() {
-    const { error, loading, data } = this.props;
+    const {
+      error, loading, data, location,
+    } = this.props;
 
-    if (!error && !loading && data) {
-      if (data) {
-        const {
-          is_count_down,
-          start_time,
-          end_time,
-          text,
-          url,
-        } = data;
-        const now = parseInt(Date.now() / 1000, 10);
+    if (!isDisableBanner(location.pathname)) {
+      if (!error && !loading && data) {
+        if (data) {
+          const {
+            is_count_down,
+            start_time,
+            end_time,
+            text,
+            url,
+          } = data;
+          const now = parseInt(Date.now() / 1000, 10);
 
-        if (!this.state.hasUsername && Number(end_time) > now) {
-          const isStarted = Number(start_time) < now;
-          const body = is_count_down && <Counter start={Number(start_time)} end={Number(end_time)} countToStart={!isStarted} />;
-          return (
-            <StyledDiv bg={data.bg}>
-              <main>
-                <div className="title">{text}</div>
-                <div className="subTitle">{body}</div>
-              </main>
-              {url && (
-                <aside>
-                  <a style={{ color: ui.alternateTextColor }} href="/game">{strings.announce_play_game}</a>
-                </aside>
-              )}
-              {/* <aside>
+          if (!this.state.hasUsername && Number(end_time) > now) {
+            const isStarted = Number(start_time) < now;
+            const body = is_count_down && <Counter start={Number(start_time)} end={Number(end_time)} countToStart={!isStarted} />;
+            return (
+              <StyledDiv bg={data.bg}>
+                <main>
+                  <div className="title">{text}</div>
+                  <div className="subTitle">{body}</div>
+                </main>
+                {url && (
+                  <aside>
+                    <a style={{ color: ui.alternateTextColor }} href="/game">{strings.announce_play_game}</a>
+                  </aside>
+                )}
+                {/* <aside>
                 <RaisedButton
                   backgroundColor={ui.linkColor}
                   onClick={this.dismiss}
                   label={strings.announce_dismiss}
                 />
               </aside> */}
-            </StyledDiv>
-          );
+              </StyledDiv>
+            );
+          }
         }
       }
     }

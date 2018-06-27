@@ -25,6 +25,7 @@ const ThemeRed = {
   // textColorVariant3: materialColor.grey600,
   // textColorVariant4: materialColor.grey500,
 
+  accent1Color: materialColor.fullBlack,
   alternateTextColor: materialColor.fullWhite,
   alternateTextColorVariant1: materialColor.lightWhite,
 };

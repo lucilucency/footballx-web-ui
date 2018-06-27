@@ -7,14 +7,13 @@ import {
   StepLabel,
 } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
-import { FlatButton } from 'material-ui';
 import Amplitude from 'react-amplitude';
-import { } from '../../actions';
+import { ajaxPost, localUpdateMetadata } from '../../actions';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
 import ChooseMembershipPackage from './components/ChooseMembershipPackage';
 import ChoosePlace from './components/ChoosePlace';
-import SubmitProgress from './components/SubmitProgress';
+import ReviewTransaction from './components/ReviewTransaction';
 
 class RegisterMembership extends React.Component {
   constructor(props) {
@@ -83,7 +82,7 @@ class RegisterMembership extends React.Component {
                 this.setState({ isStepValid: true });
               }
             }}
-            onSubmit={isValid => this.checkAfterSubmit('choose_place', isValid)}
+            onSubmit={isValid => this.checkAfterSubmit('choose_place', isValid, this.submitProcess())}
           />
         ),
         route: `/r/${props.communityID}/register/choose_package`,
@@ -92,7 +91,7 @@ class RegisterMembership extends React.Component {
       {
         heading: strings.heading_complete_register_membership,
         key: 'complete',
-        content: <SubmitProgress />,
+        content: <ReviewTransaction loggedInUserID={props.loggedInUserID} />,
       },
     ].filter(Boolean);
   }
@@ -102,12 +101,62 @@ class RegisterMembership extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (JSON.stringify(props.registerMembership) !== JSON.stringify(this.props.registerMembership && props.registerMembership.id)) {
+    const { registerMembership } = props;
+    if (registerMembership && registerMembership.id && this.state.stepIndex !== this.steps.length - 1) {
       this.setState({
         stepIndex: this.steps.length - 1,
       });
     }
   }
+
+  submitProcess = () => {
+    ajaxPost({
+      path: `membership/${this.props.gmData.id}/process`,
+      params: this.props.registerMembership,
+    }, (err, res) => {
+      if (res.ok && res.text) {
+        try {
+          const { membership_process } = JSON.parse(res.text);
+          this.props.updateMetadata({
+            registerMembership: {
+              ...this.props.registerMembership,
+              ...membership_process,
+            },
+          });
+        } catch (parseErr) {
+          console.error(parseErr);
+        }
+      }
+    });
+  };
+
+  purchase = (e) => {
+    e.preventDefault();
+    ajaxPost({
+      path: 'payment/bank',
+      params: {
+        amount: this.props.registerMembership.group_membership_pack_data.price,
+      },
+    }, (err, res) => {
+      if (res.ok && res.text) {
+        try {
+          const { trans } = JSON.parse(res.text);
+          window.open(
+            trans.pay_url,
+            '_blank', // <- This is what makes it open in a new window.
+          );
+          this.props.updateMetadata({
+            registerMembership: {
+              ...this.props.registerMembership,
+              ...trans,
+            },
+          });
+        } catch (parseErr) {
+          console.error(parseErr);
+        }
+      }
+    });
+  };
 
   /* handlePrev = () => {
     const { stepIndex } = this.state;
@@ -116,9 +165,9 @@ class RegisterMembership extends React.Component {
     }
   }; */
 
-  checkAfterSubmit = (key, isValid) => {
+  checkAfterSubmit = (key, isValid, callback) => {
     if (isValid) {
-      this.next();
+      this.next(callback);
     }
   };
 
@@ -129,16 +178,13 @@ class RegisterMembership extends React.Component {
     }, callback);
   };
 
-  handleFinish = () => {
+  handleFinish = (e) => {
+    e.preventDefault();
     if (this.props.onClose) this.props.onClose();
   };
 
   render() {
     const { stepIndex } = this.state;
-    const contentStyle = {
-      margin: '0 16px',
-    };
-
     const step = this.steps[stepIndex];
 
     return (
@@ -158,7 +204,7 @@ class RegisterMembership extends React.Component {
             </Step>
           ))}
         </Stepper>
-        <div style={contentStyle}>
+        <div>
           {step && (
             <div>
               <div>
@@ -175,11 +221,14 @@ class RegisterMembership extends React.Component {
                   <div>
                     <RaisedButton
                       label="Purchase now!"
+                      disabled={!this.props.registerMembership
+                      || !this.props.registerMembership.group_membership_pack_data
+                      || !this.props.registerMembership.group_membership_pack_data.price}
                       primary
-                      onClick={this.handleFinish}
-                      fullWidth
+                      onClick={this.purchase}
+                      style={{ margin: '0 16px' }}
                     />
-                    <FlatButton fullWidth label="Later" onClick={this.handleFinish} />
+                    <RaisedButton secondary style={{ margin: '0 16px' }} label="Later" onClick={this.handleFinish} />
                   </div>
                 )}
               </div>
@@ -192,14 +241,22 @@ class RegisterMembership extends React.Component {
 }
 
 RegisterMembership.propTypes = {
+  loggedInUserID: PropTypes.number,
   communityID: PropTypes.number,
+  gmData: PropTypes.object,
   onClose: PropTypes.func,
   /**/
   registerMembership: PropTypes.object,
+  updateMetadata: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
+  gmData: state.app.community.data.groupMemberships,
   registerMembership: state.app.metadata.data.registerMembership,
 });
 
-export default connect(mapStateToProps)(RegisterMembership);
+const mapDispatchToProps = dispatch => ({
+  updateMetadata: payload => dispatch(localUpdateMetadata(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterMembership);

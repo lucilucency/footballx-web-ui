@@ -44,7 +44,7 @@ const validations = {
   minNumber: (value, min) => !isExisty(value) || isEmpty(value) || parseInt(value, 10) >= parseInt(min, 10),
 
   noSpace: value => validations.matchRegexp(value, /^\S+$/i),
-  isPhone: value => validations.matchRegexp(value, /^[0-9\-\+]{9,15}$/i),
+  isPhone: value => validations.matchRegexp(value, /^[0-9\-\+]{10,15}$/i),
   isString: value => !isEmpty(value) || typeof value === 'string' || value instanceof String,
   isLink: value => validations.matchRegexp(value, /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/i),
   minStringLength: (value, length) => validations.isString(value) && value.length >= length,

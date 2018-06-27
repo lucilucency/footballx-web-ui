@@ -181,12 +181,13 @@ class ChooseMembershipPackage extends Component {
     const { props } = this;
     const submitData = this.getFormData();
 
-    const { group_membership_pack_id } = submitData;
+    const packID = Number(submitData.group_membership_pack_id);
+    const pack = this.packages.find(el => el.id === packID);
 
     this.props.updateMetadata({
       registerMembership: {
         ...this.props.registerMembership,
-        group_membership_pack_id,
+        group_membership_pack_id: pack.id,
       },
     });
     props.onSubmit(true);
@@ -260,7 +261,7 @@ ChooseMembershipPackage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  gmData: state.app.groupMemberships.data,
+  gmData: state.app.community.data.groupMemberships,
   registerMembership: state.app.metadata.data.registerMembership,
 });
 

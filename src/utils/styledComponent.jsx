@@ -79,6 +79,13 @@ export const MutedLink = styled(Link)`
   }
 `;
 
+export const ColorLink = styled(Link)`
+  :hover {
+    text-decoration: underline;
+  }
+  ${props => `color: ${props.color};`}
+`;
+
 export function renderDialog({
   view = <h1>Welcome!</h1>,
   fullScreen = false,

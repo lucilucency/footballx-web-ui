@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, ListItem, Avatar, Checkbox } from 'material-ui';
 import IconCheck from 'material-ui/svg-icons/action/check-circle';
-
 import { getSuggestedCommunities, followCommunity, unfollowCommunity } from '../../../actions';
 import constants from '../../constants';
 import { IconFollowCommunity } from '../../Icons';
-
+import { ColorLink } from '../../../utils/styledComponent';
 
 class RequestLayer extends React.Component {
   componentDidMount() {
@@ -65,9 +64,9 @@ class RequestLayer extends React.Component {
               }}
             />}
 
-            primaryText={item.name}
+            primaryText={<ColorLink color="none" to={`/r/${item.id}`}>{item.name}</ColorLink>}
             secondaryText={item.c_followers &&
-              <small style={{ fontSize: constants.fontSizeSmall }}>{`${item.c_followers} followers`}</small>
+              <div style={{ fontSize: constants.fontSizeLittle }}>{`${item.c_followers} followers`}</div>
             }
           />
         ))}

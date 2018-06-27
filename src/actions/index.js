@@ -299,12 +299,14 @@ export const getSuggestedCommunities = () => dispatchGet({
  *
  * */
 export const getGroupMemberships = groupID => dispatchGet({
-  reducer: 'groupMemberships',
+  reducer: 'EDIT/community',
   path: `group/${groupID}/memberships`,
   transform: (resp) => {
     const { group_membership } = resp;
     if (group_membership && group_membership.length) {
-      return group_membership[group_membership.length - 1];
+      return {
+        groupMemberships: group_membership[group_membership.length - 1],
+      };
     }
     return null;
   },
