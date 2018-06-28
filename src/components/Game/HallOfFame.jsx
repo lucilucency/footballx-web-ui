@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import strings from '../../lang/index';
-import firebase from '../../firebase';
+import firebase from '../../firebaseGame';
 import { getOrdinal, formatSeconds } from '../../utils';
 import Table, { /* TableLink */ } from '../Table';
 import King from './HallOfFameKing';

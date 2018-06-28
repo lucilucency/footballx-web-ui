@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import { messaging, subscribeTokenToTopic } from '../../firebaseMessaging';
 import { setCommunity, getCommunity, setTheme, getGroupMemberships, localUpdateMetadata, ajaxGet } from '../../actions';
 import { Container } from '../../utils/index';
 import TabBar from '../TabBar';
@@ -64,6 +65,12 @@ const propsLoadData = (props) => {
 class Community extends React.Component {
   componentDidMount() {
     propsLoadData(this.props);
+
+    subscribeTokenToTopic(messaging);
+    messaging.onMessage((payload) => {
+      const payloadData = payload.data;
+      console.warn('Message received. ', payloadData);
+    });
   }
 
   componentWillReceiveProps(props) {

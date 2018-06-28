@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { muiThemeable } from 'material-ui/styles';
 // import strings from '../../../lang';
 import constants from '../../constants';
-import { getCookie } from "../../../utils/index";
+import { getCookie } from '../../../utils/index';
 import { localUpdateMetadata, ajaxGet } from '../../../actions';
 
 const getStyles = theme => ({
@@ -116,7 +116,7 @@ ReviewTransaction.propTypes = {
   muiTheme: PropTypes.object,
   gmData: PropTypes.object,
   registerMembership: PropTypes.object,
-  updateMetadata: PropTypes.func,
+  // updateMetadata: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

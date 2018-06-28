@@ -153,60 +153,18 @@
     <div class="sk-cube sk-cube9"></div>
   </div>
   </div>
-  <!--<script id="111717_c_472596" width="590" height="431" src="//player.dacast.com/js/player.js"  class="dacast-video" />-->
 
   <script>
-//    if ('serviceWorker' in navigator) {
-//        navigator.serviceWorker
-//          .register('/sw.js')
-//          .then(function() {
-//            console.log('Service worker registered!');
-//          })
-//          .catch(function(err) {
-//            console.log(err);
-//          });
-//      }
-  </script>
-  <script>
-    function fbEnsureInit(callback) {
-      if(!window.fbApiInit) {
-        setTimeout(function() {fbEnsureInit(callback);}, 50);
-      } else {
-        if(callback) {
-          callback();
-        }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(function() {
+          console.log('Service worker registered!');
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
       }
-    }
-
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId: '1800262673561624',
-        // status: true,
-        // cookie: true,  // enable cookies to allow the server to access
-        xfbml: true,  // parse social plugins on this page
-        version: 'v2.8' // use graph api version 2.8
-      });
-
-      //FB.getLoginStatus(function(response){
-      //  console.log('getLoginStatus', response);
-      //  runFbInitCriticalCode();
-      //});
-      fbApiInit = true; //init flag
-    };
-
-    fbEnsureInit(function() {
-      console.log("this will be run once FB is initialized");
-    });
-
-    // Load the SDK asynchronously
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
   </script>
 </body>
 </html>
