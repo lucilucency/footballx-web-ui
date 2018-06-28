@@ -63,15 +63,21 @@ const getDataReceiverAddress = () => new Promise((resolve) => {
 });
 
 const getData = (props) => {
-  Promise.all([getDataPackages(props), getDataReceiverAddress(props)]).then((promiseResp) => {
-    props.updateMetadata({
-      registerMembership: {
-        ...props.registerMembership,
-        group_membership_pack_data: promiseResp[0],
-        xuser_address_data: promiseResp[1],
-      },
+  const promiseProcesses = [];
+  if (!props.registerMembership.group_membership_pack_data && !props.registerMembership.xuser_address_data) {
+    promiseProcesses.push(getDataPackages(props));
+    promiseProcesses.push(getDataReceiverAddress(props));
+
+    Promise.all(promiseProcesses).then((promiseResp) => {
+      props.updateMetadata({
+        registerMembership: {
+          ...props.registerMembership,
+          group_membership_pack_data: promiseResp[0],
+          xuser_address_data: promiseResp[1],
+        },
+      });
     });
-  });
+  }
 };
 
 class ReviewTransaction extends Component {

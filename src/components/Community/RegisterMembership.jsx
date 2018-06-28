@@ -14,7 +14,7 @@ import { messaging } from '../../firebaseMessaging';
 import { ajaxPost, ajaxPut, localUpdateMetadata, announce } from '../../actions';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
-import ChooseMembershipPackage from './components/ChooseMembershipPackage';
+import ChooseMembershipPackage from './components/ChoosePackage';
 import ChoosePlace from './components/ChoosePlace';
 import ReviewTransaction from './components/ReviewTransaction';
 
@@ -128,11 +128,13 @@ class RegisterMembership extends React.Component {
 
   componentWillReceiveProps(props) {
     const { registerMembership } = props;
-    if (registerMembership && registerMembership.id && this.state.stepIndex !== this.steps.length - 1) {
+    if (registerMembership && registerMembership.id) {
       if (!registerMembership.is_complete) {
-        this.setState({
-          stepIndex: this.steps.length - 1,
-        });
+        if (this.state.stepIndex !== this.steps.length - 1) {
+          this.setState({
+            stepIndex: this.steps.length - 1,
+          });
+        }
       } else {
         props.history.push(`/r/${props.communityID}`);
       }
@@ -150,7 +152,7 @@ class RegisterMembership extends React.Component {
           this.props.updateMetadata({
             registerMembership: {
               ...this.props.registerMembership,
-              ...membership_process,
+              id: membership_process.id,
             },
           });
         } catch (parseErr) {
@@ -216,6 +218,10 @@ class RegisterMembership extends React.Component {
             balance: {
               ...this.props.balance,
               ...balance,
+            },
+            registerMembership: {
+              ...this.props.registerMembership,
+              is_complete: true,
             },
           });
         } catch (parseErr) {
@@ -318,7 +324,7 @@ class RegisterMembership extends React.Component {
 
 RegisterMembership.propTypes = {
   communityID: PropTypes.number,
-  groupMembershipID: PropTypes.object,
+  groupMembershipID: PropTypes.number,
   onClose: PropTypes.func,
   /**/
   balance: PropTypes.object,

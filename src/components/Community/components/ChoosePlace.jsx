@@ -16,7 +16,7 @@ const getStyles = theme => ({
   root: {
     display: 'flex',
     // justifyContent: 'center',
-    webkitFlexWrap: 'wrap',
+    WebkitFlexWrap: 'wrap',
     flexWrap: 'wrap',
     backgroundColor: theme.paper.backgroundColor,
     padding: theme.spacing.desktopGutterLess,
@@ -42,7 +42,7 @@ const getStyles = theme => ({
 
 class ChoosePlace extends Component {
   static initFormData = {
-    name: null, phone: null, province_id: null, district_id: null, ward_id: null, address: null,
+    name: '', phone: '', province_id: '', district_id: '', ward_id: '', address: '',
   };
 
   static initFormValidators = {
@@ -244,6 +244,7 @@ class ChoosePlace extends Component {
           registerMembership: {
             ...this.props.registerMembership,
             xuser_address_id: data.id,
+            xuser_address_data: data,
           },
         });
         props.onSubmit(true);
@@ -309,7 +310,7 @@ class ChoosePlace extends Component {
             errorText={formErrors.province_id.length ? formErrors.province_id[0] : null}
           >
             {provinceDS.map(el => (
-              <MenuItem value={el.id} primaryText={el.name} />
+              <MenuItem key={el.id} value={el.id} primaryText={el.name} />
             ))}
           </SelectField>
         </FormControl>
@@ -322,7 +323,7 @@ class ChoosePlace extends Component {
             errorText={formErrors.district_id.length ? formErrors.district_id[0] : null}
           >
             {districtDS.map(el => (
-              <MenuItem value={el.id} primaryText={el.name} />
+              <MenuItem key={el.id} value={el.id} primaryText={el.name} />
             ))}
           </SelectField>
         </FormControl>
@@ -335,7 +336,7 @@ class ChoosePlace extends Component {
             errorText={formErrors.ward_id.length ? formErrors.ward_id[0] : null}
           >
             {wardDS.map(el => (
-              <MenuItem value={el.id} primaryText={el.name} />
+              <MenuItem key={el.id} value={el.id} primaryText={el.name} />
             ))}
           </SelectField>
         </FormControl>

@@ -72,12 +72,6 @@ class UpdateProfileNickname extends Component {
   submit = () => {
     // if (this.isValid()) {}
 
-    // this.props.localUpdateMetadata({
-    //   user: {
-    //     ...this.props.user,
-    //     username: this.state.formData.username,
-    //   },
-    // });
     this.props.updateUserProfile({
       username: this.state.formData.username,
       // password: this.state.formData.password,

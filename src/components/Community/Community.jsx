@@ -67,13 +67,13 @@ class Community extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    const { location, cData, gmData } = props;
+    const { cData, gmData } = props;
 
-    /** after get community */
+    /** after get community (different local) */
     if (cData && JSON.stringify(cData) !== JSON.stringify(this.props.cData)) {
-      if (location.pathname !== this.props.location.pathname) {
-        propsLoadData(props);
-      }
+      // if (location.pathname !== this.props.location.pathname) {
+      //   propsLoadData(props);
+      // }
 
       // change theme
       if (cData.color) {
@@ -86,29 +86,29 @@ class Community extends React.Component {
       if (cData.group_id) {
         props.getGroupMemberships(cData.group_id);
       }
-    }
 
-    /** after get group membership */
-    if (gmData && JSON.stringify(gmData) !== JSON.stringify(this.props.gmData)) {
-      ajaxGet({
-        auth: true,
-        path: `membership/${props.gmData.id}/process`,
-      }, (resp) => {
-        try {
-          const respObj = JSON.parse(resp);
-          const { membership_process } = respObj;
-          if (membership_process) {
-            props.localUpdateMetadata({
-              registerMembership: {
-                ...props.registerMembership,
-                ...membership_process,
-              },
-            });
+      /** after get group membership */
+      if (gmData && JSON.stringify(gmData) !== JSON.stringify(this.props.gmData)) {
+        ajaxGet({
+          auth: true,
+          path: `membership/${props.gmData.id}/process`,
+        }, (resp) => {
+          try {
+            const respObj = JSON.parse(resp);
+            const { membership_process } = respObj;
+            if (membership_process) {
+              props.localUpdateMetadata({
+                registerMembership: {
+                  ...props.registerMembership,
+                  ...membership_process,
+                },
+              });
+            }
+          } catch (err) {
+            console.error(err);
           }
-        } catch (err) {
-          console.error(err);
-        }
-      });
+        });
+      }
     }
   }
 
@@ -151,7 +151,7 @@ class Community extends React.Component {
 
 Community.propTypes = {
   match: PropTypes.object,
-  location: PropTypes.object,
+  // location: PropTypes.object,
   cData: PropTypes.object,
   gmData: PropTypes.object,
   loggedInUserID: PropTypes.number,

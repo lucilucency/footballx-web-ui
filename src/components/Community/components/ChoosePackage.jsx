@@ -188,6 +188,7 @@ class ChooseMembershipPackage extends Component {
       registerMembership: {
         ...this.props.registerMembership,
         group_membership_pack_id: pack.id,
+        group_membership_pack_data: pack,
       },
     });
     props.onSubmit(true);
