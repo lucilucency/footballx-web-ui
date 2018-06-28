@@ -1,3 +1,4 @@
+/* eslint-disable */
 const isExisty = function (value) {
   return value !== null && value !== undefined;
 };
@@ -6,7 +7,7 @@ const isEmpty = function (value) {
   return value === '' || value === undefined || value == null;
 };
 
-const isEmptyTrimed = function (value) {
+const isEmptyTrim = function (value) {
   if (typeof value === 'string') {
     return value.trim() === '';
   }
@@ -26,7 +27,7 @@ const validations = {
 
   required: value => !isEmpty(value),
 
-  trim: value => !isEmptyTrimed(value),
+  trim: value => !isEmptyTrim(value),
 
   isNumber: value => validations.matchRegexp(value, /^-?[0-9]\d*(\d+)?$/i),
 

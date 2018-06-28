@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Prompt, withRouter } from 'react-router-dom';
 import {
   Step,
   Stepper,
@@ -8,7 +9,9 @@ import {
 } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Amplitude from 'react-amplitude';
-import { ajaxPost, localUpdateMetadata } from '../../actions';
+import { format } from 'util';
+import { messaging } from '../../firebaseMessaging';
+import { ajaxPost, ajaxPut, localUpdateMetadata, announce } from '../../actions';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
 import ChooseMembershipPackage from './components/ChooseMembershipPackage';
@@ -21,6 +24,7 @@ class RegisterMembership extends React.Component {
     this.state = {
       stepIndex: 0,
       isStepValid: false,
+      toppingUp: false,
     };
 
     this.steps = [
@@ -89,7 +93,7 @@ class RegisterMembership extends React.Component {
         next: e => this.triggerSubmit(e),
       },
       {
-        heading: strings.heading_complete_register_membership,
+        heading: strings.heading_purchase,
         key: 'complete',
         content: <ReviewTransaction />,
       },
@@ -98,20 +102,46 @@ class RegisterMembership extends React.Component {
 
   componentDidMount() {
     Amplitude.logEvent('Enter register group membership');
+
+    messaging.onMessage((payload) => {
+      const payloadData = payload.data;
+      if (payloadData) {
+        let { body_loc_args } = payloadData;
+        const { body_loc_key } = payloadData;
+        body_loc_args = JSON.parse(body_loc_args);
+
+        if (body_loc_key === 'XUSER_TOPUP_XCOIN_SUCCESS') {
+          this.setState({ toppingUp: false });
+          // const topup = body_loc_args[0];
+          const balance = body_loc_args[1];
+          if (balance > this.props.registerMembership.group_membership_pack_data.price) {
+            this.submitPayment();
+          }
+        }
+      }
+    });
+
+    if (this.props.registerMembership && this.props.registerMembership.id && this.props.registerMembership.is_complete) {
+      this.props.history.push(`/r/${this.props.communityID}`);
+    }
   }
 
   componentWillReceiveProps(props) {
     const { registerMembership } = props;
     if (registerMembership && registerMembership.id && this.state.stepIndex !== this.steps.length - 1) {
-      this.setState({
-        stepIndex: this.steps.length - 1,
-      });
+      if (!registerMembership.is_complete) {
+        this.setState({
+          stepIndex: this.steps.length - 1,
+        });
+      } else {
+        props.history.push(`/r/${props.communityID}`);
+      }
     }
   }
 
   submitProcess = () => {
     ajaxPost({
-      path: `membership/${this.props.gmData.id}/process`,
+      path: `membership/${this.props.groupMembershipID}/process`,
       params: this.props.registerMembership,
     }, (err, res) => {
       if (res.ok && res.text) {
@@ -121,34 +151,6 @@ class RegisterMembership extends React.Component {
             registerMembership: {
               ...this.props.registerMembership,
               ...membership_process,
-            },
-          });
-        } catch (parseErr) {
-          console.error(parseErr);
-        }
-      }
-    });
-  };
-
-  purchase = (e) => {
-    e.preventDefault();
-    ajaxPost({
-      path: 'payment/bank',
-      params: {
-        amount: this.props.registerMembership.group_membership_pack_data.price,
-      },
-    }, (err, res) => {
-      if (res.ok && res.text) {
-        try {
-          const { trans } = JSON.parse(res.text);
-          window.open(
-            trans.pay_url,
-            '_blank', // <- This is what makes it open in a new window.
-          );
-          this.props.updateMetadata({
-            registerMembership: {
-              ...this.props.registerMembership,
-              ...trans,
             },
           });
         } catch (parseErr) {
@@ -178,9 +180,82 @@ class RegisterMembership extends React.Component {
     }, callback);
   };
 
+  /**
+   * 0. Check balance, if userBalance < packagePrice go (2). else (3).
+   * 1. Prompt
+   * 2  Top-up -> waiting firebase notification
+   * 3. Purchase
+   * 4. Notify & back to community's home
+   * */
+  purchase = (e) => {
+    e.preventDefault();
+    const { price } = this.props.registerMembership.group_membership_pack_data;
+    const { xcoin } = this.props.balance;
+
+    if (xcoin > price) {
+      this.submitPayment();
+    } else {
+      this.topup();
+    }
+  };
+
+  submitPayment = () => {
+    ajaxPut({
+      path: `membership/${this.props.groupMembershipID}/process/${this.props.registerMembership.id}/payment`,
+    }, (err, res) => {
+      if (res.ok && res.text) {
+        try {
+          const { balance } = JSON.parse(res.text);
+
+          this.props.announceFn({
+            message: format(strings.notification_XUSER_DEBITED_XCOIN_SUCCESS, this.props.registerMembership.group_membership_pack_data.price, balance.xcoin),
+            action: 'Check it out',
+            autoHideDuration: 300000,
+          });
+          this.props.updateMetadata({
+            balance: {
+              ...this.props.balance,
+              ...balance,
+            },
+          });
+        } catch (parseErr) {
+          console.error(parseErr);
+        }
+      }
+    });
+  };
+
+  topup = () => {
+    ajaxPost({
+      path: 'payment/bank',
+      params: {
+        amount: this.props.registerMembership.group_membership_pack_data.price,
+      },
+    }, (err, res) => {
+      if (res.ok && res.text) {
+        try {
+          const { trans } = JSON.parse(res.text);
+          this.setState({
+            toppingUp: true,
+          });
+          window.open(
+            trans.pay_url,
+            '_blank', // <- This is what makes it open in a new window.
+          );
+        } catch (parseErr) {
+          console.error(parseErr);
+        }
+      }
+    });
+  };
+
   handleFinish = (e) => {
     e.preventDefault();
     if (this.props.onClose) this.props.onClose();
+  };
+
+  isValidRoute = () => {
+
   };
 
   render() {
@@ -235,6 +310,7 @@ class RegisterMembership extends React.Component {
             </div>
           )}
         </div>
+        <Prompt message="Quá trình nạp tiền đang tiến hành. Bạn vẫn tiếp tục muốn thoát?" when={this.state.toppingUp} />
       </div>
     );
   }
@@ -242,20 +318,25 @@ class RegisterMembership extends React.Component {
 
 RegisterMembership.propTypes = {
   communityID: PropTypes.number,
-  gmData: PropTypes.object,
+  groupMembershipID: PropTypes.object,
   onClose: PropTypes.func,
   /**/
+  balance: PropTypes.object,
   registerMembership: PropTypes.object,
   updateMetadata: PropTypes.func,
+  announceFn: PropTypes.func,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  gmData: state.app.community.data.groupMemberships,
+  groupMembershipID: state.app.community.data.groupMemberships && state.app.community.data.groupMemberships.id,
   registerMembership: state.app.metadata.data.registerMembership,
+  balance: state.app.metadata.data.balance,
 });
 
 const mapDispatchToProps = dispatch => ({
   updateMetadata: payload => dispatch(localUpdateMetadata(payload)),
+  announceFn: props => dispatch(announce(props)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterMembership);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RegisterMembership));

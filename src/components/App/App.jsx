@@ -11,7 +11,10 @@ import Snackbar from 'material-ui/Snackbar';
 import localUI, { getTheme, skeleton, savedTheme } from '../../theme';
 import { announce, setTheme } from '../../actions';
 import strings from '../../lang';
-import { Banner, OnFog } from '../Announce';
+import {
+  // Banner,
+  OnFog,
+} from '../Announce';
 import Header from '../Header';
 import { BurgerMenu } from '../BurgerMenu';
 import Game from '../Game/Game';
@@ -181,7 +184,7 @@ class App extends React.Component {
           <BurgerMenu />
           <OnFog location={location} user={this.props.user} />
           <BODY {...this.props} isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
-            <Banner location={location} />
+            {/* <Banner location={location} /> */}
             <RouteContent isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
               <Route exact path="/" component={this.props.user ? Home.Home : Popular.Popular} />
               <Route exact path="/popular" component={Popular.Popular} />
@@ -197,8 +200,6 @@ class App extends React.Component {
 
               <Route exact path="/l/:id/:info?/:subInfo?" component={League.LeageView} />
               <Route exact path="/t/:id/:info?/:subInfo?" component={Team.ViewTeam} />
-              {/* <Route exact path="/l/:id/matches" component={League.Matches} /> */}
-              {/* <Route exact path="/l/:id/table" component={League.Table} /> */}
             </RouteContent>
           </BODY>
           <Snackbar

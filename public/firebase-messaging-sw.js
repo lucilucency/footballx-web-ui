@@ -44,19 +44,22 @@ self.addEventListener('notificationclick', (event) => {
 }, false);
 
 messaging.setBackgroundMessageHandler((payload) => {
-  // Parses data received and sets accordingly
-  const data = JSON.parse(payload.data.notification);
-  const notificationTitle = data.title;
-  const notificationOptions = {
-    body: data.body,
-    icon: 'https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png',
-    actions: [
-      { action: 'confirmAttendance', title: '👍 Confirm attendance' },
-      { action: 'cancel', title: '👎 Not coming' },
-    ],
-    // For additional data to be sent to event listeners, needs to be set in this data {}
-    data: { confirm: data.confirm, decline: data.decline },
-  };
+  if (payload && payload.data) {
+    let { body_loc_args } = payload.data;
+    body_loc_args = JSON.parse(body_loc_args);
 
-  return self.registration.showNotification(notificationTitle, notificationOptions);
+    const notificationTitle = body_loc_args[0];
+    const notificationOptions = {
+      body: body_loc_args[1],
+      icon: 'https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png',
+      // actions: [
+      //   { action: 'confirmAttendance', title: 'Confirm attendance' },
+      //   { action: 'cancel', title: 'Not coming' },
+      // ],
+      // For additional data to be sent to event listeners, needs to be set in this data {}
+      // data: { confirm: data.confirm, decline: data.decline },
+    };
+
+    return self.registration.showNotification(notificationTitle, notificationOptions);
+  }
 });

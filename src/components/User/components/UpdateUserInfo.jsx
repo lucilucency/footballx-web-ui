@@ -24,7 +24,7 @@ const toPickerDate = (date) => {
     }
   }
 
-  return null;
+  return '';
 };
 
 const toDatabaseDate = (date) => {
@@ -37,7 +37,7 @@ const toDatabaseDate = (date) => {
     }
   }
 
-  return null;
+  return '';
 };
 
 class UpdateUserInfo extends Component {
@@ -47,11 +47,6 @@ class UpdateUserInfo extends Component {
     email: '',
     gender: '',
     birthday: '',
-    /* xuser-address */
-    address: null,
-    province_id: null,
-    district_id: null,
-    ward_id: null,
   };
 
   static initFormValidators = {

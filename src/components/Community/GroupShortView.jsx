@@ -38,7 +38,7 @@ const GroupShortView = ({
           <div className="text-large" style={{ color: muiTheme.palette.primary1Color }}>{strings.announce_registered_membership}</div>
           <div className="text-little">
             <div>Transaction ID: {registerMembership.id}</div>
-            <div><ColorLink to={`/r/${cData.id}/register`} >{`${strings.label_status}: ${strings.label_waiting_purchase}`}</ColorLink></div>
+            <div>{strings.label_status}: <ColorLink to={`/r/${cData.id}/register`} >{registerMembership.is_complete ? strings.label_purchased : strings.label_waiting_purchase}</ColorLink></div>
           </div>
         </div>
       )}

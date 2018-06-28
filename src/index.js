@@ -13,8 +13,8 @@ import { getMetadata, refresh } from './actions';
 import App from './components/App';
 import ui from './theme';
 import { getCookie } from './utils';
-// import registerServiceWorker from './registerServiceWorker';
-import { unregister } from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker';
+// import { unregister } from './registerServiceWorker';
 
 // Inject global style
 injectGlobal([`
@@ -214,6 +214,6 @@ if (rootElement.hasChildNodes()) {
 } else {
   hydrate(app, rootElement);
 }
-// registerServiceWorker();
-unregister();
+registerServiceWorker();
+// unregister();
 // document.getElementById('loader').style.display = 'none';

@@ -101,6 +101,51 @@ export const ajaxPost = ({
   return fetchDataWithRetry(retriesBreak, retries);
 };
 
+export const ajaxPut = ({
+  auth = true, host = FX_API, version = FX_VERSION, path, url,
+  contentType = 'application/x-www-form-urlencoded',
+  params = {},
+  retries = 1, retriesBreak = 3000,
+}, callback) => {
+  const queryUrl = url || `${host}/${version}/${path}`;
+
+  const fetchDataWithRetry = (delay, tries, error) => {
+    if (tries < 1) {
+      console.error(error);
+      console.error(`Error in ajaxGet/${path}`);
+      if (callback) return callback(null);
+      return null;
+    }
+
+    let doRequest = request
+      .put(queryUrl)
+      .set('Content-Type', contentType);
+    if (auth) {
+      const accessToken = getCookie('access_token');
+      doRequest = doRequest.set('Authorization', `Bearer ${accessToken}`);
+    }
+
+    return doRequest
+      .send(formurlencoded(params))
+      .end((err, res) => {
+        if (callback) return callback(err, res);
+
+        if (res) {
+          if (res.ok && res.text) {
+            return res.text;
+          }
+          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1), delay);
+        }
+        console.error(`Error in ajaxGet/${path}`);
+        console.error(err);
+        return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
+      });
+  };
+
+  return fetchDataWithRetry(retriesBreak, retries);
+};
+
+
 export const ajaxUpload = ({
   // auth = true,
   host = 'https://upload-api.ttab.me',

@@ -130,7 +130,7 @@ class AnnounceComponent extends React.Component {
           } = data;
           const now = parseInt(Date.now() / 1000, 10);
 
-          if (!this.state.hasUsername && Number(end_time) > now) {
+          if (Number(end_time) > now) {
             const isStarted = Number(start_time) < now;
             const body = is_count_down && <Counter start={Number(start_time)} end={Number(end_time)} countToStart={!isStarted} />;
             return (
@@ -144,13 +144,6 @@ class AnnounceComponent extends React.Component {
                     <a style={{ color: ui.alternateTextColor }} href="/game">{strings.announce_play_game}</a>
                   </aside>
                 )}
-                {/* <aside>
-                <RaisedButton
-                  backgroundColor={ui.linkColor}
-                  onClick={this.dismiss}
-                  label={strings.announce_dismiss}
-                />
-              </aside> */}
               </StyledDiv>
             );
           }
