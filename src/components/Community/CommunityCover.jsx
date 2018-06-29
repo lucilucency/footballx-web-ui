@@ -4,12 +4,13 @@ import ui from '../../theme';
 
 const Styled = styled.div`
   width: 100%;
-  height: 300px;
+  height: 350px;
   position: relative;
   ${props => props.bg && css`
     background-image: url(${props.bg});
     background-repeat: no-repeat;
     -webkit-background-size: cover;background-size: cover;
+    background-position: top center;
   `}
   
   .name {

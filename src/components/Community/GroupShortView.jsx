@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import getMuiTheme from 'material-ui/styles/muiThemeable';
 import RaisedButton from 'material-ui/RaisedButton';
+import Divider from 'material-ui/Divider';
 import styled from 'styled-components';
+import constants from '../constants';
+import { SmallPaper, format } from '../../utils/index';
 import strings from '../../lang';
-import { ColorLink } from '../../utils/styledComponent';
 import groupsObj from '../../fxconstants/groupsObj.json';
 
 const Styled = styled.div`
@@ -22,35 +24,53 @@ const GroupShortView = ({
 
   return (
     <Styled>
-      {/* {group.greeting && <li>{group.greeting}</li>} */}
-      {(!registerMembership || !registerMembership.id) ? (
-        <Link to={`/r/${cData.id}/register`} >
+      <SmallPaper style={{ backgroundColor: muiTheme.palette.primary1Color, color: muiTheme.palette.alternateTextColor }}>
+        {(!registerMembership || !registerMembership.id) ? (
+          <div>
+            <div className="text-little" style={{ fontWeight: constants.fontWeightMedium }}>Tham gia cộng đồng hơn 10 000 fan MUSVN và nhận nhiều phần quà hấp dẫn!</div>
+            <Link to={`/r/${cData.id}/register`} >
+              <RaisedButton
+                label="REGISTER MEMBERSHIP"
+                backgroundColor={muiTheme.paper.backgroundColor}
+                fullWidth
+              />
+            </Link>
+          </div>
+        ) : (
+          <div>
+            <div className="text-small" style={{ WebkitMarginAfter: '0', WebkitMarginBefore: '0' }}>{format(strings.label_registered_membership, cData.name)}</div>
+            <Divider />
+            <div className="text-little">
+              <div>Transaction Code: {registerMembership.id}</div>
+              <div>{strings.label_status}: {registerMembership.is_complete ? strings.label_purchased : strings.label_waiting_purchase}</div>
+            </div>
+            {!registerMembership.is_complete && (
+              <Link to={`/r/${cData.id}/register`} >
+                <RaisedButton
+                  label="COMPLETE REGISTRATION"
+                  backgroundColor={muiTheme.paper.backgroundColor}
+                  fullWidth
+                />
+              </Link>
+            )}
+          </div>
+        )}
+      </SmallPaper>
+
+      <SmallPaper>
+        <div className="text-small"><b>Special Link</b></div>
+        {group && group.fanpage && (
           <RaisedButton
             style={btnStyle}
             labelStyle={labelStyle}
-            label="Register membership"
+            label="Fan page"
             backgroundColor={muiTheme.paper.backgroundColor}
             fullWidth
+            href={group.fanpage}
+            target="_blank"
           />
-        </Link>
-      ) : (
-        <div>
-          <div className="text-large" style={{}}>{strings.announce_registered_membership}</div>
-          <div className="text-little">
-            <div>Transaction ID: {registerMembership.id}</div>
-            <div>{strings.label_status}: {registerMembership.is_complete ? strings.label_purchased : <ColorLink to={`/r/${cData.id}/register`} >{strings.label_waiting_purchase}</ColorLink>}</div>
-          </div>
-        </div>
-      )}
-      {group && group.fanpage && <RaisedButton
-        style={btnStyle}
-        labelStyle={labelStyle}
-        label="Fan page"
-        backgroundColor={muiTheme.paper.backgroundColor}
-        fullWidth
-        href={group.fanpage}
-        target="_blank"
-      />}
+        )}
+      </SmallPaper>
     </Styled>
   );
 };

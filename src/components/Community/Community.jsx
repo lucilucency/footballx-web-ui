@@ -142,7 +142,7 @@ class Community extends React.Component {
             />}
             {tab && tab.content}
           </div>
-          <RightComponent cData={cData} gmData={gmData} loggedInUserID={loggedInUserID} registerMembership={registerMembership} />
+          {!tab.disabled && <RightComponent cData={cData} gmData={gmData} loggedInUserID={loggedInUserID} registerMembership={registerMembership} />}
         </Container>
       </div>
     );

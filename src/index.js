@@ -89,6 +89,7 @@ li {
 .text-large { font-size: ${ui.fontSizeLarge}; line-height: 27px; }
 .text-normal { font-size: ${ui.fontSizeNormal}; line-height: ${ui.lineHeightNormal}; }
 .text-small { font-size: ${ui.fontSizeSmall}; line-height: ${ui.lineHeightSmall}; }
+.text-little { font-size: ${ui.fontSizeLittle}; line-height: ${ui.lineHeightLittle}; }
 .text-tiny { font-size: ${ui.fontSizeTiny}; line-height: ${ui.lineHeightTiny}; }
 
 .text-colossal,
@@ -97,6 +98,7 @@ li {
 .text-large,
 .text-normal,
 .text-small,
+.text-little,
 .text-tiny {
   -webkit-margin-before: 1em; -webkit-margin-after: 1em;
 }

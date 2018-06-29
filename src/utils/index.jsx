@@ -2,6 +2,7 @@
 import strings from '../lang';
 import Rules from './ValidatorCore/ValidationRules';
 
+export { format } from 'util';
 export * from './time';
 export * from './style';
 export * from './sort';

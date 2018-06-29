@@ -7,7 +7,7 @@ import constants from '../components/constants';
 export const styles = {
   paper: {
     style: {
-      padding: 8,
+      padding: 16,
       minHeight: 70,
       boxShadow: 'none',
       fontSize: constants.fontSizeTiny,

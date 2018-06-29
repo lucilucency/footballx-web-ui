@@ -23,8 +23,9 @@ const Constants = {
   lineHeightHuge: '60px',
   lineHeightBig: '55px',
   lineHeightLarge: '40px',
-  lineHeightNormal: '24px',
+  lineHeightNormal: '28px',
   lineHeightSmall: '25px',
+  lineHeightLittle: '22px',
   lineHeightTiny: '18px',
 
   /* transition */

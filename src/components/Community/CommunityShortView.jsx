@@ -34,7 +34,7 @@ class CommunityShortView extends React.Component {
         <ListItem
           key={data.id}
           disabled
-          leftAvatar={<Avatar src={data.icon} size={40} />}
+          leftAvatar={<Avatar src={data.icon} />}
           rightIcon={this.props.user && <Checkbox
             checked={Boolean(this.isFollowing(data.id))}
             checkedIcon={<IconCheck />}
@@ -53,7 +53,7 @@ class CommunityShortView extends React.Component {
           <small style={{ fontSize: ui.fontSizeTiny }}>{`${data.c_followers} followers`}</small>
           }
         />
-        <p>{data.description}</p>
+        <div className="text-little">{data.description}</div>
       </div>
     );
   }

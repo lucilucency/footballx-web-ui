@@ -22,6 +22,7 @@ class RegisterMembership extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isFirst: true,
       stepIndex: 0,
       isStepValid: false,
       toppingUp: false,
@@ -133,6 +134,7 @@ class RegisterMembership extends React.Component {
         if (this.state.stepIndex !== this.steps.length - 1) {
           this.setState({
             stepIndex: this.steps.length - 1,
+            isFirst: false,
           });
         }
       } else {
@@ -257,7 +259,11 @@ class RegisterMembership extends React.Component {
 
   handleFinish = (e) => {
     e.preventDefault();
-    if (this.props.onClose) this.props.onClose();
+    if (this.props.onClose) {
+      this.props.onClose();
+    } else {
+      this.props.history.push(`/r/${this.props.communityID}`);
+    }
   };
 
   isValidRoute = () => {
@@ -306,10 +312,15 @@ class RegisterMembership extends React.Component {
                       || !this.props.registerMembership.group_membership_pack_data
                       || !this.props.registerMembership.group_membership_pack_data.price}
                       primary
+                      fullWidth
                       onClick={this.purchase}
-                      style={{ margin: '0 16px' }}
                     />
-                    <RaisedButton secondary style={{ margin: '0 16px' }} label="Later" onClick={this.handleFinish} />
+                    {this.state.isFirst && <RaisedButton
+                      fullWidth
+                      secondary
+                      label="Later"
+                      onClick={this.handleFinish}
+                    />}
                   </div>
                 )}
               </div>

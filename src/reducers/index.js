@@ -12,7 +12,6 @@ export default combineReducers({
 
   community: reducer('community', {}),
   suggestedCommunities: reducer('suggestedCommunities'),
-  groupMemberships: reducer('groupMemberships', {}),
 
   posts: reducer('posts'),
   post: reducer('post', {}),

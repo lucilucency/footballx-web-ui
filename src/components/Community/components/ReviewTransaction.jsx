@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import update from 'react-addons-update';
 import PropTypes from 'prop-types';
 import { muiThemeable } from 'material-ui/styles';
-// import strings from '../../../lang';
+import strings from '../../../lang';
 import constants from '../../constants';
 import { getCookie } from '../../../utils/index';
 import { localUpdateMetadata, ajaxGet } from '../../../actions';
@@ -100,7 +100,7 @@ class ReviewTransaction extends Component {
 
     return (
       <div style={styles.root}>
-        <h1>Your transaction</h1>
+        <h1>{strings.announce_registered_membership}</h1>
         {registerMembership && (
           <div>
             <div>Transaction ID: {registerMembership.id}</div>

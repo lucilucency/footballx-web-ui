@@ -17,9 +17,7 @@ const CommunityRightBar = (props) => {
         <CommunityShortView data={cData} />
       </SmallPaper>
       {gmData && gmData.group_id && loggedInUserID ? (
-        <SmallPaper>
-          <GroupShortView gmData={gmData} cData={cData} registerMembership={registerMembership} />
-        </SmallPaper>
+        <GroupShortView gmData={gmData} cData={cData} registerMembership={registerMembership} />
       ) : null}
       <div>
         <AboutXFooter />
