@@ -36,6 +36,7 @@ function sendTokenToServer(currentToken) {
 }
 function handleTokenRefresh() {
   messaging.getToken().then((refreshedToken) => {
+    console.warn('refreshedToken', refreshedToken);
     setTokenSentToServer(false);
     sendTokenToServer(refreshedToken);
   }).catch((err) => {
