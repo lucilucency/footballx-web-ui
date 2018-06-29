@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 import Amplitude from 'react-amplitude';
+import { refreshToken } from "./firebaseMessaging";
 import store from './store';
 import { getMetadata, refresh } from './actions';
 import App from './components/App';
@@ -203,6 +204,7 @@ history.listen((location) => {
   ReactGA.pageview(location.pathname);
 });
 
+refreshToken();
 
 const rootElement = document.getElementById('root');
 const app = (

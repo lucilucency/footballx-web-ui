@@ -34,7 +34,8 @@ function sendTokenToServer(currentToken) {
     console.warn('Token already sent to server so won\'t send it again unless it changes');
   }
 }
-function handleTokenRefresh() {
+function refreshToken() {
+  console.warn('refresh firebase token');
   messaging.getToken().then((refreshedToken) => {
     console.warn('refreshedToken', refreshedToken);
     setTokenSentToServer(false);
@@ -45,7 +46,7 @@ function handleTokenRefresh() {
 }
 function subscribeToNotifications() {
   messaging.requestPermission()
-    .then(() => handleTokenRefresh())
+    .then(() => refreshToken())
     .catch((err) => {
       console.warn('error getting permission', err);
     });
@@ -90,10 +91,8 @@ function subscribeTokenToTopic(topic) {
   });
 }
 
-handleTokenRefresh();
-
 messaging.onTokenRefresh(() => {
-  handleTokenRefresh();
+  refreshToken();
 });
 
 
@@ -101,7 +100,7 @@ export {
   messaging,
   subscribeToNotifications,
   unSubscribeFromNotifications,
-  handleTokenRefresh,
+  refreshToken,
   subscribeTokenToTopic,
 };
 
