@@ -180,7 +180,7 @@ class ChooseMembershipPackage extends Component {
         }}
       >
         <div className="font-normal">{data.name}</div>
-        <Divider style={{ height: '3px', backgroundColor: this.props.muiTheme.palette.primary2Color }}/>
+        <Divider style={{ height: '3px', backgroundColor: this.props.muiTheme.palette.primary2Color }} />
         <div>{data.description}</div>
         <ul style={{ height: 200 }}>
           {gifts && gifts.map(gift => (
