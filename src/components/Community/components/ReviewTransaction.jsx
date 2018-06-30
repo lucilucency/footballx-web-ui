@@ -3,6 +3,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 // import update from 'react-addons-update';
 import PropTypes from 'prop-types';
+import { Divider } from 'material-ui';
 import { muiThemeable } from 'material-ui/styles';
 import strings from '../../../lang';
 import constants from '../../constants';
@@ -104,14 +105,15 @@ class ReviewTransaction extends Component {
       <div style={styles.root}>
         {registerMembership ? (
           <div>
-            <h1>{strings.announce_registered_membership}</h1>
-            <div>
-              <div>Transaction Code: {registerMembership.id}</div>
+            <div className="font-large" style={{ textTransform: 'uppercase' }}>{strings.announce_registered_membership}</div>
+            <Divider style={{ height: '3px', backgroundColor: muiTheme.palette.primary2Color, marginTop: 3 }} />
+            <div className="text-little">
+              <p>Transaction Code: {registerMembership.id}</p>
               {registerMembership.group_membership_pack_data && (
-                <div>Package: <b>{registerMembership.group_membership_pack_data.name}</b></div>
+                <p>{strings.label_package}: <b>{registerMembership.group_membership_pack_data.name}</b></p>
               )}
               {registerMembership.xuser_address_data && (
-                <div>Receiver: {registerMembership.xuser_address_data.name}</div>
+                <p>{strings.label_receiver}: {registerMembership.xuser_address_data.name}</p>
               )}
             </div>
           </div>

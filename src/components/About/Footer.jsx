@@ -41,7 +41,7 @@ const AboutXFooter = () => (
         {langs.map(lang => <a key={lang.value} href="/" onClick={e => setLocalization(e, lang.value)} style={{ marginRight: 8, color: getLocalization !== lang.value && ui.neutralColor }}>{lang.native}</a>)}
       </small>
     </div>
-    {true && (
+    {false && (
       <div>
         <small>
           {themes.map(theme => (

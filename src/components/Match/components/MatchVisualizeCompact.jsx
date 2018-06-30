@@ -107,7 +107,7 @@ const MatchVisualizeCompact = (props) => {
             </span>
           ) : (
             <span>
-              {data.homeGoal} : {data.awayGoal}
+              {data.homeGoal} - {data.awayGoal}
             </span>
           )}
         </div>
