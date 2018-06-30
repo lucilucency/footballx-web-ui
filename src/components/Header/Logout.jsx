@@ -26,12 +26,13 @@ const LinkStyled = styled.a`
 `;
 
 class Logout extends React.Component {
-  static handleClickLogout(event) {
+  handleClickLogout = (event) => {
     event.preventDefault();
     eraseCookie('access_token');
     eraseCookie('user_id');
-    window.location.href = '/';
-  }
+    eraseCookie('username');
+    window.location.reload();
+  };
 
   constructor() {
     super();
@@ -42,7 +43,7 @@ class Logout extends React.Component {
   render() {
     return (
       <LinkStyled
-        onClick={e => Logout.handleClickLogout(e)}
+        onClick={e => this.handleClickLogout(e)}
         rel="noopener noreferrer"
       >
         <LogOutButton />

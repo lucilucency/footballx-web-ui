@@ -8,7 +8,7 @@ import { FormControlLabel, RadioGroup, Checkbox, FormControl, Divider } from 'ma
 import strings from '../../../lang';
 import { validate, numberWithCommas } from '../../../utils';
 import constants from '../../constants';
-import { getGroupMembershipPackages, localUpdateMetadata } from '../../../actions';
+import { localUpdateMetadata } from '../../../actions';
 
 const dsGifts = {
   1: 'Sổ thành viên',
@@ -66,23 +66,10 @@ class ChooseMembershipPackage extends Component {
       formValidators: ChooseMembershipPackage.initFormValidators,
       formErrors: ChooseMembershipPackage.initFormErrors,
     };
-
-    this.getData = (nextProps) => {
-      nextProps.getGroupMembershipPackages(nextProps.gmData.id);
-    };
   }
 
   componentDidMount() {
     this.props.setTrigger(this.submit);
-    if (this.props.gmData && this.props.gmData.group_id) {
-      this.getData(this.props);
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    if (props.gmData && props.gmData.group_id && JSON.stringify(props.gmData) !== JSON.stringify(this.props.gmData)) {
-      this.getData(props);
-    }
   }
 
   setFormData = (state, value) => {
@@ -169,7 +156,7 @@ class ChooseMembershipPackage extends Component {
     const submitData = this.getFormData();
 
     const packID = Number(submitData.group_membership_pack_id);
-    const pack = this.packages.find(el => el.id === packID);
+    const pack = this.props.groupMembershipPackages.find(el => el.id === packID);
 
     this.props.updateMetadata({
       registerMembership: {
@@ -181,14 +168,14 @@ class ChooseMembershipPackage extends Component {
     props.onSubmit(true);
   };
 
-  renderPackage = (data) => {
+  renderPackage = (data, style) => {
     const gifts = JSON.parse(data.gifts);
     const isPicked = data.id === this.state.formData.package;
 
     return (
       <div
         style={{
-          ...getStyles(this.props.muiTheme).package,
+          ...style.package,
           borderColor: isPicked ? this.props.muiTheme.palette.primary2Color : 'transparent',
         }}
       >
@@ -228,7 +215,7 @@ class ChooseMembershipPackage extends Component {
                 style={{ flexDirection: 'column-reverse' }}
                 value={el.id.toString()}
                 control={<Checkbox />}
-                label={this.renderPackage(el)}
+                label={this.renderPackage(el, styles)}
               />
             ))}
           </RadioGroup>
@@ -244,21 +231,18 @@ ChooseMembershipPackage.propTypes = {
 
   /**/
   muiTheme: PropTypes.object,
-  gmData: PropTypes.object,
   groupMembershipPackages: PropTypes.array,
   registerMembership: PropTypes.object,
   updateMetadata: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  gmData: state.app.community.data.groupMemberships,
   groupMembershipPackages: state.app.community.data.groupMembershipPackages,
   registerMembership: state.app.metadata.data.registerMembership,
 });
 
 const mapDispatchToProps = dispatch => ({
   updateMetadata: payload => dispatch(localUpdateMetadata(payload)),
-  getGroupMembershipPackages: gmID => dispatch(getGroupMembershipPackages(gmID)),
 });
 
 export default compose(

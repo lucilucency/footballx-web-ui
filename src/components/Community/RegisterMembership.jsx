@@ -1,12 +1,14 @@
 import React from 'react';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Prompt, withRouter } from 'react-router-dom';
 import {
   Step,
   Stepper,
-  StepButton,
+  StepLabel,
 } from 'material-ui/Stepper';
+import { muiThemeable } from 'material-ui/styles';
 import RaisedButton from 'material-ui/RaisedButton';
 import Amplitude from 'react-amplitude';
 import { format } from 'util';
@@ -17,6 +19,7 @@ import { UpdateUserInfo } from '../User/components';
 import ChooseMembershipPackage from './components/ChoosePackage';
 import ChoosePlace from './components/ChoosePlace';
 import ReviewTransaction from './components/ReviewTransaction';
+import { getStyles } from './muitheme';
 
 class RegisterMembership extends React.Component {
   constructor(props) {
@@ -107,17 +110,17 @@ class RegisterMembership extends React.Component {
     messaging.onMessage((payload) => {
       const payloadData = payload.data;
       if (payloadData) {
-        let { body_loc_args } = payloadData;
+        // let { body_loc_args } = payloadData;
         const { body_loc_key } = payloadData;
-        body_loc_args = JSON.parse(body_loc_args);
+        // body_loc_args = JSON.parse(body_loc_args);
 
         if (body_loc_key === 'XUSER_TOPUP_XCOIN_SUCCESS') {
           this.setState({ toppingUp: false });
           // const topup = body_loc_args[0];
-          const balance = body_loc_args[1];
-          if (balance > this.props.registerMembership.group_membership_pack_data.price) {
-            this.submitPayment();
-          }
+          // const balance = body_loc_args[1];
+          // if (balance > this.props.registerMembership.group_membership_pack_data.price) {
+          this.submitPayment();
+          // }
         }
       }
     });
@@ -196,7 +199,7 @@ class RegisterMembership extends React.Component {
     const { price } = this.props.registerMembership.group_membership_pack_data;
     const { xcoin } = this.props.balance;
 
-    if (xcoin > price) {
+    if (xcoin >= price) {
       this.submitPayment();
     } else {
       this.topup();
@@ -209,10 +212,11 @@ class RegisterMembership extends React.Component {
     }, (err, res) => {
       if (res.ok && res.text) {
         try {
+          this.setState({ toppingUp: false });
           const { balance } = JSON.parse(res.text);
 
           this.props.announceFn({
-            message: format(strings.notification_XUSER_DEBITED_XCOIN_SUCCESS, this.props.registerMembership.group_membership_pack_data.price, balance.xcoin),
+            message: format(strings.notification_XUSER_DEBITED_XCOIN_SUCCESS, this.props.registerMembership.group_membership_pack_data.price, balance.xcoin || 0),
             action: 'Check it out',
             autoHideDuration: 300000,
           });
@@ -250,6 +254,7 @@ class RegisterMembership extends React.Component {
             trans.pay_url,
             '_blank', // <- This is what makes it open in a new window.
           );
+          setTimeout(() => this.submitPayment(), 10000);
         } catch (parseErr) {
           console.error(parseErr);
         }
@@ -266,30 +271,28 @@ class RegisterMembership extends React.Component {
     }
   };
 
-  isValidRoute = () => {
-
-  };
-
   render() {
+    const { muiTheme } = this.props;
     const { stepIndex } = this.state;
     const step = this.steps[stepIndex];
+    const style = getStyles(muiTheme);
 
     return (
       <div style={{ minHeight: 800 }}>
         <Stepper
           activeStep={stepIndex}
           // linear={this.props.registerMembership && this.props.registerMembership.id}
-          linear
+          linear={false}
           style={{
             flexFlow: 'row wrap',
             justifyContent: 'center',
           }}
         >
-          {this.steps.map((el, index) => (
+          {this.steps.map(el => (
             <Step key={el.key}>
-              <StepButton onClick={() => this.setState({ stepIndex: index })}>
+              <StepLabel>
                 {el.heading}
-              </StepButton>
+              </StepLabel>
             </Step>
           ))}
         </Stepper>
@@ -310,20 +313,20 @@ class RegisterMembership extends React.Component {
                 {stepIndex === this.steps.length - 1 && (
                   <div>
                     <RaisedButton
-                      label="Purchase now!"
+                      label="PURCHASE NOW!"
                       disabled={!this.props.registerMembership
                       || !this.props.registerMembership.group_membership_pack_data
                       || !this.props.registerMembership.group_membership_pack_data.price}
                       primary
-                      style={{ width: 200 }}
+                      style={{ ...style.noBorderBtn.style, width: 200 }}
                       onClick={this.purchase}
                     />
                     {this.state.isFirst && <RaisedButton
-                      fullWidth
-                      secondary
-                      label="Later"
+                      label="LATER"
                       onClick={this.handleFinish}
-                      style={{ width: 200 }}
+                      style={{ ...style.noBorderBtn.style, width: 200, marginLeft: 20 }}
+                      backgroundColor={muiTheme.paper.backgroundColor}
+                      labelStyle={style.noBorderBtn.labelStyle}
                     />}
                   </div>
                 )}
@@ -342,6 +345,7 @@ RegisterMembership.propTypes = {
   groupMembershipID: PropTypes.number,
   onClose: PropTypes.func,
   /**/
+  muiTheme: PropTypes.object,
   balance: PropTypes.object,
   registerMembership: PropTypes.object,
   updateMetadata: PropTypes.func,
@@ -360,4 +364,8 @@ const mapDispatchToProps = dispatch => ({
   announceFn: props => dispatch(announce(props)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RegisterMembership));
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
+  muiThemeable(),
+)(RegisterMembership);

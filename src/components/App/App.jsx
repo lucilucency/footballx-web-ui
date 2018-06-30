@@ -77,7 +77,7 @@ const overwritesTheme = ui => ({
     backgroundColor: ui.positive1Color,
   },
   button: {
-    height: 38,
+    height: 48,
     textTransform: 'none',
   },
 });

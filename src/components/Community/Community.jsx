@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { setCommunity, getCommunity, setTheme, getGroupMemberships, localUpdateMetadata, ajaxGet } from '../../actions';
+import { setCommunity, getCommunity, setTheme, getGroupMemberships, getGroupMembershipPackages, localUpdateMetadata, ajaxGet } from '../../actions';
 import { Container } from '../../utils/index';
 import TabBar from '../TabBar';
 import { IconHotFeed } from '../Icons';
@@ -61,6 +61,10 @@ const propsLoadData = (props) => {
   }
 };
 
+const getPackages = (nextProps) => {
+  nextProps.getGroupMembershipPackages(nextProps.gmData.id);
+};
+
 class Community extends React.Component {
   componentDidMount() {
     propsLoadData(this.props);
@@ -108,6 +112,8 @@ class Community extends React.Component {
             console.error(err);
           }
         });
+
+        getPackages(props);
       }
     }
   }
@@ -176,6 +182,7 @@ const mapDispatchToProps = dispatch => ({
   getCommunity: id => dispatch(getCommunity(id)),
   getGroupMemberships: id => dispatch(getGroupMemberships(id)),
   localUpdateMetadata: payload => dispatch(localUpdateMetadata(payload)),
+  getGroupMembershipPackages: gmID => dispatch(getGroupMembershipPackages(gmID)),
 });
 
 

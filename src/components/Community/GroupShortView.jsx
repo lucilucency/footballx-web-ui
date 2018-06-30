@@ -24,7 +24,7 @@ const GroupShortView = ({
 
   return (
     <Styled>
-      <SmallPaper style={{ backgroundColor: muiTheme.palette.primary1Color, color: muiTheme.palette.alternateTextColor, fontWeight: constants.fontWeightHeavy }}>
+      <SmallPaper style={{ backgroundColor: muiTheme.palette.primary1Color, color: muiTheme.palette.alternateTextColor, fontWeight: constants.fontW }}>
         {(!registerMembership || !registerMembership.id) ? (
           <div>
             <div className="text-little" style={{ fontWeight: constants.fontWeightMedium }}>Tham gia cộng đồng hơn 10 000 fan MUSVN và nhận nhiều phần quà hấp dẫn!</div>
