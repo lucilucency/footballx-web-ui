@@ -36,12 +36,16 @@ function sendTokenToServer(currentToken) {
 }
 function refreshToken() {
   console.warn('refresh firebase token');
-  messaging.getToken().then((refreshedToken) => {
-    console.warn('refreshedToken', refreshedToken);
-    setTokenSentToServer(false);
-    sendTokenToServer(refreshedToken);
+  messaging.requestPermission().then(() => {
+    messaging.getToken().then((refreshedToken) => {
+      console.warn('refreshedToken', refreshedToken);
+      setTokenSentToServer(false);
+      sendTokenToServer(refreshedToken);
+    }).catch((err) => {
+      console.warn('Unable to retrieve refreshed token ', err);
+    });
   }).catch((err) => {
-    console.warn('Unable to retrieve refreshed token ', err);
+    console.warn('error getting permission', err);
   });
 }
 function subscribeToNotifications() {
