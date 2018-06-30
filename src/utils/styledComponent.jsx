@@ -34,7 +34,7 @@ export const Container = styled.div`
 
 export const RightTray = styled.div`
   > div {
-    margin-bottom: 1em;
+    margin-bottom: 8px;
     position: relative;
     width: 100%;
   }

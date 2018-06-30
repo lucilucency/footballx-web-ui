@@ -58,6 +58,10 @@ export function abbreviateNumber(num) {
   return num.toFixed(0);
 }
 
+export function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 export const calculateDistance = (x1, y1, x2, y2) =>
   (((x2 - x1) ** 2) + ((y2 - y1) ** 2)) ** 0.5;
 

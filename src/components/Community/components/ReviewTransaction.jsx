@@ -17,6 +17,8 @@ const getStyles = theme => ({
     backgroundColor: theme.paper.backgroundColor,
     padding: theme.spacing.desktopGutter,
     fontSize: constants.fontSizeLittle,
+    maxWidth: 600,
+    margin: 'auto',
   },
 });
 
@@ -82,7 +84,7 @@ const getData = (props) => {
 
 class ReviewTransaction extends Component {
   componentDidMount() {
-    if (this.props.gmData && this.props.gmData.id) {
+    if (this.props.gmData && this.props.gmData.id && this.props.registerMembership) {
       getData(this.props);
     }
   }
@@ -100,16 +102,22 @@ class ReviewTransaction extends Component {
 
     return (
       <div style={styles.root}>
-        <h1>{strings.announce_registered_membership}</h1>
-        {registerMembership && (
+        {registerMembership ? (
           <div>
-            <div>Transaction ID: {registerMembership.id}</div>
-            {registerMembership.group_membership_pack_data && (
-              <div>Package: <b>{registerMembership.group_membership_pack_data.name}</b></div>
-            )}
-            {registerMembership.xuser_address_data && (
-              <div>Receiver: {registerMembership.xuser_address_data.name}</div>
-            )}
+            <h1>{strings.announce_registered_membership}</h1>
+            <div>
+              <div>Transaction Code: {registerMembership.id}</div>
+              {registerMembership.group_membership_pack_data && (
+                <div>Package: <b>{registerMembership.group_membership_pack_data.name}</b></div>
+              )}
+              {registerMembership.xuser_address_data && (
+                <div>Receiver: {registerMembership.xuser_address_data.name}</div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div>
+            <h1>Vui lòng hoàn thành các bước trước</h1>
           </div>
         )}
       </div>

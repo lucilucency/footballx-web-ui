@@ -5,7 +5,7 @@ import { Prompt, withRouter } from 'react-router-dom';
 import {
   Step,
   Stepper,
-  StepLabel,
+  StepButton,
 } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Amplitude from 'react-amplitude';
@@ -275,19 +275,21 @@ class RegisterMembership extends React.Component {
     const step = this.steps[stepIndex];
 
     return (
-      <div>
+      <div style={{ minHeight: 800 }}>
         <Stepper
           activeStep={stepIndex}
+          // linear={this.props.registerMembership && this.props.registerMembership.id}
+          linear
           style={{
             flexFlow: 'row wrap',
             justifyContent: 'center',
           }}
         >
-          {this.steps.map(el => (
+          {this.steps.map((el, index) => (
             <Step key={el.key}>
-              <StepLabel>
+              <StepButton onClick={() => this.setState({ stepIndex: index })}>
                 {el.heading}
-              </StepLabel>
+              </StepButton>
             </Step>
           ))}
         </Stepper>
@@ -297,11 +299,12 @@ class RegisterMembership extends React.Component {
               <div>
                 {step.content}
               </div>
-              <div style={{ marginTop: '1em', marginBottom: '1em' }}>
+              <div style={{ marginTop: '1em', marginBottom: '1em', textAlign: 'center' }}>
                 {stepIndex !== this.steps.length - 1 && <RaisedButton
                   label="Next"
                   disabled={!this.state.isStepValid}
                   primary
+                  style={{ width: 200 }}
                   onClick={step.next}
                 />}
                 {stepIndex === this.steps.length - 1 && (
@@ -312,7 +315,7 @@ class RegisterMembership extends React.Component {
                       || !this.props.registerMembership.group_membership_pack_data
                       || !this.props.registerMembership.group_membership_pack_data.price}
                       primary
-                      fullWidth
+                      style={{ width: 200 }}
                       onClick={this.purchase}
                     />
                     {this.state.isFirst && <RaisedButton
@@ -320,6 +323,7 @@ class RegisterMembership extends React.Component {
                       secondary
                       label="Later"
                       onClick={this.handleFinish}
+                      style={{ width: 200 }}
                     />}
                   </div>
                 )}

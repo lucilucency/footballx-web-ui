@@ -13,7 +13,7 @@ const CommunityRightBar = (props) => {
 
   return (
     <RightTray>
-      <SmallPaper>
+      <SmallPaper style={{ padding: 0 }}>
         <CommunityShortView data={cData} />
       </SmallPaper>
       {gmData && gmData.group_id && loggedInUserID ? (

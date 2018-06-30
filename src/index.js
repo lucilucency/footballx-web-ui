@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 import Amplitude from 'react-amplitude';
-import { refreshToken } from "./firebaseMessaging";
+import { refreshToken } from './firebaseMessaging';
 import store from './store';
 import { getMetadata, refresh } from './actions';
 import App from './components/App';
@@ -84,14 +84,14 @@ li {
   }
 }
 
-.text-colossal { font-size: ${ui.fontSizeColossal}; line-height: 65px; }
-.text-huge { font-size: ${ui.fontSizeHuge}; line-height: 48px; }
-.text-big { font-size: ${ui.fontSizeBig}; line-height: 36px; }
-.text-large { font-size: ${ui.fontSizeLarge}; line-height: 27px; }
-.text-normal { font-size: ${ui.fontSizeNormal}; line-height: ${ui.lineHeightNormal}; }
-.text-small { font-size: ${ui.fontSizeSmall}; line-height: ${ui.lineHeightSmall}; }
-.text-little { font-size: ${ui.fontSizeLittle}; line-height: ${ui.lineHeightLittle}; }
-.text-tiny { font-size: ${ui.fontSizeTiny}; line-height: ${ui.lineHeightTiny}; }
+.text-colossal, .font-colossal { font-size: ${ui.fontSizeColossal}; line-height: 65px; }
+.text-huge, .font-huge { font-size: ${ui.fontSizeHuge}; line-height: 48px; }
+.text-big, .font-big { font-size: ${ui.fontSizeBig}; line-height: 36px; }
+.text-large, .font-large { font-size: ${ui.fontSizeLarge}; line-height: 27px; }
+.text-normal, .font-normal { font-size: ${ui.fontSizeNormal}; line-height: ${ui.lineHeightNormal}; }
+.text-small, .font-small { font-size: ${ui.fontSizeSmall}; line-height: ${ui.lineHeightSmall}; }
+.text-little, .font-little { font-size: ${ui.fontSizeLittle}; line-height: ${ui.lineHeightLittle}; }
+.text-tiny, .font-tiny { font-size: ${ui.fontSizeTiny}; line-height: ${ui.lineHeightTiny}; }
 
 .text-colossal,
 .text-huge,

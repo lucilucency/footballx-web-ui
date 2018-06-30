@@ -24,7 +24,7 @@ const GroupShortView = ({
 
   return (
     <Styled>
-      <SmallPaper style={{ backgroundColor: muiTheme.palette.primary1Color, color: muiTheme.palette.alternateTextColor }}>
+      <SmallPaper style={{ backgroundColor: muiTheme.palette.primary1Color, color: muiTheme.palette.alternateTextColor, fontWeight: constants.fontWeightHeavy }}>
         {(!registerMembership || !registerMembership.id) ? (
           <div>
             <div className="text-little" style={{ fontWeight: constants.fontWeightMedium }}>Tham gia cộng đồng hơn 10 000 fan MUSVN và nhận nhiều phần quà hấp dẫn!</div>
@@ -58,12 +58,23 @@ const GroupShortView = ({
       </SmallPaper>
 
       <SmallPaper>
-        <div className="text-small"><b>Special Link</b></div>
+        <div className="font-small" style={{ paddingBottom: 12 }}><b>Special Link</b></div>
+        {group && group.fb && (
+          <RaisedButton
+            style={btnStyle}
+            labelStyle={labelStyle}
+            label="FACEBOOK"
+            backgroundColor={muiTheme.paper.backgroundColor}
+            fullWidth
+            href={group.fb}
+            target="_blank"
+          />
+        )}
         {group && group.fanpage && (
           <RaisedButton
             style={btnStyle}
             labelStyle={labelStyle}
-            label="Fan page"
+            label="OFFICIAL WEBSITE"
             backgroundColor={muiTheme.paper.backgroundColor}
             fullWidth
             href={group.fanpage}

@@ -64,7 +64,6 @@ export const getMetadata = ({
   }
   dispatch(getDataStart(payload));
 };
-
 export const localUpdateMetadata = payload => dispatch => dispatch({
   type: 'OK/EDIT/metadata',
   payload,
@@ -311,6 +310,20 @@ export const getGroupMemberships = groupID => dispatchGet({
     return null;
   },
 });
+export const getGroupMembershipPackages = gmID => dispatchGet({
+  reducer: 'EDIT/community',
+  path: `membership/${gmID}/packs`,
+  transform: (resp) => {
+    const { group_membership_packs } = resp;
+    if (group_membership_packs && group_membership_packs.length) {
+      return {
+        groupMembershipPackages: group_membership_packs,
+      };
+    }
+    return null;
+  },
+});
+
 
 // league
 export const getLeagueLastSeasons = (leagueID, callback) => dispatchGet({
@@ -441,4 +454,5 @@ export const getUpdateVersion = merged => dispatchGet({
 export * from './ajax';
 export * from './dispatchForm';
 export * from './dispatchData';
+export * from './dispatchFirebase';
 export * from './request';

@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import update from 'react-addons-update';
 import PropTypes from 'prop-types';
 import { muiThemeable } from 'material-ui/styles';
-import { FormControlLabel, RadioGroup, Checkbox, FormControl } from 'material-ui-next';
+import { FormControlLabel, RadioGroup, Checkbox, FormControl, Divider } from 'material-ui-next';
 import strings from '../../../lang';
-import { validate } from '../../../utils';
-import { ajaxGet, localUpdateMetadata } from '../../../actions';
+import { validate, numberWithCommas } from '../../../utils';
+import constants from '../../constants';
+import { getGroupMembershipPackages, localUpdateMetadata } from '../../../actions';
 
 const dsGifts = {
   1: 'Sổ thành viên',
@@ -67,21 +68,7 @@ class ChooseMembershipPackage extends Component {
     };
 
     this.getData = (nextProps) => {
-      ajaxGet({
-        auth: true,
-        path: `membership/${nextProps.gmData.id}/packs`,
-      }, (resp) => {
-        try {
-          const respObj = JSON.parse(resp);
-          const { group_membership_packs } = respObj;
-          if (group_membership_packs && group_membership_packs.length) {
-            this.packages = [...group_membership_packs];
-            this.forceUpdate();
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      });
+      nextProps.getGroupMembershipPackages(nextProps.gmData.id);
     };
   }
 
@@ -205,14 +192,15 @@ class ChooseMembershipPackage extends Component {
           borderColor: isPicked ? this.props.muiTheme.palette.primary2Color : 'transparent',
         }}
       >
-        <div className="text-big">{data.name}</div>
-        <div className="text-small">Price: {data.price}</div>
+        <div className="font-normal">{data.name}</div>
+        <Divider />
         <div>{data.description}</div>
-        <div style={{ height: 200 }}>
+        <ul style={{ height: 200 }}>
           {gifts && gifts.map(gift => (
-            <div key={gift.item_id}>Item: {(`0${gift.quantity}`).slice(-2)} {dsGifts[gift.item_id]}</div>
+            <li style={{ listStyleType: 'disc' }} key={gift.item_id}>{(`0${gift.quantity}`).slice(-2)} {dsGifts[gift.item_id]}</li>
           ))}
-        </div>
+        </ul>
+        <div style={{ fontSize: constants.fontSizeSmall, textAlign: 'center' }}>Price: {numberWithCommas(data.price)}</div>
       </div>
     );
   };
@@ -234,7 +222,7 @@ class ChooseMembershipPackage extends Component {
             onChange={e => this.setFormData('package', e.target.value)}
             row
           >
-            {this.packages && this.packages.map(el => (
+            {this.props.groupMembershipPackages && this.props.groupMembershipPackages.map(el => (
               <FormControlLabel
                 key={el.id}
                 style={{ flexDirection: 'column-reverse' }}
@@ -257,17 +245,20 @@ ChooseMembershipPackage.propTypes = {
   /**/
   muiTheme: PropTypes.object,
   gmData: PropTypes.object,
+  groupMembershipPackages: PropTypes.array,
   registerMembership: PropTypes.object,
   updateMetadata: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   gmData: state.app.community.data.groupMemberships,
+  groupMembershipPackages: state.app.community.data.groupMembershipPackages,
   registerMembership: state.app.metadata.data.registerMembership,
 });
 
 const mapDispatchToProps = dispatch => ({
   updateMetadata: payload => dispatch(localUpdateMetadata(payload)),
+  getGroupMembershipPackages: gmID => dispatch(getGroupMembershipPackages(gmID)),
 });
 
 export default compose(
