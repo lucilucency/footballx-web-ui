@@ -18,7 +18,6 @@ function sendTokenToServer(currentToken) {
     const userID = getCookie('user_id');
     // Send the current token to your server.
     if (userID) {
-      console.warn('Send device token to server', currentToken);
       ajaxPost({
         version: 'v1',
         path: `xuser/${userID}/devicetoken`,
