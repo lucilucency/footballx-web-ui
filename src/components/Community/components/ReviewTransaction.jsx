@@ -9,6 +9,7 @@ import strings from '../../../lang';
 import constants from '../../constants';
 import { getCookie } from '../../../utils/index';
 import { localUpdateMetadata, ajaxGet } from '../../../actions';
+import { provincesArr, wardsArr, districtsArr } from '../../../fxconstants';
 
 const getStyles = theme => ({
   root: {
@@ -118,33 +119,12 @@ class ReviewTransaction extends Component {
                   &nbsp;
                   <a href="" onClick={(e) => { e.preventDefault(); this.props.onRequestEditReceiver(); }}>Edit</a>
                   <ul>
-                    address
-                    :
-                    "512 AZ Sky Tran Dien, Dinh Cong Hoang Mai, Ha Noi"
-                    district_id
-                    :
-                    "008"
-                    id
-                    :
-                    111
-                    name
-                    :
-                    "Nguyễn Thùy Dung"
-                    phone
-                    :
-                    "0915641604"
-                    province_id
-                    :
-                    "01"
-                    ward_id
-                    :
-                    "00307"
-                    xuser_id
-                    :
-                    11
                     <li>SDT: {registerMembership.xuser_address_data.phone}</li>
                     <li>Địa chỉ: {registerMembership.xuser_address_data.address}</li>
-                    <li>{registerMembership.xuser_address_data.district_id} - {registerMembership.xuser_address_data.ward_id} - {registerMembership.xuser_address_data.province_id}</li>
+                    <li>{districtsArr[registerMembership.xuser_address_data.district_id]}
+                    - {wardsArr[registerMembership.xuser_address_data.ward_id]}
+                    - {provincesArr[registerMembership.xuser_address_data.province_id]}
+                    </li>
                   </ul>
                 </p>
               )}
