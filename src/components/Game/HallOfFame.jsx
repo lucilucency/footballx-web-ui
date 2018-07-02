@@ -47,39 +47,12 @@ class HallOfFame extends React.Component {
     const { userFame, hallOfFame } = this.state;
     const { browser, user } = this.props;
 
-    const adding = [{
-      name: 'ducnguyen102',
-      score: 1090,
-      time: 117,
-    }, {
-      name: 'DragonX',
-      score: 1000,
-      time: 52,
-    }, {
-      name: 'Lê Huy',
-      score: 985,
-      time: 116,
-    }, {
-      name: 'Lương Ngọc Tuyên',
-      score: 940,
-      time: 237,
-    }];
-
-    let hallOfFameAdding = hallOfFame.concat(adding);
-    hallOfFameAdding = hallOfFameAdding.sort((a, b) => {
-      if (a.score > b.score) return -1;
-      else if (a.score < b.score) return 1;
-      return 0;
-    });
-
-    console.log(JSON.stringify(hallOfFameAdding));
-
     return (
       <div>
         <div>
-          {hallOfFameAdding && hallOfFameAdding.length ? (
+          {hallOfFame && hallOfFame.length ? (
             <div>
-              <King data={hallOfFameAdding[0]} />
+              <King data={hallOfFame[0]} />
             </div>
           ) : null}
           {user && userFame ? (
