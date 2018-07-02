@@ -58,6 +58,8 @@ class ViewPostFull extends React.Component {
   };
 
   render() {
+    const { isCompact } = this.props;
+
     const item = this.props.data;
     const isText = item.content_type === 1;
     const isImage = item.content_type === 2;
@@ -67,12 +69,7 @@ class ViewPostFull extends React.Component {
 
     return (
       <div>
-        <Card
-          style={{
-            boxShadow: 'none',
-            textAlign: 'left',
-          }}
-        >
+        <Card style={styles.card.style}>
           <CardHeader
             title={<ActiveLink to={`/r/${item.community_id}`}>{item.community_name}</ActiveLink>}
             subtitle={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
@@ -82,12 +79,12 @@ class ViewPostFull extends React.Component {
           <CardTitle
             title={item.title}
             titleColor={ui.textColorVariant1}
-            titleStyle={styles.cardTitle.titleStyle}
-            style={styles.cardTitle.style}
+            titleStyle={!isCompact ? styles.cardTitle.titleStyle : styles.cardTitle.titleStyleCompact}
+            style={!isCompact ? styles.cardTitle.style : styles.cardTitle.styleCompact}
           />
           {isImage &&
           <CardMedia
-            style={styles.cardMedia.style}
+            style={!isCompact ? styles.cardMedia.style : styles.cardMedia.styleCompact}
             onClick={this.popupViewPostFull}
           >
             <ImageWrapper>
@@ -100,12 +97,11 @@ class ViewPostFull extends React.Component {
           {isLink && this.renderLink(item.content)}
           {isText &&
           <CardText
-            color={ui.alternateTextColor}
-            style={styles.cardText.style}
+            style={!isCompact ? styles.cardText.style : styles.cardText.styleCompact}
           >
             <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
           </CardText>}
-          <CardActions style={styles.cardActions.style}>
+          <CardActions style={!isCompact ? styles.cardActions.style : styles.cardActions.styleCompact}>
             <PostActions
               type="post"
               data={this.props.data}
@@ -128,10 +124,12 @@ ViewPostFull.propTypes = {
   isLoggedIn: PropTypes.bool,
 
   /**/
+  isCompact: PropTypes.bool,
   getPostComments: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
+  isCompact: state.browser.lessThan.small,
   comments: state.app.comments.data,
   data: state.app.post.data,
 });

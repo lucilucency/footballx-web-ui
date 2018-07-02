@@ -231,6 +231,7 @@ App.propTypes = {
 
   announcement: PropTypes.object,
   announce: PropTypes.func,
+  browser: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -238,6 +239,7 @@ const mapStateToProps = state => ({
   theme: state.app.theme,
   user: state.app.metadata.data.user,
   announcement: state.app.announcement,
+  browser: state.browser,
 });
 
 const mapDispatchToProps = dispatch => ({

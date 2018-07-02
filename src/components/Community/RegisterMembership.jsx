@@ -307,7 +307,7 @@ class RegisterMembership extends React.Component {
   };
 
   render() {
-    const { muiTheme } = this.props;
+    const { muiTheme, browser } = this.props;
     const { stepIndex } = this.state;
     const step = this.steps[stepIndex];
     const style = getStyles(muiTheme);
@@ -326,7 +326,7 @@ class RegisterMembership extends React.Component {
           {this.steps.map(el => (
             <Step key={el.key}>
               <StepLabel>
-                {el.heading}
+                {browser.greaterThanSmall && el.heading}
               </StepLabel>
             </Step>
           ))}
@@ -355,13 +355,13 @@ class RegisterMembership extends React.Component {
                       || !this.props.registerMembership.group_membership_pack_data
                       || !this.props.registerMembership.group_membership_pack_data.price}
                       primary
-                      style={{ ...style.noBorderBtn.style, width: 200 }}
+                      style={{ ...style.noBorderBtn.style, width: 200, margin: 10 }}
                       onClick={this.purchase}
                     />
                     {this.state.isFirst && <RaisedButton
                       label="LATER"
                       onClick={this.handleFinish}
-                      style={{ ...style.noBorderBtn.style, width: 200, marginLeft: 20 }}
+                      style={{ ...style.noBorderBtn.style, width: 200, margin: 10 }}
                       backgroundColor={muiTheme.paper.backgroundColor}
                       labelStyle={style.noBorderBtn.labelStyle}
                     />}
@@ -390,6 +390,7 @@ RegisterMembership.propTypes = {
   updateMetadata: PropTypes.func,
   announceFn: PropTypes.func,
   history: PropTypes.object,
+  browser: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -397,6 +398,7 @@ const mapStateToProps = state => ({
   groupMembershipID: state.app.community.data.groupMemberships && state.app.community.data.groupMemberships.id,
   registerMembership: state.app.metadata.data.registerMembership,
   balance: state.app.metadata.data.balance,
+  browser: state.browser,
 });
 
 const mapDispatchToProps = dispatch => ({

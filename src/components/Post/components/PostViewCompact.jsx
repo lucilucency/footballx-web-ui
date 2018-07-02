@@ -6,6 +6,7 @@ import { Card, CardActions, CardHeader, CardMedia, CardText } from 'material-ui'
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { ActiveLink, MutedLink, bindAll, renderDialog, styles, toDateTimeString } from '../../../utils';
+// import ui from '../../../theme';
 import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview } from './Styled';
 import ViewPostFullFrame from './PostViewFullFrame';
@@ -64,7 +65,7 @@ class ViewPostCompact extends React.Component {
     };
 
     return (
-      <CardText style={styles.cardText.style}>
+      <CardText style={this.props.isCompact ? styles.cardText.styleCompact : styles.cardText.style}>
         <LinkPreview hasImage={content.image}>
           <a href={content.url} target="_blank" rel="noopener noreferrer">{content.url}</a>
           {content.image && (
@@ -96,6 +97,7 @@ class ViewPostCompact extends React.Component {
         repositionOnUpdate: false,
         autoDetectWindowHeight: false,
         modal: false,
+        open: true,
         fullScreen: true,
       },
     }, () => {
@@ -114,6 +116,8 @@ class ViewPostCompact extends React.Component {
   };
 
   render() {
+    const { isCompact } = this.props;
+
     const item = this.props.data;
     const isText = item.content_type === 1;
     const isImage = item.content_type === 2;
@@ -131,8 +135,7 @@ class ViewPostCompact extends React.Component {
         {toDateTimeString(item.created_at)}
       </MutedLink>
     );
-    const followingCommunityIDs = this.props.followingCommunities.map(el => el.id);
-    const isFollowing = communityID => followingCommunityIDs.indexOf(communityID) !== -1;
+
     const communityLink = (
       <ActiveLink
         to={{
@@ -143,7 +146,7 @@ class ViewPostCompact extends React.Component {
               icon: item.community_icon,
               link: item.community_link,
               name: item.community_name,
-              isFollowing: isFollowing(item.community_id),
+              isFollowing: this.props.isFollowing,
             },
           },
         }}
@@ -155,15 +158,16 @@ class ViewPostCompact extends React.Component {
     return (
       <Card style={styles.card.style}>
         <CardHeader
-          title={<div style={{ ...styles.cardHeader.title, display: 'inline' }}>{communityLink} &nbsp;<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled></div>}
-          subtitle={<span style={styles.cardTitle.titleStyle}>{item.title}</span>}
+          title={<div style={{ display: 'inline' }}>{communityLink} &nbsp;<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled></div>}
+          subtitle={!isCompact && <span style={isCompact ? styles.cardTitle.titleStyleCompact : styles.cardTitle.titleStyle}>{item.title}</span>}
           avatar={item.community_icon}
           style={styles.cardHeader.style}
         />
+        {isCompact && <span style={styles.cardTitle.titleStyleCompact}>{item.title}</span>}
         {isImage &&
         <CardMedia
-          style={styles.cardMedia.style}
-          onClick={this.props.browser.greaterThan.small ? this.popupViewPostFull : this.routerToViewPostFull}
+          style={isCompact ? styles.cardMedia.styleCompact : styles.cardMedia.style}
+          onClick={isCompact ? this.routerToViewPostFull : this.popupViewPostFull}
         >
           <ImageWrapper>
             <ImageCompact
@@ -176,12 +180,12 @@ class ViewPostCompact extends React.Component {
         {isLink && this.renderLink(item.content)}
         {isText && (
           <CardText
-            style={styles.cardText.style}
+            style={isCompact ? styles.cardText.styleCompact : styles.cardText.style}
           >
             {wrapTextReadMore(item.content, this.popupViewPostFull)}
           </CardText>
         )}
-        <CardActions style={styles.cardActions.style}>
+        <CardActions style={isCompact ? styles.cardActions.styleCompact : styles.cardActions.style}>
           <PostActions
             type="post"
             data={this.props.data}
@@ -198,16 +202,11 @@ class ViewPostCompact extends React.Component {
 ViewPostCompact.propTypes = {
   data: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
-  browser: PropTypes.object,
+  isCompact: PropTypes.object,
   setPost: PropTypes.func,
-  followingCommunities: PropTypes.array,
+  isFollowing: PropTypes.bool,
   history: PropTypes.object,
 };
-
-const mapStateToProps = state => ({
-  browser: state.browser,
-  followingCommunities: state.app.metadata.data.following ? (state.app.metadata.data.following.communities || []) : [],
-});
 
 const mapDispatchToProps = dispatch => ({
   upVote: (postID, params) => dispatch(upVote(postID, params)),
@@ -215,5 +214,4 @@ const mapDispatchToProps = dispatch => ({
   setPost: payload => dispatch(setPost(payload)),
 });
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewPostCompact));
+export default withRouter(connect(null, mapDispatchToProps)(ViewPostCompact));

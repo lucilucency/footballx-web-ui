@@ -14,13 +14,16 @@ import CreateEditComment from './CreateEditComment';
 
 const Styled = styled.div`
   padding: 0 0;
-  display: table;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
   font-weight: ${ui.fontWeightMedium};
   font-size: ${ui.fontSizeSmall};
   
-  > * {
-    display: table-cell;
-    vertical-align: middle;
+  .up-down {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
   }
   
   span {
@@ -120,55 +123,58 @@ class CommentActions extends React.Component {
     return (
       <div style={{ borderTop: `1px solid ${ui.borderColorVariant1}` }}>
         <Styled>
-          <IconButton
-            tooltip="Upvote"
-            tooltipPosition="top-center"
-            onClick={this.upvote}
-            // disabled={!this.props.isLoggedIn}
-            iconStyle={{
-              width: 20,
-              height: 20,
-            }}
-          >
-            <IconUpvote color={item.vflag === 1 ? ui.positive1Color : ui.neutralColor} hoverColor={ui.positive1Color} />
-          </IconButton>
-          <span style={{ display: 'table-cell', verticalAlign: 'middle' }}>{ups - downs}</span>
-          <IconButton
-            tooltip="Downvote"
-            tooltipPosition="top-center"
-            onClick={this.downVote}
-            // disabled={!this.props.isLoggedIn}
-            iconStyle={{
-              width: 20,
-              height: 20,
-            }}
-          >
-            <IconDownvote color={item.vflag === -1 ? ui.negativeColor : ui.neutralColor} hoverColor={ui.negativeColor} />
-          </IconButton>
-          {this.props.disableComment ? (
-            <div style={{ display: 'block' }}>
-              <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={ui.neutralColor} />
-              <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{item.c_comments ? `${item.c_comments} comments` : 'Comment'}</span>
-            </div>
-          ) : (
-            <FlatButton
-              target="_blank"
-              label={item.c_comments || 0}
-              icon={<IconComment style={{ marginTop: -5 }} color={ui.neutralColor} />}
-              labelPosition="after"
-              labelStyle={{
-                paddingLeft: 5,
-                fontWeight: 'inherit',
-                fontSize: 'inherit',
+          <div className="up-down">
+            <IconButton
+              tooltip="Upvote"
+              tooltipPosition="top-center"
+              onClick={this.upvote}
+              // disabled={!this.props.isLoggedIn}
+              iconStyle={{
+                width: 20,
+                height: 20,
               }}
-              onClick={this.toggleCommentBox}
-            />
-          )}
+            >
+              <IconUpvote color={item.vflag === 1 ? ui.positive1Color : ui.neutralColor} hoverColor={ui.positive1Color} />
+            </IconButton>
+            <span style={{ display: 'table-cell', verticalAlign: 'middle' }}>{ups - downs}</span>
+            <IconButton
+              tooltip="Downvote"
+              tooltipPosition="top-center"
+              onClick={this.downVote}
+              // disabled={!this.props.isLoggedIn}
+              iconStyle={{
+                width: 20,
+                height: 20,
+              }}
+            >
+              <IconDownvote color={item.vflag === -1 ? ui.negativeColor : ui.neutralColor} hoverColor={ui.negativeColor} />
+            </IconButton>
+          </div>
+          <div>
+            {this.props.disableComment ? (
+              <div style={{ display: 'block' }}>
+                <IconComment style={{ margin: '-5px 5px auto auto', display: 'inline-block', verticalAlign: 'middle' }} color={ui.neutralColor} />
+                <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>{item.c_comments ? `${item.c_comments} comments` : 'Comment'}</span>
+              </div>
+            ) : (
+              <FlatButton
+                target="_blank"
+                label={item.c_comments || 0}
+                icon={<IconComment style={{ marginTop: -5 }} color={ui.neutralColor} />}
+                labelPosition="after"
+                labelStyle={{
+                  paddingLeft: 5,
+                  fontWeight: 'inherit',
+                  fontSize: 'inherit',
+                }}
+                onClick={this.toggleCommentBox}
+              />
+            )}
+          </div>
           <ButtonShare
             clipboard={`${window.location.host}/p/${item.id}`}
             child={(
               <FlatButton
-                label={strings.label_share_post}
                 icon={<IconShare color={ui.neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
@@ -198,14 +204,10 @@ CommentActions.propTypes = {
   // history: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  browser: state.browser,
-});
-
 const mapDispatchToProps = dispatch => ({
   upVote: (postID, params, type) => dispatch(upVote(postID, params, type)),
   downVote: (postID, params, type) => dispatch(downVote(postID, params, type)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CommentActions));
+export default withRouter(connect(mapDispatchToProps)(CommentActions));
 

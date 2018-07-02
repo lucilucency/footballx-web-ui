@@ -212,7 +212,7 @@ class ChooseMembershipPackage extends Component {
             {this.props.groupMembershipPackages && this.props.groupMembershipPackages.map(el => (
               <FormControlLabel
                 key={el.id}
-                style={{ flexDirection: 'column-reverse' }}
+                style={{ flexDirection: 'column-reverse', marginLeft: 0, marginRight: 0 }}
                 value={el.id.toString()}
                 control={<Checkbox />}
                 label={this.renderPackage(el, styles)}
