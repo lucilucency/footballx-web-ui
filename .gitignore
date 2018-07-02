@@ -67,4 +67,4 @@ typings/
 .env
 .env.*
 
-# src/fxconstants/
+src/fxconstants/*

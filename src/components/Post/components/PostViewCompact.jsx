@@ -6,7 +6,6 @@ import { Card, CardActions, CardHeader, CardMedia, CardText } from 'material-ui'
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { ActiveLink, MutedLink, bindAll, renderDialog, styles, toDateTimeString } from '../../../utils';
-// import ui from '../../../theme';
 import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview } from './Styled';
 import ViewPostFullFrame from './PostViewFullFrame';
@@ -97,7 +96,6 @@ class ViewPostCompact extends React.Component {
         repositionOnUpdate: false,
         autoDetectWindowHeight: false,
         modal: false,
-        open: true,
         fullScreen: true,
       },
     }, () => {

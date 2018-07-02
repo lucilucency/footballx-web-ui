@@ -20,7 +20,7 @@ const VerticalAlignDropdown = styled(Dropdown)`
 const LinkRouterStyled = styled(Link)`
   font-size: ${ui.fontSizeNormal};
   font-weight: ${ui.fontWeightLight};
-  color: ${ui.textColorPrimary} !important;
+  color: ${ui.textColorVariant1} !important;
   display: flex;
   align-items: center;
   margin-top: 2px;
@@ -38,7 +38,7 @@ const LinkRouterStyled = styled(Link)`
 const LinkStyled = styled.a`
   font-size: ${ui.fontSizeNormal};
   font-weight: ${ui.fontWeightLight};
-  color: ${ui.textColorPrimary} !important;
+  color: ${ui.textColorVariant1} !important;
   display: flex;
   align-items: center;
   margin-top: 2px;

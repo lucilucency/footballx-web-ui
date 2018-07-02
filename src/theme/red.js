@@ -19,9 +19,9 @@ const ThemeRed = {
   backgroundColorPrimary: materialColor.grey100, /* canvas color */
   backgroundImageColor: '#eef2f5', /* root background-image */
   surfaceColorPrimary: '#fff',
-  textColorPrimary: materialColor.grey900,
-  textColorVariant1: materialColor.grey800,
-  textColorVariant2: materialColor.grey400,
+  textColorVariant1: materialColor.grey900,
+  textColorVariant2: materialColor.grey800,
+  textColorVariant3: materialColor.grey400,
   // textColorVariant3: materialColor.grey600,
   // textColorVariant4: materialColor.grey500,
 

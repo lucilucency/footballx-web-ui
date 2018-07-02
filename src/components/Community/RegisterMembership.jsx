@@ -8,12 +8,13 @@ import {
   Stepper,
   StepLabel,
 } from 'material-ui/Stepper';
+import IconProgress from 'material-ui/CircularProgress';
 import { muiThemeable } from 'material-ui/styles';
 import RaisedButton from 'material-ui/RaisedButton';
 import Amplitude from 'react-amplitude';
-import { format } from 'util';
-// import { messaging } from '../../firebaseMessaging';
+import { messaging } from '../../firebaseMessaging';
 import { ajaxPost, ajaxPut, localUpdateMetadata, announce } from '../../actions';
+import { format, renderDialog } from '../../utils';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
 import ChooseMembershipPackage from './components/ChoosePackage';
@@ -29,6 +30,20 @@ class RegisterMembership extends React.Component {
       stepIndex: 0,
       isStepValid: false,
       toppingUp: false,
+      openDialog: false,
+      dialog: {},
+    };
+
+    this.handleOpenDialog = (cb) => { this.setState({ openDialog: true }, cb); };
+    this.handleCloseDialog = () => {
+      this.setState({ openDialog: false }, () => {
+        this.props.updateMetadata({
+          registerMembership: {
+            ...this.props.registerMembership,
+            is_complete: true,
+          },
+        });
+      });
     };
 
     this.steps = [
@@ -113,25 +128,25 @@ class RegisterMembership extends React.Component {
   componentDidMount() {
     Amplitude.logEvent('Enter register group membership');
 
-    // if (messaging) {
-    //   messaging.onMessage((payload) => {
-    //     const payloadData = payload.data;
-    //     if (payloadData) {
-    //       // let { body_loc_args } = payloadData;
-    //       const { body_loc_key } = payloadData;
-    //       // body_loc_args = JSON.parse(body_loc_args);
-    //
-    //       if (body_loc_key === 'XUSER_TOPUP_XCOIN_SUCCESS') {
-    //         this.setState({ toppingUp: false });
-    //         // const topup = body_loc_args[0];
-    //         // const balance = body_loc_args[1];
-    //         // if (balance > this.props.registerMembership.group_membership_pack_data.price) {
-    //         this.submitPayment();
-    //         // }
-    //       }
-    //     }
-    //   });
-    // }
+    if (messaging) {
+      messaging.onMessage((payload) => {
+        const payloadData = payload.data;
+        if (payloadData) {
+          // let { body_loc_args } = payloadData;
+          const { body_loc_key } = payloadData;
+          // body_loc_args = JSON.parse(body_loc_args);
+
+          if (body_loc_key === 'XUSER_TOPUP_XCOIN_SUCCESS') {
+            this.setState({ toppingUp: false });
+            // const topup = body_loc_args[0];
+            // const balance = body_loc_args[1];
+            // if (balance > this.props.registerMembership.group_membership_pack_data.price) {
+            this.submitPayment();
+            // }
+          }
+        }
+      });
+    }
 
     if (this.props.registerMembership && this.props.registerMembership.id && this.props.registerMembership.is_complete) {
       this.props.history.push(`/r/${this.props.communityID}`);
@@ -224,19 +239,28 @@ class RegisterMembership extends React.Component {
           this.setState({ toppingUp: false });
           const { balance } = JSON.parse(res.text);
 
+          /* clear polling */
+          clearInterval(this.polling);
+
+          this.setState({
+            dialog: {
+              view: (
+                <div style={{}}>
+                  <div className="text-large">{format(strings.label_became_membership, this.props.communityName)}</div>
+                </div>
+              ),
+            },
+          }, this.handleOpenDialog());
+
           this.props.announceFn({
             message: format(strings.notification_XUSER_DEBITED_XCOIN_SUCCESS, this.props.registerMembership.group_membership_pack_data.price, balance.xcoin || 0),
-            action: 'Check it out',
             autoHideDuration: 300000,
           });
+
           this.props.updateMetadata({
             balance: {
               ...this.props.balance,
               ...balance,
-            },
-            registerMembership: {
-              ...this.props.registerMembership,
-              is_complete: true,
             },
           });
         } catch (parseErr) {
@@ -263,7 +287,9 @@ class RegisterMembership extends React.Component {
             trans.pay_url,
             '_blank', // <- This is what makes it open in a new window.
           );
-          setTimeout(() => this.submitPayment(), 10000);
+          this.polling = setInterval(() => {
+            this.submitPayment();
+          }, 10000);
         } catch (parseErr) {
           console.error(parseErr);
         }
@@ -322,7 +348,9 @@ class RegisterMembership extends React.Component {
                 {stepIndex === this.steps.length - 1 && (
                   <div>
                     <RaisedButton
-                      label="PURCHASE NOW!"
+                      label={this.state.toppingUp ? 'Đang thanh toán' : 'PURCHASE NOW!'}
+                      icon={this.state.toppingUp && <IconProgress size={24} />}
+                      labelPosition="before"
                       disabled={!this.props.registerMembership
                       || !this.props.registerMembership.group_membership_pack_data
                       || !this.props.registerMembership.group_membership_pack_data.price}
@@ -343,6 +371,7 @@ class RegisterMembership extends React.Component {
             </div>
           )}
         </div>
+        {renderDialog(this.state.dialog, this.state.openDialog, this.handleCloseDialog)}
         <Prompt message="Quá trình nạp tiền đang tiến hành. Bạn vẫn tiếp tục muốn thoát?" when={this.state.toppingUp} />
       </div>
     );
@@ -351,6 +380,7 @@ class RegisterMembership extends React.Component {
 
 RegisterMembership.propTypes = {
   communityID: PropTypes.number,
+  communityName: PropTypes.string,
   groupMembershipID: PropTypes.number,
   onClose: PropTypes.func,
   /**/
@@ -363,6 +393,7 @@ RegisterMembership.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  communityName: state.app.community.data.name,
   groupMembershipID: state.app.community.data.groupMemberships && state.app.community.data.groupMemberships.id,
   registerMembership: state.app.metadata.data.registerMembership,
   balance: state.app.metadata.data.balance,

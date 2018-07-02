@@ -59,7 +59,7 @@ const StyledDiv = styled.div`
     }
 
     & a {
-      color: ${ui.textColorPrimary};
+      color: ${ui.textColorVariant1};
 
       &:hover {
         text-decoration: underline;
@@ -74,7 +74,7 @@ const StyledDiv = styled.div`
 
       & svg {
         height: 16px;
-        fill: ${ui.textColorPrimary};
+        fill: ${ui.textColorVariant1};
         vertical-align: sub;
       }
     }

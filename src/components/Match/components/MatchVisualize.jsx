@@ -13,7 +13,7 @@ const MatchInfo = styled.div`
   padding: 1em;
   display: grid;
   grid-template-columns: [full-start] minmax(0, 1fr) [main-start] minmax(0, 1fr) [main-end] minmax(0, 1fr) [full-end];
-  color: ${ui.textColorPrimary}
+  color: ${ui.textColorVariant1}
   
   @media only screen and (max-width: 1023px) {
     flex-basis: 100%;

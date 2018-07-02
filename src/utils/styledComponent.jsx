@@ -86,27 +86,25 @@ export const ColorLink = styled(Link)`
   ${props => `color: ${props.color};`}
 `;
 
-export function renderDialog({
-  view = <h1>Welcome!</h1>,
-  fullScreen = false,
-  title,
-  actions = [],
-  contentStyle = {},
-  modal,
-  autoScrollBodyContent = true,
-} = {}, open, onRequestClose = () => {
+export function renderDialog(config = {}, open, onRequestClose = () => {
   console.warn('Request close dialog');
 }) {
+  const {
+    view,
+    fullScreen = false,
+    /**/
+    title,
+    actions,
+    ...rest
+  } = config;
   if (fullScreen) {
     return (
       <FullScreenDialog
-        title={title}
-        actions={actions}
         open={open}
         onRequestClose={onRequestClose}
-        modal={modal}
-        contentStyle={contentStyle}
-        autoScrollBodyContent={autoScrollBodyContent}
+        title={title}
+        actions={actions}
+        {...rest}
       >
         {view}
       </FullScreenDialog>
@@ -118,9 +116,7 @@ export function renderDialog({
       actions={actions}
       open={open}
       onRequestClose={onRequestClose}
-      modal={modal}
-      contentStyle={contentStyle}
-      autoScrollBodyContent={autoScrollBodyContent}
+      {...rest}
     >
       {view}
     </Dialog>

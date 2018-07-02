@@ -11,11 +11,11 @@ export const StyledDiv = styled.div`
     width: 26px !important;
     margin-right: 6px;
     opacity: 0.8;
-    fill: ${ui.textColorPrimary};
+    fill: ${ui.textColorVariant1};
   }
 
   & a {
-    color: ${ui.textColorPrimary};
+    color: ${ui.textColorVariant1};
     text-decoration: none;
 
     &:hover {

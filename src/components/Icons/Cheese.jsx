@@ -7,7 +7,7 @@ export default props => (
     viewBox="0 0 300 300"
     style={{
       fill: 'none',
-      stroke: ui.textColorPrimary,
+      stroke: ui.textColorVariant1,
       strokeWidth: 10,
     }}
   >

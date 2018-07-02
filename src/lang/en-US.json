@@ -170,6 +170,7 @@
   "hint_post_title": "Title",
   "hint_post_content_text": "Content",
   "hint_post_type": "Text, image, or link",
+  "label_became_membership": "You are member of %s",
   "label_choose_community": "Choose a community",
   "label_comment": "Comment",
   "label_community": "Community",

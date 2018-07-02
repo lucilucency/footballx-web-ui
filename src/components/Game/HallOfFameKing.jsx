@@ -38,7 +38,7 @@ const InfoContainer = styled.div`
     }
     
     & span[data='name'] {
-      color: ${ui.textColorVariant1};
+      color: ${ui.textColorVariant3};
       font-size: ${ui.fontSizeLarge};
       text-align: center;
     }

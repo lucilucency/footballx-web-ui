@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 import Amplitude from 'react-amplitude';
-// import { messaging, refreshToken } from './firebaseMessaging';
+import { messaging, refreshToken } from './firebaseMessaging';
 import store from './store';
 import { getMetadata, refresh } from './actions';
 import App from './components/App';
@@ -52,7 +52,7 @@ li {
   min-height: 100vh;
   // background-color: ${ui.backgroundColorPrimary};
   // background-image: ${ui.backgroundImageColor};
-  // color: ${ui.textColorPrimary};
+  // color: ${ui.textColorVariant1};
 }
 
 [data-tip="true"] {
@@ -63,7 +63,7 @@ li {
   padding: 8px 12px !important;
   border-radius: 2px !important;
   background-color: ${ui.positive3Color} !important;
-  color: ${ui.textColorPrimary} !important;
+  color: ${ui.textColorVariant1} !important;
   white-space: pre-wrap;
   line-height: 1.5 !important;
   text-align: left;
@@ -123,7 +123,7 @@ li {
   &::after {
     content: attr(data-hint);
     background-color: ${ui.backgroundColorPrimary};
-    color: ${ui.textColorPrimary};
+    color: ${ui.textColorVariant1};
     border-radius: 2px;
     padding: 5px 8px;
     font-weight: ${ui.fontWeightLight};
@@ -204,9 +204,9 @@ history.listen((location) => {
   ReactGA.pageview(location.pathname);
 });
 
-// if (messaging) {
-//   refreshToken(messaging);
-// }
+if (messaging) {
+  refreshToken(messaging);
+}
 
 const rootElement = document.getElementById('root');
 const app = (

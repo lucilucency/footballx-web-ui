@@ -81,7 +81,7 @@ class ViewPostFull extends React.Component {
           />
           <CardTitle
             title={item.title}
-            titleColor={ui.textColorPrimary}
+            titleColor={ui.textColorVariant1}
             titleStyle={styles.cardTitle.titleStyle}
             style={styles.cardTitle.style}
           />

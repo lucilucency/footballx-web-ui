@@ -11,7 +11,7 @@ const Styled = styled.div`
   padding: 8px;
   position: relative;
   font-size: ${ui.fontSizeSmall};
-  color: ${ui.textColorPrimary}
+  color: ${ui.textColorVariant1}
   
   & .status {
     position: absolute;

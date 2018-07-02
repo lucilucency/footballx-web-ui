@@ -7,7 +7,7 @@ import strings from '../../lang/index';
 import Container from '../Container';
 import AboutX from '../About/Hero';
 import AboutXFooter from '../About/Footer';
-import HallOfFame from '../Game/HallOfFame';
+// import HallOfFame from '../Game/HallOfFame';
 
 const HomeRightBar = (props) => {
   const { isLoggedIn } = props;
@@ -16,7 +16,7 @@ const HomeRightBar = (props) => {
       <SmallPaper style={{ padding: 0 }}>
         <AboutX isLoggedIn={isLoggedIn} />
       </SmallPaper>
-      <Container
+      {/* <Container
         title={strings.label_hall_of_fame}
         style={{
           fontSize: '12px',
@@ -25,7 +25,7 @@ const HomeRightBar = (props) => {
         <SmallPaper>
           <HallOfFame />
         </SmallPaper>
-      </Container>
+      </Container> */}
 
       {isLoggedIn && (
         <Container

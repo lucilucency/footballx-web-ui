@@ -33,19 +33,20 @@ const overwritesTheme = ui => ({
   badge: { fontWeight: skeleton.fontWeightNormal },
   card: {
     fontWeight: skeleton.fontWeightNormal,
-    subtitleColor: ui.textColorPrimary,
+    subtitleColor: ui.textColorVariant1,
     titleColor: ui.textColorVariant1,
   },
-  cardText: { textColor: ui.textColorVariant1 },
+  cardText: { textColor: ui.textColorVariant2 },
+  dialog: { bodyColor: ui.textColorVariant1 },
   drawer: {
     color: ui.surfaceColorPrimary,
   },
   flatButton: { fontWeight: skeleton.fontWeightNormal },
   fontFamily: skeleton.fontFamilyPrimary,
-  listItem: { secondaryTextColor: ui.textColorVariant1 },
+  listItem: { secondaryTextColor: ui.textColorVariant3 },
   menuItem: { hoverColor: ui.positive3Color, selectedTextColor: ui.positive1Color },
   raisedButton: { fontWeight: skeleton.fontWeightNormal },
-  subheader: { color: ui.textColorPrimary },
+  subheader: { color: ui.textColorVariant1 },
   palette: {
     primary1Color: ui.positive1Color, /* app-bar, toggle:true */
     primary2Color: ui.positive2Color, /* weak!!! datePicker.selectColor, timePicker.selectColor */
@@ -53,8 +54,8 @@ const overwritesTheme = ui => ({
     accent1Color: ui.accent1Color, /* tab-bar, :secondary, inkBar */
     // accent2Color: '', /* weak!!! toggle:false */
     // accent3Color: '', /* weak!!! table-header */
-    textColor: ui.textColorPrimary,
-    secondaryTextColor: ui.textColorVariant1,
+    textColor: ui.textColorVariant1,
+    secondaryTextColor: ui.textColorVariant3,
     // canvasColor: ui.surfaceColorPrimary,
     canvasColor: ui.backgroundColorPrimary,
     // alternateTextColor: ui.surfaceColorPrimary,
@@ -69,8 +70,8 @@ const overwritesTheme = ui => ({
   checkbox: { checkedColor: ui.checkboxCheckedColor },
   tabs: {
     backgroundColor: ui.surfaceColorPrimary,
-    textColor: ui.textColorPrimary,
-    selectedTextColor: ui.textColorPrimary,
+    textColor: ui.textColorVariant1,
+    selectedTextColor: ui.textColorVariant1,
   },
   toolbar: {
     color: ui.alternateTextColor,
@@ -114,13 +115,11 @@ class App extends React.Component {
     };
   }
 
-  componentWillUpdate(nextProps) {
-    if (this.props.location.key !== nextProps.location.key) {
+  getSnapshotBeforeUpdate(prevProps) {
+    if (prevProps.location.key !== this.props.location.key) {
       window.scrollTo(0, 0);
     }
-  }
 
-  getSnapshotBeforeUpdate(prevProps) {
     if (prevProps.theme && this.props.theme && prevProps.theme.name !== this.props.theme.name) {
       return true;
     }

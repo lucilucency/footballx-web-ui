@@ -20,9 +20,9 @@ const ThemePitch = {
   backgroundColorPrimary: Colors.grey100,
   backgroundImageColor: '#eef2f5', /* root background-image */
   surfaceColorPrimary: Colors.fullWhite,
-  textColorPrimary: Colors.grey900,
-  textColorVariant1: Colors.grey800,
-  textColorVariant2: Colors.grey700,
+  textColorVariant1: Colors.grey900,
+  textColorVariant2: Colors.grey800,
+  textColorVariant3: Colors.grey700,
   // textColorVariant3: Colors.grey600,
   // textColorVariant4: Colors.grey500,
 

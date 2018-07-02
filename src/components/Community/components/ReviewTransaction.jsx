@@ -9,7 +9,7 @@ import strings from '../../../lang';
 import constants from '../../constants';
 import { getCookie } from '../../../utils/index';
 import { localUpdateMetadata, ajaxGet } from '../../../actions';
-import { provincesArr, wardsArr, districtsArr } from '../../../fxconstants';
+import { provincesObj, wardsObj, districtsObj } from '../../../fxconstants';
 
 const getStyles = theme => ({
   root: {
@@ -114,19 +114,22 @@ class ReviewTransaction extends Component {
                 <p>{strings.label_package}: <b>{registerMembership.group_membership_pack_data.name}</b></p>
               )}
               {registerMembership.xuser_address_data && (
-                <p>
-                  {strings.label_receiver}: {registerMembership.xuser_address_data.name}
-                  &nbsp;
-                  <a href="" onClick={(e) => { e.preventDefault(); this.props.onRequestEditReceiver(); }}>Edit</a>
+                <div>
+                  <p>
+                    <span>
+                      {strings.label_receiver}: {registerMembership.xuser_address_data.name}&nbsp;
+                    </span>
+                    <a href="" onClick={(e) => { e.preventDefault(); this.props.onRequestEditReceiver(); }}>Chỉnh sửa</a>
+                  </p>
                   <ul>
                     <li>SDT: {registerMembership.xuser_address_data.phone}</li>
                     <li>Địa chỉ: {registerMembership.xuser_address_data.address}</li>
-                    <li>{districtsArr[registerMembership.xuser_address_data.district_id]}
-                    - {wardsArr[registerMembership.xuser_address_data.ward_id]}
-                    - {provincesArr[registerMembership.xuser_address_data.province_id]}
+                    <li>{districtsObj[registerMembership.xuser_address_data.district_id].name}
+                    - {wardsObj[registerMembership.xuser_address_data.ward_id].name}
+                    - {provincesObj[registerMembership.xuser_address_data.province_id].name}
                     </li>
                   </ul>
-                </p>
+                </div>
               )}
             </div>
           </div>

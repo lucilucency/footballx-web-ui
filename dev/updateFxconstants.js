@@ -48,36 +48,45 @@ const getDownloadUrl = (delay, tries, error) => {
     });
 };
 
-request
-  .post(updateContentPath)
-  .set('Content-Type', 'application/x-www-form-urlencoded')
-  .query({}) // query string
-  .then((res, err) => {
-    if (!err) {
-      getDownloadUrl(1000, 3).then((nextUrl) => {
-        request.get(nextUrl).buffer(true).then((res, err) => {
-          const contentData = JSON.parse(res.text);
-          const {
-            clubs, areas, leagues, groups, group_membership_configs, exchange_rates, version,
-          } = contentData;
+const extractContentData = new Promise((resolve) => {
+  "use strict";
+  console.log('Extracting content data');
+  request
+    .post(updateContentPath)
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .query({}) // query string
+    .then((res, err) => {
+      if (!err) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+});
 
-          updateObjFile('clubs', clubs);
-          updateObjFile('groups', groups);
-          updateObjFile('leagues', leagues);
-          updateObjFile('areas', areas);
+const updateLocalContentData = new Promise((resolve) => {
+  "use strict";
+  console.log('Updating content data');
+  getDownloadUrl(1000, 3).then((nextUrl) => {
+    request.get(nextUrl).buffer(true).then((res, err) => {
+      const contentData = JSON.parse(res.text);
+      const {
+        clubs, areas, leagues, groups, group_membership_configs, exchange_rates, version,
+      } = contentData;
 
-          updateArrFile('clubs', clubs);
-          updateArrFile('groups', groups);
-          updateArrFile('leagues', leagues);
-          updateArrFile('areas', areas);
-        });
-      });
-    } else {
-      return setTimeout(() => getDownloadUrl(delay + 2000, tries - 1, res.body.message), delay);
-    }
-  })
-  .catch((err) => {
-    console.log(err);
-    return null;
+      updateObjFile('clubs', clubs);
+      updateObjFile('groups', groups);
+      updateObjFile('leagues', leagues);
+      updateObjFile('areas', areas);
+
+      updateArrFile('clubs', clubs);
+      updateArrFile('groups', groups);
+      updateArrFile('leagues', leagues);
+      updateArrFile('areas', areas);
+
+      resolve(true);
+    });
   });
+});
 
+updateLocalContentData.then();
