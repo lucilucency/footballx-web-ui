@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { IconButton, FlatButton } from 'material-ui';
 import Amplitude from 'react-amplitude';
-import strings from '../.././../lang';
 import { IconUpvote, IconDownvote, IconComment, IconShare } from '../../Icons';
 import { upVote, downVote } from '../../../actions';
 import ui from '../../../theme';
