@@ -14,5 +14,4 @@ const config = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER,
 };
 
-// export default !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
-export default firebase.initializeApp(config);
+export default ('serviceWorker' in navigator) && (!firebase.apps.length ? firebase.initializeApp(config) : firebase.app());

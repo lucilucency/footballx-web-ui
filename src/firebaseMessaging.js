@@ -3,23 +3,21 @@ import firebase from './firebase';
 import { ajaxPost } from './actions/ajax';
 import { getCookie } from './utils/index';
 
-const messaging = firebase.messaging();
-messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_WEB_PUSH_KEY_PARE);
 
 /** FUNCTION DECLARATION */
+
+
 function setTokenSentToServer(sent) {
   window.localStorage.setItem('sentToServer', sent ? 1 : 0);
 }
 function isTokenSentToServer() {
   return Number(window.localStorage.getItem('sentToServer')) === 1;
 }
-// eslint-disable-next-line no-unused-vars
 function sendTokenToServer(currentToken) {
   if (!isTokenSentToServer()) {
     const userID = getCookie('user_id');
     // Send the current token to your server.
     if (userID) {
-      console.warn('Send device token to server', currentToken);
       ajaxPost({
         version: 'v1',
         path: `xuser/${userID}/devicetoken`,
@@ -34,11 +32,9 @@ function sendTokenToServer(currentToken) {
     console.warn('Token already sent to server so won\'t send it again unless it changes');
   }
 }
-function refreshToken() {
-  console.warn('refresh firebase token');
+function refreshToken(messaging) {
   messaging.requestPermission().then(() => {
     messaging.getToken().then((refreshedToken) => {
-      console.warn('refreshedToken', refreshedToken);
       setTokenSentToServer(false);
       sendTokenToServer(refreshedToken);
     }).catch((err) => {
@@ -48,21 +44,21 @@ function refreshToken() {
     console.warn('error getting permission', err);
   });
 }
-function subscribeToNotifications() {
+function subscribeToNotifications(messaging) {
   messaging.requestPermission()
-    .then(() => refreshToken())
+    .then(() => refreshToken(messaging))
     .catch((err) => {
       console.warn('error getting permission', err);
     });
 }
-function unSubscribeFromNotifications() {
+function unSubscribeFromNotifications(messaging) {
   messaging.getToken()
     .then(token => messaging.deleteToken(token))
     .catch((err) => {
       console.warn('error deleting token :(', err);
     });
 }
-function subscribeTokenToTopic(topic) {
+function subscribeTokenToTopic(messaging, topic) {
   messaging.requestPermission().then(() => {
     // Retrieve an Instance ID token for use with FCM.
     messaging.getToken()
@@ -95,10 +91,13 @@ function subscribeTokenToTopic(topic) {
   });
 }
 
-messaging.onTokenRefresh(() => {
-  refreshToken();
-});
-
+const messaging = firebase && firebase.messaging();
+if (messaging) {
+  messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_WEB_PUSH_KEY_PARE);
+  messaging.onTokenRefresh(() => {
+    refreshToken(messaging);
+  });
+}
 
 export {
   messaging,
