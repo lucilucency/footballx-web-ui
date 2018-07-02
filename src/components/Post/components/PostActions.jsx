@@ -16,14 +16,17 @@ import strings from '../.././../lang';
 
 const PostActionStyled = styled.div`
   padding: 0 0;
-  display: table;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
   font-weight: ${ui.fontWeightMedium};
   font-size: ${ui.fontSizeSmall};
   color: ${ui.neutralColor};
   
-  > * {
-    display: table-cell;
-    vertical-align: middle;
+  .up-down {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
   }
   
   span {
@@ -162,41 +165,43 @@ class PostActions extends React.Component {
     return (
       <div>
         <PostActionStyled>
-          <IconButton
-            tooltip="Upvote"
-            tooltipPosition="top-center"
-            onClick={this.upvote}
-            // disabled={!this.props.isLoggedIn}
-            iconStyle={{
-              width: 20,
-              height: 20,
-            }}
-            style={{
-              width: 32,
-              paddingLeft: 0,
-              paddingRight: 0,
-            }}
-          >
-            <IconUpvote color={item.vflag === 1 ? ui.positive1Color : ui.neutralColor} hoverColor={ui.positive1Color} />
-          </IconButton>
-          <span style={{ display: 'table-cell', verticalAlign: 'middle' }}>{ups - downs}</span>
-          <IconButton
-            tooltip="Downvote"
-            tooltipPosition="top-center"
-            onClick={this.downVote}
-            // disabled={!this.props.isLoggedIn}
-            iconStyle={{
-              width: 20,
-              height: 20,
-            }}
-            style={{
-              width: 32,
-              paddingLeft: 0,
-              paddingRight: 0,
-            }}
-          >
-            <IconDownvote color={item.vflag === -1 ? ui.negativeColor : ui.neutralColor} hoverColor={ui.negativeColor} />
-          </IconButton>
+          <div className="up-down">
+            <IconButton
+              tooltip="Upvote"
+              tooltipPosition="top-center"
+              onClick={this.upvote}
+              // disabled={!this.props.isLoggedIn}
+              iconStyle={{
+                width: 20,
+                height: 20,
+              }}
+              style={{
+                width: 32,
+                paddingLeft: 0,
+                paddingRight: 0,
+              }}
+            >
+              <IconUpvote color={item.vflag === 1 ? ui.positive1Color : ui.neutralColor} hoverColor={ui.positive1Color} />
+            </IconButton>
+            <span>{ups - downs}</span>
+            <IconButton
+              tooltip="Downvote"
+              tooltipPosition="top-center"
+              onClick={this.downVote}
+              // disabled={!this.props.isLoggedIn}
+              iconStyle={{
+                width: 20,
+                height: 20,
+              }}
+              style={{
+                width: 32,
+                paddingLeft: 0,
+                paddingRight: 0,
+              }}
+            >
+              <IconDownvote color={item.vflag === -1 ? ui.negativeColor : ui.neutralColor} hoverColor={ui.negativeColor} />
+            </IconButton>
+          </div>
           <div>
             {this.props.disableComment ? (
               <div style={{ display: 'block' }}>

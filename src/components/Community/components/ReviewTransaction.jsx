@@ -113,7 +113,40 @@ class ReviewTransaction extends Component {
                 <p>{strings.label_package}: <b>{registerMembership.group_membership_pack_data.name}</b></p>
               )}
               {registerMembership.xuser_address_data && (
-                <p>{strings.label_receiver}: {registerMembership.xuser_address_data.name}</p>
+                <p>
+                  {strings.label_receiver}: {registerMembership.xuser_address_data.name}
+                  &nbsp;
+                  <a href="" onClick={(e) => { e.preventDefault(); this.props.onRequestEditReceiver(); }}>Edit</a>
+                  <ul>
+                    address
+                    :
+                    "512 AZ Sky Tran Dien, Dinh Cong Hoang Mai, Ha Noi"
+                    district_id
+                    :
+                    "008"
+                    id
+                    :
+                    111
+                    name
+                    :
+                    "Nguyễn Thùy Dung"
+                    phone
+                    :
+                    "0915641604"
+                    province_id
+                    :
+                    "01"
+                    ward_id
+                    :
+                    "00307"
+                    xuser_id
+                    :
+                    11
+                    <li>SDT: {registerMembership.xuser_address_data.phone}</li>
+                    <li>Địa chỉ: {registerMembership.xuser_address_data.address}</li>
+                    <li>{registerMembership.xuser_address_data.district_id} - {registerMembership.xuser_address_data.ward_id} - {registerMembership.xuser_address_data.province_id}</li>
+                  </ul>
+                </p>
               )}
             </div>
           </div>
@@ -132,7 +165,7 @@ ReviewTransaction.propTypes = {
   muiTheme: PropTypes.object,
   gmData: PropTypes.object,
   registerMembership: PropTypes.object,
-  // updateMetadata: PropTypes.func,
+  onRequestEditReceiver: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

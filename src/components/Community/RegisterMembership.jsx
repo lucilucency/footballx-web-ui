@@ -99,7 +99,13 @@ class RegisterMembership extends React.Component {
       {
         heading: strings.heading_purchase,
         key: 'complete',
-        content: <ReviewTransaction />,
+        content: (
+          <ReviewTransaction
+            onRequestEditReceiver={() => {
+              this.setState({ stepIndex: 2 });
+            }}
+          />
+        ),
       },
     ].filter(Boolean);
   }
@@ -181,8 +187,9 @@ class RegisterMembership extends React.Component {
   };
 
   next = (callback) => {
+    const lastIndex = this.steps.length - 1;
     this.setState({
-      stepIndex: this.state.stepIndex + 1,
+      stepIndex: this.state.stepIndex < lastIndex ? this.state.stepIndex + 1 : lastIndex,
       isStepValid: false,
     }, callback);
   };

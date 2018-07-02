@@ -26,11 +26,6 @@ const Styled = styled.div`
   span {
     color: ${ui.neutralColor};
   }
-  
-  //button {
-  //  height: 40px;
-  //  padding: 0;
-  //}
 `;
 
 class CommentActions extends React.Component {
