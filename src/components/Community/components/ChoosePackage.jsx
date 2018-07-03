@@ -181,7 +181,7 @@ class ChooseMembershipPackage extends Component {
       >
         <div className="font-normal">{data.name}</div>
         <Divider style={{ height: '3px', backgroundColor: this.props.muiTheme.palette.primary2Color }} />
-        <div>{data.description}</div>
+        <div className="text-small">{data.description}</div>
         <ul style={{ height: 200 }}>
           {gifts && gifts.map(gift => (
             <li style={{ listStyleType: 'disc' }} key={gift.item_id}>{(`0${gift.quantity}`).slice(-2)} {dsGifts[gift.item_id]}</li>

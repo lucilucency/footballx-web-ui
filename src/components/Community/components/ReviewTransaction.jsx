@@ -11,6 +11,22 @@ import { getCookie } from '../../../utils/index';
 import { localUpdateMetadata, ajaxGet } from '../../../actions';
 import { provincesObj, wardsObj, districtsObj } from '../../../fxconstants';
 
+const patt1 = new RegExp('(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])/([0-9]{4})');
+const patt2 = new RegExp('([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])');
+
+const toPickerDate = (date) => {
+  if (date && date.length) {
+    if (patt1.test(date)) {
+      const dateSplit = date.split('/');
+      return `${dateSplit[2]}-${dateSplit[0]}-${dateSplit[1]}`;
+    } else if (patt2.test(date)) {
+      return date;
+    }
+  }
+
+  return '';
+};
+
 const getStyles = theme => ({
   root: {
     display: 'flex',
@@ -98,7 +114,7 @@ class ReviewTransaction extends Component {
   }
 
   render() {
-    const { muiTheme, registerMembership } = this.props;
+    const { muiTheme, registerMembership, user } = this.props;
 
     const styles = getStyles(muiTheme);
 
@@ -109,21 +125,35 @@ class ReviewTransaction extends Component {
             <div className="font-large" style={{ textTransform: 'uppercase' }}>{strings.announce_registered_membership}</div>
             <Divider style={{ height: '3px', backgroundColor: muiTheme.palette.primary2Color, marginTop: 3 }} />
             <div className="text-little">
-              <p>Transaction Code: {registerMembership.id}</p>
+              <p>{strings.label_became_membership_code}: <span className="font-normal"><b>{registerMembership.id}</b></span></p>
               {registerMembership.group_membership_pack_data && (
                 <p>{strings.label_package}: <b>{registerMembership.group_membership_pack_data.name}</b></p>
               )}
+              <div>
+                <p>
+                  <span>
+                    {strings.label_membership_card_info}&nbsp;&nbsp;
+                  </span>
+                  <a href="" onClick={(e) => { e.preventDefault(); this.props.onRequestEditProfile(); }}>Chỉnh sửa</a>
+                </p>
+                <ul>
+                  <li>{strings.label_name}: {user.fullname}</li>
+                  <li>{strings.label_gender}: {strings[`label_gender_${user.gender}`]}</li>
+                  <li>Ngày sinh: {toPickerDate(user.birthday)}</li>
+                  <li>Email: {user.email}</li>
+                </ul>
+              </div>
               {registerMembership.xuser_address_data && (
                 <div>
                   <p>
                     <span>
-                      {strings.label_receiver}: {registerMembership.xuser_address_data.name}&nbsp;
+                      {strings.label_receiver}: {registerMembership.xuser_address_data.name}&nbsp;&nbsp;
                     </span>
                     <a href="" onClick={(e) => { e.preventDefault(); this.props.onRequestEditReceiver(); }}>Chỉnh sửa</a>
                   </p>
                   <ul>
-                    <li>SDT: {registerMembership.xuser_address_data.phone}</li>
-                    <li>Địa chỉ: {registerMembership.xuser_address_data.address}</li>
+                    <li>{strings.label_phone}: {registerMembership.xuser_address_data.phone}</li>
+                    <li>{strings.label_address}: {registerMembership.xuser_address_data.address}</li>
                     <li>{districtsObj[registerMembership.xuser_address_data.district_id].name}
                     - {wardsObj[registerMembership.xuser_address_data.ward_id].name}
                     - {provincesObj[registerMembership.xuser_address_data.province_id].name}
@@ -147,13 +177,16 @@ ReviewTransaction.propTypes = {
   /**/
   muiTheme: PropTypes.object,
   gmData: PropTypes.object,
+  user: PropTypes.object,
   registerMembership: PropTypes.object,
   onRequestEditReceiver: PropTypes.func,
+  onRequestEditProfile: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   gmData: state.app.community.data && state.app.community.data.groupMemberships,
   registerMembership: state.app.metadata.data.registerMembership,
+  user: state.app.metadata.data.user,
 });
 
 const mapDispatchToProps = dispatch => ({

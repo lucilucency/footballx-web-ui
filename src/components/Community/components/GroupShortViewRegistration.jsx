@@ -35,7 +35,7 @@ const GroupShortViewRegistration = ({
           <div className="text-small" style={{ WebkitMarginAfter: '0', WebkitMarginBefore: '0' }}>{format(strings.label_registered_membership, cData.name)}</div>
           <Divider />
           <div className="text-little">
-            <p>Transaction Code: <span className="font-normal"><b>{registerMembership.id}</b></span></p>
+            <p>{strings.label_became_membership_code}: <span className="font-normal"><b>{registerMembership.id}</b></span></p>
             <p>{strings.label_status}: {registerMembership.is_complete ? strings.label_purchased : strings.label_waiting_purchase}</p>
           </div>
           {!registerMembership.is_complete && (

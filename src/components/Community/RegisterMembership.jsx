@@ -8,17 +8,19 @@ import {
   Stepper,
   StepLabel,
 } from 'material-ui/Stepper';
-import IconProgress from 'material-ui/CircularProgress';
 import { muiThemeable } from 'material-ui/styles';
 import RaisedButton from 'material-ui/RaisedButton';
 import Amplitude from 'react-amplitude';
 import { messaging } from '../../firebaseMessaging';
+import { IconProgress, IconSuccess } from '../Icons';
 import { ajaxPost, ajaxPut, localUpdateMetadata, announce } from '../../actions';
 import { format, renderDialog } from '../../utils';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
 import ChooseMembershipPackage from './components/ChoosePackage';
-import ChoosePlace from './components/ChoosePlace';
+import GroupLandingPage1 from './components/GroupLandingPage1';
+import GroupLandingPage2 from './components/GroupLandingPage2';
+import ChoosePlace from './components/ChooseReceiver';
 import ReviewTransaction from './components/ReviewTransaction';
 import { getStyles } from './muitheme';
 
@@ -29,21 +31,15 @@ class RegisterMembership extends React.Component {
       isFirst: true,
       stepIndex: 0,
       isStepValid: false,
-      toppingUp: false,
+      toppingUp: 0,
       openDialog: false,
+      closeDialogCallback: null,
       dialog: {},
     };
 
     this.handleOpenDialog = (cb) => { this.setState({ openDialog: true }, cb); };
-    this.handleCloseDialog = () => {
-      this.setState({ openDialog: false }, () => {
-        this.props.updateMetadata({
-          registerMembership: {
-            ...this.props.registerMembership,
-            is_complete: true,
-          },
-        });
-      });
+    this.handleCloseDialog = (cb) => {
+      this.setState({ openDialog: false }, cb);
     };
 
     this.steps = [
@@ -119,6 +115,9 @@ class RegisterMembership extends React.Component {
             onRequestEditReceiver={() => {
               this.setState({ stepIndex: 2 });
             }}
+            onRequestEditProfile={() => {
+              this.setState({ stepIndex: 0 });
+            }}
           />
         ),
       },
@@ -137,7 +136,6 @@ class RegisterMembership extends React.Component {
           // body_loc_args = JSON.parse(body_loc_args);
 
           if (body_loc_key === 'XUSER_TOPUP_XCOIN_SUCCESS') {
-            this.setState({ toppingUp: false });
             // const topup = body_loc_args[0];
             // const balance = body_loc_args[1];
             // if (balance > this.props.registerMembership.group_membership_pack_data.price) {
@@ -154,7 +152,7 @@ class RegisterMembership extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    const { registerMembership } = props;
+    const { registerMembership, balance } = props;
     if (registerMembership && registerMembership.id) {
       if (!registerMembership.is_complete) {
         if (this.state.stepIndex !== this.steps.length - 1) {
@@ -165,6 +163,17 @@ class RegisterMembership extends React.Component {
         }
       } else {
         props.history.push(`/r/${props.communityID}`);
+      }
+
+      if (registerMembership.group_membership_pack_data && registerMembership.xuser_address_data) {
+        if (!this.state.isFirst) {
+          const { price } = registerMembership.group_membership_pack_data;
+          const { xcoin } = balance;
+
+          if (xcoin >= price) {
+            this.submitPayment();
+          }
+        }
       }
     }
   }
@@ -199,7 +208,17 @@ class RegisterMembership extends React.Component {
 
   checkAfterSubmit = (key, isValid, callback) => {
     if (isValid) {
-      this.next(callback);
+      if (this.props.registerMembership
+        && this.props.registerMembership.group_membership_pack_id
+        // && this.props.registerMembership.group_membership_pack_data
+        // && this.props.registerMembership.group_membership_pack_data.price
+        && this.props.registerMembership.xuser_address_id
+        // && this.props.registerMembership.xuser_address_data
+      ) {
+        this.end(callback);
+      } else {
+        this.next(callback);
+      }
     }
   };
 
@@ -211,6 +230,13 @@ class RegisterMembership extends React.Component {
     }, callback);
   };
 
+  end = (callback) => {
+    const lastIndex = this.steps.length - 1;
+    this.setState({
+      stepIndex: lastIndex,
+    }, callback);
+  };
+
   /**
    * 0. Check balance, if userBalance < packagePrice go (2). else (3).
    * 1. Prompt
@@ -218,15 +244,15 @@ class RegisterMembership extends React.Component {
    * 3. Purchase
    * 4. Notify & back to community's home
    * */
-  purchase = (e) => {
-    e.preventDefault();
+  confirmPurchase = (e) => {
+    if (e) e.preventDefault();
     const { price } = this.props.registerMembership.group_membership_pack_data;
     const { xcoin } = this.props.balance;
 
     if (xcoin >= price) {
       this.submitPayment();
     } else {
-      this.topup();
+      this.topup(price);
     }
   };
 
@@ -236,7 +262,6 @@ class RegisterMembership extends React.Component {
     }, (err, res) => {
       if (res.ok && res.text) {
         try {
-          this.setState({ toppingUp: false });
           const { balance } = JSON.parse(res.text);
 
           /* clear polling */
@@ -245,11 +270,22 @@ class RegisterMembership extends React.Component {
           this.setState({
             dialog: {
               view: (
-                <div style={{}}>
-                  <div className="text-large">{format(strings.label_became_membership, this.props.communityName)}</div>
-                </div>
+                <GroupLandingPage2
+                  // group_memberships={this.props.group_memberships.find(el => el.group_membership_id === this.props.registerMembership.group_membership_id)}
+                  muiTheme={this.props.muiTheme}
+                  user={this.props.user}
+                />
               ),
             },
+            closeDialogCallback: () => {
+              this.props.updateMetadata({
+                registerMembership: {
+                  ...this.props.registerMembership,
+                  is_complete: true,
+                },
+              });
+            },
+            toppingUp: 2,
           }, this.handleOpenDialog());
 
           this.props.announceFn({
@@ -270,22 +306,21 @@ class RegisterMembership extends React.Component {
     });
   };
 
-  topup = () => {
+  topup = (price) => {
     ajaxPost({
       path: 'payment/bank',
       params: {
-        amount: this.props.registerMembership.group_membership_pack_data.price,
+        amount: price,
       },
     }).then((body) => {
       const { trans } = body;
       this.setState({
-        toppingUp: true,
+        toppingUp: 4,
+        topupURL: trans.pay_url,
       });
-      const win = trans.pay_url;
-      window.open(win, '1366002941508', 'width=800,height=600,left=5,top=3');
-      // this.setState({ topupURL: trans.pay_url }, () => {
-      //   this.triggerTopup.click();
-      // });
+
+      // const win = trans.pay_url;
+      // window.open(win, '1366002941508', 'width=800,height=600,left=5,top=3');
 
       this.polling = setInterval(() => {
         this.submitPayment();
@@ -298,7 +333,22 @@ class RegisterMembership extends React.Component {
     if (this.props.onClose) {
       this.props.onClose();
     } else {
-      this.props.history.push(`/r/${this.props.communityID}`);
+      // this.props.history.push(`/r/${this.props.communityID}`);
+      this.setState({
+        dialog: {
+          view: (
+            <GroupLandingPage1
+              registerMembership={this.props.registerMembership}
+              muiTheme={this.props.muiTheme}
+              user={this.props.user}
+            />
+          ),
+        },
+        closeDialogCallback: () => {
+          this.props.history.push(`/r/${this.props.communityID}`);
+        },
+        toppingUp: 2,
+      }, this.handleOpenDialog());
     }
   };
 
@@ -308,8 +358,19 @@ class RegisterMembership extends React.Component {
     const step = this.steps[stepIndex];
     const style = getStyles(muiTheme);
 
+    const getIcon = () => {
+      switch (this.state.toppingUp) {
+        case 1:
+          return <IconProgress size={24} />;
+        case 2:
+          return <IconSuccess size={24} />;
+        default:
+          return null;
+      }
+    };
+
     return (
-      <div style={{ minHeight: 800 }}>
+      <div style={{ minHeight: isCompact ? 600 : 1200 }}>
         <Stepper
           activeStep={stepIndex}
           // linear={this.props.registerMembership && this.props.registerMembership.id}
@@ -327,6 +388,19 @@ class RegisterMembership extends React.Component {
             </Step>
           ))}
         </Stepper>
+        {false && this.state.topupURL && (
+          <div style={{ width: '100%', backgroundColor: 'black', textAlign: 'center' }}>
+            <iframe
+              title="topup"
+              src={this.state.topupURL}
+              width="600"
+              height="600"
+              frameBorder="0"
+              scrolling="yes"
+              allowFullScreen
+            />
+          </div>
+        )}
         <div>
           {step && (
             <div>
@@ -343,18 +417,38 @@ class RegisterMembership extends React.Component {
                 />}
                 {stepIndex === this.steps.length - 1 && (
                   <div>
-                    <RaisedButton
-                      label={this.state.toppingUp ? 'Đang thanh toán' : 'PURCHASE NOW!'}
-                      icon={this.state.toppingUp && <IconProgress size={24} />}
-                      labelPosition="before"
-                      disabled={!this.props.registerMembership
-                      || !this.props.registerMembership.group_membership_pack_data
-                      || !this.props.registerMembership.group_membership_pack_data.price}
-                      primary
-                      style={{ ...style.noBorderBtn.style, width: 200, margin: 10 }}
-                      onClick={this.purchase}
-                    />
-                    {this.state.isFirst && <RaisedButton
+                    {this.state.toppingUp === 0 && (
+                      <RaisedButton
+                        label="CONFIRM"
+                        labelPosition="before"
+                        disabled={!this.props.registerMembership
+                        || !this.props.registerMembership.group_membership_pack_data
+                        || !this.props.registerMembership.group_membership_pack_data.price}
+                        primary
+                        style={{ ...style.noBorderBtn.style, width: 200, margin: 10 }}
+                        onClick={this.confirmPurchase}
+                      />
+                    )}
+                    {(this.state.toppingUp === 4 || this.state.toppingUp === 1) && (
+                      <RaisedButton
+                        label="PURCHASE NOW!"
+                        icon={getIcon()}
+                        labelPosition="before"
+                        disabled={!this.props.registerMembership
+                        || !this.props.registerMembership.group_membership_pack_data
+                        || !this.props.registerMembership.group_membership_pack_data.price}
+                        primary
+                        style={{ ...style.noBorderBtn.style, width: 200, margin: 10 }}
+                        href={this.state.topupURL}
+                        onClick={() => {
+                          this.setState({
+                            toppingUp: 1,
+                          });
+                        }}
+                        target="_blank"
+                      />
+                    )}
+                    {((this.state.isFirst || true) && this.state.toppingUp === 4) && <RaisedButton
                       label="LATER"
                       onClick={this.handleFinish}
                       style={{ ...style.noBorderBtn.style, width: 200, margin: 10 }}
@@ -367,9 +461,8 @@ class RegisterMembership extends React.Component {
             </div>
           )}
         </div>
-        {renderDialog(this.state.dialog, this.state.openDialog, this.handleCloseDialog)}
-        <Prompt message="Quá trình nạp tiền đang tiến hành. Bạn vẫn tiếp tục muốn thoát?" when={this.state.toppingUp} />
-        <a style={{ display: 'none' }} rel="noopener noreferrer" href={this.state.topupURL} target="_blank" ref={(ref) => { this.triggerTopup = ref; }}>Click me</a>
+        {renderDialog(this.state.dialog, this.state.openDialog, this.state.closeDialogCallback || this.handleCloseDialog)}
+        <Prompt message="Quá trình nạp tiền đang tiến hành. Bạn vẫn tiếp tục muốn thoát?" when={this.state.toppingUp === 1} />
       </div>
     );
   }
@@ -377,11 +470,11 @@ class RegisterMembership extends React.Component {
 
 RegisterMembership.propTypes = {
   communityID: PropTypes.number,
-  communityName: PropTypes.string,
   groupMembershipID: PropTypes.number,
   onClose: PropTypes.func,
   /**/
   muiTheme: PropTypes.object,
+  user: PropTypes.object,
   balance: PropTypes.object,
   registerMembership: PropTypes.object,
   updateMetadata: PropTypes.func,
@@ -393,9 +486,11 @@ RegisterMembership.propTypes = {
 const mapStateToProps = state => ({
   communityName: state.app.community.data.name,
   groupMembershipID: state.app.community.data.groupMemberships && state.app.community.data.groupMemberships.id,
+  user: state.app.metadata.data.user,
   registerMembership: state.app.metadata.data.registerMembership,
   balance: state.app.metadata.data.balance,
   isCompact: state.browser.lessThan.small,
+  group_memberships: state.app.metadata.data.group_memberships,
 });
 
 const mapDispatchToProps = dispatch => ({
