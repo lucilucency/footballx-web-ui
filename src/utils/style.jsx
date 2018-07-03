@@ -19,6 +19,7 @@ export const styles = {
   cardHeader: {
     style: {
       paddingBottom: 6,
+      textAlign: 'justify',
     },
     title: {},
   },
@@ -41,6 +42,7 @@ export const styles = {
   cardText: {
     style: {
       paddingLeft: '70px',
+      paddingRight: '50px',
       fontWeight: 'normal',
       wordBreak: 'break-word',
       whiteSpace: 'pre-wrap',
@@ -64,7 +66,7 @@ export const styles = {
     style: {
       padding: '0 0',
       marginLeft: '70px',
-      marginRight: '16px',
+      marginRight: '50px',
       borderTop: `1px solid ${ui.borderColorVariant1}`,
     },
     styleCompact: {
@@ -83,13 +85,12 @@ export const styles = {
     titleStyleCompact: {
       display: 'inline-block',
       padding: '0 16px',
-      textAlign: 'justify',
       fontWeight: 'bold',
-      fontSize: constants.fontSizeSmall,
-      lineHeight: constants.lineHeightSmall,
+      fontSize: constants.fontSizeNormal,
+      lineHeight: constants.lineHeightNormal,
     },
     style: {
-      textAlign: 'left',
+      textAlign: 'justify',
       paddingTop: 0,
       paddingBottom: 0,
       paddingLeft: '70px',
@@ -97,7 +98,7 @@ export const styles = {
     },
     styleCompact: {
       padding: 0,
-      textAlign: 'left',
+      textAlign: 'justify',
       wordBreak: 'break-word',
     },
   },

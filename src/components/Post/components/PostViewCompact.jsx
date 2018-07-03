@@ -11,20 +11,21 @@ import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview } from './Styled';
 import ViewPostFullFrame from './PostViewFullFrame';
 
-const CONTENT_MAX_LEN = 1000;
+const CONTENT_MAX_LEN = 800;
+const CONTENT_MAX_LEN_COMPACT = 400;
 
 const markdown = require('markdown-it')({
   html: true,
   linkify: true,
 });
 
-const wrapTextReadMore = (text, callback) => {
+const wrapTextReadMore = (text, callback, isCompact) => {
   if (!text) { return ''; }
   if (text.length < CONTENT_MAX_LEN) return <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(text) }} />;
 
   return (
     <div>
-      <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(text.slice(0, CONTENT_MAX_LEN)) }} />
+      <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(text.slice(0, isCompact ? CONTENT_MAX_LEN_COMPACT : CONTENT_MAX_LEN)) }} />
       <a href="" onClick={callback}>{strings.label_read_more}</a>
     </div>
   );
@@ -182,7 +183,7 @@ class ViewPostCompact extends React.Component {
           <CardText
             style={isCompact ? styles.cardText.styleCompact : styles.cardText.style}
           >
-            {wrapTextReadMore(item.content, this.popupViewPostFull)}
+            {wrapTextReadMore(item.content, this.popupViewPostFull, isCompact)}
           </CardText>
         )}
         <CardActions style={isCompact ? styles.cardActions.styleCompact : styles.cardActions.style}>
@@ -202,7 +203,7 @@ class ViewPostCompact extends React.Component {
 ViewPostCompact.propTypes = {
   data: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
-  isCompact: PropTypes.object,
+  isCompact: PropTypes.bool,
   setPost: PropTypes.func,
   isFollowing: PropTypes.bool,
   history: PropTypes.object,
