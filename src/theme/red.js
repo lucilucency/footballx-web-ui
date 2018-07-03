@@ -1,7 +1,8 @@
 import * as materialColor from 'material-ui/styles/colors';
 
 const ThemeRed = {
-  positive1Color: materialColor.red500,
+  positive1Color: materialColor.red600,
+  // positive1Color: 'rgb(204, 23, 32)',
   positive2Color: materialColor.red400,
   positive3Color: materialColor.red100,
   negativeColor: materialColor.fullBlack,

@@ -187,7 +187,8 @@ class ChooseMembershipPackage extends Component {
             <li style={{ listStyleType: 'disc' }} key={gift.item_id}>{(`0${gift.quantity}`).slice(-2)} {dsGifts[gift.item_id]}</li>
           ))}
         </ul>
-        <div style={{ fontSize: constants.fontSizeSmall, textAlign: 'center' }}>Price: {numberWithCommas(data.price)}</div>
+        <div style={{ fontSize: constants.fontSizeNormal, textAlign: 'center' }}><b>Price: {numberWithCommas(data.price)}</b></div>
+        <div style={{ fontSize: constants.fontSizeSmall, textAlign: 'center' }}>Giá đã bao gồm 2% phí</div>
       </div>
     );
   };

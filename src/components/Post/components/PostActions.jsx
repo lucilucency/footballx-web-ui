@@ -219,7 +219,7 @@ class PostActions extends React.Component {
                   fontWeight: 'inherit',
                   fontSize: 'inherit',
                 }}
-                onClick={this.props.browser.greaterThan.small ? this.popupViewPostFull : this.routerToViewPostFull}
+                onClick={!this.props.isCompact ? this.popupViewPostFull : this.routerToViewPostFull}
               />
             )}
           </div>
@@ -250,18 +250,14 @@ PostActions.propTypes = {
   data: PropTypes.object,
   disableComment: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  isCompact: PropTypes.bool.isRequired,
 
   /**/
-  browser: PropTypes.object,
   upVote: PropTypes.func,
   downVote: PropTypes.func,
   setPost: PropTypes.func,
   history: PropTypes.object,
 };
-
-const mapStateToProps = state => ({
-  browser: state.browser,
-});
 
 const mapDispatchToProps = dispatch => ({
   upVote: (postID, params, type) => dispatch(upVote(postID, params, type)),
@@ -269,5 +265,5 @@ const mapDispatchToProps = dispatch => ({
   setPost: payload => dispatch(setPost(payload)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostActions));
+export default withRouter(connect(null, mapDispatchToProps)(PostActions));
 

@@ -27,7 +27,7 @@ const Styled = styled.div`
 
 const Cover = propsVar => (
   <Styled bg={propsVar.bg}>
-    <div className="name text-big">{propsVar.name}</div>
+    <div className="name text-big">{!propsVar.isCompact && propsVar.name}</div>
   </Styled>
 );
 

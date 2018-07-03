@@ -107,6 +107,7 @@ class ViewPostFull extends React.Component {
               data={this.props.data}
               disableComment
               isLoggedIn={this.props.isLoggedIn}
+              isCompact={this.props.isCompact}
             />
           </CardActions>
         </Card>

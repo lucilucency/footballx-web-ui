@@ -83,16 +83,14 @@ export const ajaxPost = ({
 
     return doRequest
       .send(formurlencoded(params))
-      .end((err, res) => {
+      .then((res, err) => {
         if (callback) return callback(err, res);
-
         if (res) {
-          if (res.ok && res.text) {
-            return res.text;
+          if (res.ok && res.body) {
+            return res.body;
           }
-          return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1), delay);
         }
-        console.error(`Error in ajaxGet/${path}`);
+        console.error(`Error in ajaxPost/${path}`);
         console.error(err);
         return setTimeout(() => fetchDataWithRetry(delay + 2000, tries - 1, err), delay);
       });

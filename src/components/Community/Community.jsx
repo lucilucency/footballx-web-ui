@@ -13,6 +13,7 @@ import New from './FeedNew';
 import Top from './FeedTop';
 import Controversy from './FeedControversy';
 import RegisterMembership from './RegisterMembership';
+import GroupShortViewRegistration from './components/GroupShortViewRegistration';
 
 const verticalAlign = {
   verticalAlign: 'middle',
@@ -120,7 +121,7 @@ class Community extends React.Component {
 
   render() {
     const {
-      match, cData, gmData, loggedInUserID, registerMembership,
+      match, cData, gmData, loggedInUserID, registerMembership, isCompact,
     } = this.props;
     const communityID = Number(match.params.id);
     const info = match.params.info || 'hot';
@@ -133,7 +134,15 @@ class Community extends React.Component {
     return (
       <div>
         <Helmet title={this.props.cData.name} />
-        {cData.bg ? <Cover bg={cData.bg} name={cData.name} /> : null}
+        {cData.bg ? <Cover isCompact={isCompact} bg={cData.bg} name={cData.name} /> : null}
+        {isCompact && !tab.disabled && (
+          <div style={{ marginTop: 8 }}>
+            <GroupShortViewRegistration
+              registerMembership={registerMembership}
+              cData={cData}
+            />
+          </div>
+        )}
         <Container
           columns={templateColumns}
           style={{
@@ -148,7 +157,15 @@ class Community extends React.Component {
             />}
             {tab && tab.content}
           </div>
-          {!tab.disabled && <RightComponent cData={cData} gmData={gmData} loggedInUserID={loggedInUserID} registerMembership={registerMembership} />}
+          {!tab.disabled && (
+            <RightComponent
+              isCompact={this.props.isCompact}
+              cData={cData}
+              gmData={gmData}
+              loggedInUserID={loggedInUserID}
+              registerMembership={registerMembership}
+            />
+          )}
         </Container>
       </div>
     );
@@ -166,6 +183,7 @@ Community.propTypes = {
   setTheme: PropTypes.func,
   getGroupMemberships: PropTypes.func,
   localUpdateMetadata: PropTypes.func,
+  isCompact: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -174,6 +192,7 @@ const mapStateToProps = state => ({
   registerMembership: state.app.metadata.data.registerMembership,
   loggedInUserID: state.app.metadata.data.user && state.app.metadata.data.user.id,
   theme: state.app.theme,
+  isCompact: state.browser.lessThan.small,
 });
 
 const mapDispatchToProps = dispatch => ({

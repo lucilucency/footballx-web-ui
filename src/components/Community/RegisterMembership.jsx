@@ -276,24 +276,20 @@ class RegisterMembership extends React.Component {
       params: {
         amount: this.props.registerMembership.group_membership_pack_data.price,
       },
-    }, (err, res) => {
-      if (res.ok && res.text) {
-        try {
-          const { trans } = JSON.parse(res.text);
-          this.setState({
-            toppingUp: true,
-          });
-          window.open(
-            trans.pay_url,
-            '_blank', // <- This is what makes it open in a new window.
-          );
-          this.polling = setInterval(() => {
-            this.submitPayment();
-          }, 10000);
-        } catch (parseErr) {
-          console.error(parseErr);
-        }
-      }
+    }).then((body) => {
+      const { trans } = body;
+      this.setState({
+        toppingUp: true,
+      });
+      const win = trans.pay_url;
+      window.open(win, '1366002941508', 'width=800,height=600,left=5,top=3');
+      // this.setState({ topupURL: trans.pay_url }, () => {
+      //   this.triggerTopup.click();
+      // });
+
+      this.polling = setInterval(() => {
+        this.submitPayment();
+      }, 10000);
     });
   };
 
@@ -307,7 +303,7 @@ class RegisterMembership extends React.Component {
   };
 
   render() {
-    const { muiTheme, browser } = this.props;
+    const { muiTheme, isCompact } = this.props;
     const { stepIndex } = this.state;
     const step = this.steps[stepIndex];
     const style = getStyles(muiTheme);
@@ -326,7 +322,7 @@ class RegisterMembership extends React.Component {
           {this.steps.map(el => (
             <Step key={el.key}>
               <StepLabel>
-                {browser.greaterThanSmall && el.heading}
+                {!isCompact && el.heading}
               </StepLabel>
             </Step>
           ))}
@@ -373,6 +369,7 @@ class RegisterMembership extends React.Component {
         </div>
         {renderDialog(this.state.dialog, this.state.openDialog, this.handleCloseDialog)}
         <Prompt message="Quá trình nạp tiền đang tiến hành. Bạn vẫn tiếp tục muốn thoát?" when={this.state.toppingUp} />
+        <a style={{ display: 'none' }} rel="noopener noreferrer" href={this.state.topupURL} target="_blank" ref={(ref) => { this.triggerTopup = ref; }}>Click me</a>
       </div>
     );
   }
@@ -390,7 +387,7 @@ RegisterMembership.propTypes = {
   updateMetadata: PropTypes.func,
   announceFn: PropTypes.func,
   history: PropTypes.object,
-  browser: PropTypes.object,
+  isCompact: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -398,7 +395,7 @@ const mapStateToProps = state => ({
   groupMembershipID: state.app.community.data.groupMemberships && state.app.community.data.groupMemberships.id,
   registerMembership: state.app.metadata.data.registerMembership,
   balance: state.app.metadata.data.balance,
-  browser: state.browser,
+  isCompact: state.browser.lessThan.small,
 });
 
 const mapDispatchToProps = dispatch => ({

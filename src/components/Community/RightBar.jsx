@@ -8,7 +8,7 @@ import GroupShortView from './GroupShortView';
 
 const CommunityRightBar = (props) => {
   const {
-    cData, gmData, loggedInUserID, registerMembership,
+    cData, gmData, loggedInUserID, registerMembership, isCompact,
   } = props;
 
   return (
@@ -17,7 +17,7 @@ const CommunityRightBar = (props) => {
         <CommunityShortView data={cData} />
       </SmallPaper>
       {gmData && gmData.group_id && loggedInUserID ? (
-        <GroupShortView gmData={gmData} cData={cData} registerMembership={registerMembership} />
+        <GroupShortView isCompact={isCompact} gmData={gmData} cData={cData} registerMembership={registerMembership} />
       ) : null}
       <div>
         <AboutXFooter />
@@ -29,8 +29,9 @@ const CommunityRightBar = (props) => {
 CommunityRightBar.propTypes = {
   cData: PropTypes.object,
   gmData: PropTypes.object,
+  isCompact: PropTypes.bool,
   registerMembership: PropTypes.object,
   loggedInUserID: PropTypes.number,
 };
 
-export default connect(null, null)(CommunityRightBar);
+export default connect()(CommunityRightBar);

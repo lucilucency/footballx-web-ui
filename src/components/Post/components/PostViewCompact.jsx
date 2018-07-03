@@ -106,7 +106,8 @@ class ViewPostCompact extends React.Component {
     });
   }
 
-  routerToViewPostFull = () => {
+  routerToViewPostFull = (e) => {
+    e.preventDefault();
     const { data } = this.props;
     this.props.history.push({
       pathname: `/p/${data.id}`,
@@ -183,7 +184,7 @@ class ViewPostCompact extends React.Component {
           <CardText
             style={isCompact ? styles.cardText.styleCompact : styles.cardText.style}
           >
-            {wrapTextReadMore(item.content, this.popupViewPostFull, isCompact)}
+            {wrapTextReadMore(item.content, !isCompact ? this.popupViewPostFull : this.routerToViewPostFull, isCompact)}
           </CardText>
         )}
         <CardActions style={isCompact ? styles.cardActions.styleCompact : styles.cardActions.style}>
@@ -192,6 +193,7 @@ class ViewPostCompact extends React.Component {
             data={this.props.data}
             disableComment={false}
             isLoggedIn={this.props.isLoggedIn}
+            isCompact={this.props.isCompact}
           />
         </CardActions>
         {renderDialog(this.state.dialogConstruct, this.state.openDialog, this.handleCloseDialog)}

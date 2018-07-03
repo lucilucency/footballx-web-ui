@@ -19,7 +19,6 @@ export const styles = {
   cardHeader: {
     style: {
       paddingBottom: 6,
-      textAlign: 'justify',
     },
     title: {},
   },
