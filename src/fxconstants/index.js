@@ -13,8 +13,10 @@ import provincesObj from './provincesObj.json';
 import teamSquadObj from './teamSquadObj.json';
 import wardsArr from './wardsArr.json';
 import wardsObj from './wardsObj.json';
+import itemsObj from './itemsObj.json';
 
 export {
+  itemsObj,
   areasArr,
   areasObj,
   clubsArr,

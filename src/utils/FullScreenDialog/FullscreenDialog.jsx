@@ -55,10 +55,10 @@ const Wrapper = styled.div`
   width: 80%;
   min-height: 100%;
   
-  @media only screen and (max-width: 660px) {
+  @media only screen and (max-width: 768px) {
     width: 100%;
-    height: 100%;
-    min-height: 100%;
+    height: 80%;
+    min-height: 80%;
     //min-height: 80%;
   }
 `;

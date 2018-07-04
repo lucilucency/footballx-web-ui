@@ -19,35 +19,44 @@ const GroupLandingPage1 = ({
   registerMembership, user,
 }) => (
   <Styled>
-    <div>
-      <div className="text-big">Xin chào {user.fullname}</div>
+    <div className="font-small">
+      <div className="font-big">Xin chào {user.fullname}</div>
       <Divider />
       <p>
         MUSVN đã nhận được thông tin đăng ký thành viên chính thức mùa giải 2018/19 của bạn. <br />
-        Mã giao dịch của bạn là <span className="text-normal"><b>{registerMembership.id}</b></span>.
-      </p>
-      <p>
+        <b>Mã giao dịch của bạn là <span className="text-normal">{registerMembership.id}</span>.</b>
+        <br />
         Bạn vui lòng hoàn tất chuyển khoản phí thành viên trong vòng 48 giờ để hoàn tất đăng ký.
       </p>
-      <p>Thông tin chuyển khoản</p>
-      <ul>
-        <li>Nội dung chuyển khoản: <span className="text-normal"><b>MUSVN-{registerMembership.id}</b></span></li>
-        <li>Ngân hàng: Một trong hai ngân hàng sau:</li>
+      <p>
+        Thông tin chuyển khoản <br />
         <ul>
-          <li>
-            1. Ngân hàng BIDV: 120-10-00-677970-0
-            Chi nhánh: Sở giao dịch 1
-            Chủ tài khoản: Trịnh Thanh Hòa
-          </li>
-          <li>
-            2. Ngân hàng Vietcombank: 0851000019106
-            Chi nhánh: Hà Thành
-            Chủ tài khoản: Trịnh Thanh Hòa
-          </li>
+          <li>Nội dung chuyển khoản: <span className="text-normal"><b>MUSVN-{registerMembership.id}</b></span></li>
+          <li>Ngân hàng: Một trong hai ngân hàng sau:</li>
+          <ul>
+            <li>
+              1. Ngân hàng BIDV: 120-10-00-677970-0 - Chi nhánh: Sở giao dịch 1 <br />
+              Chủ tài khoản: Trịnh Thanh Hòa
+            </li>
+            <li>
+              2. Ngân hàng Vietcombank: 0851000019106 - Chi nhánh: Hà Thành <br />
+              Chủ tài khoản: Trịnh Thanh Hòa
+            </li>
+          </ul>
         </ul>
+      </p>
+
+      <ul>
+        <i>
+          Lưu ý:
+          <li>1. MUSVN không chấp nhận chuyển khoản qua ATM</li>
+          <li>2. MUSVN không chấp nhận các giao dịch không có nội dung hoặc nội dung chuyển khoản không đúng cú pháp: MUSVN-mã giao dịch</li>
+        </i>
       </ul>
-      <p>Mọi thông tin chi tiết bạn vui lòng xem thêm tại MUSVN trên website: footballx.live</p>
-      <p>Xin cám ơn bạn đã đồng hành cùng MUSVN.</p>
+      <p>
+        Mọi thông tin chi tiết bạn vui lòng xem thêm tại MUSVN trên website: footballx.live <br />
+        Xin cám ơn bạn đã đồng hành cùng MUSVN.
+      </p>
       <p>Trân trọng.</p>
     </div>
   </Styled>

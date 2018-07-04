@@ -276,6 +276,11 @@ class RegisterMembership extends React.Component {
                   user={this.props.user}
                 />
               ),
+              contentStyle: {
+                width: '100%',
+                maxWidth: 'none',
+              },
+              autoScrollBodyContent: true,
             },
             closeDialogCallback: () => {
               this.props.updateMetadata({
@@ -343,11 +348,16 @@ class RegisterMembership extends React.Component {
               user={this.props.user}
             />
           ),
+          fullScreen: true,
+          contentStyle: {
+            width: '100%',
+            maxWidth: 'none',
+          },
+          autoScrollBodyContent: true,
         },
         closeDialogCallback: () => {
           this.props.history.push(`/r/${this.props.communityID}`);
         },
-        toppingUp: 2,
       }, this.handleOpenDialog());
     }
   };

@@ -9,15 +9,7 @@ import strings from '../../../lang';
 import { validate, numberWithCommas } from '../../../utils';
 import constants from '../../constants';
 import { localUpdateMetadata } from '../../../actions';
-
-const dsGifts = {
-  1: 'Sổ thành viên',
-  2: 'Sổ tay',
-  3: 'Bút',
-  4: 'Dây đeo thẻ',
-  5: 'Móc khóa',
-  7: 'Vé xem Big Offline trận bất kỳ do MUSVN tổ chức (áp dụng Sài Gòn, Hà Nội)',
-};
+import { itemsObj } from '../../../fxconstants';
 
 const getStyles = theme => ({
   root: {
@@ -184,7 +176,7 @@ class ChooseMembershipPackage extends Component {
         <div className="text-small">{data.description}</div>
         <ul style={{ height: 200 }}>
           {gifts && gifts.map(gift => (
-            <li style={{ listStyleType: 'disc' }} key={gift.item_id}>{(`0${gift.quantity}`).slice(-2)} {dsGifts[gift.item_id]}</li>
+            <li style={{ listStyleType: 'disc' }} key={gift.item_id}>{(`0${gift.quantity}`).slice(-2)} {itemsObj[gift.item_id]}</li>
           ))}
         </ul>
         <div style={{ fontSize: constants.fontSizeNormal, textAlign: 'center' }}><b>Price: {numberWithCommas(data.price)}</b></div>

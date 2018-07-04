@@ -67,4 +67,20 @@ typings/
 .env
 .env.*
 
-src/fxconstants/*
+src/fxconstants/areasArr.json
+src/fxconstants/areasObj.json
+src/fxconstants/clubsArr.json
+src/fxconstants/clubsObj.json
+src/fxconstants/districtsArr.json
+src/fxconstants/districtsObj.json
+src/fxconstants/groupsArr.json
+src/fxconstants/groupsObj.json
+src/fxconstants/itemsObj.json
+src/fxconstants/leaguesArr.json
+src/fxconstants/leaguesObj.json
+src/fxconstants/provincesArr.json
+src/fxconstants/provincesObj.json
+src/fxconstants/teamSquadObj.json
+src/fxconstants/wardsArr.json
+src/fxconstants/wardsObj.json
+
