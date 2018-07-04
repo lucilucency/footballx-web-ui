@@ -75,7 +75,7 @@ src/fxconstants/districtsArr.json
 src/fxconstants/districtsObj.json
 src/fxconstants/groupsArr.json
 src/fxconstants/groupsObj.json
-src/fxconstants/itemsObj.json
+# src/fxconstants/itemsObj.json
 src/fxconstants/leaguesArr.json
 src/fxconstants/leaguesObj.json
 src/fxconstants/provincesArr.json
