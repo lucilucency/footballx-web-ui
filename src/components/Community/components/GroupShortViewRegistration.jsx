@@ -49,7 +49,7 @@ const GroupShortViewRegistration = ({
                   {strings.label_status}: {registerMembership.is_complete ? strings.label_purchased : strings.label_waiting_purchase}
                 </p>
               ) : (
-                <p>{strings.label_membership_code}: <span className="font-normal"><b>{userGroupMembership.code}</b></span></p>
+                <p>{strings.label_membership_code}: <span className="font-normal"><b>{userGroupMembership && userGroupMembership.code}</b></span></p>
               )}
             </div>
             {!registerMembership.is_complete && (

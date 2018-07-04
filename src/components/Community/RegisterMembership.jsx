@@ -13,7 +13,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Amplitude from 'react-amplitude';
 import { messaging } from '../../firebaseMessaging';
 import { IconProgress, IconSuccess } from '../Icons';
-import { ajaxPost, ajaxPut, localUpdateMetadata, announce } from '../../actions';
+import { ajaxPost, ajaxPut, localUpdateMetadata, announce, refresh } from '../../actions';
 import { format, renderDialog, SmallPaper } from '../../utils';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
@@ -291,6 +291,7 @@ class RegisterMembership extends React.Component {
                   is_complete: true,
                 },
               });
+              this.props.refresh();
             },
             toppingUp: 2,
           }, this.handleOpenDialog());
@@ -340,7 +341,6 @@ class RegisterMembership extends React.Component {
     if (this.props.onClose) {
       this.props.onClose();
     } else {
-      // this.props.history.push(`/r/${this.props.communityID}`);
       this.setState({
         dialog: {
           view: (
@@ -491,6 +491,7 @@ RegisterMembership.propTypes = {
   announceFn: PropTypes.func,
   history: PropTypes.object,
   isCompact: PropTypes.bool,
+  refresh: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -506,6 +507,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updateMetadata: payload => dispatch(localUpdateMetadata(payload)),
   announceFn: props => dispatch(announce(props)),
+  refresh: () => dispatch(refresh()),
 });
 
 export default compose(
