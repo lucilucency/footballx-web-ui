@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import { withRouter } from 'react-router-dom';
 import { setCommunity, getCommunity, setTheme, getGroupMemberships, getGroupMembershipPackages, localUpdateMetadata, ajaxGet } from '../../actions';
-import { Container } from '../../utils/index';
+import { Container, getCookie } from '../../utils/index';
 import TabBar from '../TabBar';
 import { IconHotFeed } from '../Icons';
 import RightComponent from './RightBar';
@@ -68,6 +69,28 @@ const getPackages = (nextProps) => {
 
 class Community extends React.Component {
   componentDidMount() {
+    const {
+      match,
+    } = this.props;
+    const communityID = Number(match.params.id);
+    const info = match.params.info || 'hot';
+    if (!communityID) {
+      this.props.history.push('/');
+    }
+    if (info === 'register' && !getCookie('user_id')) {
+      localStorage.setItem('previousPage', `/r/${communityID}/register`);
+      window.location.href = '/sign_in';
+
+      // this.props.history.push({
+      //   pathname: '/sign_in',
+      //   state: {
+      //     from: {
+      //       pathname: `/r/${communityID}/register`,
+      //     },
+      //   },
+      // });
+    }
+
     propsLoadData(this.props);
   }
 
@@ -100,14 +123,16 @@ class Community extends React.Component {
         }, (resp) => {
           try {
             const respObj = JSON.parse(resp);
-            const { membership_process } = respObj;
-            if (membership_process) {
-              props.localUpdateMetadata({
-                registerMembership: {
-                  ...props.registerMembership,
-                  ...membership_process,
-                },
-              });
+            if (respObj) {
+              const { membership_process } = respObj;
+              if (membership_process) {
+                props.localUpdateMetadata({
+                  registerMembership: {
+                    ...props.registerMembership,
+                    ...membership_process,
+                  },
+                });
+              }
             }
           } catch (err) {
             console.error(err);
@@ -184,6 +209,7 @@ Community.propTypes = {
   getGroupMemberships: PropTypes.func,
   localUpdateMetadata: PropTypes.func,
   isCompact: PropTypes.bool,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -205,4 +231,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Community);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Community));

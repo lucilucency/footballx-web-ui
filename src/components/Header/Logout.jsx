@@ -31,14 +31,9 @@ class Logout extends React.Component {
     eraseCookie('access_token');
     eraseCookie('user_id');
     eraseCookie('username');
+    console.warn('Cleared cookie');
     window.location.reload();
   };
-
-  constructor() {
-    super();
-    this.state = {};
-    // this.handleClickLogout = this.handleClickLogout.bind(this);
-  }
 
   render() {
     return (
