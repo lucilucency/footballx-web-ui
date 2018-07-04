@@ -83,7 +83,8 @@ class UpdateUserInfo extends Component {
         formValidators: UpdateUserInfo.initFormValidators,
         formErrors: UpdateUserInfo.initFormErrors,
       };
-      props.onError([]);
+      // props.onError([]);
+
     } else {
       this.state = {
         formData: UpdateUserInfo.initFormData,
@@ -95,6 +96,11 @@ class UpdateUserInfo extends Component {
 
   componentDidMount() {
     this.props.setTrigger(this.submit);
+
+    // validate base information
+    this.validateAll(() => {
+      this.props.onError(this.getFormErrors());
+    });
   }
 
   setFormData = (state, value) => {
