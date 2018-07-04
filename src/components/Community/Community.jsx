@@ -78,17 +78,17 @@ class Community extends React.Component {
       this.props.history.push('/');
     }
     if (info === 'register' && !getCookie('user_id')) {
-      localStorage.setItem('previousPage', `/r/${communityID}/register`);
-      window.location.href = '/sign_in';
+      // localStorage.setItem('previousPage', `/r/${communityID}/register`);
+      // window.location.href = '/sign_in';
 
-      // this.props.history.push({
-      //   pathname: '/sign_in',
-      //   state: {
-      //     from: {
-      //       pathname: `/r/${communityID}/register`,
-      //     },
-      //   },
-      // });
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: `/r/${communityID}/register`,
+          },
+        },
+      });
     }
 
     propsLoadData(this.props);

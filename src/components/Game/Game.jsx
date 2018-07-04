@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import queryString from 'querystring';
 import Amplitude from 'react-amplitude';
 import { getCookie } from '../../utils';
@@ -16,8 +17,16 @@ class GamePort extends React.Component {
     if (this.props.user) {
       Amplitude.logEvent('Enter game');
     } else {
-      localStorage.setItem('previousPage', '/game');
-      window.location.href = '/sign_in';
+      // localStorage.setItem('previousPage', '/game');
+      // window.location.href = '/sign_in';
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: '/game',
+          },
+        },
+      });
     }
   }
 
@@ -51,6 +60,7 @@ GamePort.propTypes = {
     PropTypes.array,
   ]),
   browser: PropTypes.object,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -59,4 +69,4 @@ const mapStateToProps = state => ({
   banner: state.app.banner.data,
 });
 
-export default connect(mapStateToProps)(GamePort);
+export default withRouter(connect(mapStateToProps)(GamePort));

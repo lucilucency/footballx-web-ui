@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { RaisedButton } from 'material-ui';
 import strings from '../../../lang';
 import { bindAll, renderDialog } from '../../../utils';
@@ -53,6 +54,14 @@ class CreateEditPostButton extends React.Component {
     } else {
       localStorage.setItem('previousPage', '/submit');
       window.location.href = '/sign_in';
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: '/submit',
+          },
+        },
+      });
     }
   }
 
@@ -73,8 +82,8 @@ class CreateEditPostButton extends React.Component {
 }
 
 CreateEditPostButton.propTypes = {
-  // browser: PropTypes.object,
   isLoggedIn: PropTypes.bool,
+  history: PropTypes.object,
 };
 
-export default connect()(CreateEditPostButton);
+export default withRouter(CreateEditPostButton);

@@ -6,9 +6,6 @@ import { withRouter } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import { hitVote } from '../../../actions/index';
 import ui from '../../../theme';
-// import { IconUpvote } from '../../Icons';
-// import strings from '../../../lang';
-// import { toTimeString, toDateString } from '../../../utils/index';
 
 const beatHeart = keyframes`
   0% {
@@ -34,10 +31,8 @@ const MatchInfo = styled.div`
   grid-template-columns: 1fr 1fr;
   color: ${ui.textColorVariant1}
   
-  @media only screen and (max-width: 1023px) {
-    flex-basis: 100%;
-    max-width: 100%;
-  }
+  @media only screen and (max-width: 1023px) { flex-basis: 100%; max-width: 100%; }
+  
   .club-image {
     padding: 2px;
     font-size: ${ui.fontSizeSmall};
@@ -94,16 +89,16 @@ class FanFightActions extends React.Component {
         },
       });
     } else {
-      // this.props.history.push({
-      //   pathname: '/sign_in',
-      //   state: {
-      //     from: {
-      //       pathname: `/m/${this.props.matchID}`,
-      //     },
-      //   },
-      // });
-      localStorage.setItem('previousPage', `/m/${this.props.matchID}`);
-      window.location.href = '/sign_in';
+      // localStorage.setItem('previousPage', `/m/${this.props.matchID}`);
+      // window.location.href = '/sign_in';
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: `/m/${this.props.matchID}`,
+          },
+        },
+      });
     }
   };
 
@@ -116,16 +111,16 @@ class FanFightActions extends React.Component {
         },
       });
     } else {
-      // this.props.history.push({
-      //   pathname: '/sign_in',
-      //   state: {
-      //     from: {
-      //       pathname: `/m/${this.props.matchID}`,
-      //     },
-      //   },
-      // });
-      localStorage.setItem('previousPage', `/m/${this.props.matchID}`);
-      window.location.href = '/sign_in';
+      // localStorage.setItem('previousPage', `/m/${this.props.matchID}`);
+      // window.location.href = '/sign_in';
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: `/m/${this.props.matchID}`,
+          },
+        },
+      });
     }
   };
 
@@ -195,7 +190,7 @@ FanFightActions.propTypes = {
 
   /**/
   hitVote: PropTypes.func,
-  // history: PropTypes.object,
+  history: PropTypes.object,
   greaterThan: PropTypes.object,
 };
 
