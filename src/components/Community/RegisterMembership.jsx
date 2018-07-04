@@ -14,7 +14,7 @@ import Amplitude from 'react-amplitude';
 import { messaging } from '../../firebaseMessaging';
 import { IconProgress, IconSuccess } from '../Icons';
 import { ajaxPost, ajaxPut, localUpdateMetadata, announce } from '../../actions';
-import { format, renderDialog } from '../../utils';
+import { format, renderDialog, SmallPaper } from '../../utils';
 import strings from '../../lang';
 import { UpdateUserInfo } from '../User/components';
 import ChooseMembershipPackage from './components/ChoosePackage';
@@ -270,11 +270,13 @@ class RegisterMembership extends React.Component {
           this.setState({
             dialog: {
               view: (
-                <GroupLandingPage2
-                  // group_memberships={this.props.group_memberships.find(el => el.group_membership_id === this.props.registerMembership.group_membership_id)}
-                  muiTheme={this.props.muiTheme}
-                  user={this.props.user}
-                />
+                <SmallPaper>
+                  <GroupLandingPage2
+                    // group_memberships={this.props.group_memberships.find(el => el.group_membership_id === this.props.registerMembership.group_membership_id)}
+                    muiTheme={this.props.muiTheme}
+                    user={this.props.user}
+                  />
+                </SmallPaper>
               ),
               contentStyle: {
                 width: '100%',
@@ -342,17 +344,15 @@ class RegisterMembership extends React.Component {
       this.setState({
         dialog: {
           view: (
-            <GroupLandingPage1
-              registerMembership={this.props.registerMembership}
-              muiTheme={this.props.muiTheme}
-              user={this.props.user}
-            />
+            <SmallPaper>
+              <GroupLandingPage1
+                registerMembership={this.props.registerMembership}
+                muiTheme={this.props.muiTheme}
+                user={this.props.user}
+              />
+            </SmallPaper>
           ),
-          fullScreen: true,
-          contentStyle: {
-            width: '100%',
-            maxWidth: 'none',
-          },
+          fullScreen: this.props.isCompact,
           autoScrollBodyContent: true,
         },
         closeDialogCallback: () => {

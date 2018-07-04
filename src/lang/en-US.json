@@ -173,6 +173,7 @@
   "label_address": "Address",
   "label_became_membership": "You are member of %s",
   "label_became_membership_code": "Transaction code",
+  "label_membership_code": "Card number",
   "label_choose_community": "Choose a community",
   "label_comment": "Comment",
   "label_community": "Community",

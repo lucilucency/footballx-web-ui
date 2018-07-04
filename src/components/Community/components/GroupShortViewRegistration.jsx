@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import getMuiTheme from 'material-ui/styles/muiThemeable';
@@ -15,49 +16,68 @@ const Styled = styled.div`
 `;
 
 const GroupShortViewRegistration = ({
-  muiTheme, cData, registerMembership,
-}) => (
-  <Styled>
-    <SmallPaper style={{ backgroundColor: muiTheme.palette.primary1Color, color: muiTheme.palette.alternateTextColor }}>
-      {(!registerMembership || !registerMembership.id) ? (
-        <div>
-          <div className="text-little" style={{ fontWeight: constants.fontWeightMedium }}>Tham gia cộng đồng hơn 10 000 fan MUSVN và nhận nhiều phần quà hấp dẫn!</div>
-          <Link to={`/r/${cData.id}/register`} >
-            <RaisedButton
-              label="REGISTER MEMBERSHIP"
-              backgroundColor={muiTheme.paper.backgroundColor}
-              fullWidth
-            />
-          </Link>
-        </div>
-      ) : (
-        <div>
-          <div className="text-small" style={{ WebkitMarginAfter: '0', WebkitMarginBefore: '0' }}>{format(strings.label_registered_membership, cData.name)}</div>
-          <Divider />
-          <div className="text-little">
-            <p>{strings.label_became_membership_code}: <span className="font-normal"><b>{registerMembership.id}</b></span></p>
-            <p>{strings.label_status}: {registerMembership.is_complete ? strings.label_purchased : strings.label_waiting_purchase}</p>
-          </div>
-          {!registerMembership.is_complete && (
+  muiTheme, cData, registerMembership, group_memberships,
+}) => {
+  const userGroupMembership = registerMembership &&
+    group_memberships &&
+    group_memberships.length &&
+    group_memberships.find(el => el.group_membership_id === registerMembership.group_membership_id);
+
+  return (
+    <Styled>
+      <SmallPaper style={{ backgroundColor: muiTheme.palette.primary1Color, color: muiTheme.palette.alternateTextColor }}>
+        {(!registerMembership || !registerMembership.id) ? (
+          <div>
+            <div className="text-little" style={{ fontWeight: constants.fontWeightMedium }}>Tham gia cộng đồng hơn 10 000 fan MUSVN và nhận nhiều phần quà hấp dẫn!</div>
             <Link to={`/r/${cData.id}/register`} >
               <RaisedButton
-                label="COMPLETE REGISTRATION"
+                label="REGISTER MEMBERSHIP"
                 backgroundColor={muiTheme.paper.backgroundColor}
                 fullWidth
               />
             </Link>
-          )}
-        </div>
-      )}
-    </SmallPaper>
-  </Styled>
-);
+          </div>
+        ) : (
+          <div>
+            <div className="text-small" style={{ WebkitMarginAfter: '0', WebkitMarginBefore: '0' }}>{format(strings.label_registered_membership, cData.name)}</div>
+            <Divider />
+            <div className="text-little">
+              {!registerMembership.is_complete ? (
+                <p>
+                  {strings.label_became_membership_code}: <span className="font-normal"><b>{registerMembership.id}</b></span>
+                  <br />
+                  {strings.label_status}: {registerMembership.is_complete ? strings.label_purchased : strings.label_waiting_purchase}
+                </p>
+              ) : (
+                <p>{strings.label_membership_code}: <span className="font-normal"><b>{userGroupMembership.code}</b></span></p>
+              )}
+            </div>
+            {!registerMembership.is_complete && (
+              <Link to={`/r/${cData.id}/register`} >
+                <RaisedButton
+                  label="COMPLETE REGISTRATION"
+                  backgroundColor={muiTheme.paper.backgroundColor}
+                  fullWidth
+                />
+              </Link>
+            )}
+          </div>
+        )}
+      </SmallPaper>
+    </Styled>
+  );
+};
 
 GroupShortViewRegistration.propTypes = {
   cData: PropTypes.object,
   registerMembership: PropTypes.object,
   /**/
   muiTheme: PropTypes.object,
+  group_memberships: PropTypes.array,
 };
 
-export default (getMuiTheme()(GroupShortViewRegistration));
+const mapStateToProps = state => ({
+  group_memberships: state.app.metadata.data.group_memberships,
+});
+
+export default connect(mapStateToProps)(getMuiTheme()(GroupShortViewRegistration));

@@ -30,21 +30,21 @@ const GroupLandingPage1 = ({
       </p>
       <p>
         Thông tin chuyển khoản <br />
-        <ul>
-          <li>Nội dung chuyển khoản: <span className="text-normal"><b>MUSVN-{registerMembership.id}</b></span></li>
-          <li>Ngân hàng: Một trong hai ngân hàng sau:</li>
-          <ul>
-            <li>
-              1. Ngân hàng BIDV: 120-10-00-677970-0 - Chi nhánh: Sở giao dịch 1 <br />
-              Chủ tài khoản: Trịnh Thanh Hòa
-            </li>
-            <li>
-              2. Ngân hàng Vietcombank: 0851000019106 - Chi nhánh: Hà Thành <br />
-              Chủ tài khoản: Trịnh Thanh Hòa
-            </li>
-          </ul>
-        </ul>
       </p>
+      <ul>
+        <li>Nội dung chuyển khoản: <span className="text-normal"><b>MUSVN-{registerMembership.id}</b></span></li>
+        <li>Ngân hàng: Một trong hai ngân hàng sau:</li>
+        <ul>
+          <li>
+            1. Ngân hàng BIDV: 120-10-00-677970-0 - Chi nhánh: Sở giao dịch 1 <br />
+            Chủ tài khoản: Trịnh Thanh Hòa
+          </li>
+          <li>
+            2. Ngân hàng Vietcombank: 0851000019106 - Chi nhánh: Hà Thành <br />
+            Chủ tài khoản: Trịnh Thanh Hòa
+          </li>
+        </ul>
+      </ul>
 
       <ul>
         <i>
