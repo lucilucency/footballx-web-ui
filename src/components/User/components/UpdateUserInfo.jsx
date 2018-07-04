@@ -84,7 +84,6 @@ class UpdateUserInfo extends Component {
         formErrors: UpdateUserInfo.initFormErrors,
       };
       // props.onError([]);
-
     } else {
       this.state = {
         formData: UpdateUserInfo.initFormData,
