@@ -32,13 +32,13 @@ class ViewPostComments extends React.Component {
         style={{
           marginTop: insideTheNest ? 0 : 8,
           paddingBottom: 0,
-          // borderLeft: `1px solid ${ui.neutralColorVariant1}`,
+          // borderLeft: `1px solid ${ui.borderColor}`,
           marginLeft: 8,
           backgroundColor: ui.surfaceColorPrimary,
         }}
         initiallyOpen
         primaryText={
-          <div style={styles.cardText.style}>
+          <div style={styles.commentText.style}>
             <div>
               <ActiveLink to={`/user/${xuser.id}`}>{xuser.username || xuser.nickname}</ActiveLink> - <span>{fromNow(item.created_at)}</span>
             </div>
@@ -50,7 +50,7 @@ class ViewPostComments extends React.Component {
         secondaryText={<CommentActions data={item} type="comment" isLoggedIn={this.props.isLoggedIn} />}
         nestedItems={item.comments && item.comments.map(el => this.renderComment(el, true))}
         nestedListStyle={{
-          borderLeft: `1px solid ${ui.alternateTextColor}`,
+          // borderLeft: `1px solid ${ui.borderColor}`,
           marginLeft: 8,
         }}
       />

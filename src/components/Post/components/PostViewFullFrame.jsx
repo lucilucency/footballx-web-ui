@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Subheader } from 'material-ui';
-import ViewPostFull from './PostView';
+import ViewPostFull from './PostViewV1';
 import { Container, RightTray, SmallPaper } from '../../../utils';
 import strings from '../../../lang';
 

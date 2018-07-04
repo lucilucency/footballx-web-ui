@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "abcolor": "^0.5.5",
+    "classnames": "^2.2.6",
     "core-js": "^2.5.7",
     "dota2-emoticons": "^1.0.1",
     "draft-js": "^0.10.5",

@@ -18,6 +18,7 @@ const Styled = styled.div`
   flex-direction: row;
   font-weight: ${ui.fontWeightMedium};
   font-size: ${ui.fontSizeSmall};
+  border-bottom: 1px solid ${ui.borderColor};
   
   .up-down {
     display: flex;
@@ -120,7 +121,7 @@ class CommentActions extends React.Component {
     const downs = item.c_downs || 0;
 
     return (
-      <div style={{ borderTop: `1px solid ${ui.borderColorVariant1}` }}>
+      <div>
         <Styled>
           <div className="up-down">
             <IconButton
@@ -170,7 +171,8 @@ class CommentActions extends React.Component {
               />
             )}
           </div>
-          <ButtonShare
+          {/* //TODO share comment */}
+          {/* <ButtonShare
             clipboard={`${window.location.host}/p/${item.id}`}
             child={(
               <FlatButton
@@ -183,7 +185,7 @@ class CommentActions extends React.Component {
                 }}
               />
             )}
-          />
+          /> */}
         </Styled>
         {this.state.showCommentBox && <CreateEditComment target={this.props.data} callback={this.toggleCommentBox} />}
       </div>

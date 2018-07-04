@@ -13,12 +13,12 @@ export const LinkPreview = styled.div`
     float: left;
     max-width: 200px;
   }
-  ${props => (props.hasImage ? css`grid-template-columns: 1fr 200px;` : css`grid-template-columns: 1fr;`)}
+  ${props => (props.hasImage ? css`grid-template-columns: [full-start] minmax(0, 1fr) [main-end] minmax(0, 200px) [full-end]` : css`grid-template-columns: 1fr;`)}
   @media only screen and (max-width: 768px) {
     img {
       max-width: 120px;
     }
-    ${props => (props.hasImage ? css`grid-template-columns: 1fr 120px;` : css`grid-template-columns: 1fr;`)}
+    ${props => (props.hasImage ? css`grid-template-columns: [full-start] minmax(0, 1fr) [main-end] minmax(0, 120px) [full-end]` : css`grid-template-columns: 1fr;`)}
   }
 `;
 

@@ -649,10 +649,32 @@ class CreateEditPost extends React.Component {
   }
 }
 
+CreateEditPost.defaultProps = {
+  mode: 'create',
+  display: true,
+  toggle: false,
+  popup: false,
+};
+
+CreateEditPost.propTypes = {
+  mode: PropTypes.string,
+  display: PropTypes.bool,
+  toggle: PropTypes.bool,
+  popup: PropTypes.bool,
+  callback: PropTypes.func,
+
+  /**/
+  user: PropTypes.object,
+  loading: PropTypes.bool,
+  history: PropTypes.object,
+  defaultDeleteFunction: PropTypes.func,
+  announce: PropTypes.func,
+};
+
 const mapStateToProps = state => ({
-  currentQueryString: window.location.search,
-  loading: state.app.posts.loading,
   user: state.app.metadata.data.user,
+  postData: state.app.post.data,
+  loading: state.app.post.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -661,29 +683,5 @@ const mapDispatchToProps = dispatch => ({
   defaultDeleteFunction: hotspotID => dispatch(defaultDeleteFn(hotspotID)),
   announce: props => dispatch(announce(props)),
 });
-
-CreateEditPost.propTypes = {
-  user: PropTypes.object,
-
-  mode: PropTypes.string,
-  display: PropTypes.bool,
-  toggle: PropTypes.bool,
-  popup: PropTypes.bool,
-  callback: PropTypes.func,
-
-  /**/
-  history: PropTypes.object,
-  loading: PropTypes.bool,
-  defaultDeleteFunction: PropTypes.func,
-  announce: PropTypes.func,
-};
-
-CreateEditPost.defaultProps = {
-  mode: 'create',
-  display: true,
-  toggle: false,
-  popup: false,
-  loading: false,
-};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditPost));

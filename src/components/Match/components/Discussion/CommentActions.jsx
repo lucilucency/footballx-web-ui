@@ -15,7 +15,7 @@ import CreateEditComment from './CreateEditComment';
 const Styled = styled.div`
   padding: 0 0;
   display: table;
-  border-top: ${`1px solid ${ui.borderColorVariant1}`};
+  border-top: ${`1px solid ${ui.borderColor}`};
   font-weight: ${ui.fontWeightMedium};
   font-size: ${ui.fontSizeSmall};
   

@@ -8,6 +8,11 @@ import {
   FlatButton,
   RaisedButton,
 } from 'material-ui';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToMarkdown from 'draftjs-to-markdown';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import clubs from '../../../fxconstants/clubsArr.json';
 import constants from '../../constants';
 import strings from '../../../lang';
 import { bindAll, FormWrapper, TextValidator } from '../../../utils';
@@ -18,22 +23,14 @@ import ui from '../../../theme';
 
 class CreateEditComment extends React.Component {
   static defaultFormData = {
-    title: '',
     content: '',
-    content_type: {
-      text: strings.enum_post_type_1,
-      value: 1,
-    },
   };
 
   static initialState = ({
     formData: {
       ...CreateEditComment.defaultFormData,
     },
-    submitResults: {
-      data: [],
-      show: false,
-    },
+    wysiwyg: EditorState.createEmpty(),
   });
 
   constructor(props) {
@@ -73,16 +70,16 @@ class CreateEditComment extends React.Component {
     }
   }
 
-  getFormData() {
+  getFormData = () => {
     const { formData } = this.state;
 
     return {
       // title: formData.title,
-      content: formData.content,
+      content: draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent())),
       created_at: parseInt(Date.now() / 1000, 10),
       // content_type: formData.content_type.value || 1,
     };
-  }
+  };
 
   getPayload = (submitData) => {
     const pushItUp = (comments) => {
@@ -223,6 +220,100 @@ class CreateEditComment extends React.Component {
     });
   };
 
+  onWysiwygChange = (wysiwyg) => {
+    this.setState({
+      wysiwyg,
+    });
+  };
+
+  renderContentInput = () => (<TextValidator
+    // floatingLabelText={strings.hint_comment}
+    name="comment_content"
+    key="content"
+    type="text"
+    hintText={strings.hint_comment}
+    hintStyle={{ top: 12 }}
+    onChange={e => this.updateFormData('content', e.target.value)}
+    multiLine
+    rows={4}
+    rowsMax={10}
+    fullWidth
+    value={this.state.formData.content && this.state.formData.content}
+    autoComplete="off"
+    underlineShow={false}
+    validators={['required']}
+    errorMessages={[strings.err_empty_comment_content]}
+  />);
+
+  renderRichTextInput = () => {
+    const suggestions = clubs ? clubs.map(club => ({
+      text: club.name,
+      value: club.name,
+      url: `/t/${club.id}`,
+    })) : [];
+
+    return (
+      <div>
+        {/* <textarea
+         cols={80}
+         rows={10}
+         disabled
+         value={this.state.wysiwyg && draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent()))}
+         /> */}
+        <Editor
+          // editorState={this.state.wysiwyg}
+          rawContentState={this.state.wysiwyg}
+          stripPastedStyles
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          onEditorStateChange={this.onWysiwygChange}
+          placeholder={strings.hint_post_content_text}
+          mention={{
+            separator: ' ',
+            trigger: '@',
+            suggestions,
+          }}
+          hashtag={{
+            separator: ' ',
+            trigger: '#',
+          }}
+          toolbar={{
+            options: ['emoji'],
+            inline: {
+              options: ['bold', 'italic', 'presenterUnderline'],
+            },
+          }}
+          toolbarStyle={{
+            borderBottom: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+            marginBottom: 0,
+          }}
+          wrapperStyle={{
+            borderTop: `2px solid ${ui.positive2Color}`,
+            borderLeft: `2px solid ${ui.positive2Color}`,
+            borderRight: `2px solid ${ui.positive2Color}`,
+            borderBottom: `2px solid ${ui.positive2Color}`,
+            borderRadius: 4,
+            backgroundColor: ui.surfaceColorPrimary,
+            padding: '0 0',
+            display: 'flex',
+            flexDirection: 'column-reverse',
+          }}
+          editorStyle={{
+            padding: '0 20px',
+            minHeight: '250px',
+            lineHeight: '24px',
+            fontFamily: ui.fontFamilyPrimary,
+            fontStyle: 'normal',
+            color: '#555555',
+            fontSize: '14px',
+          }}
+        />
+      </div>
+    );
+  };
+
   render() {
     const {
       mode,
@@ -231,25 +322,6 @@ class CreateEditComment extends React.Component {
       popup,
       loading,
     } = this.props;
-
-    const renderContentInput = () => (<TextValidator
-      // floatingLabelText={strings.hint_comment}
-      name="comment_content"
-      key="content"
-      type="text"
-      hintText={strings.hint_comment}
-      hintStyle={{ top: 12 }}
-      onChange={e => this.updateFormData('content', e.target.value)}
-      multiLine
-      rows={4}
-      rowsMax={10}
-      fullWidth
-      value={this.state.formData.content && this.state.formData.content}
-      autoComplete="off"
-      underlineShow={false}
-      validators={['required']}
-      errorMessages={[strings.err_empty_comment_content]}
-    />);
 
     const actions = [
       mode === 'edit' && (
@@ -286,7 +358,8 @@ class CreateEditComment extends React.Component {
         data-display={display}
         onSubmit={this.submit}
         style={{
-          backgroundColor: ui.surfaceColorPrimary,
+          backgroundColor: ui.surfaceColorSecondary,
+          padding: '16px 70px',
         }}
         // onSubmit={this.getPayload}
         // onError={errors => console.log(errors)}
@@ -297,13 +370,16 @@ class CreateEditComment extends React.Component {
         <div
           style={{
             backgroundColor: 'hsla(0,0%,100%,0)',
-            border: `1px solid ${constants.grey200}`,
-            borderRadius: 2,
+            border: `1px solid ${ui.borderColor}`,
+            borderRadius: 4,
             padding: '0 10px',
+            margin: 10,
           }}
         >
-          {renderContentInput()}
+          {this.renderContentInput()}
         </div>
+
+        {this.renderRichTextInput()}
 
         <div className="actions">
           {actions}

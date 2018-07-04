@@ -25,7 +25,7 @@ export const styles = {
   cardMedia: {
     style: {
       paddingLeft: '70px',
-      paddingRight: '16px',
+      paddingRight: '24px',
       paddingTop: '8px',
       overflow: 'hidden',
       textAlign: 'center',
@@ -41,7 +41,7 @@ export const styles = {
   cardText: {
     style: {
       paddingLeft: '70px',
-      paddingRight: '50px',
+      paddingRight: '24px',
       fontWeight: 'normal',
       wordBreak: 'break-word',
       whiteSpace: 'pre-wrap',
@@ -51,7 +51,7 @@ export const styles = {
       textAlign: 'justify',
     },
     styleCompact: {
-      padding: '0 16px',
+      padding: '0 16px 16px 16px',
       fontWeight: 'normal',
       wordBreak: 'break-word',
       whiteSpace: 'pre-wrap',
@@ -65,7 +65,7 @@ export const styles = {
     style: {
       padding: '0 0',
       marginLeft: '70px',
-      marginRight: '50px',
+      marginRight: '24px',
       borderTop: `1px solid ${ui.borderColorVariant1}`,
     },
     styleCompact: {
@@ -99,6 +99,28 @@ export const styles = {
       padding: 0,
       textAlign: 'justify',
       wordBreak: 'break-word',
+    },
+  },
+  commentText: {
+    style: {
+      padding: '0 0px 0px 0px',
+      fontWeight: 'normal',
+      wordBreak: 'break-word',
+      whiteSpace: 'pre-wrap',
+      fontFamily: constants.fontFamilySecondary,
+      fontSize: constants.fontSizeSmall,
+      lineHeight: constants.lineHeightSmall,
+      textAlign: 'justify',
+    },
+    styleCompact: {
+      padding: '0 16px 16px 16px',
+      fontWeight: 'normal',
+      wordBreak: 'break-word',
+      whiteSpace: 'pre-wrap',
+      fontFamily: constants.fontFamilySecondary,
+      fontSize: constants.fontSizeLittle,
+      lineHeight: constants.lineHeightLittle,
+      textAlign: 'justify',
     },
   },
 };
