@@ -82,7 +82,7 @@ class CreateEditPostButton extends React.Component {
 }
 
 CreateEditPostButton.propTypes = {
-  isLoggedIn: PropTypes.bool,
+  // isLoggedIn: PropTypes.bool,
   history: PropTypes.object,
 };
 
