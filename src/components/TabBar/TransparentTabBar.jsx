@@ -9,13 +9,13 @@ const StyledMain = styled.main`
   position: relative;
   margin: 0 0 10px;
   ${props => css`
-    background-color: ${props.muiTheme.paper.backgroundColor};
+    background-color: transparent;
     border-bottom: 1px solid ${props.muiTheme.palette.borderColor};
     
     section {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: flex-start;
       flex-wrap: wrap;
     
     
@@ -25,6 +25,7 @@ const StyledMain = styled.main`
         font-weight: ${constants.fontWeightLight};
         font-size: ${constants.fontSizeSmall};
         padding: 14px 12px 10px;
+        max-width: 120px;
         border-bottom: 4px solid transparent;
         flex-grow: 1;
         font-weight: ${constants.fontWeightHeavy};
@@ -42,9 +43,10 @@ const StyledMain = styled.main`
           display: none;
         }
     
-        @media only screen and (max-width: 768px) {
+        @media only screen and (max-width: 480px) {
           padding-left: 10px;
           padding-right: 10px;
+          max-width: 100px;
         }
       }
       
@@ -57,7 +59,7 @@ const StyledMain = styled.main`
   `}
 `;
 
-const TabBar = ({
+const TransparentTabBar = ({
   tabs, info, match, muiTheme,
 }) => (
   <StyledMain muiTheme={muiTheme}>
@@ -78,7 +80,7 @@ const TabBar = ({
 );
 
 const { string, shape, arrayOf } = PropTypes;
-TabBar.propTypes = {
+TransparentTabBar.propTypes = {
   tabs: arrayOf(shape({
     // name, key, content, route, hidden
   })),
@@ -87,4 +89,4 @@ TabBar.propTypes = {
   muiTheme: PropTypes.object,
 };
 
-export default muiThemeable()(TabBar);
+export default muiThemeable()(TransparentTabBar);

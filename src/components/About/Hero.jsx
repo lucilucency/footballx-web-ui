@@ -85,7 +85,7 @@ const AboutX = (props) => {
             {strings.paragraph_app_desc_secondary}
           </small>
         </p>
-        {isLoggedIn && <CreatePostButton isLoggedIn={isLoggedIn} />}
+        {isLoggedIn && <CreatePostButton />}
       </div>
     </AboutXStyled>
   );

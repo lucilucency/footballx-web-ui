@@ -189,6 +189,7 @@ class RegisterMembership extends React.Component {
           this.props.updateMetadata({
             registerMembership: {
               ...this.props.registerMembership,
+              group_membership_id: membership_process.group_membership_id,
               id: membership_process.id,
             },
           });
@@ -267,6 +268,7 @@ class RegisterMembership extends React.Component {
           /* clear polling */
           clearInterval(this.polling);
 
+          this.props.refresh();
           this.setState({
             dialog: {
               view: (
@@ -291,7 +293,6 @@ class RegisterMembership extends React.Component {
                   is_complete: true,
                 },
               });
-              this.props.refresh();
             },
             toppingUp: 2,
           }, this.handleOpenDialog());

@@ -21,7 +21,9 @@ const GroupLandingPage2 = ({
   group_memberships,
   registerMembership,
 }) => {
-  const userGroupMembership = group_memberships && group_memberships.length && group_memberships.find(el => el.group_membership_id === registerMembership.group_membership_id);
+  const userGroupMembership = registerMembership && group_memberships &&
+    group_memberships.length &&
+    group_memberships.find(el => el.group_membership_id === registerMembership.group_membership_id);
   return (
     <Styled>
       <div>
@@ -32,7 +34,7 @@ const GroupLandingPage2 = ({
         </p>
         {/* //TODO image */}
         <p>
-           Bạn đã là thành viên chính thức của MUSVN mùa bóng 2018/2019 với mã số {userGroupMembership.code}
+           Bạn đã là thành viên chính thức của MUSVN mùa bóng 2018/2019 với mã số {userGroupMembership && userGroupMembership.code}
         </p>
         <p>
           Hộp quà sẽ được gửi đến địa chỉ bạn đã điền trong form đăng kí kể từ ngày 15/9/2018 <br />

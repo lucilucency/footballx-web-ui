@@ -52,8 +52,8 @@ class CreateEditPostButton extends React.Component {
         this.handleOpenDialog();
       });
     } else {
-      localStorage.setItem('previousPage', '/submit');
-      window.location.href = '/sign_in';
+      // localStorage.setItem('previousPage', '/submit');
+      // window.location.href = '/sign_in';
       this.props.history.push({
         pathname: '/sign_in',
         state: {

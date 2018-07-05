@@ -3,25 +3,27 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { withRouter } from 'react-router-dom';
+import IconSort from 'material-ui/svg-icons/content/sort';
 import { setCommunity, getCommunity, setTheme, getGroupMemberships, getGroupMembershipPackages, localUpdateMetadata, ajaxGet } from '../../actions';
 import { Container, getCookie } from '../../utils/index';
-import TabBar from '../TabBar';
+import { TransparentTabBar } from '../TabBar';
 import { IconHotFeed } from '../Icons';
 import RightComponent from './RightBar';
-import Cover from './CommunityCover';
+import Cover from './components/Cover';
 import Hot from './FeedHot';
 import New from './FeedNew';
 import Top from './FeedTop';
 import Controversy from './FeedControversy';
 import RegisterMembership from './RegisterMembership';
 import GroupShortViewRegistration from './components/GroupShortViewRegistration';
+import CreatePostHere from './components/CreatePostHere';
 
 const verticalAlign = {
   verticalAlign: 'middle',
 };
 
 const getTabs = ({ communityID, loggedInUserID }) => [{
-  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <b style={{ ...verticalAlign }}>HOT</b></div>,
+  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <span style={{ ...verticalAlign }}>HOT</span></div>,
   key: 'hot',
   content: <Hot communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/hot`,
@@ -31,7 +33,7 @@ const getTabs = ({ communityID, loggedInUserID }) => [{
   content: <New communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/new`,
 }, {
-  name: 'TOP',
+  name: <div><IconSort style={{ ...verticalAlign }} /> <span style={{ ...verticalAlign }}>TOP</span></div>,
   key: 'top',
   content: <Top communityID={communityID} loggedInUserID={loggedInUserID} />,
   route: `/r/${communityID}/top`,
@@ -158,7 +160,7 @@ class Community extends React.Component {
 
     return (
       <div>
-        <Helmet title={this.props.cData.name} />
+        <Helmet title={cData.name} />
         {cData.bg ? <Cover isCompact={isCompact} bg={cData.bg} name={cData.name} /> : null}
         {isCompact && !tab.disabled && (
           <div style={{ marginTop: 8 }}>
@@ -176,10 +178,11 @@ class Community extends React.Component {
           }}
         >
           <div>
-            {tab && !tab.disabled && <TabBar
+            {tab && !tab.disabled && <TransparentTabBar
               info={info}
               tabs={tabs}
             />}
+            {gmData && gmData.group_id && <CreatePostHere name={cData.name} />}
             {tab && tab.content}
           </div>
           {!tab.disabled && (

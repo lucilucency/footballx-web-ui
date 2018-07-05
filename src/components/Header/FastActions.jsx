@@ -87,6 +87,7 @@ const AccountWidget = ({
       if (!loading) {
         return (
           <Button
+            style={{ color: ui.alternateTextColor }}
             onClick={() => {
               localStorage.setItem('previousPage', window.location.pathname);
               window.location.href = '/sign_in';

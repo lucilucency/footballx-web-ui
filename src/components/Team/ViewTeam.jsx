@@ -6,7 +6,7 @@ import Amplitude from 'react-amplitude';
 import strings from '../../lang';
 import TeamVisualize from './components/TeamVisualize';
 import { Container } from '../../utils';
-import TabBar from '../TabBar';
+import { TabBar } from '../TabBar';
 import Squad from './Squad';
 import teamSquadObj from '../../fxconstants/teamSquadObj.json';
 import teams from '../../fxconstants/clubsObj.json';

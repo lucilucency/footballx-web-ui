@@ -30,7 +30,7 @@ export const loginFb = access_token => dispatchPost({
   },
 });
 export const refresh = (xuser_id = getCookie('user_id')) => dispatchGet({
-  reducer: 'metadata',
+  reducer: 'EDIT/metadata',
   path: `xuser/${xuser_id}/refesh`,
   params: { xuser_id },
   callback: (resp) => {
