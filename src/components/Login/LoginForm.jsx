@@ -55,14 +55,17 @@ class LoginForm extends React.Component {
 
   doLoginFb(userFbData) {
     const that = this;
-    const token = userFbData;
-    this.props.loginFacebook(token).then((o, e) => {
+    const fbToken = userFbData;
+    this.props.loginFacebook(fbToken).then((o, e) => {
       if (!e) {
         if (o.payload) {
-          // const { from } = this.props.location.state || { from: { pathname: '/' } };
-          // that.props.history.push(from.pathname);
-          const goTo = localStorage.getItem('previousPage') || '/';
-          that.props.history.push(goTo);
+          const { state } = this.props.location;
+          if (state && state.from) {
+            that.props.history.push(state.from.pathname);
+          } else {
+            const goTo = localStorage.getItem('previousPage') || '/';
+            that.props.history.push(goTo);
+          }
         } else {
           that.setState({
             loginError: true,
@@ -130,7 +133,7 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
-  // location: PropTypes.object,
+  location: PropTypes.object,
   loginFacebook: PropTypes.func,
 };
 

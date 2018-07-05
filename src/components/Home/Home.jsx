@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import IconSort from 'material-ui/svg-icons/content/sort';
 import { setCommunity, getCommunity } from '../../actions';
 import { Container } from '../../utils/index';
-import TabBar from '../TabBar';
+import { TransparentTabBar } from '../TabBar';
 import RightComponent from './RightBar';
 import Hot from './Hot';
 import New from './New';
@@ -17,7 +18,7 @@ const verticalAlign = {
 };
 
 const tabs = loggedInUserID => [{
-  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <b style={{ ...verticalAlign }}>HOT</b></div>,
+  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <span style={{ ...verticalAlign }}>HOT</span></div>,
   key: 'hot',
   content: <Hot loggedInUserID={loggedInUserID} />,
   route: '/home/hot',
@@ -27,7 +28,7 @@ const tabs = loggedInUserID => [{
   content: <New loggedInUserID={loggedInUserID} />,
   route: '/home/new',
 }, {
-  name: 'TOP',
+  name: <div><IconSort style={{ ...verticalAlign }} /> <span style={{ ...verticalAlign }}>TOP</span></div>,
   key: 'top',
   content: <Top loggedInUserID={loggedInUserID} />,
   route: '/home/top',
@@ -68,7 +69,7 @@ class HomeFeed extends React.Component {
                 // width: 400,
               }}
             >
-              <TabBar
+              <TransparentTabBar
                 info={info}
                 tabs={tabs(loggedInUserID)}
               />

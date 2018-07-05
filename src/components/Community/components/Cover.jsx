@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import ui from '../../theme';
+import ui from '../../../theme/index';
 
 const Styled = styled.div`
   width: 100%;

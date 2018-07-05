@@ -34,11 +34,6 @@ PageCreatePost.propTypes = {
   callback: PropTypes.func,
 };
 
-// const mapStateToProps = state => ({
-//   user: state.app.metadata.user,
-//   browser: state.browser,
-// });
-
 // const mapDispatchToProps = dispatch => ({
 // });
 

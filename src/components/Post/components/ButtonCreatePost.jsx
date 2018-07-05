@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { RaisedButton } from 'material-ui';
 import strings from '../../../lang';
-import { bindAll, renderDialog } from '../../../utils';
+import { bindAll, renderDialog, getCookie } from '../../../utils';
 import CreateEditPostFrame from './CreateEditPostFrame';
 
 class CreateEditPostButton extends React.Component {
@@ -36,7 +37,7 @@ class CreateEditPostButton extends React.Component {
   }
 
   popupCreatePost() {
-    if (this.props.isLoggedIn) {
+    if (getCookie('user_id')) {
       this.setState({
         dialogConstruct: {
           view: (
@@ -51,8 +52,16 @@ class CreateEditPostButton extends React.Component {
         this.handleOpenDialog();
       });
     } else {
-      localStorage.setItem('previousPage', '/submit');
-      window.location.href = '/sign_in';
+      // localStorage.setItem('previousPage', '/submit');
+      // window.location.href = '/sign_in';
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: '/submit',
+          },
+        },
+      });
     }
   }
 
@@ -73,8 +82,8 @@ class CreateEditPostButton extends React.Component {
 }
 
 CreateEditPostButton.propTypes = {
-  // browser: PropTypes.object,
-  isLoggedIn: PropTypes.bool,
+  // isLoggedIn: PropTypes.bool,
+  history: PropTypes.object,
 };
 
-export default connect()(CreateEditPostButton);
+export default withRouter(CreateEditPostButton);

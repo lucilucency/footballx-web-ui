@@ -7,7 +7,7 @@ import strings from '../../lang';
 import { setMatch, getMatch, getMatchVotes } from '../../actions';
 import { MatchView } from './components';
 import { Container } from '../../utils';
-import TabBar from '../TabBar';
+import { TabBar } from '../TabBar';
 import LineUps from './LineUps';
 import LiveStream from './LiveStream';
 import MatchInfo from './MatchInfo';

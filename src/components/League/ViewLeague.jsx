@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { Container } from '../../utils';
 import { Calendar, LeagueMatches, Standing, Header } from './components/index';
-import TabBar from '../TabBar';
+import { TabBar } from '../TabBar';
 import strings from '../../lang';
 
 const tabs = leagueID => [{

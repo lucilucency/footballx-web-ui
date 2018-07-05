@@ -6,7 +6,7 @@ import Amplitude from 'react-amplitude';
 import { Container } from '../../utils';
 import strings from '../../lang';
 import RightBar from './RightBar';
-import TabBar from '../TabBar';
+import { TabBar } from '../TabBar';
 import UpcomingMatches from './UpcomingMatches';
 import RecentMatches from './RecentMatches';
 

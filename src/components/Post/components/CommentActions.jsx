@@ -71,8 +71,16 @@ class CommentActions extends React.Component {
         payload,
       }, this.props.type);
     } else {
-      localStorage.setItem('previousPage', `/p/${this.props.data.id}`);
-      window.location.href = '/sign_in';
+      // localStorage.setItem('previousPage', `/p/${this.props.data.id}`);
+      // window.location.href = '/sign_in';
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: `/p/${this.props.data.id}`,
+          },
+        },
+      });
     }
   };
 
@@ -103,9 +111,16 @@ class CommentActions extends React.Component {
         payload,
       }, this.props.type);
     } else {
-      localStorage.setItem('previousPage', `/p/${this.props.data.id}`);
-      // this.props.history.push('/sign_in');
-      window.location.href = '/sign_in';
+      // localStorage.setItem('previousPage', `/p/${this.props.data.id}`);
+      // window.location.href = '/sign_in';
+      this.props.history.push({
+        pathname: '/sign_in',
+        state: {
+          from: {
+            pathname: `/p/${this.props.data.id}`,
+          },
+        },
+      });
     }
   };
 
@@ -202,7 +217,7 @@ CommentActions.propTypes = {
   /**/
   upVote: PropTypes.func,
   downVote: PropTypes.func,
-  // history: PropTypes.object,
+  history: PropTypes.object,
 };
 
 const mapDispatchToProps = dispatch => ({
