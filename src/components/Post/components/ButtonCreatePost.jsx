@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { RaisedButton } from 'material-ui';
 import strings from '../../../lang';
-import { bindAll, renderDialog } from '../../../utils';
+import { bindAll, renderDialog, getCookie } from '../../../utils';
 import CreateEditPostFrame from './CreateEditPostFrame';
 
 class CreateEditPostButton extends React.Component {
@@ -37,7 +37,7 @@ class CreateEditPostButton extends React.Component {
   }
 
   popupCreatePost() {
-    if (this.props.isLoggedIn) {
+    if (getCookie('user_id')) {
       this.setState({
         dialogConstruct: {
           view: (
