@@ -26,7 +26,8 @@ const GroupLandingPage1 = ({
         MUSVN đã nhận được thông tin đăng ký thành viên chính thức mùa giải 2018/19 của bạn. <br />
         <b>Mã giao dịch của bạn là <span className="text-normal">{registerMembership.id}</span>.</b>
         <br />
-        Bạn vui lòng hoàn tất chuyển khoản phí thành viên trong vòng 48 giờ để hoàn tất đăng ký. MUSVN sẽ cập nhật và gửi mail xác nhận chuyển khoản thành công trong 48h kể từ khi chuyển khoản.
+        Bạn vui lòng hoàn tất chuyển khoản phí thành viên trong vòng 48 giờ để hoàn tất đăng ký.
+        MUSVN sẽ cập nhật và gửi mail xác nhận chuyển khoản thành công trong 48h kể từ khi chuyển khoản.
       </p>
       <p>
         Thông tin chuyển khoản <br />
