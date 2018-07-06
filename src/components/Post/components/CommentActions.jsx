@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { IconButton, FlatButton } from 'material-ui';
 import Amplitude from 'react-amplitude';
-import { IconUpvote, IconDownvote, IconComment, IconShare } from '../../Icons';
+import { IconUpvote, IconDownvote, IconComment } from '../../Icons';
 import { upVote, downVote } from '../../../actions';
 import ui from '../../../theme';
-import ButtonShare from '../../../utils/ButtonShare';
+// import ButtonShare from '../../../utils/ButtonShare';
 import CreateEditComment from './CreateEditComment';
 
 const Styled = styled.div`
@@ -18,7 +18,21 @@ const Styled = styled.div`
   flex-direction: row;
   font-weight: ${ui.fontWeightMedium};
   font-size: ${ui.fontSizeSmall};
-  border-bottom: 1px solid ${ui.borderColor};
+  
+  :before {
+    content : "";
+    position: absolute;
+    left    : 30px;
+    bottom  : 0;
+    height  : 1px;
+    width   : calc(100% - 60px);
+    border-bottom:1px solid ${ui.borderColorVariant1};
+    
+    @media only screen and (max-width: 480px) {
+      left: 10px;
+      width   : calc(100% - 20px);
+    }
+  }
   
   .up-down {
     display: flex;

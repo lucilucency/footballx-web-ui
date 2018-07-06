@@ -97,7 +97,7 @@ const Header = ({ greaterThanSmall, user }) => (
     <VerticalAlignDiv>
       <BurgerButton />
       <HeaderLink user={user} />
-      {greaterThanSmall && <Search />}
+      {false && greaterThanSmall && <Search />}
     </VerticalAlignDiv>
     <VerticalAlignDiv >
       <FastActions greaterThanSmall={greaterThanSmall} />

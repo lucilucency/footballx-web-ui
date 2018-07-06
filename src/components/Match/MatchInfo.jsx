@@ -13,7 +13,7 @@ import { hitVote, getMatchComments, announce } from '../../actions/index';
 import strings from '../../lang/index';
 import { bindAll, getCookie, styles } from '../../utils/index';
 import ui from '../../theme';
-import CreateComment from './components/Discussion/CreateEditComment';
+import CreateComment from './components/Discussion/CreateEditMatchComment';
 import ViewComments from './components/Discussion/Comments';
 import MatchActions from './components/Discussion/DiscussionTools';
 

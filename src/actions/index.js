@@ -6,7 +6,7 @@ import { getCookie, setCookie, eraseCookie } from '../utils';
 const PAGE_LIMIT = 50;
 
 export const localUpdateReducer = (name, payload) => dispatch => dispatch({
-  type: `OK/EDIT_LOCAL/${name}`,
+  type: `OK/LOCAL_EDIT/${name}`,
   payload,
 });
 export const localSetReducer = (name, payload) => dispatch => dispatch({

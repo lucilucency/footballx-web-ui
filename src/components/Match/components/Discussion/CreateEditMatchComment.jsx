@@ -14,7 +14,7 @@ import { createMatchComment } from '../../../../actions/index';
 import Error from '../../../Error/index';
 import Spinner from '../../../Spinner/index';
 
-class CreateEditComment extends React.Component {
+class CreateEditMatchComment extends React.Component {
   static defaultProps = {
     mode: 'create',
     display: true,
@@ -34,7 +34,7 @@ class CreateEditComment extends React.Component {
 
   static initialState = ({
     formData: {
-      ...CreateEditComment.defaultFormData,
+      ...CreateEditMatchComment.defaultFormData,
     },
     submitResults: {
       data: [],
@@ -46,7 +46,7 @@ class CreateEditComment extends React.Component {
     super(props);
 
     this.state = {
-      ...CreateEditComment.initialState,
+      ...CreateEditMatchComment.initialState,
     };
     bindAll([
       'getFormData',
@@ -69,7 +69,7 @@ class CreateEditComment extends React.Component {
 
       const { data } = newProps;
       this.setState({
-        formData: mergeObject(CreateEditComment.defaultFormData, {
+        formData: mergeObject(CreateEditMatchComment.defaultFormData, {
           comment_id: { value: data.id },
           title: data.title,
           content: data.content,
@@ -90,7 +90,7 @@ class CreateEditComment extends React.Component {
   }
 
   clearFormData() {
-    this.setState(CreateEditComment.initialState);
+    this.setState(CreateEditMatchComment.initialState);
   }
 
   submit(e) {
@@ -135,7 +135,7 @@ class CreateEditComment extends React.Component {
         setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
         if (mode === 'create') {
           this.setState({
-            formData: CreateEditComment.defaultFormData,
+            formData: CreateEditMatchComment.defaultFormData,
           }, () => {
             // this.contentInput.focus();
           });
@@ -323,7 +323,7 @@ const mapDispatchToProps = dispatch => ({
   defaultDeleteFunction: () => {},
 });
 
-CreateEditComment.propTypes = {
+CreateEditMatchComment.propTypes = {
   post: PropTypes.object.isRequired,
   // data: PropTypes.object, /* comment's data */
 
@@ -339,4 +339,4 @@ CreateEditComment.propTypes = {
   // defaultEditFunction: PropTypes.func,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditComment));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditMatchComment));

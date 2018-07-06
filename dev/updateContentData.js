@@ -5,8 +5,10 @@ const request = require('superagent');
 const API = process.env.REACT_APP_API_HOST;
 const cmsAPI = process.env.REACT_APP_API_CMS;
 
-const updateVersionPath = `${API}/v1/version`;
-const updateContentPath = `${cmsAPI}/v1/content`;
+const updateVersionPath = `${API}/v2/version`;
+const updateContentPath = `${cmsAPI}/v2/content`;
+const client_ver = 1;
+
 console.log('updateVersionPath', updateVersionPath);
 console.log('updateContentPath', updateContentPath);
 
@@ -36,9 +38,8 @@ const getDownloadUrl = (delay, tries, error) => {
     // .set('Authorization', `Bearer ${accessToken}`)
     .query({}) // query string
     .then((res, err) => {
-      if (!err) {
-        const dispatchData = res.body.data[0];
-        return dispatchData.url;
+      if (!err && res.body && res.body.versions) {
+        return res.body.versions[0].url;
       }
       return setTimeout(() => getDownloadUrl(delay + 2000, tries - 1, res.body.message), delay);
     })
@@ -54,7 +55,9 @@ const extractContentData = new Promise((resolve) => {
   request
     .post(updateContentPath)
     .set('Content-Type', 'application/x-www-form-urlencoded')
-    .query({}) // query string
+    .send({
+      client_ver,
+    })
     .then((res, err) => {
       if (!err) {
         resolve(true);
@@ -89,4 +92,8 @@ const updateLocalContentData = new Promise((resolve) => {
   });
 });
 
-updateLocalContentData.then();
+extractContentData.then(() => {
+  "use strict";
+  updateLocalContentData.then();
+});
+

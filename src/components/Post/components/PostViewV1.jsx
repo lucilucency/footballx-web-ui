@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui-next/styles';
 import classnames from 'classnames';
-import { Card, CardActions, CardHeader, CardMedia, CardContent, Typography, IconButton, Collapse, Avatar } from 'material-ui-next';
+import { Card, CardActions, CardHeader, CardContent, IconButton, Collapse, Avatar } from 'material-ui-next';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import ExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import Amplitude from 'react-amplitude';
-
+import ui from '../../../theme';
 import { getCommentsInPost, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
-import ui from '../../../theme';
 import ViewPostComments from './CommentGrid';
 import CreateComment from './CreateEditComment';
 import PostActions from './PostActions';
-import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, TextWrapper } from './Styled';
+import { LinkCoverStyled, LinkPreview, TextWrapper, Image, ImageWrapper } from './Styled';
 
 const markdown = require('markdown-it')({
   html: true,
@@ -25,10 +24,25 @@ const markdown = require('markdown-it')({
 const styles = theme => ({
   card: {
     boxShadow: 'none',
+    fontFamily: ui.fontFamilySecondary,
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+  cardContent: {
+    paddingTop: 0,
+  },
+  cardText: {
+    fontWeight: 'normal',
+    wordBreak: 'break-word',
+    whiteSpace: 'pre-wrap',
+    fontFamily: ui.fontFamilySecondary,
+    fontSize: ui.fontSizeSmall,
+    lineHeight: ui.lineHeightSmall,
+    textAlign: 'justify',
+  },
+  cardTitle: {
+    fontWeight: 'bold',
+    fontSize: ui.fontSizeNormal,
+    lineHeight: ui.lineHeightNormal,
+    WebkitMarginAfter: '8px',
   },
   actions: {
     display: 'flex',
@@ -76,7 +90,7 @@ class PostViewV1 extends React.Component {
   };
 
   render() {
-    const { isCompact, classes } = this.props;
+    const { classes, isCompact } = this.props;
 
     const item = this.props.data;
     const isText = item.content_type === 1;
@@ -98,21 +112,22 @@ class PostViewV1 extends React.Component {
             title={<ActiveLink to={`/r/${item.community_id}`}>{item.community_name}</ActiveLink>}
             subheader={<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
           />
-          <CardContent>
-            <Typography gutterBottom variant="headline" component="h2">
+          <CardContent className={classes.cardContent}>
+            <div className={classes.cardTitle}>
               {item.title}
-            </Typography>
+            </div>
             {isText && (
-              <Typography component="p">
+              <div className={classes.cardText}>
                 <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
-              </Typography>
+              </div>
             )}
             {isImage &&
-            <CardMedia
-              className={classes.media}
-              onClick={this.popupViewPostFull}
-              image={item.content}
-            />}
+            <ImageWrapper>
+              <Image
+                src={item.content}
+                alt=""
+              />
+            </ImageWrapper>}
             {isLink && this.renderLink(item.content)}
           </CardContent>
 
@@ -122,7 +137,7 @@ class PostViewV1 extends React.Component {
               data={this.props.data}
               disableComment
               isLoggedIn={this.props.isLoggedIn}
-              isCompact={this.props.isCompact}
+              isCompact={isCompact}
             />
             <IconButton
               className={classnames(classes.expand, {

@@ -25,16 +25,17 @@ class ViewPostComments extends React.Component {
 
   renderComment = (item, insideTheNest) => {
     const { xuser = {} } = item;
+    const { isCompact } = this.props;
     return (
       <ListItem
         key={item.id}
         disabled
         style={{
           marginTop: insideTheNest ? 0 : 8,
+          marginLeft: !isCompact ? 24 : 8,
           paddingBottom: 0,
-          // borderLeft: `1px solid ${ui.borderColor}`,
-          marginLeft: 8,
-          backgroundColor: ui.surfaceColorPrimary,
+          paddingTop: 0,
+          borderLeft: `2px solid ${ui.borderColor}`,
         }}
         initiallyOpen
         primaryText={
@@ -42,7 +43,7 @@ class ViewPostComments extends React.Component {
             <div>
               <ActiveLink to={`/user/${xuser.id}`}>{xuser.username || xuser.nickname}</ActiveLink> - <span>{fromNow(item.created_at)}</span>
             </div>
-            <div className="text-small" style={{ fontWeight: ui.fontWeightNormal }}>
+            <div className="text-small">
               {item.content}
             </div>
           </div>
@@ -50,8 +51,8 @@ class ViewPostComments extends React.Component {
         secondaryText={<CommentActions data={item} type="comment" isLoggedIn={this.props.isLoggedIn} />}
         nestedItems={item.comments && item.comments.map(el => this.renderComment(el, true))}
         nestedListStyle={{
-          // borderLeft: `1px solid ${ui.borderColor}`,
-          marginLeft: 8,
+          borderLeft: `2px solid ${ui.borderColor}`,
+          marginLeft: !isCompact ? 24 : 8,
         }}
       />
     );
@@ -70,12 +71,14 @@ class ViewPostComments extends React.Component {
 
 const mapStateToProps = state => ({
   comments: state.app.comments.data,
+  isCompact: state.browser.lessThan.small,
 });
 
 ViewPostComments.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   /**/
   comments: PropTypes.array.isRequired,
+  isCompact: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(ViewPostComments);

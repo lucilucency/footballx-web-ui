@@ -8,29 +8,25 @@ import {
   FlatButton,
   RaisedButton,
 } from 'material-ui';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToMarkdown from 'draftjs-to-markdown';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import clubs from '../../../fxconstants/clubsArr.json';
-import constants from '../../constants';
 import strings from '../../../lang';
-import { bindAll, FormWrapper, TextValidator } from '../../../utils';
+import { bindAll } from '../../../utils';
 import { commentInPost } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
 import ui from '../../../theme';
 
 class CreateEditComment extends React.Component {
-  static defaultFormData = {
-    content: '',
-  };
-
   static initialState = ({
     formData: {
-      ...CreateEditComment.defaultFormData,
+      content: '',
     },
-    wysiwyg: EditorState.createEmpty(),
+    // wysiwyg: EditorState.createEmpty(),
+    editorState: EditorState.createEmpty(),
   });
 
   constructor(props) {
@@ -49,20 +45,14 @@ class CreateEditComment extends React.Component {
 
   componentDidMount() {
     // this.contentInput.focus();
-  }
 
-  // componentWillReceiveProps(newProps) {
-  //   if (newProps.mode === 'edit' && newProps.data && newProps.data.id) {
-  //     const { data } = newProps;
-  //     this.setState({
-  //       formData: mergeObject(CreateEditComment.defaultFormData, {
-  //         comment_id: { value: data.id },
-  //         title: data.title,
-  //         content: data.content,
-  //       }),
-  //     });
-  //   }
-  // }
+    // const contentBlock = '';
+    // const contentState = ContentState.createFromText(contentBlock);
+    // this.setState({
+    //   formData: CreateEditComment.initialState.formData,
+    //   editorState: EditorState.createWithContent(contentState),
+    // });
+  }
 
   close() {
     if (this.props.callback) {
@@ -70,23 +60,19 @@ class CreateEditComment extends React.Component {
     }
   }
 
-  getFormData = () => {
-    const { formData } = this.state;
+  getFormData = () => ({
+    // title: formData.title,
+    content: draftToMarkdown(convertToRaw(this.state.editorState.getCurrentContent())),
+    created_at: parseInt(Date.now() / 1000, 10),
+    // content_type: formData.content_type.value || 1,
+  });
 
-    return {
-      // title: formData.title,
-      content: draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent())),
-      created_at: parseInt(Date.now() / 1000, 10),
-      // content_type: formData.content_type.value || 1,
-    };
-  };
-
-  getPayload = (submitData) => {
+  addCommentToTree = (newComment) => {
     const pushItUp = (comments) => {
       comments.forEach((el) => {
         el.comments = el.comments || [];
         if (el.id === this.props.target.id) {
-          el.comments.push(submitData);
+          el.comments.push(newComment);
         } else {
           pushItUp(el.comments);
         }
@@ -95,45 +81,59 @@ class CreateEditComment extends React.Component {
     return pushItUp(this.props.comments);
   };
 
+  resetForm = (cb) => {
+    const contentBlock = '';
+    const contentState = ContentState.createFromText(contentBlock);
+    this.setState({
+      formData: CreateEditComment.initialState.formData,
+      editorState: EditorState.createWithContent(contentState),
+    }, cb);
+  };
+
   submit(e) {
     e.preventDefault();
-    const { mode } = this.props;
+    const { mode, target } = this.props;
     const submitData = this.getFormData();
 
     const promiseSubmit = () => new Promise((resolve) => {
       if (mode === 'edit') {
         /* resolve edit function */
       } else {
-        let reducer = 'ADD/comments';
+        let reducer = 'FIRST_ADD/comments';
         let payload = { xuser: this.props.user };
         const reducerCallback = [];
         const payloadCallback = [];
-        if (!this.props.target.target_id) { /* comment in post */
+        if (!target.target_id) { /* comment in post */
           reducerCallback.push('EDIT/post');
           payloadCallback.push({
-            ...this.props.target,
-            c_comments: (this.props.target.c_comments || 0) + 1,
+            ...target,
+            c_comments: (target.c_comments || 0) + 1,
           });
         }
-        if (this.props.target.target_id !== this.props.target.parent_id) { /* comment in comment */
-          reducer = 'EDIT/comments';
-          payload = this.getPayload({
+        if (target.target_id !== target.post_id) {
+          /* comment in comment */
+          reducer = 'EDIT_TREE/comments';
+          // payload = this.addCommentToTree({
+          //   ...submitData,
+          //   xuser: this.props.user,
+          // });
+          payload = {
             ...submitData,
             xuser: this.props.user,
-          });
-          reducerCallback.push('EDIT_LOCAL', 'EDIT_ARR/posts');
+          };
+          reducerCallback.push('LOCAL_EDIT/post', 'EDIT_ARR/posts');
           payloadCallback.push({
-            c_comments: (this.props.target.c_comments || 0) + 1,
+            c_comments: (target.c_comments || 0) + 1,
           }, {
-            ...this.props.target,
-            c_comments: (this.props.target.c_comments || 0) + 1,
+            ...target,
+            c_comments: (target.c_comments || 0) + 1,
           });
         }
 
         resolve(this.props.createComment({
           params: {
             ...submitData,
-            target_id: this.props.target.id,
+            target_id: target.id,
           },
           reducer,
           payload,
@@ -142,14 +142,11 @@ class CreateEditComment extends React.Component {
         }));
       }
     });
-
     promiseSubmit().then((results) => {
       if (results.type.indexOf('OK') === 0) {
         setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 0);
         if (mode === 'create') {
-          this.setState({
-            formData: CreateEditComment.defaultFormData,
-          }, this.close);
+          this.resetForm(this.close);
         }
       } else {
         /* announce about fail */
@@ -205,45 +202,11 @@ class CreateEditComment extends React.Component {
     }
   }
 
-  getFormError = () => {
-    // return false;
-  };
-
-  updateFormData = (state, value, callback) => {
+  onWysiwygChange = (editorState) => {
     this.setState({
-      formData: update(this.state.formData, {
-        [state]: { $set: value },
-      }),
-    }, () => {
-      this.getFormError();
-      if (callback) callback();
+      editorState,
     });
   };
-
-  onWysiwygChange = (wysiwyg) => {
-    this.setState({
-      wysiwyg,
-    });
-  };
-
-  renderContentInput = () => (<TextValidator
-    // floatingLabelText={strings.hint_comment}
-    name="comment_content"
-    key="content"
-    type="text"
-    hintText={strings.hint_comment}
-    hintStyle={{ top: 12 }}
-    onChange={e => this.updateFormData('content', e.target.value)}
-    multiLine
-    rows={4}
-    rowsMax={10}
-    fullWidth
-    value={this.state.formData.content && this.state.formData.content}
-    autoComplete="off"
-    underlineShow={false}
-    validators={['required']}
-    errorMessages={[strings.err_empty_comment_content]}
-  />);
 
   renderRichTextInput = () => {
     const suggestions = clubs ? clubs.map(club => ({
@@ -254,20 +217,14 @@ class CreateEditComment extends React.Component {
 
     return (
       <div>
-        {/* <textarea
-         cols={80}
-         rows={10}
-         disabled
-         value={this.state.wysiwyg && draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent()))}
-         /> */}
         <Editor
-          // editorState={this.state.wysiwyg}
-          rawContentState={this.state.wysiwyg}
+          editorState={this.state.editorState}
+          // rawContentState={this.state.editorState}
           stripPastedStyles
           wrapperClassName="demo-wrapper"
           editorClassName="demo-editor"
           onEditorStateChange={this.onWysiwygChange}
-          placeholder={strings.hint_post_content_text}
+          placeholder={strings.hint_post_content}
           mention={{
             separator: ' ',
             trigger: '@',
@@ -302,7 +259,7 @@ class CreateEditComment extends React.Component {
           }}
           editorStyle={{
             padding: '0 20px',
-            minHeight: '250px',
+            minHeight: '120px',
             lineHeight: '24px',
             fontFamily: ui.fontFamilyPrimary,
             fontStyle: 'normal',
@@ -317,10 +274,8 @@ class CreateEditComment extends React.Component {
   render() {
     const {
       mode,
-      display,
-      toggle,
-      popup,
       loading,
+      isCompact,
     } = this.props;
 
     const actions = [
@@ -339,52 +294,35 @@ class CreateEditComment extends React.Component {
           type="submit"
           label={strings.label_comment}
           style={{
-            margin: 5,
+            marginTop: 5,
           }}
           buttonStyle={{
             height: '32px',
             lineHeight: '32px',
           }}
           primary
-          disabled={!this.state.formData.content.length}
+          onClick={this.submit}
+          // disabled={!this.state.formData.content.length}
         />
       ),
     ];
 
     return (
-      <FormWrapper
-        data-toggle={toggle}
-        data-popup={popup}
-        data-display={display}
-        onSubmit={this.submit}
+      <div
         style={{
           backgroundColor: ui.surfaceColorSecondary,
-          padding: '16px 70px',
+          padding: !isCompact ? '16px 70px' : '16px',
         }}
-        // onSubmit={this.getPayload}
-        // onError={errors => console.log(errors)}
       >
         {loading && <Spinner />}
         {this.state.error && <Error text={this.state.error} />}
 
-        <div
-          style={{
-            backgroundColor: 'hsla(0,0%,100%,0)',
-            border: `1px solid ${ui.borderColor}`,
-            borderRadius: 4,
-            padding: '0 10px',
-            margin: 10,
-          }}
-        >
-          {this.renderContentInput()}
-        </div>
-
         {this.renderRichTextInput()}
 
-        <div className="actions">
+        <div style={{ textAlign: 'right' }}>
           {actions}
         </div>
-      </FormWrapper>
+      </div>
     );
   }
 }
@@ -393,6 +331,7 @@ const mapStateToProps = state => ({
   currentQueryString: window.location.search,
   user: state.app.metadata.data.user,
   comments: state.app.comments.data,
+  isCompact: state.browser.lessThan.small,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -403,11 +342,7 @@ const mapDispatchToProps = dispatch => ({
 
 CreateEditComment.propTypes = {
   target: PropTypes.object.isRequired,
-  // data: PropTypes.object, /* comment's data for editing */
   mode: PropTypes.string,
-  display: PropTypes.bool,
-  toggle: PropTypes.bool,
-  popup: PropTypes.bool,
   callback: PropTypes.func,
   /**/
   user: PropTypes.object,
@@ -415,14 +350,11 @@ CreateEditComment.propTypes = {
   defaultDeleteFunction: PropTypes.func,
   createComment: PropTypes.func,
   comments: PropTypes.array,
+  isCompact: PropTypes.bool,
 };
 
 CreateEditComment.defaultProps = {
   mode: 'create',
-  display: true,
-  toggle: true,
-  popup: false,
-  loading: false,
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEditComment));

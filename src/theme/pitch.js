@@ -13,8 +13,8 @@ const ThemePitch = {
   neutralColor: Colors.grey500,
   neutralColorVariant1: Colors.grey300,
   linkColor: '#6BF',
-  borderColor: 'rgb(224, 224, 224)',
-  borderColorVariant1: Colors.green50,
+  borderColor: Colors.grey200,
+  borderColorVariant1: Colors.grey100,
   avatarBackgroundColor: Colors.grey50,
 
   backgroundColorPrimary: Colors.grey100,

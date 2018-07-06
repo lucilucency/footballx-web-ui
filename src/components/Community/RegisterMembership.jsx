@@ -430,7 +430,7 @@ class RegisterMembership extends React.Component {
                   <div>
                     {this.state.toppingUp === 0 && (
                       <RaisedButton
-                        label={strings.label_comment}
+                        label={strings.label_confirm}
                         labelPosition="before"
                         disabled={!this.props.registerMembership
                         || !this.props.registerMembership.group_membership_pack_data

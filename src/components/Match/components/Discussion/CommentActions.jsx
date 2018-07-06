@@ -10,7 +10,7 @@ import { IconUpvote, IconDownvote, IconComment, IconShare } from '../../../Icons
 import { upVote, downVote } from '../../../../actions/index';
 import ui from '../../../../theme';
 import ButtonShare from '../../../../utils/ButtonShare';
-import CreateEditComment from './CreateEditComment';
+import CreateEditComment from './CreateEditMatchComment';
 
 const Styled = styled.div`
   padding: 0 0;

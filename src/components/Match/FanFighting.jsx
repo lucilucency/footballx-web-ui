@@ -15,7 +15,7 @@ import { bindAll, getCookie, styles } from '../../utils/index';
 import constants from '../constants';
 
 import { FanFightVisualize, FanFightActions } from './components';
-import CreateComment from './components/Discussion/CreateEditComment';
+import CreateComment from './components/Discussion/CreateEditMatchComment';
 import ViewComments from './components/Discussion/Comments';
 import MatchActions from './components/Discussion/DiscussionTools';
 
