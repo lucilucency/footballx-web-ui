@@ -11,13 +11,22 @@ importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
 //   messagingSenderId: '318454074670',
 // };
 
+// const devConfig = {
+//   apiKey: 'AIzaSyCGjNTtY-6Ec0rxRh-HRQqFt1MlQ6YODDY',
+//   authDomain: 'footballx-dev.firebaseapp.com',
+//   databaseURL: 'https://footballx-dev.firebaseio.com',
+//   projectId: 'footballx-dev',
+//   storageBucket: 'footballx-dev.appspot.com',
+//   messagingSenderId: '738646846066',
+// };
+
 const devConfig = {
-  apiKey: 'AIzaSyCGjNTtY-6Ec0rxRh-HRQqFt1MlQ6YODDY',
-  authDomain: 'footballx-dev.firebaseapp.com',
-  databaseURL: 'https://footballx-dev.firebaseio.com',
-  projectId: 'footballx-dev',
-  storageBucket: 'footballx-dev.appspot.com',
-  messagingSenderId: '738646846066',
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DB_URL,
+  projectId: process.env.REACT_APP_FIREBASE_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER,
 };
 
 // const firebaseConfig = process.env.NODE_ENV === 'production'

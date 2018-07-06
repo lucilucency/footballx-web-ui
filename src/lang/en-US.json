@@ -76,6 +76,7 @@
   "err_maximum": "Maximum %d",
   "err_maximum_fize_size": "Maximum file size: %d",
   "err_minimum": "Minimum %d",
+  "err_no_space": "No space",
   "err_password_mismatch": "Not match",
   "fantasy_description": "%d for %d points",
   "filter_club": "Club",

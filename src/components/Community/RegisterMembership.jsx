@@ -11,7 +11,7 @@ import {
 import { muiThemeable } from 'material-ui/styles';
 import RaisedButton from 'material-ui/RaisedButton';
 import Amplitude from 'react-amplitude';
-import { messaging } from '../../firebaseMessaging';
+// import { messaging } from '../../firebaseMessaging';
 import { IconProgress, IconSuccess } from '../Icons';
 import { ajaxPost, ajaxPut, localUpdateMetadata, announce, refresh } from '../../actions';
 import { format, renderDialog, SmallPaper } from '../../utils';
@@ -127,24 +127,24 @@ class RegisterMembership extends React.Component {
   componentDidMount() {
     Amplitude.logEvent('Enter register group membership');
 
-    if (messaging) {
-      messaging.onMessage((payload) => {
-        const payloadData = payload.data;
-        if (payloadData) {
-          // let { body_loc_args } = payloadData;
-          const { body_loc_key } = payloadData;
-          // body_loc_args = JSON.parse(body_loc_args);
-
-          if (body_loc_key === 'XUSER_TOPUP_XCOIN_SUCCESS') {
-            // const topup = body_loc_args[0];
-            // const balance = body_loc_args[1];
-            // if (balance > this.props.registerMembership.group_membership_pack_data.price) {
-            this.submitPayment();
-            // }
-          }
-        }
-      });
-    }
+    // if (messaging) {
+    //   messaging.onMessage((payload) => {
+    //     const payloadData = payload.data;
+    //     if (payloadData) {
+    //       // let { body_loc_args } = payloadData;
+    //       const { body_loc_key } = payloadData;
+    //       // body_loc_args = JSON.parse(body_loc_args);
+    //
+    //       if (body_loc_key === 'XUSER_TOPUP_XCOIN_SUCCESS') {
+    //         // const topup = body_loc_args[0];
+    //         // const balance = body_loc_args[1];
+    //         // if (balance > this.props.registerMembership.group_membership_pack_data.price) {
+    //         this.submitPayment();
+    //         // }
+    //       }
+    //     }
+    //   });
+    // }
 
     if (this.props.registerMembership && this.props.registerMembership.id && this.props.registerMembership.is_complete) {
       this.props.history.push(`/r/${this.props.communityID}`);
