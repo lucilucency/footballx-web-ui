@@ -85,6 +85,7 @@ class HorizontalNonLinearStepper extends React.Component {
   };
 
   render() {
+    const { isCompact } = this.props;
     const { stepIndex } = this.state;
     const contentStyle = {
       margin: '0 16px',
@@ -116,7 +117,7 @@ class HorizontalNonLinearStepper extends React.Component {
           </Step>
           <Step>
             <StepLabel>
-              {strings.heading_update_following_communities}
+              {!isCompact && strings.heading_update_following_communities}
             </StepLabel>
           </Step>
         </Stepper>
@@ -186,10 +187,12 @@ HorizontalNonLinearStepper.propTypes = {
   /**/
   // clubs: PropTypes.object,
   followTeam: PropTypes.func,
+  isCompact: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   user: state.app.metadata.data.user,
+  isCompact: state.browser.lessThan.small,
 });
 
 const mapDispatchToProps = dispatch => ({
