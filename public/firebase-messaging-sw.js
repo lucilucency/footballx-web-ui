@@ -39,7 +39,7 @@ const devConfig = {
 // TODO: fill in messaging sender id
 firebase.initializeApp(devConfig);
 
-const messaging = firebase.messaging();
+const messaging = firebase && firebase.messaging();
 
 self.addEventListener('notificationclick', (event) => {
   // Event actions derived from event.notification.data from data received
@@ -52,7 +52,7 @@ self.addEventListener('notificationclick', (event) => {
   }
 }, false);
 
-messaging.setBackgroundMessageHandler((payload) => {
+messaging && messaging.setBackgroundMessageHandler((payload) => {
   if (payload && payload.data) {
     let { body_loc_args } = payload.data;
     const { body_lock_key } = payload.data;
