@@ -159,7 +159,7 @@
   "hint_issue_notes": "Note eg: For match...",
   "hint_number": "Quantity eg: 100",
   "hint_password": "Mật khẩu tối thiểu 3 kí tự, tối đa 16 kí tự",
-  "hint_nickname": "Chọn cho mình nickname thật kêu vào!",
+  "hint_nickname": "Chọn cho mình nickname!",
   "hint_fullname": "Họ tên",
   "hint_receive_name": "Họ tên người nhận",
   "hint_email": "Email",
