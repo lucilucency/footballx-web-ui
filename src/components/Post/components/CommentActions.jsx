@@ -188,7 +188,7 @@ class CommentActions extends React.Component {
             ) : (
               <FlatButton
                 target="_blank"
-                label={item.c_comments || 0}
+                // label={item.c_comments || 0}
                 icon={<IconComment style={{ marginTop: -5 }} color={ui.neutralColor} />}
                 labelPosition="after"
                 labelStyle={{
