@@ -62,7 +62,7 @@ class CreateEditComment extends React.Component {
 
   getFormData = () => ({
     // title: formData.title,
-    content: draftToMarkdown(convertToRaw(this.state.editorState.getCurrentContent())),
+    content: draftToMarkdown(convertToRaw(this.state.editorState.getCurrentContent())).replace(/&nbsp;/g, ' ').trim(),
     created_at: parseInt(Date.now() / 1000, 10),
     // content_type: formData.content_type.value || 1,
   });
