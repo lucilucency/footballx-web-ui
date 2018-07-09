@@ -384,12 +384,6 @@ class CreateEditPost extends React.Component {
 
     return (
       <div>
-        <textarea
-          cols={80}
-          rows={10}
-          disabled
-          value={this.state.wysiwyg && draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent())).replace(/&nbsp;/g, ' ').trim()}
-        />
         <Editor
           // editorState={this.state.wysiwyg}
           rawContentState={this.state.wysiwyg}
