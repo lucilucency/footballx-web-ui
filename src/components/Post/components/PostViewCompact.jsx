@@ -6,9 +6,8 @@ import { Card, CardActions, CardHeader, CardMedia, CardText } from 'material-ui'
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
 import { ActiveLink, MutedLink, bindAll, renderDialog, styles, toDateTimeString } from '../../../utils';
-// import ui from '../../../theme';
 import PostActions from './PostActions';
-import { LinkCoverStyled, ImageCompact, ImageWrapper, TextWrapper, LinkPreview } from './Styled';
+import { LinkCoverStyled, ImageCompact, ImageWrapper, ContentText, LinkPreview } from './Styled';
 import ViewPostFullFrame from './PostViewFullFrame';
 
 const CONTENT_MAX_LEN = 800;
@@ -21,11 +20,11 @@ const markdown = require('markdown-it')({
 
 const wrapTextReadMore = (text, callback, isCompact) => {
   if (!text) { return ''; }
-  if (text.length < CONTENT_MAX_LEN) return <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(text) }} />;
+  if (text.length < CONTENT_MAX_LEN) return <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(text) }} />;
 
   return (
     <div>
-      <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(text.slice(0, isCompact ? CONTENT_MAX_LEN_COMPACT : CONTENT_MAX_LEN)) }} />
+      <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(text.slice(0, isCompact ? CONTENT_MAX_LEN_COMPACT : CONTENT_MAX_LEN)) }} />
       <a href="" onClick={callback}>{strings.label_read_more}</a>
     </div>
   );

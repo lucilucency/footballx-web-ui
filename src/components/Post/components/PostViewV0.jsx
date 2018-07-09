@@ -11,7 +11,7 @@ import ui from '../../../theme';
 import ViewPostComments from './CommentGrid';
 import CreateComment from './CreateEditComment';
 import PostActions from './PostActions';
-import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, TextWrapper } from './Styled';
+import { LinkCoverStyled, Image, ImageWrapper, LinkPreview, ContentText } from './Styled';
 
 const markdown = require('markdown-it')({
   html: true,
@@ -99,7 +99,7 @@ class ViewPostFull extends React.Component {
           <CardText
             style={!isCompact ? styles.cardText.style : styles.cardText.styleCompact}
           >
-            <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
+            <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
           </CardText>}
           <CardActions style={!isCompact ? styles.cardActions.style : styles.cardActions.styleCompact}>
             <PostActions

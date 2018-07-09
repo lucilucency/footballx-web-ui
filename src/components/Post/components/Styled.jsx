@@ -43,7 +43,7 @@ export const ImageCompact = styled.img`
   position: relative;
 `;
 
-export const TextWrapper = styled.div`
+export const ContentText = styled.div`
   img {
     max-width: 100px;
     max-height: 100px;

@@ -4,7 +4,13 @@ import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import ui from '../../../theme';
 import { fromNow, ActiveLink, styles } from '../../../utils';
+import { ContentText } from './Styled';
 import CommentActions from './CommentActions';
+
+const markdown = require('markdown-it')({
+  html: true,
+  linkify: true,
+});
 
 class ViewPostComments extends React.Component {
   state = {
@@ -44,7 +50,7 @@ class ViewPostComments extends React.Component {
               <ActiveLink to={`/user/${xuser.id}`}>{xuser.username || xuser.nickname}</ActiveLink> - <span>{fromNow(item.created_at)}</span>
             </div>
             <div className="text-small">
-              {item.content}
+              <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content) }} />
             </div>
           </div>
         }

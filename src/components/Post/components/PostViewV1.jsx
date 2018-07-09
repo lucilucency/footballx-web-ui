@@ -14,7 +14,7 @@ import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../uti
 import ViewPostComments from './CommentGrid';
 import CreateComment from './CreateEditComment';
 import PostActions from './PostActions';
-import { LinkCoverStyled, LinkPreview, TextWrapper, Image, ImageWrapper } from './Styled';
+import { LinkCoverStyled, LinkPreview, ContentText, Image, ImageWrapper } from './Styled';
 
 const markdown = require('markdown-it')({
   html: true,
@@ -118,7 +118,7 @@ class PostViewV1 extends React.Component {
             </div>
             {isText && (
               <div className={classes.cardText}>
-                <TextWrapper dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
+                <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
               </div>
             )}
             {isImage &&
