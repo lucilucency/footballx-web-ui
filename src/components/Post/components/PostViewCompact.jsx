@@ -159,12 +159,12 @@ class ViewPostCompact extends React.Component {
     return (
       <Card style={styles.card.style}>
         <CardHeader
-          title={<div style={{ display: 'inline' }}>{communityLink} &nbsp;<LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled></div>}
-          subtitle={!isCompact && <span style={isCompact ? styles.cardTitle.titleStyleCompact : styles.cardTitle.titleStyle}>{item.title}</span>}
+          title={<div style={{ display: 'inline' }}>{communityLink} {isCompact && <LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}</div>}
+          subtitle={!isCompact && <LinkCoverStyled>{strings.post_by} {userLink} - {postLink}</LinkCoverStyled>}
           avatar={item.community_icon}
-          style={styles.cardHeader.style}
+          style={!isCompact ? styles.cardHeader.style : styles.cardHeader.styleCompact}
         />
-        {isCompact && <span style={styles.cardTitle.titleStyleCompact}>{item.title}</span>}
+        {<span style={isCompact ? styles.cardTitle.titleStyleCompact : styles.cardTitle.titleStyle}>{item.title}</span>}
         {isImage &&
         <CardMedia
           style={isCompact ? styles.cardMedia.styleCompact : styles.cardMedia.style}

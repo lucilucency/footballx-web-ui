@@ -18,7 +18,10 @@ export const styles = {
   },
   cardHeader: {
     style: {
-      paddingBottom: 6,
+      paddingBottom: 0,
+    },
+    styleCompact: {
+      paddingBottom: 8,
     },
     title: {},
   },
@@ -48,7 +51,7 @@ export const styles = {
       fontFamily: constants.fontFamilySecondary,
       fontSize: constants.fontSizeSmall,
       lineHeight: constants.lineHeightSmall,
-      textAlign: 'justify',
+      // textAlign: 'justify',
     },
     styleCompact: {
       padding: '0 16px 16px 16px',
@@ -58,7 +61,7 @@ export const styles = {
       fontFamily: constants.fontFamilySecondary,
       fontSize: constants.fontSizeLittle,
       lineHeight: constants.lineHeightLittle,
-      textAlign: 'justify',
+      // textAlign: 'justify',
     },
   },
   cardActions: {
@@ -77,6 +80,8 @@ export const styles = {
   },
   cardTitle: {
     titleStyle: {
+      display: 'inline-block',
+      padding: '0 16px 0px 70px',
       fontWeight: 'bold',
       fontSize: constants.fontSizeNormal,
       lineHeight: constants.lineHeightNormal,
