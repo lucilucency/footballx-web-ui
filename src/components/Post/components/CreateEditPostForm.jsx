@@ -30,6 +30,8 @@ import CommunitySelector from './CommunitySelector';
 const MAX_SIZE = 10000000;
 const MAX_SIZE_MB = 10;
 
+const uuid = require('uuid');
+
 const articleContent = {
   lineHeight: '24px',
   fontFamily: ui.fontFamilyPrimary,
@@ -202,6 +204,7 @@ class CreateEditPost extends React.Component {
   doSubmit = () => {
     const that = this;
     const { mode } = this.props;
+    const contentType = this.state.formData.content_type.value;
     const submitData = this.getFormData();
 
     /** SUBMIT FLOW
@@ -219,9 +222,14 @@ class CreateEditPost extends React.Component {
 
     /* declare upload */
     const promiseUpload = new Promise((resolve) => {
-      if (this.state.formData.content_type.value === 2) {
+      if (contentType === 2) {
+        const ext = this.state.formData.selectedImage.name.split('.').pop();
+        const newFileName = `${uuid.v1()}.${ext}`;
         ajaxUpload({
-          file: this.state.formData.selectedImage,
+          file: {
+            ...this.state.formData.selectedImage,
+            name: newFileName,
+          },
         }, (respUpload) => {
           if (respUpload) {
             resolve(respUpload);
@@ -229,7 +237,7 @@ class CreateEditPost extends React.Component {
             resolve(null);
           }
         });
-      } else if (this.state.formData.content_type.value === 3) {
+      } else if (contentType === 3) {
         ajaxGet({
           url: 'https://api.linkpreview.net',
           params: {
@@ -243,7 +251,7 @@ class CreateEditPost extends React.Component {
             resolve(null);
           }
         });
-      } else if (this.state.formData.content_type.value === 1) {
+      } else if (contentType === 1) {
         resolve(draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent())).replace(/&nbsp;/g, ' ').trim());
       } else {
         resolve(null);
@@ -268,7 +276,7 @@ class CreateEditPost extends React.Component {
 
     /* 2.upload && update formData */
     promiseUpload.then((newContent) => {
-      if (newContent) {
+      if (contentType === 1 || newContent) {
         /* announce about post will be created */
         // this.props.announce({
         //   message: strings.announce_creating,
