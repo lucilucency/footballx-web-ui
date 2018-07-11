@@ -30,7 +30,7 @@ import CommunitySelector from './CommunitySelector';
 const MAX_SIZE = 10000000;
 const MAX_SIZE_MB = 10;
 
-const uuid = require('uuid');
+// const uuid = require('uuid');
 
 const articleContent = {
   lineHeight: '24px',
