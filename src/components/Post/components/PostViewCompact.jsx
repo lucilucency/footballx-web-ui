@@ -164,7 +164,9 @@ class ViewPostCompact extends React.Component {
           avatar={item.community_icon}
           style={!isCompact ? styles.cardHeader.style : styles.cardHeader.styleCompact}
         />
-        {<span style={isCompact ? styles.cardTitle.titleStyleCompact : styles.cardTitle.titleStyle}>{item.title}</span>}
+        <span style={isCompact ? styles.cardTitle.titleStyleCompact : styles.cardTitle.titleStyle}>
+          <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.title) }} />
+        </span>
         {isImage &&
         <CardMedia
           style={isCompact ? styles.cardMedia.styleCompact : styles.cardMedia.style}

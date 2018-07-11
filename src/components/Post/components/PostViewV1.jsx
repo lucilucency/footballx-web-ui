@@ -114,7 +114,7 @@ class PostViewV1 extends React.Component {
           />
           <CardContent className={classes.cardContent}>
             <div className={classes.cardTitle}>
-              {item.title}
+              <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.title) }} />
             </div>
             {isText && (
               <div className={classes.cardText}>

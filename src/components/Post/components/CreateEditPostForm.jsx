@@ -223,13 +223,14 @@ class CreateEditPost extends React.Component {
     /* declare upload */
     const promiseUpload = new Promise((resolve) => {
       if (contentType === 2) {
-        const ext = this.state.formData.selectedImage.name.split('.').pop();
-        const newFileName = `${uuid.v1()}.${ext}`;
+        // const ext = this.state.formData.selectedImage.name.split('.').pop();
+        // const newFileName = `${uuid.v1()}.${ext}`;
         ajaxUpload({
-          file: {
-            ...this.state.formData.selectedImage,
-            name: newFileName,
-          },
+          // file: {
+          //   ...this.state.formData.selectedImage,
+          //   name: newFileName,
+          // },
+          file: this.state.formData.selectedImage,
         }, (respUpload) => {
           if (respUpload) {
             resolve(respUpload);

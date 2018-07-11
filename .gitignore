@@ -80,7 +80,7 @@ src/fxconstants/leaguesArr.json
 src/fxconstants/leaguesObj.json
 src/fxconstants/provincesArr.json
 src/fxconstants/provincesObj.json
-src/fxconstants/teamSquadObj.json
+# src/fxconstants/teamSquadObj.json
 src/fxconstants/wardsArr.json
 src/fxconstants/wardsObj.json
 
