@@ -58,7 +58,7 @@ class ChoosePlace extends Component {
     address: [
       { rule: 'required', message: strings.err_required },
       { rule: 'minStringLength:10', message: format(strings.err_minimum, 10) },
-      { rule: 'maxStringLength:50', message: format(strings.err_minimum, 50) },
+      { rule: 'maxStringLength:50', message: format(strings.err_maximum, 50) },
     ],
     province_id: [
       { rule: 'required', message: strings.err_required },
