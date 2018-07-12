@@ -2,16 +2,7 @@
 importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
 
-// const prodConfig = {
-//   apiKey: 'AIzaSyA65s_6yPsTyvoRUNJ6zkSe1JfB0hokd5M',
-//   authDomain: 'footballx-f8db2.firebaseapp.com',
-//   databaseURL: 'https://footballx-f8db2.firebaseio.com',
-//   projectId: 'footballx-f8db2',
-//   storageBucket: 'footballx-f8db2.appspot.com',
-//   messagingSenderId: '318454074670',
-// };
-
-// const devConfig = {
+// const config = {
 //   apiKey: 'AIzaSyCGjNTtY-6Ec0rxRh-HRQqFt1MlQ6YODDY',
 //   authDomain: 'footballx-dev.firebaseapp.com',
 //   databaseURL: 'https://footballx-dev.firebaseio.com',
@@ -20,7 +11,7 @@ importScripts('https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js');
 //   messagingSenderId: '738646846066',
 // };
 
-const devConfig = {
+const config = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_FIREBASE_DB_URL,
@@ -31,13 +22,13 @@ const devConfig = {
 
 // const firebaseConfig = process.env.NODE_ENV === 'production'
 //   ? prodConfig
-//   : devConfig;
+//   : config;
 
 /* global firebase */
 /* global clients */
 
 // TODO: fill in messaging sender id
-firebase.initializeApp(devConfig);
+firebase.initializeApp(config);
 
 const messaging = firebase && firebase.messaging();
 
@@ -52,7 +43,7 @@ self.addEventListener('notificationclick', (event) => {
   }
 }, false);
 
-messaging && messaging.setBackgroundMessageHandler((payload) => {
+messaging.setBackgroundMessageHandler((payload) => {
   if (payload && payload.data) {
     let { body_loc_args } = payload.data;
     const { body_lock_key } = payload.data;

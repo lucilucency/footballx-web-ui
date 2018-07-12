@@ -31,11 +31,13 @@ export default function register() {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/firebase-messaging-sw.js`;
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
-      if (!isLocalhost) { // Is not local host. Just register service worker
+      if (!isLocalhost) {
+        // Is not local host. Just register service worker
         registerValidSW(swUrl);
-      } else { // This is running on localhost. Lets check if a service worker still exists or not.
+      } else {
+        // This is running on localhost. Lets check if a service worker still exists or not.
         checkValidServiceWorker(swUrl);
       }
     });
@@ -71,10 +73,8 @@ function registerValidSW(swUrl) {
     });
 }
 
-/**
- * Check if the service worker can be found. If it can't reload the page.
- * */
 function checkValidServiceWorker(swUrl) {
+  // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
     .then(response => {
       // Ensure service worker exists, and that we really are getting a JS file.
@@ -102,7 +102,6 @@ function checkValidServiceWorker(swUrl) {
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
-    console.warn('Remove service worker. Bye!');
     navigator.serviceWorker.ready.then(registration => {
       registration.unregister();
     });

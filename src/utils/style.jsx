@@ -80,14 +80,16 @@ export const styles = {
   },
   cardTitle: {
     titleStyle: {
-      display: 'inline-block',
+      // display: 'inline-block',
+      wordWrap: 'break-word',
       padding: '0 16px 0px 70px',
       fontWeight: 'bold',
       fontSize: constants.fontSizeNormal,
       lineHeight: constants.lineHeightNormal,
     },
     titleStyleCompact: {
-      display: 'inline-block',
+      // display: 'inline-block',
+      wordWrap: 'break-word',
       padding: '0 16px',
       fontWeight: 'bold',
       fontSize: constants.fontSizeNormal,
