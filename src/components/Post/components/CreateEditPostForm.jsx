@@ -11,16 +11,15 @@ import {
 } from 'material-ui';
 import { Card, CardMedia, CardActions, CardText } from 'material-ui/Card';
 import styled from 'styled-components';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import draftToMarkdown from 'draftjs-to-markdown';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { format } from 'util';
 import Amplitude from 'react-amplitude';
 import clubs from '../../../fxconstants/clubsArr.json';
 import { IconProgress, IconLink, IconImage, IconText } from '../../Icons';
 import strings from '../../../lang';
-import { bindAll, FormWrapper, TextValidator, bytesToSize } from '../../../utils';
+import { bindAll, FormWrapper, TextValidator, bytesToSize, toPlainText } from '../../../utils';
 import ui from '../../../theme';
 import { ajaxGet, createPost as defaultCreateFn, editPost as defaultEditFn, deletePost as defaultDeleteFn, ajaxUpload, announce } from '../../../actions';
 import Error from '../../Error/index';
@@ -253,7 +252,7 @@ class CreateEditPost extends React.Component {
           }
         });
       } else if (contentType === 1) {
-        resolve(draftToMarkdown(convertToRaw(this.state.wysiwyg.getCurrentContent())).replace(/&nbsp;/g, ' ').trim());
+        resolve(toPlainText(this.state.wysiwyg.getCurrentContent()));
       } else {
         resolve(null);
       }

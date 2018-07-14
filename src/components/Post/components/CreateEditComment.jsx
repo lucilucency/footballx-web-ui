@@ -8,13 +8,12 @@ import {
   FlatButton,
   RaisedButton,
 } from 'material-ui';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import draftToMarkdown from 'draftjs-to-markdown';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import clubs from '../../../fxconstants/clubsArr.json';
 import strings from '../../../lang';
-import { bindAll } from '../../../utils';
+import { bindAll, toPlainText } from '../../../utils';
 import { commentInPost } from '../../../actions';
 import Error from '../../Error/index';
 import Spinner from '../../Spinner/index';
@@ -62,7 +61,7 @@ class CreateEditComment extends React.Component {
 
   getFormData = () => ({
     // title: formData.title,
-    content: draftToMarkdown(convertToRaw(this.state.editorState.getCurrentContent())).replace(/&nbsp;/g, ' ').trim(),
+    content: toPlainText(this.state.editorState.getCurrentContent()),
     created_at: parseInt(Date.now() / 1000, 10),
     // content_type: formData.content_type.value || 1,
   });

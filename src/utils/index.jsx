@@ -1,6 +1,9 @@
 /* eslint-disable no-restricted-properties,radix */
+import draftToMarkdown from 'draftjs-to-markdown';
+import { convertToRaw } from 'draft-js';
 import strings from '../lang';
 import Rules from './ValidatorCore/ValidationRules';
+
 
 export { format } from 'util';
 export * from './time';
@@ -12,6 +15,16 @@ export * from './FormValidator';
 export * from './ValidatorCore';
 export * from './BigSelector';
 export * from './PasswordWithEye';
+
+export function toPlainText(wysiwygContent) {
+  const text = draftToMarkdown(convertToRaw(wysiwygContent));
+  return text
+    .replace(/(&nbsp;|\\s\\s)/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .trim();
+}
 
 export function validate(validator, value, includeRequired) {
   let name = validator;
