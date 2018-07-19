@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import IconSort from 'material-ui/svg-icons/content/sort';
-import { setCommunity, getCommunity, setTheme, getGroupMemberships, getGroupMembershipPackages, localUpdateMetadata, ajaxGet } from '../../actions';
+import {
+  setCommunity, getCommunity, getCommunityByLink,
+  setTheme,
+  getGroupMemberships, getGroupMembershipPackages,
+  localUpdateMetadata, ajaxGet,
+} from '../../actions';
 import { Container, getCookie } from '../../utils/index';
 import { TransparentTabBar } from '../TabBar';
 import { IconHotFeed } from '../Icons';
@@ -22,31 +27,31 @@ const verticalAlign = {
   verticalAlign: 'middle',
 };
 
-const getTabs = ({ communityID, loggedInUserID }) => [{
+const getTabs = ({ communityID, communityLink, loggedInUserID }) => [{
   name: <div><IconHotFeed style={{ ...verticalAlign }} /> <span style={{ ...verticalAlign }}>HOT</span></div>,
   key: 'hot',
   content: <Hot communityID={communityID} loggedInUserID={loggedInUserID} />,
-  route: `/r/${communityID}/hot`,
+  route: `/r/${communityLink}/hot`,
 }, null && {
   name: 'NEW',
   key: 'new',
   content: <New communityID={communityID} loggedInUserID={loggedInUserID} />,
-  route: `/r/${communityID}/new`,
+  route: `/r/${communityLink}/new`,
 }, {
   name: <div><IconSort style={{ ...verticalAlign }} /> <span style={{ ...verticalAlign }}>TOP</span></div>,
   key: 'top',
   content: <Top communityID={communityID} loggedInUserID={loggedInUserID} />,
-  route: `/r/${communityID}/top`,
+  route: `/r/${communityLink}/top`,
 }, null && {
   name: 'CONTROVERSY',
   key: 'controversy',
   content: <Controversy communityID={communityID} loggedInUserID={loggedInUserID} />,
-  route: `/r/${communityID}/controversy`,
+  route: `/r/${communityLink}/controversy`,
 }, {
   name: 'REGISTER MEMBERSHIP',
   key: 'register',
   content: <RegisterMembership communityID={communityID} loggedInUserID={loggedInUserID} />,
-  route: `/r/${communityID}/register`,
+  route: `/r/${communityLink}/register`,
   disabled: true,
   hidden: () => true,
   fullWidth: true,
@@ -61,7 +66,9 @@ const propsLoadData = (props) => {
   if (props.match.params.id && Number(props.match.params.id)) {
     props.getCommunity(props.match.params.id);
   } else {
-    props.history.push('/');
+    // TODO: get community by link
+    props.getCommunityByLink(props.match.params.id);
+    // props.history.push('/');
   }
 };
 
@@ -74,20 +81,15 @@ class Community extends React.Component {
     const {
       match,
     } = this.props;
-    const communityID = Number(match.params.id);
     const info = match.params.info || 'hot';
-    if (!communityID) {
-      this.props.history.push('/');
-    }
-    if (info === 'register' && !getCookie('user_id')) {
-      // localStorage.setItem('previousPage', `/r/${communityID}/register`);
-      // window.location.href = '/sign_in';
 
+    // login before register
+    if (info === 'register' && !getCookie('user_id')) {
       this.props.history.push({
         pathname: '/sign_in',
         state: {
           from: {
-            pathname: `/r/${communityID}/register`,
+            pathname: `/r/${match.params.id}/register`,
           },
         },
       });
@@ -101,10 +103,6 @@ class Community extends React.Component {
 
     /** after get community (different local) */
     if (cData && JSON.stringify(cData) !== JSON.stringify(this.props.cData)) {
-      // if (location.pathname !== this.props.location.pathname) {
-      //   propsLoadData(props);
-      // }
-
       // change theme
       if (cData.color) {
         if (cData.color !== this.props.theme.name) {
@@ -150,10 +148,11 @@ class Community extends React.Component {
     const {
       match, cData, gmData, loggedInUserID, registerMembership, isCompact,
     } = this.props;
-    const communityID = Number(match.params.id);
+    const communityID = Number(match.params.id) || cData.id;
+    const communityLink = cData.link;
     const info = match.params.info || 'hot';
 
-    const tabs = getTabs({ communityID, cData, loggedInUserID });
+    const tabs = getTabs({ communityLink, communityID, loggedInUserID });
     const tab = tabs.find(_tab => _tab.key === info);
 
     const templateColumns = tab && tab.disabled ? '1fr' : '1fr 300px';
@@ -228,6 +227,7 @@ const mapDispatchToProps = dispatch => ({
   setTheme: props => dispatch(setTheme(props)),
   setCommunity: payload => dispatch(setCommunity(payload)),
   getCommunity: id => dispatch(getCommunity(id)),
+  getCommunityByLink: id => dispatch(getCommunityByLink(id)),
   getGroupMemberships: id => dispatch(getGroupMemberships(id)),
   localUpdateMetadata: payload => dispatch(localUpdateMetadata(payload)),
   getGroupMembershipPackages: gmID => dispatch(getGroupMembershipPackages(gmID)),

@@ -140,7 +140,7 @@ class ViewPostCompact extends React.Component {
     const communityLink = (
       <ActiveLink
         to={{
-          pathname: `/r/${item.community_id}`,
+          pathname: `/r/${item.community_link}`,
           state: {
             data: {
               id: item.community_id,

@@ -286,6 +286,12 @@ export const getCommunity = communityID => dispatchGet({
   params: {},
   transform: parser.parseCommunityDetail,
 });
+export const getCommunityByLink = communityLink => dispatchGet({
+  reducer: 'community',
+  path: `community-link/${communityLink}`,
+  params: {},
+  transform: parser.parseCommunityDetail,
+});
 export const getSuggestedCommunities = () => dispatchGet({
   reducer: 'suggestedCommunities',
   path: 'communities/suggestion',

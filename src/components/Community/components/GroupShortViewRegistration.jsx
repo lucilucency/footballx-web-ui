@@ -29,7 +29,7 @@ const GroupShortViewRegistration = ({
         {(!registerMembership || !registerMembership.id) ? (
           <div>
             <div className="text-little" style={{ fontWeight: constants.fontWeightMedium }}>Tham gia cộng đồng hơn 10 000 fan MUSVN và nhận nhiều phần quà hấp dẫn!</div>
-            <Link to={`/r/${cData.id}/register`} >
+            <Link to={`/r/${cData.link}/register`} >
               <RaisedButton
                 label="REGISTER MEMBERSHIP"
                 backgroundColor={muiTheme.paper.backgroundColor}
@@ -53,7 +53,7 @@ const GroupShortViewRegistration = ({
               )}
             </div>
             {!registerMembership.is_complete && (
-              <Link to={`/r/${cData.id}/register`} >
+              <Link to={`/r/${cData.link}/register`} >
                 <RaisedButton
                   label="COMPLETE REGISTRATION"
                   backgroundColor={muiTheme.paper.backgroundColor}
