@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import ui from '../../../theme';
-import { fromNow, ActiveLink, styles } from '../../../utils';
+import { fromNow, ActiveLink, styles, linkify } from '../../../utils';
 import { ContentText } from './Styled';
 import CommentActions from './CommentActions';
 
 const markdown = require('markdown-it')({
   html: true,
-  linkify: true,
+  linkify: false,
 });
 
 class ViewPostComments extends React.Component {
@@ -50,7 +50,7 @@ class ViewPostComments extends React.Component {
               <ActiveLink to={`/user/${xuser.id}`}>{xuser.username || xuser.nickname}</ActiveLink> - <span>{fromNow(item.created_at)}</span>
             </div>
             <div className="text-small">
-              <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content) }} />
+              <ContentText dangerouslySetInnerHTML={{ __html: linkify(markdown.renderInline(item.content)) }} />
             </div>
           </div>
         }

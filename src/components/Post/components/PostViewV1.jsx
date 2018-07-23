@@ -10,15 +10,15 @@ import Amplitude from 'react-amplitude';
 import ui from '../../../theme';
 import { getCommentsInPost, setPost } from '../../../actions';
 import strings from '../../../lang';
-import { toDateTimeString, getCookie, MutedLink, ActiveLink } from '../../../utils';
+import { toDateTimeString, getCookie, MutedLink, ActiveLink, linkify } from '../../../utils';
 import ViewPostComments from './CommentGrid';
 import CreateComment from './CreateEditComment';
 import PostActions from './PostActions';
 import { LinkCoverStyled, LinkPreview, ContentText, Image, ImageWrapper } from './Styled';
 
 const markdown = require('markdown-it')({
-  html: true,
-  linkify: true,
+  html: false,
+  linkify: false,
 });
 
 const styles = theme => ({
@@ -114,11 +114,11 @@ class PostViewV1 extends React.Component {
           />
           <CardContent className={classes.cardContent}>
             <div className={classes.cardTitle}>
-              {item.title}
+              <ContentText dangerouslySetInnerHTML={{ __html: linkify(item.title) }} />
             </div>
             {isText && (
               <div className={classes.cardText}>
-                <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.content || '') }} />
+                <ContentText dangerouslySetInnerHTML={{ __html: linkify(markdown.renderInline(item.content || '')) }} />
               </div>
             )}
             {isImage &&

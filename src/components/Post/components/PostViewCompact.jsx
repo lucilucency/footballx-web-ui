@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Card, CardActions, CardHeader, CardMedia, CardText } from 'material-ui';
 import { upVote, downVote, setPost } from '../../../actions';
 import strings from '../../../lang';
-import { ActiveLink, MutedLink, bindAll, renderDialog, styles, toDateTimeString } from '../../../utils';
+import { ActiveLink, MutedLink, bindAll, renderDialog, styles, toDateTimeString, linkify } from '../../../utils';
 import PostActions from './PostActions';
 import { LinkCoverStyled, ImageCompact, ImageWrapper, ContentText, LinkPreview } from './Styled';
 import ViewPostFullFrame from './PostViewFullFrame';
@@ -14,17 +14,20 @@ const CONTENT_MAX_LEN = 800;
 const CONTENT_MAX_LEN_COMPACT = 400;
 
 const markdown = require('markdown-it')({
-  html: true,
-  linkify: true,
+  html: false,
+  linkify: false,
+  breaks: false,
 });
 
 const wrapTextReadMore = (text, callback, isCompact) => {
   if (!text) { return ''; }
-  if (text.length < CONTENT_MAX_LEN) return <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(text) }} />;
+  const context = text.length >= CONTENT_MAX_LEN ? text.slice(0, isCompact ? CONTENT_MAX_LEN_COMPACT : CONTENT_MAX_LEN) : text;
+
+  if (text.length < CONTENT_MAX_LEN) return <ContentText dangerouslySetInnerHTML={{ __html: linkify(markdown.renderInline(text)) }} />;
 
   return (
     <div>
-      <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(text.slice(0, isCompact ? CONTENT_MAX_LEN_COMPACT : CONTENT_MAX_LEN)) }} />
+      <ContentText dangerouslySetInnerHTML={{ __html: linkify(markdown.renderInline(context)) }} />
       <a href="" onClick={callback}>{strings.label_read_more}</a>
     </div>
   );
@@ -165,7 +168,7 @@ class ViewPostCompact extends React.Component {
           style={!isCompact ? styles.cardHeader.style : styles.cardHeader.styleCompact}
         />
         <div style={isCompact ? styles.cardTitle.titleStyleCompact : styles.cardTitle.titleStyle}>
-          <ContentText dangerouslySetInnerHTML={{ __html: markdown.renderInline(item.title) }} />
+          <ContentText dangerouslySetInnerHTML={{ __html: linkify(markdown.renderInline(item.title)) }} />
         </div>
         {isImage &&
         <CardMedia
