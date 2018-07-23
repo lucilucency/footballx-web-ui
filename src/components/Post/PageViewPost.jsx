@@ -25,7 +25,9 @@ class PageViewPost extends React.Component {
 
     return (
       <div>
-        <Helmet title={data && data.title} />
+        <Helmet>
+          {data && data.title && <title>{data.title}</title>}
+        </Helmet>
         <ViewPostFullFrame
           isLoggedIn={isLoggedIn}
           postID={postID}

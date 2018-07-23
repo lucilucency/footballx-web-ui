@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withStyles } from 'material-ui-next/styles';
 import classnames from 'classnames';
 import { Card, CardActions, CardHeader, CardContent, IconButton, Collapse, Avatar } from 'material-ui-next';
+import Helmet from 'react-helmet';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import ExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import Amplitude from 'react-amplitude';
@@ -101,6 +102,12 @@ class PostViewV1 extends React.Component {
 
     return (
       <div>
+        <Helmet>
+          <title>{item.title}</title>
+          {item.content && <meta name="description" content={item.content} />}
+          {isText && <meta name="description" content={item.content} />}
+          {isImage && <meta name="image" content={item.content} />}
+        </Helmet>
         <Card className={classes.card}>
           <CardHeader
             avatar={<Avatar aria-label="Recipe" className={classes.avatar} src={item.community_icon} />}
