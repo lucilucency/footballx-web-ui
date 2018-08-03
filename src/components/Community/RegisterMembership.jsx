@@ -12,7 +12,7 @@ import { muiThemeable } from 'material-ui/styles';
 import RaisedButton from 'material-ui/RaisedButton';
 import Amplitude from 'react-amplitude';
 // import { messaging } from '../../firebaseMessaging';
-import { IconProgress, IconSuccess } from '../Icons';
+// import { IconProgress, IconSuccess } from '../Icons';
 import { ajaxPost, ajaxPut, localUpdateMetadata, announce, refresh } from '../../actions';
 import { format, renderDialog, SmallPaper } from '../../utils';
 import strings from '../../lang';
@@ -152,7 +152,7 @@ class RegisterMembership extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    const { registerMembership, balance } = props;
+    const { registerMembership } = props;
     if (registerMembership && registerMembership.id) {
       if (!registerMembership.is_complete) {
         if (this.state.stepIndex !== this.steps.length - 1) {
@@ -165,7 +165,8 @@ class RegisterMembership extends React.Component {
         props.history.push(`/r/${props.communityID}`);
       }
 
-      if (registerMembership.group_membership_pack_data && registerMembership.xuser_address_data) {
+      /** disable purchased via 1pay */
+      /* if (registerMembership.group_membership_pack_data && registerMembership.xuser_address_data) {
         if (!this.state.isFirst) {
           const { price } = registerMembership.group_membership_pack_data;
           const { xcoin } = balance;
@@ -174,7 +175,7 @@ class RegisterMembership extends React.Component {
             this.submitPayment();
           }
         }
-      }
+      } */
     }
   }
 
@@ -369,7 +370,7 @@ class RegisterMembership extends React.Component {
     const step = this.steps[stepIndex];
     const style = getStyles(muiTheme);
 
-    const getIcon = () => {
+    /* const getIcon = () => {
       switch (this.state.toppingUp) {
         case 1:
           return <IconProgress size={24} />;
@@ -378,7 +379,7 @@ class RegisterMembership extends React.Component {
         default:
           return null;
       }
-    };
+    }; */
 
     return (
       <div style={{ minHeight: isCompact ? 600 : 1200 }}>
@@ -428,7 +429,7 @@ class RegisterMembership extends React.Component {
                 />}
                 {stepIndex === this.steps.length - 1 && (
                   <div>
-                    {this.state.toppingUp === 0 && (
+                    {false && this.state.toppingUp === 0 && (
                       <RaisedButton
                         label={strings.label_confirm}
                         labelPosition="before"
@@ -441,7 +442,7 @@ class RegisterMembership extends React.Component {
                       />
                     )}
                     {(this.state.toppingUp === 4 || this.state.toppingUp === 1) && (
-                      <RaisedButton
+                      {/* <RaisedButton
                         label="PURCHASE NOW!"
                         icon={getIcon()}
                         labelPosition="before"
@@ -457,10 +458,17 @@ class RegisterMembership extends React.Component {
                           });
                         }}
                         target="_blank"
-                      />
+                      /> */}
                     )}
-                    {((this.state.isFirst || true) && this.state.toppingUp === 4) && <RaisedButton
-                      label="LATER"
+                    {/* {((this.state.isFirst || true) && this.state.toppingUp === 4) && <RaisedButton
+                      label="OK"
+                      onClick={this.handleFinish}
+                      style={{ ...style.noBorderBtn.style, width: 200, margin: 10 }}
+                      backgroundColor={muiTheme.paper.backgroundColor}
+                      labelStyle={style.noBorderBtn.labelStyle}
+                    />} */}
+                    {<RaisedButton
+                      label="OK"
                       onClick={this.handleFinish}
                       style={{ ...style.noBorderBtn.style, width: 200, margin: 10 }}
                       backgroundColor={muiTheme.paper.backgroundColor}

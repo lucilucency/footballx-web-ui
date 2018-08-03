@@ -37,8 +37,8 @@ const GroupLandingPage2 = ({
            Bạn đã là thành viên chính thức của MUSVN mùa bóng 2018/2019 với mã số {userGroupMembership && userGroupMembership.code}
         </p>
         <p>
-          Hộp quà sẽ được gửi đến địa chỉ bạn đã điền trong form đăng kí kể từ ngày 15/9/2018 <br />
-          Hãy nhanh tay truy cập ngay vào <a href="https://footballx.live/r/2">https://footballx.live/r/2</a> hoặc tải ứng dụng trên điện thoại để trải nghiệm ngôi nhà mới của MUSVN ngay nào!
+          Hộp quà sẽ được gửi đến địa chỉ bạn đã điền trong form đăng kí kể từ ngày 20/8/2018 <br />
+          Hãy nhanh tay truy cập ngay vào <a href="https://footballx.live/r/MUSVN">https://footballx.live/r/MUSVN</a> hoặc tải ứng dụng trên điện thoại để trải nghiệm ngôi nhà mới của MUSVN ngay nào!
         </p>
       </div>
     </Styled>
