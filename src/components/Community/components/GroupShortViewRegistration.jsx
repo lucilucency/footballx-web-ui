@@ -70,7 +70,7 @@ const GroupShortViewRegistration = ({
 
 GroupShortViewRegistration.propTypes = {
   cData: PropTypes.object,
-  gmData: PropTypes.object,
+  // gmData: PropTypes.object,
   registerMembership: PropTypes.object,
   /**/
   muiTheme: PropTypes.object,
