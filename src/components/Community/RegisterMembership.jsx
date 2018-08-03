@@ -28,7 +28,7 @@ class RegisterMembership extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isFirst: true,
+      // isFirst: true,
       stepIndex: 0,
       isStepValid: false,
       toppingUp: 0,
@@ -158,7 +158,7 @@ class RegisterMembership extends React.Component {
         if (this.state.stepIndex !== this.steps.length - 1) {
           this.setState({
             stepIndex: this.steps.length - 1,
-            isFirst: false,
+            // isFirst: false,
           });
         }
       } else {
