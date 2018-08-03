@@ -18,7 +18,6 @@ const Styled = styled.div`
 const GroupShortViewRegistration = ({
   muiTheme, cData, gmData, registerMembership, group_memberships,
 }) => {
-  console.log('gmData', gmData);
   const userGroupMembership = registerMembership &&
     group_memberships &&
     group_memberships.length &&

@@ -3,30 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { withRouter } from 'react-router-dom';
-import IconSort from 'material-ui/svg-icons/content/sort';
 import {
   setCommunity, getCommunity, getCommunityByLink,
   setTheme,
   getGroupMemberships, getGroupMembershipPackages,
   localUpdateMetadata, ajaxGet,
 } from '../../actions';
-import { Container, getCookie } from '../../utils/index';
-import { TransparentTabBar } from '../TabBar';
-import { IconHotFeed } from '../Icons';
-import Profile from './Profile';
-import Posts from './Posts';
-import Communities from './Communities';
-
-const verticalAlign = {
-  verticalAlign: 'middle',
-};
-
-const getTabs = ({ communityID, communityLink, loggedInUserID }) => [{
-  name: <div><IconHotFeed style={{ ...verticalAlign }} /> <span style={{ ...verticalAlign }}>HOT</span></div>,
-  key: 'hot',
-  content: <Hot communityID={communityID} loggedInUserID={loggedInUserID} />,
-  route: `/r/${communityLink}/hot`,
-}].filter(Boolean);
+import { getCookie } from '../../utils/index';
 
 const propsLoadData = (props) => {
   const { location } = props;
@@ -117,59 +100,12 @@ class UserPage extends React.Component {
 
   render() {
     const {
-      match, cData, gmData, loggedInUserID, registerMembership, isCompact,
+      cData,
     } = this.props;
-    const communityID = Number(match.params.id) || cData.id;
-    const communityLink = cData.link;
-    const info = match.params.info || 'hot';
-
-    const tabs = getTabs({ communityLink, communityID, loggedInUserID });
-    const tab = tabs.find(_tab => _tab.key === info);
-
-    const templateColumns = tab && tab.disabled ? '1fr' : '1fr 300px';
 
     return (
       <div>
         <Helmet title={cData.name} />
-        {cData.bg ? <Cover isCompact={isCompact} bg={cData.bg} name={cData.name} /> : null}
-        {isCompact && !tab.disabled && gmData && gmData.group_id && (
-          <div style={{ marginTop: 8 }}>
-            <GroupShortViewRegistration
-              registerMembership={registerMembership}
-              cData={cData}
-              gmData={gmData}
-            />
-          </div>
-        )}
-        <Container
-          columns={templateColumns}
-          style={{
-            maxWidth: 992,
-            margin: 'auto',
-          }}
-        >
-          <div>
-            {tab && !tab.disabled && (
-              <div>
-                <TransparentTabBar
-                  info={info}
-                  tabs={tabs}
-                />
-                {gmData && gmData.group_id && <CreatePostHere name={cData.name} />}
-              </div>
-            )}
-            {tab && tab.content}
-          </div>
-          {!tab.disabled && (
-            <Profile
-              isCompact={this.props.isCompact}
-              cData={cData}
-              gmData={gmData}
-              loggedInUserID={loggedInUserID}
-              registerMembership={registerMembership}
-            />
-          )}
-        </Container>
       </div>
     );
   }
@@ -180,13 +116,11 @@ UserPage.propTypes = {
   // location: PropTypes.object,
   cData: PropTypes.object,
   gmData: PropTypes.object,
-  loggedInUserID: PropTypes.number,
   theme: PropTypes.object,
   registerMembership: PropTypes.object,
   setTheme: PropTypes.func,
   getGroupMemberships: PropTypes.func,
   localUpdateMetadata: PropTypes.func,
-  isCompact: PropTypes.bool,
   history: PropTypes.object,
 };
 
