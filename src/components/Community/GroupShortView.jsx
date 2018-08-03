@@ -25,6 +25,7 @@ const GroupShortView = ({
         <GroupShortViewRegistration
           registerMembership={registerMembership}
           cData={cData}
+          gmData={gmData}
         />
       )}
 

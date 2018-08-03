@@ -161,11 +161,12 @@ class Community extends React.Component {
       <div>
         <Helmet title={cData.name} />
         {cData.bg ? <Cover isCompact={isCompact} bg={cData.bg} name={cData.name} /> : null}
-        {isCompact && !tab.disabled && (
+        {isCompact && !tab.disabled && gmData && gmData.group_id && (
           <div style={{ marginTop: 8 }}>
             <GroupShortViewRegistration
               registerMembership={registerMembership}
               cData={cData}
+              gmData={gmData}
             />
           </div>
         )}
@@ -177,11 +178,15 @@ class Community extends React.Component {
           }}
         >
           <div>
-            {tab && !tab.disabled && <TransparentTabBar
-              info={info}
-              tabs={tabs}
-            />}
-            {gmData && gmData.group_id && <CreatePostHere name={cData.name} />}
+            {tab && !tab.disabled && (
+              <div>
+                <TransparentTabBar
+                  info={info}
+                  tabs={tabs}
+                />
+                {gmData && gmData.group_id && <CreatePostHere name={cData.name} />}
+              </div>
+            )}
             {tab && tab.content}
           </div>
           {!tab.disabled && (

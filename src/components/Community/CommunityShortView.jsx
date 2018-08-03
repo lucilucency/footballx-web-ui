@@ -53,7 +53,7 @@ class CommunityShortView extends React.Component {
           <small style={{ fontSize: ui.fontSizeTiny }}>{`${data.c_followers} followers`}</small>
           }
         />
-        <div className="text-little" style={{ padding: '0 16px 16px 16px' }}>{data.description}</div>
+        <div className="font-little" style={{ padding: '0 16px 16px 16px', whiteSpace: 'pre-wrap' }}>{data.description}</div>
       </div>
     );
   }

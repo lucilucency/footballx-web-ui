@@ -16,8 +16,9 @@ const Styled = styled.div`
 `;
 
 const GroupShortViewRegistration = ({
-  muiTheme, cData, registerMembership, group_memberships,
+  muiTheme, cData, gmData, registerMembership, group_memberships,
 }) => {
+  console.log('gmData', gmData);
   const userGroupMembership = registerMembership &&
     group_memberships &&
     group_memberships.length &&
@@ -70,6 +71,7 @@ const GroupShortViewRegistration = ({
 
 GroupShortViewRegistration.propTypes = {
   cData: PropTypes.object,
+  gmData: PropTypes.object,
   registerMembership: PropTypes.object,
   /**/
   muiTheme: PropTypes.object,
