@@ -16,7 +16,7 @@ const Styled = styled.div`
 `;
 
 const GroupShortViewRegistration = ({
-  muiTheme, cData, gmData, registerMembership, group_memberships,
+  muiTheme, cData, registerMembership, group_memberships,
 }) => {
   const userGroupMembership = registerMembership &&
     group_memberships &&
