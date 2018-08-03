@@ -468,7 +468,7 @@ class RegisterMembership extends React.Component {
                       labelStyle={style.noBorderBtn.labelStyle}
                     />} */}
                     {<RaisedButton
-                      label="OK"
+                      label={strings.label_confirm}
                       onClick={this.handleFinish}
                       style={{ ...style.noBorderBtn.style, width: 200, margin: 10 }}
                       backgroundColor={muiTheme.paper.backgroundColor}
