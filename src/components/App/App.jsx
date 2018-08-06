@@ -120,7 +120,7 @@ class App extends React.Component {
     if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
       // window.location = 'https://itunes.apple.com/app/football-x/id1182333199?mt=8';
       this.props.announce({
-        message: 'Use FootballX in the app because you deserve the best',
+        message: 'Use FootballX in the app for best',
         action: 'Continue',
         autoHideDuration: -1,
         onActionClick: () => {
@@ -131,7 +131,7 @@ class App extends React.Component {
     if (navigator.userAgent.match(/android/i)) {
       // window.location = 'https://play.google.com/store/apps/details?id=com.ttab.footballx';
       this.props.announce({
-        message: 'Use FootballX in the app because you deserve the best',
+        message: 'Use FootballX in the app for best',
         action: 'Continue',
         autoHideDuration: -1,
         onActionClick: () => {
