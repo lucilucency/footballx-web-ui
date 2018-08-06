@@ -26,6 +26,7 @@ import * as Match from '../Match';
 import * as Matches from '../Matches';
 import * as League from '../League';
 import * as Team from '../Team';
+import GetApp from '../GetApp';
 import Login from '../Login';
 
 const overwritesTheme = ui => ({
@@ -186,6 +187,7 @@ class App extends React.Component {
             {/* <Banner location={location} /> */}
             <RouteContent isTrayOpen={this.props.tray.show} trayWidth={this.props.tray.width}>
               <Route exact path="/" component={this.props.user ? Home.Home : Popular.Popular} />
+              <Route exact path="/get" component={GetApp} />
               <Route exact path="/popular" component={Popular.Popular} />
               <Route exact path="/sign_in" component={Login} />
               <Route exact path="/submit" component={PageCreatePost} />
