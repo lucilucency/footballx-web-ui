@@ -66,9 +66,7 @@ const propsLoadData = (props) => {
   if (props.match.params.id && Number(props.match.params.id)) {
     props.getCommunity(props.match.params.id);
   } else {
-    // TODO: get community by link
     props.getCommunityByLink(props.match.params.id);
-    // props.history.push('/');
   }
 };
 

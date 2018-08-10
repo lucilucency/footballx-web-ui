@@ -120,7 +120,19 @@ export const getCommunityFeeds = (communityID, {
   },
   transform: parser.parsePostInMeFeeds,
 });
-
+export const getUserPosts = (xuserID, {
+  limit = PAGE_LIMIT, offset = 0, sortby = 'hot', loggedInUserID,
+}) => dispatchGet({
+  reducer: 'posts',
+  path: `xuser/${xuserID}/posts`,
+  params: {
+    limit,
+    offset,
+    sortby,
+    xuser_id: loggedInUserID,
+  },
+  transform: parser.parsePostInMeFeeds,
+});
 export const createPost = ({ params, payload }) => dispatchPost({
   reducer: 'ADD/posts',
   path: 'post',
@@ -206,7 +218,34 @@ export const downVote = (target_id, params, type = 'post') => dispatch => Promis
  * MATCH
  *
  * */
-
+export const getLeagueLastSeasons = (leagueID, callback) => dispatchGet({
+  reducer: 'ADD/seasons',
+  path: `league/${leagueID}/seasons`,
+  params: {
+    league_id: leagueID,
+  },
+  transform: (resp) => {
+    const { seasons } = resp;
+    if (seasons) {
+      const last = seasons[seasons.length - 1];
+      return seasons.filter(el => el.year === last.year);
+    }
+    return null;
+  },
+  callback,
+});
+export const getSeasonMatches = (seasonID, {
+  start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000,
+} = {}) => dispatchGet({
+  reducer: 'ADD/matches',
+  path: 'matches',
+  params: {
+    season_id: seasonID,
+    start_time,
+    end_time,
+  },
+  transform: parser.parseMatches,
+});
 export const getMatches = ({ start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000 } = {}) => dispatchGet({
   reducer: 'matches',
   path: 'matches',
@@ -330,38 +369,24 @@ export const getGroupMembershipPackages = gmID => dispatchGet({
   },
 });
 
-
-// league
-export const getLeagueLastSeasons = (leagueID, callback) => dispatchGet({
-  reducer: 'ADD/seasons',
-  path: `league/${leagueID}/seasons`,
-  params: {
-    league_id: leagueID,
-  },
-  transform: (resp) => {
-    const { seasons } = resp;
-    if (seasons) {
-      const last = seasons[seasons.length - 1];
-      return seasons.filter(el => el.year === last.year);
-    }
-    return null;
-  },
-  callback,
+/**
+ *
+ * USER
+ *
+ * */
+// TODO(API): Create API /v2/xuser/:id/profile
+export const getUser = userID => dispatchGet({
+  reducer: 'user',
+  path: `xuser/${userID}/profile`,
+  params: {},
+  transform: parser.parseUserDetail,
 });
-export const getSeasonMatches = (seasonID, {
-  start_time = parseInt(Date.now() / 1000), end_time = parseInt(Date.now() / 1000) + 2592000,
-} = {}) => dispatchGet({
-  reducer: 'ADD/matches',
-  path: 'matches',
-  params: {
-    season_id: seasonID,
-    start_time,
-    end_time,
-  },
-  transform: parser.parseMatches,
+export const getUserByLink = userLink => dispatchGet({
+  reducer: 'user',
+  path: `xuser-link/${userLink}`,
+  params: {},
+  transform: parser.parseUserDetail,
 });
-
-// user
 const changeFollow = (userID, {
   target_id,
   target_type,

@@ -21,11 +21,12 @@ import Game from '../Game/Game';
 import * as Community from '../Community';
 import * as Home from '../Home';
 import * as Popular from '../Popular';
-import { PageCreatePost, PageViewPost } from '../Post';
+import * as Post from '../Post';
 import * as Match from '../Match';
 import * as Matches from '../Matches';
 import * as League from '../League';
 import * as Team from '../Team';
+import * as User from '../User';
 import GetApp from '../GetApp';
 import Login from '../Login';
 
@@ -215,12 +216,13 @@ class App extends React.Component {
               <Route exact path="/get" component={GetApp} />
               <Route exact path="/popular" component={Popular.Popular} />
               <Route exact path="/sign_in" component={Login} />
-              <Route exact path="/submit" component={PageCreatePost} />
+              <Route exact path="/submit" component={Post.PageCreatePost} />
               <Route exact path="/game" component={Game} />
               <Route exact path="/home/:info?" component={Home.Home} />
               <Route exact path="/popular/:info" component={Popular.Popular} />
-              <Route exact path="/p/:id?/:info?/:subInfo?" component={PageViewPost} />
+              <Route exact path="/p/:id?/:info?/:subInfo?" component={Post.PageViewPost} />
               <Route exact path="/r/:id/:info?/:subInfo?" component={Community.Home} />
+              <Route exact path="/u/:id/:info?/:subInfo?" component={User.Home} />
               <Route exact path="/matches/:info?" component={Matches.Home} />
               <Route exact path="/m/:id?/:info?/:subInfo?" component={Match.MatchDetail} />
 

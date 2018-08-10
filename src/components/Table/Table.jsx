@@ -220,7 +220,6 @@ class Table extends React.Component {
                         if (relativeBars) {
                           // Relative bars calculates the max for the column
                           // and gets the percentage of value/max
-                          // TODO masad-frost memoize or something
                           const min = getColumnMin(data, field, getValue);
                           let max = getColumnMax(data, field, getValue);
                           let valueWithOffset = value;

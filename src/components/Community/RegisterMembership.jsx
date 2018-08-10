@@ -30,7 +30,7 @@ class RegisterMembership extends React.Component {
     this.state = {
       // isFirst: true,
       stepIndex: 0,
-      isStepValid: false,
+      isFormValid: false,
       toppingUp: 0,
       openDialog: false,
       closeDialogCallback: null,
@@ -53,9 +53,9 @@ class RegisterMembership extends React.Component {
           }}
           onError={(err) => {
             if (err.length) {
-              this.setState({ isStepValid: false });
+              this.setState({ isFormValid: false });
             } else {
-              this.setState({ isStepValid: true });
+              this.setState({ isFormValid: true });
             }
           }}
           onSubmit={isValid => this.checkAfterSubmit('complete_profile', isValid)}
@@ -74,9 +74,9 @@ class RegisterMembership extends React.Component {
             }}
             onError={(err) => {
               if (err.length) {
-                this.setState({ isStepValid: false });
+                this.setState({ isFormValid: false });
               } else {
-                this.setState({ isStepValid: true });
+                this.setState({ isFormValid: true });
               }
             }}
             onSubmit={isValid => this.checkAfterSubmit('choose_package', isValid)}
@@ -96,9 +96,9 @@ class RegisterMembership extends React.Component {
             }}
             onError={(err) => {
               if (err.length) {
-                this.setState({ isStepValid: false });
+                this.setState({ isFormValid: false });
               } else {
-                this.setState({ isStepValid: true });
+                this.setState({ isFormValid: true });
               }
             }}
             onSubmit={isValid => this.checkAfterSubmit('choose_place', isValid, this.submitProcess())}
@@ -228,7 +228,7 @@ class RegisterMembership extends React.Component {
     const lastIndex = this.steps.length - 1;
     this.setState({
       stepIndex: this.state.stepIndex < lastIndex ? this.state.stepIndex + 1 : lastIndex,
-      isStepValid: false,
+      isFormValid: false,
     }, callback);
   };
 
@@ -422,7 +422,7 @@ class RegisterMembership extends React.Component {
               <div style={{ marginTop: '1em', marginBottom: '1em', textAlign: 'center' }}>
                 {stepIndex !== this.steps.length - 1 && <RaisedButton
                   label="Next"
-                  disabled={!this.state.isStepValid}
+                  disabled={!this.state.isFormValid}
                   primary
                   style={{ width: 200 }}
                   onClick={step.next}

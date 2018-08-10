@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import List, { ListItem } from 'material-ui/List';
 import IconPopular from 'material-ui/svg-icons/action/trending-up';
-import Subheader from 'material-ui/Subheader';
+// import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import ui from '../../theme';
 import strings from '../../lang';
@@ -42,34 +42,34 @@ const FeedMenu = ({
           containerElement={<Link to="/popular" />}
           innerDivStyle={styles.listItem.innerDivStyle}
         />
-      </List>
-      {user && communities.length ? (
-        <List>
-          <Subheader style={styles.subheader.style}>{strings.menu_your_communities.toUpperCase()}</Subheader>
-          {communities.map(item => (
-            <ListItem
-              key={item.id}
-              primaryText={<div style={styles.listItem.primaryTextStyle}>{item.name}</div>}
-              leftIcon={<Avatar size={24} src={item.icon} />}
-              innerDivStyle={styles.listItem.innerDivStyle}
-              onClick={() => {
-                history.push({
-                  pathname: `/r/${item.id}`,
-                  state: {
-                    data: {
-                      id: item.id,
-                      icon: item.icon,
-                      link: item.link,
-                      name: item.name,
-                      isFollowing: true,
+        {user && communities.length ? (
+          <div>
+            {/* <Subheader style={styles.subheader.style}>{strings.menu_your_communities.toUpperCase()}</Subheader> */}
+            {communities.map(item => (
+              <ListItem
+                key={item.id}
+                primaryText={<div style={styles.listItem.primaryTextStyle}>{item.name}</div>}
+                leftIcon={<Avatar size={24} src={item.icon} />}
+                innerDivStyle={styles.listItem.innerDivStyle}
+                onClick={() => {
+                  history.push({
+                    pathname: `/r/${item.id}`,
+                    state: {
+                      data: {
+                        id: item.id,
+                        icon: item.icon,
+                        link: item.link,
+                        name: item.name,
+                        isFollowing: true,
+                      },
                     },
-                  },
-                });
-              }}
-            />
-          ))}
-        </List>
-      ) : null}
+                  });
+                }}
+              />
+            ))}
+          </div>
+        ) : null}
+      </List>
     </div>
   );
 };
