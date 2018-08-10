@@ -7,6 +7,7 @@ import announcement from './announcement';
 
 export default combineReducers({
   metadata: reducer('metadata', {}),
+  notificationLogs: reducer('notificationLogs', []),
   xuserMetadata: reducer('xuserMetadata', {}),
   records: reducer('records'),
   banner: reducer('banner', {}),

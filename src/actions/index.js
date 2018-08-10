@@ -4,6 +4,7 @@ import * as parser from './parser';
 import { getCookie, setCookie, eraseCookie } from '../utils';
 
 const PAGE_LIMIT = 50;
+const PAGE_LIMIT_COMPACT = 20;
 
 export const localUpdateReducer = (name, payload) => dispatch => dispatch({
   type: `OK/LOCAL_EDIT/${name}`,
@@ -132,6 +133,14 @@ export const getUserPosts = (xuserID, {
     xuser_id: loggedInUserID,
   },
   transform: parser.parsePostInMeFeeds,
+});
+export const getUserNotificationLogs = ({ limit = PAGE_LIMIT_COMPACT, offset = 0 } = {}) => dispatchGet({
+  reducer: 'notificationLogs',
+  path: `xuser/${getCookie('user_id')}/notifications`,
+  params: {
+    limit, offset,
+  },
+  transform: parser.parseNotifications,
 });
 export const createPost = ({ params, payload }) => dispatchPost({
   reducer: 'ADD/posts',

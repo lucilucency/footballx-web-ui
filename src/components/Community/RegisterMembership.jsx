@@ -299,7 +299,7 @@ class RegisterMembership extends React.Component {
           }, this.handleOpenDialog());
 
           this.props.announceFn({
-            message: format(strings.notification_XUSER_DEBITED_XCOIN_SUCCESS, this.props.registerMembership.group_membership_pack_data.price, balance.xcoin || 0),
+            message: format(strings.topic_XUSER_DEBITED_XCOIN_SUCCESS, this.props.registerMembership.group_membership_pack_data.price, balance.xcoin || 0),
             autoHideDuration: 300000,
           });
 

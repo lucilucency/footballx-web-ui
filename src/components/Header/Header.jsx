@@ -11,6 +11,7 @@ import FastActions from './FastActions';
 import SearchForm from '../Search/SearchForm';
 import { BurgerButton } from '../BurgerMenu';
 import UserSettings from './UserSettings';
+import UserNotifications from './UserNotificationButton';
 
 const getHeaderLinks = () => [
   <Link key={strings.heading_home} to="/">{strings.heading_home}</Link>,
@@ -101,6 +102,7 @@ const Header = ({ greaterThanSmall, user }) => (
     </VerticalAlignDiv>
     <VerticalAlignDiv >
       <FastActions greaterThanSmall={greaterThanSmall} />
+      {user && <UserNotifications user={user} />}
       {user && <UserSettings user={user} />}
     </VerticalAlignDiv>
   </HeaderStyled>

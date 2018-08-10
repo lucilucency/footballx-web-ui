@@ -45,7 +45,7 @@ class Dropdown extends Component {
     } = this.props;
     const { open } = this.state;
     return (
-      <div className={className}>
+      <div className={className} style={{ overFlow: 'hidden' }}>
         <Button
           onClick={this.handleTouchTap}
           open={open}
@@ -62,8 +62,15 @@ class Dropdown extends Component {
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.handleRequestClose}
           // className={styles.popoverContainer}
+          style={{
+            // width: '100%',
+            // maxWidth: 450,
+            height: '50%',
+            maxHeight: 400,
+            overFlow: 'hidden',
+          }}
         >
-          <Menu>
+          <Menu style={{ overFlow: 'hidden' }}>
             {React.Children.map(children, child => (child ? (
               <MenuItem>
                 {child}
