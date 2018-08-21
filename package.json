@@ -16,7 +16,6 @@
     "analyze": "source-map-explorer build/static/js/main.* --html",
     "lint": "eslint . --ext .js,.jsx --fix",
     "lintnofix": "eslint . --ext .js,.jsx",
-    "update:emoticons": "npm r dota2-emoticons && npm i dota2-emoticons && node dev/updateEmoticons.js",
     "update:fxconstants": "sh -ac '. ./.env; REACT_APP_API_HOST=${REACT_APP_API_HOST} REACT_APP_API_CMS=${REACT_APP_API_CMS} node dev/updateContentData.js && node dev/updateLocalData.js'",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
@@ -32,7 +31,6 @@
     "abcolor": "^0.5.5",
     "classnames": "^2.2.6",
     "core-js": "^2.5.7",
-    "dota2-emoticons": "^1.0.1",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
     "draftjs-to-markdown": "^0.5.1",
